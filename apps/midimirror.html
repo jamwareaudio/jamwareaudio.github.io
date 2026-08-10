@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MidiMirror — JamWare Audio</title>
+<meta name="description" content="Build what every knob on your MIDI controller does in Ableton Live, without writing Python. Custom modes, combos and holds, generated into a real Remote Script, with an on-screen mirror that labels every control." />
+<link rel="icon" href="../assets/icons/midimirror-1024.png" />
+<link rel="stylesheet" href="../styles.css" />
+<style>:root { --accent: #E05A2C; }</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html">
+      <img src="../assets/logo.svg" alt="" width="40" height="22" />
+      <span class="wordmark">JamWare Audio</span>
+    </a>
+    <nav class="site-nav">
+      <a href="../index.html#products">Products</a>
+      <a href="../index.html#suite">The Suite</a>
+      <a href="../index.html#about">About</a>
+      <a href="mailto:toastonjam12345@gmail.com">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="product-hero wrap">
+    <a class="back" href="../index.html#products">← All products</a>
+    <div class="row">
+      <img class="icon" src="../assets/icons/midimirror-1024.png" alt="MidiMirror icon" />
+      <div>
+        <h1>MidiMirror</h1>
+        <p class="tagline">Build what your MIDI controller does, without writing a line of Python.</p>
+      </div>
+    </div>
+    <p class="lede">
+      Getting a MIDI controller to do what you actually want in Ableton Live
+      means either settling for whatever its factory script decided, or writing
+      a Remote Script in Python. MidiMirror is the third option. Double-click a
+      knob on screen, pick what it should do, and it does it. Build your own
+      modes, put two jobs on one key, then generate a real Remote Script for
+      your controller and use it like any other. The window stays open as a
+      live mirror of the hardware, every control labelled with what it reaches
+      right now.
+    </p>
+    <div class="btn-row">
+      <a class="btn" href="https://jamwareaudio.gumroad.com/l/midimirror">Get it on Gumroad</a>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="screen">
+      <img src="../assets/shots/midimirror.png" alt="The MidiMirror window: an Akai MIDI Mix drawn on screen, every knob labelled with the device parameter it controls, with mode and layer lamps along the top" />
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="panel">
+      <h2 class="panel-head">A controller you design yourself</h2>
+      <div class="panel-body">
+        <div class="prose story">
+          <p>
+            <strong>Double-click any control</strong> and choose its job from a
+            page that matches what it does now: a mixer function on this strip
+            or a named track, a parameter of the selected device by position or
+            by name, an envelope stage found by name on whatever instrument is
+            in front of it, or one exact parameter on one exact device on one
+            exact track, written out in full.
+          </p>
+          <p>
+            <strong>Your own modes.</strong> The three that ship (Device/Track,
+            Mixer/Sends, Free) are a starting point, not a limit. Add modes,
+            rename them, delete them. A new one starts empty and every control
+            in it is yours to assign. Assignments belong to the mode you made
+            them in, so a knob can do one thing while you are mixing and
+            something unrelated while you are sound designing.
+          </p>
+          <p>
+            <strong>Holds and combos.</strong> A key can do one thing on the tap
+            and another when held, edited separately. Two keys pressed together
+            can do a third thing. You can also give a control a key on your
+            typing keyboard.
+          </p>
+          <p>
+            <strong>Then generate the script.</strong> Name your controller and
+            MidiMirror writes a real Remote Script package into Live's User
+            Library under that name, so "Launch Control XL" turns up in Live's
+            Control Surface list as its own entry. Everything you built comes
+            across: assignments, labels, holds, modes, combos, the layout and
+            the learned MIDI addresses. Generating again later rewrites the
+            script and leaves your configuration alone.
+          </p>
+          <p>
+            Only the Akai MIDI Mix ships with a ready-made script, but any
+            controller can be taught. Press <strong>Learn</strong> on a control,
+            move the real knob, and its true address is recorded. Hide what your
+            panel does not have, move what sits elsewhere, add what it has and
+            the MIDI Mix does not.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="panel">
+      <h2 class="panel-head">The drop</h2>
+      <div class="panel-body">
+        <div class="prose story">
+          <p>
+            Press one key and the panel remembers where every knob and fader is
+            standing. Build the track up however you like, sweep the filters,
+            ride the sends, push it all into the red, then press the same key
+            again and the whole thing snaps back at once.
+          </p>
+          <p>
+            While something is stored, every control that took part carries an
+            orange mark at the value it will return to, a pip on a knob's ring
+            or a line across a fader's well. That answers the only question
+            worth asking mid-take: if I hit it now, what happens?
+          </p>
+          <p>
+            <strong>Hold the drop key to re-aim it.</strong> Keep it down, move
+            whatever you want the return to land on, let go, and that is the new
+            snap-back point. Nothing moves on the way in or out, so you can
+            change where a drop returns to in the middle of a take without ever
+            passing through the sound of the old one.
+          </p>
+          <p>
+            The drop follows the parameters it was taken from rather than the
+            controls, so changing mode, bank or track in between does not
+            confuse it.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="two-col">
+
+      <div class="panel">
+        <h2 class="panel-head">What it does</h2>
+        <div class="panel-body">
+          <ul class="features">
+            <li>
+              <strong>Device lock.</strong> Pin the blue hand to one device and
+              go on selecting other tracks without your knobs following. Which
+              device you are editing becomes a decision you make rather than one
+              the selection makes for you.
+            </li>
+            <li>
+              <strong>Instrument mode.</strong> Device mode follows the selected
+              track's instrument instead of the blue hand, so the knobs land on
+              the synth every time you change track.
+            </li>
+            <li>
+              <strong>Layers over modes.</strong> Tap a bank key and one knob row
+              becomes the selected track's sends, or the four utility devices
+              every track carries. Everything else on the panel stays where it
+              was, which is what makes it a layer rather than a mode.
+            </li>
+            <li>
+              <strong>Ordered device control.</strong> The same knob does the
+              same job on every instrument: cutoff, resonance and filter
+              envelope first, then the device's own parameters, with the two
+              amp and filter envelopes on the faders. Those are found by reading
+              parameter names, so they are exact on Ableton's instruments and
+              best-effort on VSTs that label their filter section.
+            </li>
+            <li>
+              <strong>Free mode</strong> hands every control to Live's own MIDI
+              map on its own virtual port, so you can MIDI-learn anything
+              without the script in the way.
+            </li>
+            <li>
+              <strong>Every knob, labelled, live.</strong> The mirror shows what
+              each control reaches right now, not what it was mapped to when you
+              set the template up. Hover for the full address, the name it is
+              listed under, and the gestures it answers to.
+            </li>
+            <li>
+              <strong>It catches moves the MIDI stream cannot see.</strong>
+              Automation, a plugin's own window and preset changes all move
+              parameters without touching the panel. Values are compared at Live's
+              display tick and pushed when they differ, so the mirror stays honest.
+            </li>
+            <li>
+              <strong>Pickup.</strong> A knob does nothing until it passes the
+              value it is taking over, which is what stops a jump when you
+              switch modes or recall a drop.
+            </li>
+            <li>
+              <strong>Transport on screen,</strong> for hardware like the MIDI
+              Mix that has no transport keys at all. Play, stop, session record
+              and capture, showing what Live is doing rather than what you last
+              clicked.
+            </li>
+            <li>
+              <strong>It reads Live's own MIDI map.</strong> Live exposes no API
+              for "what is CC 16 mapped to?", and never has. So for the knobs you
+              hand-map yourself, MidiMirror reads the saved <code>.als</code> and
+              recovers them from the set itself. The honest caveat: that file is
+              only as current as your last save, so the app shows you the file's
+              age alongside what it found.
+            </li>
+            <li>
+              <strong>Undo, saved setups and a live reference.</strong> One undo
+              history over assignments, layout edits and learned MIDI alike.
+              Name and switch between setups. A "This setup" page lists every
+              control in every mode with what it does and the note or CC it
+              sends, built by the script rather than written down, so it is
+              right whatever you have changed.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div class="panel" style="margin-bottom:20px">
+          <h2 class="panel-head">Requirements</h2>
+          <div class="panel-body">
+            <div class="prose">
+              <p>
+                <strong>Ableton Live is required.</strong> This is the one tool
+                in the range that does not work with any other DAW, and it is
+                worth being blunt about why. Parameter names, the modes, the
+                addressed device and the lock all come from a Remote Script, and
+                only Live loads Remote Scripts. Without Live the app could show
+                you where your knobs are physically sitting and nothing about
+                what they do, which is the entire point.
+              </p>
+              <p>
+                macOS for the mirror app. An <strong>Akai MIDI Mix</strong> is
+                the one controller with a ready-made script; any other controller
+                works once you have learned its addresses and generated a script
+                for it, which the app does for you.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2 class="panel-head">Setting it up</h2>
+          <div class="panel-body">
+            <div class="prose">
+              <p>
+                1. Install the app, and let it place its Remote Script in Live's
+                User Library on first launch.<br />
+                2. In Live: Preferences → Link/Tempo/MIDI, and pick
+                <strong>MidiMirror</strong> as a Control Surface with the MIDIMIX
+                as its input and output.<br />
+                3. Open the mirror on your second screen.
+              </p>
+              <p>
+                Move a knob and its name appears. Select a different device and
+                every label follows.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 2026 JamWare Audio</span>
+    <a href="mailto:toastonjam12345@gmail.com">Support</a>
+    <a href="https://jamwareaudio.gumroad.com">Gumroad</a>
+    <span class="spacer legend">Ableton Live only</span>
+  </div>
+</footer>
+
+</body>
+</html>

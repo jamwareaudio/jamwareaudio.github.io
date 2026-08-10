@@ -1,0 +1,362 @@
+/* ============================================================================
+   JamWare Audio — one stylesheet for the whole site.
+
+   The palette below is NOT invented for the web. It is copied from the apps'
+   own :root (MutationStation/interface.html, mirrored in Spectrl and
+   Chordinator) so the site is another surface in the same instrument family
+   rather than a brochure about one. Ink, plate and stroke come from
+   brand/brand.json; each product owns exactly ONE accent, set per-card via
+   --accent. Change an accent in brand.json, change it here — nowhere else.
+   ========================================================================= */
+
+:root {
+  /* --- the faceplate, from the apps ------------------------------------- */
+  --ui-bg:          hsl(44, 8%, 88%);
+  --face-hi:        hsl(45, 10%, 95%);
+  --face-lo:        hsl(40, 6%, 76%);
+  --control-bg:     hsl(43, 18%, 94%);
+  --control-border: hsl(35, 9%, 55%);
+  --hairline:       hsl(35, 9%, 72%);
+
+  --text-primary:   hsl(28, 12%, 14%);
+  --text-secondary: hsl(30, 9%, 31%);
+  --text-heading:   hsl(26, 15%, 18%);
+
+  /* --- the dark inset screen, from Spectrl's analyser panel -------------- */
+  --screen-bg:      hsl(30, 8%, 11%);
+  --screen-edge:    hsl(30, 10%, 6%);
+  --screen-text:    hsl(42, 14%, 86%);
+  --screen-dim:     hsl(38, 8%, 58%);
+
+  /* --- brand.json ------------------------------------------------------- */
+  --ink:            #2A2621;
+  --accent:         #D13A2C; /* default; every card overrides this */
+
+  --radius:         4px;
+  --measure:        66ch;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  /* The brushed-metal faceplate: a 1px horizontal grain over a vertical
+     light-fall. Fixed attachment so the whole page reads as ONE milled panel
+     you are scrolling across, not a stack of separate cards. */
+  background:
+    repeating-linear-gradient(0deg,
+      rgba(255,255,255,0.04) 0 1px,
+      rgba(0,0,0,0.015) 1px 2px),
+    linear-gradient(180deg,
+      var(--face-hi) 0%, var(--ui-bg) 42%, var(--face-lo) 100%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font: 15px/1.62 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Engraved-legend type: the small uppercase labels silkscreened onto hardware.
+   Used for every eyebrow, panel header and legend on the site. */
+.legend {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+}
+
+a { color: var(--ink); text-decoration-color: var(--accent); text-underline-offset: 3px; }
+a:hover { color: var(--accent); }
+
+.wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+
+/* ============================================================ SITE HEADER */
+
+.site-header {
+  border-bottom: 1px solid var(--hairline);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.55);
+  position: sticky; top: 0; z-index: 20;
+  backdrop-filter: blur(8px);
+  background: linear-gradient(180deg,
+    hsl(45 10% 95% / 0.92), hsl(44 8% 88% / 0.88));
+}
+.site-header .wrap {
+  display: flex; align-items: center; gap: 20px;
+  height: 58px;
+}
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.brand svg, .brand img { height: 22px; width: auto; display: block; }
+.wordmark {
+  font-size: 16px; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--text-heading); text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+}
+.site-nav { margin-left: auto; display: flex; gap: 22px; align-items: center; }
+.site-nav a { text-decoration: none; }
+.site-nav a:hover { text-decoration: underline; }
+
+/* ================================================================== HERO */
+
+.hero { padding: 72px 0 56px; }
+.hero .eyebrow { margin: 0 0 18px; }
+.hero h1 {
+  font-size: clamp(30px, 5vw, 46px);
+  line-height: 1.12; margin: 0 0 20px;
+  letter-spacing: -0.015em;
+  color: var(--text-heading);
+  max-width: 20ch;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}
+.hero p { font-size: 17px; color: var(--text-secondary); margin: 0; max-width: var(--measure); }
+.hero .logo-lockup { max-width: 300px; margin: 0 0 28px; }
+.hero .logo-lockup img { width: 100%; display: block; }
+
+/* ================================================================ PANELS
+
+   The panel + engraved header band, lifted from the apps' .panel > h2 so a
+   section on the site is built out of the same furniture as a section in the
+   software. Every product card and content block is one of these.          */
+
+.panel {
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg,
+    var(--face-hi) 0%, var(--control-bg) 20%,
+    var(--control-bg) 78%,
+    color-mix(in srgb, var(--control-bg) 94%, black) 100%);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.6), 0 2px 5px rgba(0,0,0,0.14);
+}
+.panel > .panel-head {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.09em; color: var(--text-heading);
+  margin: 0; padding: 6px 14px 7px;
+  border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--control-bg) 62%, black);
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--control-bg) 84%, black) 0%,
+    color-mix(in srgb, var(--control-bg) 90%, black) 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.42);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.35);
+  display: flex; align-items: center; gap: 8px;
+}
+/* The accent pilot lamp on the header band — the one place each product's
+   colour announces itself before you have read anything. */
+.panel > .panel-head::before {
+  content: ""; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.28) inset, 0 0 6px color-mix(in srgb, var(--accent) 60%, transparent);
+  flex: none;
+}
+.panel-body { padding: 18px 20px 20px; }
+
+/* The homepage hero shot. Capped in height so a tall dialog screenshot cannot
+   push the product list below the fold; the image is anchored to its top so
+   the part that sells it stays visible. */
+.hero-shot { padding-bottom: 10px; }
+.hero-shot .screen img { max-height: 560px; width: auto; margin: 0 auto; }
+.caption { display: block; margin: 10px 2px 0; }
+
+/* ========================================================= PRODUCT CARDS */
+
+.section { padding: 40px 0; }
+.section > .legend { display: block; margin-bottom: 14px; }
+
+.products { display: grid; gap: 20px; }
+
+.product { display: grid; }
+.product .panel-body {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 22px;
+  align-items: start;
+}
+.product .icon { width: 96px; height: 96px; display: block; border-radius: 18px; }
+.product h3 {
+  margin: 0 0 2px; font-size: 21px; letter-spacing: -0.01em;
+  color: var(--text-heading);
+}
+.product h3 a { text-decoration: none; }
+.product .tagline { margin: 0 0 12px; color: var(--text-secondary); font-size: 14px; }
+.product .blurb { margin: 0 0 14px; max-width: var(--measure); }
+
+/* Requirement chips: the spec strip printed on the back of the unit. */
+.specs { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 16px; padding: 0; list-style: none; }
+.specs li {
+  font-size: 10.5px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--text-secondary);
+  border: 1px solid var(--hairline);
+  border-radius: 3px;
+  padding: 3px 8px;
+  background: color-mix(in srgb, var(--face-hi) 70%, transparent);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+/* ================================================================ BUTTONS
+
+   The commit button, built like the apps' primary action: a moulded cap in
+   the product's own accent, with a hard printed top edge rather than a blur. */
+
+.btn-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font: inherit; font-size: 13px; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 9px 16px;
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, black);
+  color: #fff; text-decoration: none;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--accent) 88%, white) 0%,
+    var(--accent) 46%,
+    color-mix(in srgb, var(--accent) 82%, black) 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.34), 0 1px 3px rgba(0,0,0,0.26);
+  text-shadow: 0 1px 1px rgba(0,0,0,0.32);
+  cursor: pointer;
+}
+.btn:hover { color: #fff; filter: brightness(1.06); }
+.btn:active { box-shadow: inset 0 2px 4px rgba(0,0,0,0.34); filter: brightness(0.96); }
+
+.btn-ghost {
+  background: linear-gradient(180deg, var(--face-hi), var(--control-bg));
+  color: var(--text-primary);
+  border-color: var(--control-border);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 1px 2px rgba(0,0,0,0.16);
+}
+.btn-ghost:hover { color: var(--text-primary); filter: brightness(1.02); }
+
+.price { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+
+/* A product that is not for sale yet. It gets the panel furniture like
+   everything else — the point is that it reads as a considered part of the
+   range rather than a broken buy button. */
+.notice { max-width: var(--measure); margin-top: 6px; }
+.status {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--text-secondary);
+  border: 1px dashed var(--control-border); border-radius: var(--radius);
+  padding: 8px 14px;
+  background: color-mix(in srgb, var(--face-hi) 55%, transparent);
+  text-shadow: 0 1px 0 rgba(255,255,255,.55);
+}
+.status::before {
+  content: ""; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent); opacity: .55;
+}
+
+/* ================================================================= SUITE
+
+   The four icons in a row, at the size they read at in a Dock — which is the
+   argument for the bundle made visually rather than in prose. */
+
+.suite .panel-body { display: grid; grid-template-columns: auto 1fr; gap: 26px; align-items: center; }
+.suite-icons { display: grid; grid-template-columns: repeat(2, 74px); gap: 10px; }
+.suite-icons img { width: 74px; height: 74px; border-radius: 15px; display: block; }
+
+@media (max-width: 720px) {
+  .suite .panel-body { grid-template-columns: 1fr; gap: 18px; }
+  .suite-icons { grid-template-columns: repeat(4, 60px); }
+  .suite-icons img { width: 60px; height: 60px; border-radius: 12px; }
+}
+
+/* ================================================== THE DARK INSET SCREEN
+
+   Spectrl's analyser window and MutationStation's piano roll are both a dark
+   screen sunk into the cream plate. Screenshots and the feature list on
+   product pages sit in the same recess, so imagery is framed by the product
+   rather than floating on it. */
+
+.screen {
+  background: var(--screen-bg);
+  border: 1px solid var(--screen-edge);
+  border-radius: var(--radius);
+  box-shadow:
+    inset 0 2px 6px rgba(0,0,0,0.6),
+    inset 0 0 0 1px rgba(255,255,255,0.04),
+    0 1px 0 rgba(255,255,255,0.5);
+  padding: 10px;
+  color: var(--screen-text);
+}
+.screen img { width: 100%; display: block; border-radius: 2px; }
+
+/* Placeholder for a product that has no screenshot yet. Deliberately looks
+   like an unlit screen, not a broken image. */
+.screen.empty {
+  display: grid; place-items: center;
+  min-height: 220px; text-align: center; padding: 30px;
+}
+.screen.empty .legend { color: var(--screen-dim); text-shadow: none; }
+
+/* ========================================================== PRODUCT PAGES */
+
+.product-hero { padding: 48px 0 28px; }
+.product-hero .row { display: flex; align-items: center; gap: 22px; margin-bottom: 22px; }
+.product-hero .icon { width: 88px; height: 88px; border-radius: 17px; flex: none; }
+.product-hero h1 { margin: 0 0 4px; font-size: 34px; letter-spacing: -0.015em; color: var(--text-heading); }
+.product-hero .tagline { margin: 0; color: var(--text-secondary); font-size: 16px; }
+.product-hero .lede { font-size: 17px; max-width: var(--measure); margin: 0 0 24px; }
+
+.features { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.features li { padding-left: 18px; position: relative; max-width: var(--measure); }
+/* the step-dot from the company mark, doing the work of a bullet */
+.features li::before {
+  content: ""; position: absolute; left: 0; top: 0.62em;
+  width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+}
+.features strong { color: var(--text-heading); }
+
+.back { display: inline-block; margin-bottom: 22px; font-size: 13px; text-decoration: none; }
+.back:hover { text-decoration: underline; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+
+.prose { max-width: var(--measure); }
+.prose p { margin: 0 0 14px; }
+
+/* A full-width panel telling one story (Controlled randomness, The drop).
+   The line length stays at --measure because that is what is readable; what
+   changes is that the column is centred in the panel, so the leftover width
+   reads as margin rather than as a half-empty box. */
+.prose.story { margin-left: auto; margin-right: auto; }
+.prose h3 { font-size: 15px; margin: 22px 0 8px; color: var(--text-heading); }
+.prose code {
+  font: 12.5px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  background: color-mix(in srgb, var(--face-hi) 80%, transparent);
+  border: 1px solid var(--hairline); border-radius: 3px; padding: 1px 5px;
+}
+
+/* ================================================================ FOOTER */
+
+.site-footer {
+  margin-top: 56px;
+  border-top: 1px solid var(--hairline);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.55);
+  padding: 28px 0 44px;
+  color: var(--text-secondary); font-size: 13px;
+}
+.site-footer .wrap { display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center; }
+.site-footer .spacer { margin-left: auto; }
+
+/* =============================================================== MOBILE */
+
+@media (max-width: 720px) {
+  .product .panel-body { grid-template-columns: 64px 1fr; gap: 16px; }
+  .product .icon { width: 64px; height: 64px; border-radius: 13px; }
+  .two-col { grid-template-columns: 1fr; }
+  .site-nav { gap: 14px; font-size: 13px; }
+  .hero { padding: 48px 0 36px; }
+}
+
+/* The faceplate is a physical object with one lighting direction; there is no
+   dark-mode version of a milled aluminium panel. The design commits to the
+   light look deliberately, so colours are painted explicitly above and no
+   prefers-color-scheme block overrides them. */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

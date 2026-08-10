@@ -1,0 +1,31 @@
+<svg width="420" height="230" viewBox="50 90 420 230" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>MutationStation logo</title>
+<desc>A row of step-sequencer blocks mutating into a smooth acid-squelch waveform.</desc>
+<path d="M76,256 V226 H112 V196 H148 V236 H184 V186 H220 V216 H256 V176 H292"
+  fill="none" stroke="#2a2621" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="76" cy="256" r="6" fill="#e0862c"/>
+<circle cx="112" cy="226" r="6" fill="#e0862c"/>
+<circle cx="148" cy="196" r="6" fill="#e0862c"/>
+<circle cx="184" cy="236" r="6" fill="#e0862c"/>
+<circle cx="220" cy="186" r="6" fill="#e0862c"/>
+<circle cx="256" cy="216" r="6" fill="#e0862c"/>
+<circle cx="292" cy="176" r="6" fill="#e0862c"/>
+<!-- ONE canonical palette, shared by every place the logo appears: the app
+     header (inline in standalone/ui/interface.html and ui/interface.html), the
+     manual cover (this file), and the app icon (standalone/build/make-icon.py).
+     Step run: #2a2621 dark, step dots: #e0862c, squelch tail: #d13a2c. The
+     steps were orange here alone until the standalone shipped with them dark;
+     dark/red is now the look everywhere. Change one, change all four.
+
+     Was blue (#5cb3e0), changed to match the hardware reskin's "hot LED" red
+     (the p dash live dash accent dash primary token, hsl(2,80%,54%), used for
+     locked notes and primary/commit actions throughout the dialog), so the
+     logo's own red/orange reads as the same brand identity rather than an
+     unrelated leftover blue. Note for future edits: XML comments (this is an
+     SVG, parsed strictly as XML when loaded via a data URI) cannot contain a
+     literal double-hyphen anywhere in the body - a CSS custom-property name
+     written here verbatim broke this exact file silently (blank/broken image,
+     no console error) the first time. -->
+<path d="M292,176 C316,120 340,110 364,166 C388,222 396,300 424,268 C440,250 448,250 456,256"
+  fill="none" stroke="#d13a2c" stroke-width="14" stroke-linecap="round"/>
+</svg>

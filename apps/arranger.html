@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Arranger — JamWare Audio</title>
+<meta name="description" content="An Ableton Live extension that lays your Session clips out across the Arrangement timeline from a section template." />
+<link rel="icon" href="../assets/icons/arranger-1024.png" />
+<link rel="stylesheet" href="../styles.css" />
+<style>:root { --accent: #5B9E63; }</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html">
+      <img src="../assets/logo.svg" alt="" width="40" height="22" />
+      <span class="wordmark">JamWare Audio</span>
+    </a>
+    <nav class="site-nav">
+      <a href="../index.html#products">Products</a>
+      <a href="../index.html#suite">The Suite</a>
+      <a href="../index.html#about">About</a>
+      <a href="mailto:toastonjam12345@gmail.com">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="product-hero wrap">
+    <a class="back" href="../index.html#products">← All products</a>
+    <div class="row">
+      <img class="icon" src="../assets/icons/arranger-1024.png" alt="Arranger icon" />
+      <div>
+        <h1>Arranger</h1>
+        <p class="tagline">Session loops into a full arrangement, from a template.</p>
+      </div>
+    </div>
+    <p class="lede">
+      The gap between "I have eight good loops" and "I have a song" is an hour
+      of dragging clips. Arranger closes it: describe the song as a section
+      list, say which kinds of track play in which section, and it lays every
+      track's Session clip out across the Arrangement timeline in one pass.
+    </p>
+    <div class="panel notice">
+      <h2 class="panel-head">Not released yet</h2>
+      <div class="panel-body">
+        <div class="prose">
+          <p>
+            Arranger exists as an Ableton Live Extension, built against the beta
+            Extensions SDK. The rest of the range is standalone, and this one is
+            being reworked to match before it goes on sale, so there is nothing
+            to buy here yet.
+          </p>
+          <p>
+            Want it? <a href="mailto:toastonjam12345@gmail.com?subject=Arranger">Say
+            so</a>. It is the clearest signal for what gets finished next.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <!-- SCREENSHOT SLOT: drop a capture of the Arrange dialog at
+         site/assets/shots/arranger.png and replace this block with the
+         same <div class="screen"><img …></div> used on the other pages. -->
+    <div class="screen empty">
+      <span class="legend">Screenshot coming soon</span>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="two-col">
+
+      <div class="panel">
+        <h2 class="panel-head">What it does</h2>
+        <div class="panel-body">
+          <ul class="features">
+            <li>
+              <strong>A section list you edit.</strong> Intro 8, Verse 16, Chorus
+              16, Break 8. Labels and bar lengths, as many sections as the song
+              needs.
+            </li>
+            <li>
+              <strong>Roles, guessed from your track names.</strong> Every track is
+              listed with a role already filled in (drums, bass, chords, lead,
+              vocal, fx or other), and you correct the ones it got wrong.
+            </li>
+            <li>
+              <strong>A rule table decides who plays where.</strong> Drums come in
+              at the verse, the lead sits out the intro, everything hits at the
+              chorus. Change the rules, rebuild the arrangement.
+            </li>
+            <li>
+              <strong>MIDI and audio both tile properly.</strong> MIDI note data is
+              repeated to fill each section; audio uses Live's own loop tiling. A
+              two-bar loop fills a sixteen-bar chorus either way.
+            </li>
+            <li>
+              <strong>One pass, whole song.</strong> Right-click any track →
+              <em>Arrange Song from Template…</em> and it operates on the entire
+              set, not just the track you clicked.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div class="panel" style="margin-bottom:20px">
+          <h2 class="panel-head">Requirements</h2>
+          <div class="panel-body">
+            <div class="prose">
+              <p>
+                As it stands today: Ableton Live 12.4.5 Suite (beta) with the
+                Extensions beta feature enabled. That requirement is exactly why
+                it is being reworked, because a beta build of Live Suite is far too
+                narrow a thing to ask for.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2 class="panel-head">How it will work</h2>
+          <div class="panel-body">
+            <div class="prose">
+              <p>
+                It reads the first non-empty Session View clip on each track, so
+                the workflow is: get your loops sitting in Session, then run it
+                once and edit the arrangement it gives you.
+              </p>
+              <p>
+                Nothing above is speculative. The engine described here is built
+                and working. What is unsettled is how it reaches you.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 2026 JamWare Audio</span>
+    <a href="mailto:toastonjam12345@gmail.com">Support</a>
+    <a href="https://jamwareaudio.gumroad.com">Gumroad</a>
+    <span class="spacer legend">Any DAW · particular integration with Ableton Live</span>
+  </div>
+</footer>
+
+</body>
+</html>

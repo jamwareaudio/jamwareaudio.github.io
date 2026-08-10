@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chordinator — JamWare Audio</title>
+<meta name="description" content="Play chords you don't know how to voice. A whole chord under one key, laid out so there is no wrong note on the keybed, then build the sequence out with rhythm patterns, groove, chord suggestions and modulation lanes." />
+<link rel="icon" href="../assets/icons/chordinator-1024.png" />
+<link rel="stylesheet" href="../styles.css" />
+<style>:root { --accent: #E0862C; }</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html">
+      <img src="../assets/logo.svg" alt="" width="40" height="22" />
+      <span class="wordmark">JamWare Audio</span>
+    </a>
+    <nav class="site-nav">
+      <a href="../index.html#products">Products</a>
+      <a href="../index.html#suite">The Suite</a>
+      <a href="../index.html#about">About</a>
+      <a href="mailto:toastonjam12345@gmail.com">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="product-hero wrap">
+    <a class="back" href="../index.html#products">← All products</a>
+    <div class="row">
+      <img class="icon" src="../assets/icons/chordinator-1024.png" alt="Chordinator icon" />
+      <div>
+        <h1>Chordinator</h1>
+        <p class="tagline">Play chords you don't know how to voice.</p>
+      </div>
+    </div>
+    <p class="lede">
+      Good chord parts stall on two things: knowing the voicings, and playing
+      them in time. Chordinator puts a whole chord under one key, laid out so
+      the white keys are the seven degrees of your scale and the black keys are
+      inversions of their neighbours. There is no wrong note anywhere on the
+      keybed. Play a progression with one finger, then build it out with a poly
+      piano roll, a rhythm generator measured from real dub house and dub techno
+      records, groove and humanize passes, and eight modulation lanes that land
+      in Live as clip envelopes.
+    </p>
+    <div class="btn-row">
+      <a class="btn" href="https://jamwareaudio.gumroad.com/l/chordinator">Get it on Gumroad</a>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="screen">
+      <img src="../assets/shots/chordinator.png" alt="The Chordinator window: a generated progression stamped across the poly piano roll with chord-name labels, the chord library and history strip down the left, and the trigger keyboard along the bottom" />
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="panel">
+      <h2 class="panel-head">Controlled randomness</h2>
+      <div class="panel-body">
+        <div class="prose story">
+          <p>
+            Generators are only useful if you can keep the parts that already
+            work. Chordinator uses the same lock system as MutationStation, the
+            one Elektron sequencers made famous.
+          </p>
+          <p>
+            Click a note or a chord to pin it and the generators step around it.
+            Rhythm Gen replaces only unlocked notes. Chord Gen keeps the
+            timeline's rhythm and re-rolls which chord each step gets. Fit Stabs
+            rewrites the roll against a bassline. Lock the four chords that make
+            the progression, then roll the rhythm underneath them as many times
+            as you like.
+          </p>
+          <p>
+            <strong>Auto-Lock</strong> marks the notes worth keeping for you,
+            scored the same eight ways: structural, recurring, phrase corners,
+            downbeats, offbeats, accents, long notes or low notes. Velocity
+            locks are separate, so a note can keep its dynamics while its pitch
+            stays free.
+          </p>
+          <p>
+            The generators overwrite the roll by design, so before any of them
+            runs, the outgoing state is parked in the History strip for you. The
+            take you wanted is routinely two rolls back, past the point undo is
+            comfortable, and it is still sitting there as a picture you can
+            click.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="two-col">
+
+      <div class="panel">
+        <h2 class="panel-head">Playing</h2>
+        <div class="panel-body">
+          <ul class="features">
+            <li>
+              <strong>One key per chord, across all 128 notes.</strong> One
+              keyboard row picks the trigger key, the other builds the chord that
+              key fires. Or pull a voicing from the chord library and let the
+              trigger's own pitch be the root.
+            </li>
+            <li>
+              <strong>Unmapped keys pass through.</strong> Where you have not
+              defined a chord, the key plays as its own single note. The keyboard
+              keeps working as a keyboard.
+            </li>
+            <li>
+              <strong>Correct note-off, always.</strong> Releasing a trigger
+              releases that chord, and notes shared between overlapping chords are
+              reference-counted, so holding two chords that share a tone never
+              leaves a note stuck on.
+            </li>
+            <li>
+              <strong>Humanize.</strong> Stagger a chord's note-ons so a stab does
+              not land in perfect machine-gun unison.
+            </li>
+            <li>
+              <strong>Velocity that follows your hand.</strong> Pass-through by
+              default, with per-voice scaling and a Fixed mode when you want every
+              stab to land identically.
+            </li>
+            <li>
+              <strong>Suggestions for where to go next.</strong> After a chord
+              plays, it recommends two or three to follow it, walking weighted
+              diatonic transitions, including tension swaps, where the harmony
+              stays put and only the colour changes.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2 class="panel-head">Building the sequence</h2>
+        <div class="panel-body">
+          <ul class="features">
+            <li>
+              <strong>A poly piano roll.</strong> A chord stamped from a trigger
+              key moves, resizes, transposes and carries its chord-name label as
+              one unit, while lock, mute and velocity stay per note.
+            </li>
+            <li>
+              <strong>A rhythm generator with a point of view.</strong> Three
+              families: <em>dub house</em> (offbeat and bouncy, measured from
+              onset analysis of five reference tracks), <em>dub techno</em>
+              (Basic Channel school, where the space is the point) and
+              <em>piano house</em> (offbeat 8ths, dotted 8ths, Charleston and
+              tresillo figures).
+            </li>
+            <li>
+              <strong>Groove, which is not humanize.</strong> Jitter says "played
+              by a human"; groove says "played with this feel". 16-step templates
+              carry timing and velocity per step, scaled from straight to full.
+            </li>
+            <li>
+              <strong>Fit stabs to a bassline.</strong> Point it at a bass pattern,
+              either a Live clip or an audio file you drop on it, and it places stabs
+              either <em>on</em> the strongest hits to reinforce them, or
+              <em>around</em> them so the stab answers the bass.
+            </li>
+            <li>
+              <strong>Draw, marquee-select, halve, duplicate, invert, zoom.</strong>
+              The roll is a real editor, not a preview.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="two-col">
+
+      <div class="panel">
+        <h2 class="panel-head">Particular integration with Live</h2>
+        <div class="panel-body">
+          <ul class="features">
+            <li>
+              <strong>Pull the clip you are looking at</strong> straight into the
+              roll, and send it back, either as a new clip or replacing the one that
+              is already there.
+            </li>
+            <li>
+              <strong>Eight modulation lanes.</strong> Draw a curve in step, slide
+              or bend, with shape templates and its own independent length, bind
+              it to any parameter on any device in the set, and it is written into
+              the clip as an <strong>envelope</strong>. Live's own knobs move,
+              with no CC stream and nothing left running.
+            </li>
+            <li>
+              <strong>A bundled Remote Script</strong> installs itself into Live's
+              User Library on first launch. No Max for Live, no AppleScript.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div class="panel" style="margin-bottom:20px">
+          <h2 class="panel-head">Requirements</h2>
+          <div class="panel-body">
+            <div class="prose">
+              <p>
+                macOS on Apple Silicon, and any MIDI controller you want to trigger
+                from.
+              </p>
+              <p>
+                Chords go out over a virtual MIDI port any DAW can listen to, and
+                sequences import and export as standard MIDI files. The clip bridge
+                and the modulation lanes are Ableton Live features. Everything
+                else works anywhere.
+              </p>
+              <p>
+                Chordinator is ad-hoc signed, so the first time you open it macOS
+                Gatekeeper will block it: right-click the app →
+                <strong>Open</strong> → <strong>Open</strong> again. Once only.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2 class="panel-head">Setting it up with Live</h2>
+          <div class="panel-body">
+            <div class="prose">
+              <p>
+                1. Launch Chordinator. The banner confirms the virtual output
+                <strong>Chordinator</strong> is live.<br />
+                2. Pick your controller under <strong>Trigger keyboard</strong>.<br />
+                3. In Live, add a MIDI track, set its input to
+                <strong>Chordinator</strong>, and arm it.<br />
+                4. Click a key in the <strong>Triggers</strong> row, then click
+                notes in the <strong>Chord</strong> row to build it.
+              </p>
+              <p>
+                Play the trigger key on your controller and the whole chord fires
+                into Live. Layouts save and load as JSON, so you can keep a set
+                of chords per song, per set, or per gig.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 2026 JamWare Audio</span>
+    <a href="mailto:toastonjam12345@gmail.com">Support</a>
+    <a href="https://jamwareaudio.gumroad.com">Gumroad</a>
+    <span class="spacer legend">Any DAW · particular integration with Ableton Live</span>
+  </div>
+</footer>
+
+</body>
+</html>

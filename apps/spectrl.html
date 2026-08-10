@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Spectrl — JamWare Audio</title>
+<meta name="description" content="A live spectrum analyser for everything your Mac is playing, with musical note mapping, loudness metering, tonal-balance targets and WAV capture." />
+<link rel="icon" href="../assets/icons/spectrl-1024.png" />
+<link rel="stylesheet" href="../styles.css" />
+<style>:root { --accent: #4A86C5; }</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html">
+      <img src="../assets/logo.svg" alt="" width="40" height="22" />
+      <span class="wordmark">JamWare Audio</span>
+    </a>
+    <nav class="site-nav">
+      <a href="../index.html#products">Products</a>
+      <a href="../index.html#suite">The Suite</a>
+      <a href="../index.html#about">About</a>
+      <a href="mailto:toastonjam12345@gmail.com">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="product-hero wrap">
+    <a class="back" href="../index.html#products">← All products</a>
+    <div class="row">
+      <img class="icon" src="../assets/icons/spectrl-1024.png" alt="Spectrl icon" />
+      <div>
+        <h1>Spectrl</h1>
+        <p class="tagline">A spectrum analyser for everything your Mac plays.</p>
+      </div>
+    </div>
+    <p class="lede">
+      Live spectrum, oscilloscope and loudness metering with musical note
+      mapping, tonal-balance targets and WAV capture. Spectrl listens to your
+      default output device through a Core Audio process tap, the same device
+      your DAW is playing through, so there is nothing to insert on the master
+      and nothing to bypass before you bounce.
+    </p>
+    <div class="btn-row">
+      <a class="btn" href="https://jamwareaudio.gumroad.com/l/spectrl">Get it on Gumroad</a>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="screen">
+      <img src="../assets/shots/spectrl.png" alt="The Spectrl window: spectrum, note ruler, meters and footer readout" />
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="two-col">
+
+      <div class="panel">
+        <h2 class="panel-head">What it does</h2>
+        <div class="panel-body">
+          <ul class="features">
+            <li>
+              <strong>Reads in notes, not just hertz.</strong> A note ruler under
+              the spectrum, the nearest note under your cursor in the footer, and
+              full-precision frequencies on hover.
+            </li>
+            <li>
+              <strong>Tells you the key.</strong> The Scale panel recognises what
+              is playing and highlights it on the note ruler until you dismiss it.
+            </li>
+            <li>
+              <strong>Tonal-balance targets.</strong> Compare what you are hearing
+              against a target curve, or against your own song, with Learn.
+            </li>
+            <li>
+              <strong>Loudness metering and an oscilloscope,</strong> frozen
+              together with the spectrum by a single keypress. Freeze is what makes
+              hovering for exact values useful.
+            </li>
+            <li>
+              <strong>Hold to smooth.</strong> Press and hold on the spectrum and
+              the averaging stretches 6×, so a fleeting peak stays legible long
+              enough to read off it. Release snaps back to live.
+            </li>
+            <li>
+              <strong>Records to WAV,</strong> at your DAW's sample rate, and it
+              follows the device rather than resampling behind your back.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div class="panel" style="margin-bottom:20px">
+          <h2 class="panel-head">Requirements</h2>
+          <div class="panel-body">
+            <div class="prose">
+              <p>macOS 14.4 (Sonoma) or later, on Apple Silicon.</p>
+              <p>
+                On first launch macOS asks for permission to record this computer's
+                audio. Grant it, because without it the screen stays dark and says so.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2 class="panel-head">It does not record your screen</h2>
+          <div class="panel-body">
+            <div class="prose">
+              <p>
+                Spectrl captures audio through a Core Audio <em>process tap</em>,
+                which asks for audio and nothing else. If you granted an older
+                build Screen Recording permission, you can revoke it in System
+                Settings → Privacy &amp; Security → Screen &amp; System Audio
+                Recording. Nothing will break.
+              </p>
+              <p>
+                It does not touch your microphone, and tapping does not mute or
+                alter what you hear.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 2026 JamWare Audio</span>
+    <a href="mailto:toastonjam12345@gmail.com">Support</a>
+    <a href="https://jamwareaudio.gumroad.com">Gumroad</a>
+    <span class="spacer legend">Any DAW · particular integration with Ableton Live</span>
+  </div>
+</footer>
+
+</body>
+</html>
