@@ -99,23 +99,37 @@ An accent lives in three places and all three must agree:
 
 ## Deploying to GitHub Pages
 
-This folder sits inside `CompanionApps/`, which is **not** a git repository. The
-cleanest option is a separate repo for the site alone, so publishing the website
-never means publishing the app source.
+This folder is its own git repository, deliberately separate from the app source
+in `CompanionApps/` — publishing the website never means publishing the apps.
 
-```sh
-cd site
-git init
-git add .
-git commit -m "JamWare Audio website"
-git branch -M main
-git remote add origin git@github.com:<you>/jamware-site.git
-git push -u origin main
-```
+**Remote:** `https://github.com/toastonjam-debug/jamwareaudio` — pushed
+2026-08-10, and **private**, with Pages switched off. Nothing is on the web yet.
+That is on purpose: while the four Gumroad products are unpublished their
+`/l/<slug>` URLs 404 for anyone who is not signed in as the seller, so a live
+site today would be a shopfront of dead buttons.
 
-Then on GitHub: **Settings → Pages → Source: Deploy from a branch →
-`main` / `/ (root)`**. It goes live at `https://<you>.github.io/jamware-site/`
-within a minute or two.
+⚠ `gumroad/` is in `.gitignore` and is NOT in the repo. Pages serves every file
+it is given, and `GUMROAD-KIT.md` is internal — pricing strategy, open
+decisions, and notes about the support address. Keep it out.
+
+### Going live, when the store is ready
+
+1. Publish the four products on Gumroad and settle the Suite bundle (see the
+   checklist above).
+2. Make the repo public and turn Pages on:
+
+   ```sh
+   gh repo edit toastonjam-debug/jamwareaudio --visibility public
+   gh api -X POST repos/toastonjam-debug/jamwareaudio/pages \
+     -f 'source[branch]=main' -f 'source[path]=/'
+   ```
+
+   Or by hand: **Settings → Pages → Source: Deploy from a branch →
+   `main` / `/ (root)`**.
+3. It appears at `https://toastonjam-debug.github.io/jamwareaudio/` a minute or
+   two later.
+
+Updating it afterwards is just `git push` — Pages redeploys on its own.
 
 ### A custom domain
 
