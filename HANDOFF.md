@@ -227,3 +227,48 @@ live in `MutationStation/docs/img/`.
 name — it is esbuild output that electron-builder builds *from*, that a test
 reads, and that the manual-screenshot harness points headless Chrome at. Do not
 delete it in a "clean up dist dirs" sweep.
+
+---
+
+## 7. Session log
+
+### 2026-08-12
+
+**Gumroad listings — algorithm screenshots added.** Chordinator and
+MutationStation listings on Gumroad (`app.gumroad.com/products/ztjqq/edit` and
+`.../gligmk/edit`) each got a screenshot of their full algorithm surface
+(`site/assets/shots/chordinator-algorithms.png`,
+`.../mutationstation-algorithms.png`) plus an explanatory paragraph placed
+right after it, before "What is in it": Chordinator's covers Chord Gen,
+Rhythm, Suggest and Auto-Lock and how Suggest lights up palette buttons;
+MutationStation's covers Pattern, Algorithm (Pitch Mutation), Scale/Root and
+Acid Character. Both saved and confirmed via Gumroad's "Changes saved!" toast.
+These screenshots are local files only — not committed anywhere, since
+`site/gumroad/` notes and Gumroad-side content live outside this repo's git
+tree by convention.
+
+**Product ordering — checked, already correct on the site.**
+`index.html:62-198` already lists MutationStation first, Chordinator second,
+ahead of Spectrl and MidiMirror (Arranger last, unreleased). No edit was
+needed here.
+
+**Product ordering — Gumroad admin dashboard and public storefront: no fix
+made, needs the user.** No UI-based way to reorder products was found in
+either the admin product table (drag-and-drop attempted, order did not
+change) or the public storefront (checked Profile → About/Design/Pages, no
+reorder control). This is still open for two of the "all 3 places" the user
+asked for. Reordering may require Gumroad support, an API call, or a
+publish/unpublish workaround — the last of which needs explicit user
+permission before being attempted, per the standing safety rule on
+publish-state changes.
+
+**TouchXY is not on the site at all.** Checked at the user's request (their
+ordering instruction named TouchXY alongside Spectrl/MidiMirror). It does not
+appear in `index.html` or anywhere under `site/apps/` — only in this
+HANDOFF's release-path notes (§2). If it should be listed as a product, that
+is new work, not a reorder.
+
+**Not yet scoped:** the user's broader "highlight more individual concepts
+with screenshots" goal — the two concrete asks (Chordinator, MutationStation
+algorithm screenshots) are done, but which other concepts/apps get the same
+treatment next needs the user's steer rather than an open-ended sweep.
