@@ -59,6 +59,114 @@
 
   <section class="section wrap">
     <div class="panel">
+      <h2 class="panel-head">128 chords under one keybed</h2>
+      <div class="panel-body">
+        <div class="prose story">
+          <p>
+            The trigger keyboard is not one row of chords, it is the whole MIDI
+            range divided into octave blocks, each block a family: triads, 7ths,
+            9ths, 11ths, sus chords, add chords, 6/9 and triad-4, power 5ths,
+            quartal and quintal. Within a block the white keys are the seven
+            degrees of your scale and the black keys are inversions of their
+            neighbours, so moving one finger changes the voicing and not the
+            harmony.
+          </p>
+          <p>
+            That is why there is no wrong note on it. Play up an octave and you
+            are playing the same progression in a richer flavour; play the black
+            key beside a chord and you get the same chord sitting differently.
+            Keys you have not mapped pass through as ordinary single notes, and
+            right-clicking a key takes it out of the pool the generators may
+            draw from.
+          </p>
+        </div>
+        <figure class="zoom">
+          <div class="screen">
+            <img src="../assets/shots/chordinator-keybed.png" alt="The Chordinator trigger keybed, labelled by octave block: triads, 7th chords, 9th chords, 11th chords, sus chords, add chords, 6/9 and triad-4, power 5ths, quartal and quintal" />
+          </div>
+          <figcaption>
+            The full keybed. Each octave block is a chord family, labelled where
+            it starts — so the register you play in is the flavour you get.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="panel">
+      <h2 class="panel-head">The chord generator</h2>
+      <div class="panel-body">
+        <div class="prose story">
+          <p>
+            <strong>The algorithms are not stored progressions.</strong> Each one
+            is a table of legal moves — one row per scale degree, listing the two
+            or three degrees that degree is allowed to go to, best first. Chord
+            Gen takes the rhythm already on the roll, starts somewhere, and walks
+            that map. So two rolls of the same algorithm are two different
+            sentences in the same language rather than the same loop twice.
+          </p>
+          <p>
+            There are dozens, grouped by what they are for: functional (strong
+            steps, cadence pull, circle of 5ths), colour (suspension chains,
+            upper structures, neo-soul 9ths, quartal drift, Dorian), dub and
+            minimal, house, trance — and a top-line group of nine that hand their
+            chords to a voicing pass so the bottom notes hold still and the
+            highest note carries a melody. Five of them were measured from
+            chroma analysis of a reference record rather than written from
+            memory.
+          </p>
+          <p>
+            <strong>Hold</strong> decides where a chord change is allowed to
+            land and <strong>Loop</strong> decides when the progression comes
+            back round, which between them is what makes a roll a progression
+            instead of a chord per hit. <strong>Follow Bass</strong> hands the
+            root motion to the bassline already on the roll and leaves the
+            algorithm to choose only which chord of that root — the tonic comes
+            from your bass line, the harmony from the engine. And
+            <strong>Suggest</strong> reads the same tables with no dice at all:
+            it lights the recommended keys on the keybed so you can play the
+            progression by hand.
+          </p>
+        </div>
+        <figure class="zoom">
+          <div class="screen">
+            <img src="../assets/shots/chordinator-chordgen.png" alt="The Chordinator generator row: the algorithm dropdown showing Sus top line, the Chord Gen and Sparse Dub buttons, Hold and Loop settings, a melody selector, Weak beats and Follow Bass" />
+          </div>
+          <figcaption>
+            The generator row: pick the engine, how long a chord holds, how long
+            the loop is — and Follow Bass to keep the root motion you already
+            have.
+          </figcaption>
+        </figure>
+        <div class="prose story">
+          <p>
+            <strong>The library, the visualiser and the chord editor</strong> are
+            the way in when the keybed does not already have what you want.
+            Search every chord type by name, drag one onto the roll and it stamps
+            rooted on the row you dropped it on, or drop it on a trigger key to
+            assign it. The visualiser names and shows whatever you just played,
+            and its Edit mode lets you play in a chord the library does not have
+            and put it on a key. Beside them sit Invert, Octave and Humanize,
+            the voicing mode and the smoothing switch — appliable to one key or
+            to the whole block at once.
+          </p>
+        </div>
+        <figure class="zoom">
+          <div class="screen">
+            <img src="../assets/shots/chordinator-library.png" alt="The Chordinator chord library with its search box and family chips, the visualiser keyboard below it, and the chord edit controls for invert, octave, humanize, voicing and smoothing" />
+          </div>
+          <figcaption>
+            Chord library, visualiser and chord edit, stacked down the left of
+            the window — search, see it on a keyboard, re-voice it.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="panel">
       <h2 class="panel-head">Controlled randomness</h2>
       <div class="panel-body">
         <div class="prose story">
@@ -168,6 +276,17 @@
             <li>
               <strong>Draw, marquee-select, halve, duplicate, invert, zoom.</strong>
               The roll is a real editor, not a preview.
+            </li>
+            <li>
+              <strong>A library of saved takes.</strong> Save whatever is in the
+              sequencer under a name, star the ones you keep coming back to,
+              file them into folders, and step through the list with ◀ ▶ to
+              audition them in order. It lives in its own file with a rolling
+              backup, separate from your settings.
+            </li>
+            <li>
+              <strong>Layouts save as JSON.</strong> A whole keybed — every
+              trigger, every voicing — kept per song, per set or per gig.
             </li>
           </ul>
         </div>

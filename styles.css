@@ -284,6 +284,41 @@ a:hover { color: var(--accent); }
 }
 .screen img { width: 100%; display: block; border-radius: 2px; }
 
+/* ---- Zoomed feature crops -------------------------------------------------
+
+   The per-feature shots on the product pages are crops cut out of the
+   full-window captures already in assets/shots, not fresh captures. Two
+   reasons, and the second is the one that matters: the originals are
+   2000-3456px wide, so a single panel comes out at native resolution with room
+   to spare; and relaunching the apps to shoot a panel walks straight into the
+   verification traps in the workspace CLAUDE.md (an Electron single-instance
+   lock hands the relaunch back to the old process, and an occluded window
+   renders differently).
+
+   Their aspect ratios are deliberately not normalised — a 1920x157 keybed
+   strip sits next to a 322x645 knob column, because cropping a panel to a
+   common ratio would mean cutting off half of it. So HEIGHT is what is capped
+   here, not width, and each crop is centred in its recess. Capping width
+   instead is the obvious move and it is wrong: it blows the tall panels up to
+   the full measure, where a 322px-wide column becomes a soft 1000px smear. */
+
+.zoom { margin: 22px 0 0; }
+.zoom .screen { padding: 8px; }
+.zoom .screen img { width: auto; max-width: 100%; max-height: 620px; margin: 0 auto; display: block; }
+/* Deliberately NOT .legend. The engraved-label style above is for two or three
+   words silkscreened onto hardware; a caption here is a sentence explaining what
+   the crop is showing, and a sentence set in 10px uppercase with 0.14em tracking
+   is unreadable — it was tried and it shouted. Sentence case, secondary colour,
+   sized just under body copy so it reads as an aside. */
+.zoom figcaption {
+  display: block;
+  margin: 10px 2px 0;
+  max-width: 66ch;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
 /* Placeholder for a product that has no screenshot yet. Deliberately looks
    like an unlit screen, not a broken image. */
 .screen.empty {

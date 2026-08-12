@@ -87,6 +87,63 @@
             stays put.
           </p>
         </div>
+        <figure class="zoom">
+          <div class="screen">
+            <img src="../assets/shots/mutationstation-lock.png" alt="The MutationStation piano roll: locked notes drawn in red, unlocked notes in orange, slide lines between them, and the Auto-Lock row set to Structural" />
+          </div>
+          <figcaption>
+            Red notes are locked and no generator will touch them; orange notes
+            are the ones still in play. Auto-Lock, on the same row, picks a set
+            for you and Structural is the seven-signal one.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="panel">
+      <h2 class="panel-head">Where the line actually comes from</h2>
+      <div class="panel-body">
+        <div class="prose story">
+          <p>
+            <strong>33 pitch strategies,</strong> from the simple (Random,
+            Proximity, Root/Fifth) to measured acid and techno voices like Acid
+            Trip, Hypno Root, Seventh Anchor, Lead Line and Offbeat Anchor. Many
+            are measured from real bass and synth loops, so they move the way
+            basslines actually move rather than like a random-note generator.
+            One amount decides how much of the line they are allowed to rewrite,
+            and a scale, root and range decide where the new notes may land.
+          </p>
+        </div>
+        <figure class="zoom">
+          <div class="screen">
+            <img src="../assets/shots/mutationstation-pitch.png" alt="The Pitch Mutation panel: an Amount knob, Scale and Root selectors, a Range setting and the Algorithm dropdown showing Proximity" />
+          </div>
+          <figcaption>
+            Pitch Mutation: how much may change, which notes it may change to,
+            and the strategy that decides where the next note goes.
+          </figcaption>
+        </figure>
+        <div class="prose story">
+          <p>
+            <strong>Slides and accents the way a 303 does them.</strong> Octave,
+            Accent and Slide each get their own amount, their own step pattern
+            and their own lock, so you can hold the accents you have and re-roll
+            only the glides — or pin the octave jumps and let everything else
+            move. Connect Notes fills the gaps between them with passing tones,
+            in scale or chromatic.
+          </p>
+        </div>
+        <figure class="zoom">
+          <div class="screen">
+            <img src="../assets/shots/mutationstation-acid.png" alt="The Acid Character column: Octave, Accent and Slide, each with an amount, a sync slider, a locked toggle and a pattern dropdown" />
+          </div>
+          <figcaption>
+            Acid Character. Three controls, three patterns, three locks — the
+            part that makes a mutated line still sound like a 303 line.
+          </figcaption>
+        </figure>
       </div>
     </div>
   </section>
@@ -104,12 +161,11 @@
               independently of the others.
             </li>
             <li>
-              <strong>33 pitch strategies,</strong> from the simple (Random,
-              Proximity, Root/Fifth) to measured acid and techno voices like
-              Acid Trip, Hypno Root, Seventh Anchor, Lead Line and Offbeat
-              Anchor. Many are measured from real bass and synth loops, so they
-              move the way basslines actually move rather than like a
-              random-note generator.
+              <strong>A note pool you can weight.</strong> Twelve keys decide
+              which notes mutation may reach for, and a % panel behind them
+              decides how often each one comes up — lean on the root, thin out
+              the leading tone, and the same algorithm settles into the key
+              without you removing a single note.
             </li>
             <li>
               <strong>40+ rhythm patterns.</strong> Four-on-the-floor, rolling
@@ -124,15 +180,25 @@
               groove, or the reverse.
             </li>
             <li>
-              <strong>Slides and accents the way a 303 does them:</strong>
-              glides that run one note into the next, accents on the steps that
-              should carry weight, plus Connect Notes to auto-fill passing
-              tones, in scale or chromatic.
+              <strong>Turnaround Emphasis.</strong> Every one, two or four bars,
+              the last notes of the group get boosted odds, so the phrase
+              announces its own repeat instead of looping flat. You choose the
+              multiplier, which of the last two notes it lands on, and which
+              amounts it is allowed to boost.
+            </li>
+            <li>
+              <strong>Keep Original.</strong> The last link in the chain: after
+              every other panel has had its say, each unlocked note gets a
+              chance to snap back to how it started. A way to let some of the
+              take survive heavy mutation without locking anything, and you tick
+              which aspects may revert.
             </li>
             <li>
               <strong>A real piano roll.</strong> Draw, drag, resize, set
               velocity, with a History strip that keeps every take you generate so
-              you can rewind to a direction you liked.
+              you can rewind to a direction you liked — and
+              <strong>+ Snapshot</strong> to bank one you want to come back to,
+              settings and all.
             </li>
             <li>
               <strong>Presets and Find Similar Rhythm.</strong> Save sequences and
@@ -162,6 +228,18 @@
               without ever having armed anything. <strong>Chord In</strong>
               and <strong>Root In</strong> read the same port to transpose
               the pool from a played chord or a played note.
+            </li>
+            <li>
+              <strong>Follow your DAW's clock, or run on your own.</strong> Pick
+              the port your DAW sends MIDI clock on and the app follows its
+              tempo and its relocations; pick Internal and it plays by itself.
+              Dragged-out clips carry a tempo only if you ask them to, so a clip
+              dropped into Live adopts the project's tempo instead of yanking it.
+            </li>
+            <li>
+              <strong>Hints and a manual in the window.</strong> Every panel
+              explains itself where you are standing, and the full manual opens
+              inside the app — no PDF hunt to find out what a control does.
             </li>
           </ul>
         </div>
