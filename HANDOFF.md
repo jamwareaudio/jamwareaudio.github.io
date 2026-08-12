@@ -9,6 +9,87 @@ Developer ID certificate that does not exist yet.
 
 ---
 
+## 2026-08-13 — Feature gaps filled, zoom crops added, all four Gumroad descriptions rewritten from the site pages
+
+**The site and Gumroad now carry the same text.** This was the session's whole
+job: audit each app's copy against its actual feature set, add zoomed-in
+screenshots tied to specific descriptions, and make the store match the site.
+
+**On the site** (`0c7aa37`, and `8af604b` before it): every product page had its
+feature list checked against the app's own manual and its gaps filled, and each
+page gained 2–3 `figure.zoom` crops sitting immediately beside the paragraph
+they illustrate — not decorative, each one is the thing the sentence above it
+describes. The crops live in `site/assets/shots/` (12 new files) and the
+`.zoom` rule is in `styles.css`. `index.html` cards and `apps/*.html` taglines
+agree.
+
+**On Gumroad**, all four descriptions were replaced wholesale with prose derived
+from the matching `site/apps/*.html`, each with its images inline:
+
+| App | ID | Nodes | Images |
+|---|---|---|---|
+| Chordinator | `ztjqq` | 31 | 5 |
+| MutationStation | `gligmk` | 26 | 5 |
+| Spectrl | `zpedfw` | 21 | 4 |
+| MidiMirror | `ohhpmz` | 30 | 5 |
+
+All four verified after a reload — node structure, image natural sizes, caption
+counts. Each also picked up the Gatekeeper paragraph (ad-hoc signing, right-click
+→ Open) and the support address, which the site pages do not carry.
+
+Two Gumroad-specific fixes went in along the way: Spectrl's "Why standalone"
+body had been mis-tagged as an `<h3>`, and MidiMirror's had the same problem —
+both are `<p>` now.
+
+⚠ **All four remain unpublished.** Only "Save and continue" was ever clicked;
+the pink "Publish and continue" was deliberately left alone. Spectrl was already
+unpublished before this session.
+
+### How to edit a Gumroad description again — read this before trying
+
+The obvious route does not work and costs an hour to rediscover:
+
+- **`<img>` tags are stripped from pasted HTML.** Images must be uploaded through
+  the editor's own toolbar file input to get a CDN URL. Click into the editor
+  body to place a caret, click "Insert image" at ~(551, 305), then `find` the
+  hidden file input — the *first* ref returned is Insert image, the second is
+  Insert video/audio — and `file_upload` to it. Wait ~10 s.
+- **Uploads fail silently and intermittently** (Gumroad 502/504 on
+  `/rails/active_storage/direct_uploads`). One crop needed four attempts. Verify
+  by comparing each `img.naturalWidth x naturalHeight` in the editor against the
+  local PNG's real size; retry whichever is missing.
+- **Scripted upload from a local HTTP server is dead** — Gumroad's CSP blocks
+  `connect-src` to `127.0.0.1`. Do not spend time on it again.
+- **The working method** is to upload the images, collect their blob keys, build
+  the full HTML in `window.__desc`, then monkey-patch `window.fetch` and
+  `XMLHttpRequest.prototype.send` to swap the `description` field in the app's
+  own save request. That preserves `editor_revision`, which a hand-rolled POST
+  would not.
+- **The save only fires if the form is dirty**, and dirtying it is the fiddly
+  part. Clicking a fixed coordinate usually lands on an image node, where typing
+  does nothing. Place the caret via a real `<p>`:
+  `pm.children[3].scrollIntoView({block:'center'})`, click at its rect + (40, 10),
+  then type a space.
+- **The scroll container is `<main>`, not the document.**
+  `document.scrollingElement.scrollTop = 0` does nothing, the Save button stays
+  off-screen, and the click silently misses. Walk up from `.ProseMirror` to
+  `MAIN` and set *its* `scrollTop`.
+- **Reloading discards unsaved edits** and wipes the patch, so install the
+  interceptor only after the last reload. Proof of a save is the "Changes saved!"
+  toast plus the URL moving `/edit` → `/edit/content`.
+- **The Summary field does not save on the first click.** Use React's native
+  `HTMLInputElement.prototype.value` setter plus `input`/`change` events, and
+  re-read it after a fresh reload — the live preview pane is *not* proof.
+
+**TouchXY is still on hold** at the user's instruction: no listing, no art, no
+action until they say so.
+
+**Next session:** the Apple Developer enrolment blocker below is unchanged and is
+still the only thing standing between these listings and a customer who can
+actually open the app.
+
+---
+
 ## 2026-08-13 — Taglines rewritten, spec strip cut, art pushed live to Gumroad
 
 **The covers are now on Gumroad.** Four listings — MidiMirror (`ohhpmz`),
