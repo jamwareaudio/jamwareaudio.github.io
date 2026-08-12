@@ -9,6 +9,33 @@ Developer ID certificate that does not exist yet.
 
 ---
 
+## 2026-08-12 — Spectrl key-detection and system-audio-capture copy fixed
+
+Two of Spectrl's feature bullets were imprecise to the point of being wrong
+about what the features do. "Tells you the key" now says what actually
+happens: press a button, the Scale panel listens to 10 seconds of incoming
+audio, then shows the predicted key. The old "Records to WAV" bullet undersold
+the actual feature — one-click capture of anything playing through the Mac,
+no routing or extra software — so it's rewritten as "Samples anything your Mac
+is playing, in one click," and both points are now also folded into the
+`.lede` intro so they read before the bullet list, not just inside it.
+
+Site copy at `site/apps/spectrl.html`, committed in `14311c2`. Gumroad
+description (`products/zpedfw`) edited directly in the rich-text editor and
+saved — verified verbatim match against the site's lede and both bullets per
+the "we want it consistent" rule.
+
+Note for next time editing the Gumroad rich-text editor: shift-click / shift+
+End to extend a selection across a paragraph is unreliable here — it can
+auto-scroll and select everything down to near the end of the document, which
+on one attempt this session caused an accidental mass-deletion (recovered with
+Cmd+Z, no lasting damage). **Triple-click to select a single paragraph or
+bullet** instead; it worked cleanly every time. A `shift`-modifier `left_click`
+from a plain click point (not combined with `Home`/`End`) was fine for
+bold/unbold spans within a single already-selected block.
+
+---
+
 ## 2026-08-12 — Spectrl pitch rewrite, "Why standalone" on all four listings
 
 **Spectrl's Gumroad + site intro rewritten** away from "standalone device" and
