@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Spectrl — JamWare Audio</title>
-<meta name="description" content="A live spectrum analyser for everything your Mac is playing, with musical note mapping, loudness metering, tonal-balance targets and WAV capture." />
+<meta name="description" content="A spectrum analyser, key detector, note visualiser, tonal-balance target and loudness/oscilloscope meter in one lightweight window, listening to everything your Mac is playing." />
 <link rel="icon" href="../assets/icons/spectrl-1024.png" />
 <link rel="stylesheet" href="../styles.css" />
 <style>:root { --accent: #4A86C5; }</style>
@@ -37,8 +37,11 @@
       </div>
     </div>
     <p class="lede">
-      Live spectrum, oscilloscope and loudness metering with musical note
-      mapping, tonal-balance targets and WAV capture. Spectrl listens to your
+      A spectrum analyser on its own is one tool. Spectrl is five, working
+      from a single signal: live spectrum with musical note mapping, a Scale
+      panel that reads the key of whatever is playing, loudness metering, an
+      oscilloscope, and tonal-balance targets to compare against — one
+      lightweight window instead of five plugins. Spectrl listens to your
       default output device through a Core Audio process tap, the same device
       your DAW is playing through, so there is nothing to insert on the master
       and nothing to bypass before you bounce.
@@ -93,6 +96,25 @@
       </div>
 
       <div>
+        <div class="panel" style="margin-bottom:20px">
+          <h2 class="panel-head">Why standalone</h2>
+          <div class="panel-body">
+            <div class="prose">
+              <p>
+                Spectrl runs as its own app, not a plugin — the way a rack
+                analyser sits beside your outboard gear rather than inside it.
+                It reads your Mac's system audio directly through a Core Audio
+                tap, so it works with anything making sound, not just your
+                DAW. That separation cuts both ways: a DAW crash leaves
+                Spectrl running and whatever it was capturing intact, and a
+                Spectrl hiccup never touches your session. Two independent
+                programs, each doing one job, instead of one process where
+                either can take the other down.
+              </p>
+            </div>
+          </div>
+        </div>
+
         <div class="panel" style="margin-bottom:20px">
           <h2 class="panel-head">Requirements</h2>
           <div class="panel-body">
