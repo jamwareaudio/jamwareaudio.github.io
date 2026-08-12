@@ -9,6 +9,35 @@ Developer ID certificate that does not exist yet.
 
 ---
 
+## 2026-08-12 — Spectrl pitch rewrite, "Why standalone" on all four listings
+
+**Spectrl's Gumroad + site intro rewritten** away from "standalone device" and
+onto the actual pitch: five tools reading one signal (spectrum with note
+mapping, key detection, loudness metering, oscilloscope, tonal-balance
+targets) instead of five plugins. Site copy at `site/apps/spectrl.html`'s
+`.lede`; Gumroad description matched verbatim.
+
+**Added a "Why standalone" panel to all four app descriptions** — Spectrl,
+Chordinator, MutationStation, MidiMirror — on both Gumroad and the site, sitting
+directly above "Requirements" in each. Same two points everywhere, phrased per
+app: a DAW/Live crash doesn't lose the app's work and vice versa, and the app
+talks to the DAW the way outboard/MIDI hardware would (virtual MIDI port for
+Chordinator/MutationStation, Remote Script for MidiMirror, Core Audio tap for
+Spectrl, framed as "cuts both ways" rather than crash-recovery since it has no
+DAW connection to lose). TouchXY excluded — no Gumroad listing, not on the site.
+
+Site changes committed in `88fa771`. Gumroad listings edited directly through
+the product editor (rich-text, not source-controlled) and saved individually:
+Spectrl, Chordinator (`products/ztjqq`), MutationStation (`products/gligmk`),
+MidiMirror (`products/ohhpmz`). Verified the "Why standalone" text on all four
+Gumroad listings is verbatim identical to the corresponding site panel, per the
+user's "we want it consistent" instruction.
+
+Nothing left half-done here. Next open item for this lane is still the Apple
+signing blocker in §1 above.
+
+---
+
 ## 1. The one blocker
 
 **No code-signing certificate exists.** `security find-identity -v -p codesigning`
