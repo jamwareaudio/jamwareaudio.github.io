@@ -9,6 +9,35 @@ Developer ID certificate that does not exist yet.
 
 ---
 
+## 2026-08-12 — MidiMirror mapping screenshot added, site text synced to revised Gumroad copy
+
+The user hand-edited the Gumroad MidiMirror listing further and asked for a
+screenshot of the mapping screen plus a site/Gumroad text sync in that
+direction (Gumroad → site this time, reverse of the Spectrl entry below).
+
+Captured a screenshot of the "Knob · strip 1" mapping dialog (Learn from Live /
+Device Parameter / The Device Itself sections) from the running app and saved
+it as `site/assets/shots/midimirror-mapping.png`. Added it to both the site
+(`apps/midimirror.html`, new `<section class="section wrap">` right after the
+existing `midimirror.png` screenshot) and to the Gumroad listing's description
+editor, inserted after the "Double-click any control…" paragraph.
+
+Site copy then rewritten to match the user's revised Gumroad text verbatim:
+tagline, both lede paragraphs, trims to "A controller you design yourself"
+and "The drop", "What it does" renamed to "What else is in it" with its bullet
+list shortened (three bullets dropped, others trimmed), and the Requirements
+panel's opening paragraph shortened. Left alone on purpose: the site-only
+"Setting it up" panel (Gumroad has no equivalent section) and the `<meta
+name="description">` SEO tag.
+
+Site: `cc48b52`. Gumroad (`products/ohhpmz`) edited directly in the rich-text
+editor — image inserted via the hidden file input (`mcp__claude-in-chrome__
+file_upload`, ref `ref_66`), not the toolbar button, which opens a native file
+picker the browser tool cannot see or drive — then saved, confirmed by the
+"Changes saved!" toast.
+
+---
+
 ## 2026-08-12 — Spectrl key-detection and system-audio-capture copy fixed
 
 Two of Spectrl's feature bullets were imprecise to the point of being wrong
