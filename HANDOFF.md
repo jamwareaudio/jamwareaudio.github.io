@@ -9,6 +9,135 @@ Developer ID certificate that does not exist yet.
 
 ---
 
+## 2026-08-13 — Taglines rewritten, spec strip cut, art pushed live to Gumroad
+
+**The covers are now on Gumroad.** Four listings — MidiMirror (`ohhpmz`),
+Spectrl (`zpedfw`), Chordinator (`ztjqq`), MutationStation (`gligmk`) — each got
+its new 1280×720 cover and 600×600 square thumbnail from
+`site/gumroad/out/`, old art deleted, saved without publishing. All four read
+`Unpublished` on the Products page as of this session's end. MutationStation was
+the one that had been `Published`; the user asked for it to be unpublished and
+it now is.
+
+**The taglines were rewritten twice.** The first pass was rejected outright, and
+the reason is the part worth keeping: the copy was written in a
+"without-doing-it-yourself" register — as if the app does the work for you. The
+user's words were *"They are tools, not ai doing the work for you."* The second
+pass was written only from features that actually ship, read off each app's own
+`site/apps/*.html`, rather than invented from the app's name. Do not write these
+from imagination; the failure mode is not clumsy prose, it is claiming the wrong
+thing about the product. Final copy lives in the `APPS` table in
+`site/gumroad/cover.html`; MidiMirror's and Chordinator's were supplied by the
+user directly.
+
+**The spec strip is gone**, and the WHY is recorded at length as a comment in
+`cover.html` (the `.specs` CSS block was replaced by it) — briefly: a finite row
+of badges reads as *the* feature list, which undersold apps that have far more
+in them. Note this reverses the user's own earlier "add all features" request;
+they reversed it themselves once they saw it rendered. The `macOS · Apple
+Silicon` badge went with the strip.
+
+**MidiMirror's Gumroad description was also corrected** — it still said only the
+Akai MIDI Mix had a ready-made script. Both stale sentences (the body paragraph
+and the Requirements paragraph) now match the three-controller wording in
+`site/apps/midimirror.html:110-115` and `:231-236`.
+
+Nothing to commit: `site/gumroad/` is gitignored in its entirety, and
+`cover.html`'s edits landed there.
+
+**Open, deliberately not acted on:**
+
+- **MidiMirror's Gumroad description embeds the old "Pitch Tool" screenshot.**
+  The corrected capture has existed since 2026-08-12 at
+  `site/assets/shots/midimirror.png`. Swapping it was outside the scope the user
+  approved, so it was left alone — pick this up next session.
+- **`GUMROAD-KIT.md`'s "Summary" lines and the website taglines in
+  `site/apps/*.html` still differ from the new cover taglines.** Never raised
+  with the user, so it is unknown whether that divergence is intentional. Ask
+  before sweeping them.
+- **TouchXY stays on hold** — the user's standing instruction is to release it
+  later. No listing, no art upload.
+
+**Reusable: how the Gumroad cover upload actually works.** It is not obvious and
+cost most of a session to work out. Scroll the Cover section into view *first* —
+clicking "Add cover" without doing so scrolls the page to the top and silently
+closes the popover. Then "Add cover" → "Upload images or videos" → "Computer
+files", clicking each by ref through the `computer` tool, never via JS
+`.click()`, which loses the popover the same way. The real `<input type=file>`
+is nested inside the "Computer files" `<label>`, so a `find` query has to be
+specific enough to return the input and not its wrapper; naming the accept types
+in the query works. Never click a file input — that opens a native picker
+nothing can see. To delete the old cover, click its thumbnail to select it and a
+small red ✕ appears just above and right of it. The square thumbnail is a
+separate "Thumbnail" section with its own Remove button and its own file input.
+
+---
+
+## 2026-08-12 (later) — Cover/thumbnail copy rewritten for full app scope, MK3 mention added
+
+The user pushed back that cover/thumbnail short descriptions stated only one
+generic aspect of each app (their MidiMirror example: the cover text made it
+sound like just a display, when it is much more). Fixed after a full survey of
+all 5 apps' real current feature sets (five parallel background survey agents,
+grounded in `docs/MANUAL.md`, `HANDOFF.md` and source, not the existing site
+text).
+
+**MutationStation had the biggest gap** — the existing blurb covered only
+mutation/rhythm/pitch and omitted three real feature areas entirely: live
+recording (Record / Overdub / Recapture, Chord In / Root In), bidirectional
+Live import (↓ From Live, ↓ Rhythm Import, Send to Live / Replace clip), and
+up to 8 modulation lanes as 14-bit device automation. Added to `index.html`'s
+card, `apps/mutationstation.html` (two new feature bullets, expanded "Particular
+integration with Live" panel), `gumroad/cover.html`'s tagline/specs, and
+`gumroad/GUMROAD-KIT.md`'s Description block. Also corrected the pitch-strategy
+count "30+" → the exact **33** (counted `<li>`s in `docs/MANUAL.md`) everywhere
+it appears.
+
+Chordinator and Spectrl blurbs were smaller gaps (harmony-engine/suggestions,
+key-detection) and were fixed the same way earlier in this session.
+
+**New from the user mid-session**: MidiMirror will ship with a ready-made
+Novation Launch Control MK3 script (not yet in `MidiMirror/` source — this is
+forward-looking, supplied directly by the user, confirmed via grep that it
+isn't there yet). Added the MK3 mention to `apps/midimirror.html` (the "ready-
+made script" paragraph and the Requirements panel) and to `GUMROAD-KIT.md`
+(Description + `launch control` tag). While there, also fixed an independently
+stale claim in `GUMROAD-KIT.md`'s MidiMirror section and its Companion Suite
+bundle section — both said "requires... an Akai MIDIMIX" as a hard
+requirement, which was already untrue on the website itself (any controller
+works via Learn) before the MK3 addition made it doubly wrong.
+
+Regenerated all Gumroad cover/thumbnail PNGs via `gumroad/make-gumroad-art.sh`
+(local-only, headless Chrome, safe to re-run) so `gumroad/out/` matches the new
+`cover.html` taglines/specs.
+
+**Not done**: nothing pushed to the live Gumroad listing (browser-permission-
+gated — `GUMROAD-KIT.md` is the local source of record, not the live page).
+TouchXY still has no listing anywhere on the site or Gumroad — flagged to the
+user in a prior segment, not acted on without an explicit instruction.
+
+**Update, same day**: the user set up Live with Wavetable loaded and MidiMirror
+connected in Device mode and said so ("Live is running and wavetable is in
+focus as device"). Captured the new screenshot — no dedicated native-GUI-
+automation tool exists in this session, so it was assembled from raw
+`osascript` (window bounds via System Events) + `screencapture -R<region> -x`
+(capture just that window) + `cliclick` (found at `/opt/homebrew/bin/cliclick`,
+used to move the pointer out of frame and clear a lingering tooltip before a
+clean recapture). Result: `site/assets/shots/midimirror.png` replaced —
+Device/Track mode, Wavetable in focus ("8-WAVETABLE Wavetable" panel, orange
+device-select highlight), no stray UI. Alt text in `apps/midimirror.html`
+updated to match. **Handed off to `midimirror`** via a `workspace/BOARD.md`
+Queue entry: the same screenshot is meant to replace
+`MidiMirror/docs/img/01-device-mode.png` (referenced at `docs/MANUAL.md:53`),
+per the user's instruction that this become the screenshot used everywhere,
+manual included — `web` cannot write into `MidiMirror/docs/` directly, so the
+Queue entry is the handoff mechanism. Not yet done: pushing this screenshot to
+the live Gumroad listing (same permission gate as the copy); whether the
+second MidiMirror screenshot on the site, `midimirror-mapping.png`, also needs
+a retake was not investigated this round.
+
+---
+
 ## 2026-08-12 — MidiMirror mapping screenshot added, site text synced to revised Gumroad copy
 
 The user hand-edited the Gumroad MidiMirror listing further and asked for a
