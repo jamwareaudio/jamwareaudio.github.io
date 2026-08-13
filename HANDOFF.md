@@ -9,6 +9,41 @@ Developer ID certificate that does not exist yet.
 
 ---
 
+## 2026-08-13 — Gumroad description screenshot fix: new "shot" generator, cutout-on-faceplate
+
+The user flagged that the screenshot in the Gumroad description reads much
+worse than the same window on the website — a flat, slightly-off rectangle
+next to the site's floating, shadowed cutout. Root cause: the description was
+pasting `assets/shots/<app>.png` directly, and that file is deliberately
+transparent-cornered (`make-cutouts.py`) so it sits on the site's own cream
+faceplate. Gumroad's description body is plain white, so the transparent
+corners disappear into it and the site's shadow has nothing to read against —
+the cutout treatment needs its stage, and Gumroad's page isn't one.
+
+Fix is a new `gumroad/make-gumroad-shots.py`, wired into
+`./make-gumroad-art.sh`. It re-composites each app's existing cutout onto a
+baked-in copy of the site's cream gradient (same three HSL stops as `body` in
+`styles.css` and `cover.html`'s `.cover`), with the site's own two-layer
+`.screen img` drop shadow and a small "JAMWARE AUDIO" + accent-lamp rail
+across the top for brand consistency with the covers. Output:
+`gumroad/out/<app>-shot.png`, one per app, 1600px wide. Plain PIL, not another
+headless-Chrome pass — no text layout worth a browser for, and the gradient/
+shadow math already existed in `make-hero.py`. (One bug caught before
+shipping: the HSL parser had saturation and lightness swapped, which rendered
+the "cream" background near-black — fixed, verified by eye on all four
+outputs.)
+
+`GUMROAD-KIT.md` updated: documents `<app>-shot.png`, tells the reader never
+to paste the bare `assets/shots/` cutout into a description again, and adds a
+checklist line. **Not yet pushed to the live Gumroad listings** — no Chrome
+extension was connected this session (`list_connected_browsers` → empty), so
+swapping the four descriptions' screenshot for `<app>-shot.png` is still a
+manual (or next-session browser-automation) step. `gumroad/` is gitignored
+entirely, so none of this is a git commit — the generated PNGs and the doc
+edit just live on disk.
+
+---
+
 ## 2026-08-13 — Session wrap: bug fixes + a round of copy edits, site and Gumroad both live
 
 Everything below is detailed in its own entry further down; this is the
