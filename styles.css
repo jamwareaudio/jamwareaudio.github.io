@@ -604,14 +604,53 @@ a.btn.gumroad-button:active {
 
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
 
+/* ---- The closing panel group ----------------------------------------------
+
+   Every app page ends with the same four-ish reference panels — Why standalone,
+   Requirements, Setting it up, and whichever integration note the app has. Until
+   2026-08-13 these were a .two-col with one panel on the left and the other
+   three stacked inside a wrapper <div> on the right, which is exactly what it
+   looked like: a tall ladder of boxes running off the bottom of the page while
+   the left half sat empty below the first one.
+
+   Multi-column rather than grid, and that is the whole reason this is not
+   `grid-template-columns: repeat(3, 1fr)`. The panels have wildly different
+   heights (Requirements is four paragraphs, Why standalone is one), so a grid
+   gives you a short row, a tall row, and a final row holding one panel beside
+   two-thirds of nothing — the same dead space in a new arrangement. Columns
+   balance total height across the tracks instead, so the group ends flat.
+
+   `columns: 3 320px` caps it at three tracks but drops to two, then one, as the
+   viewport narrows, which is why there is no separate mobile rule for it. */
+.panel-grid { columns: 3 320px; column-gap: 24px; margin-top: 24px; }
+.panel-grid > .panel { break-inside: avoid; width: 100%; margin: 0 0 24px; }
+
+/* The long "What it does" / "What else is in it" list that opens the closing
+   section is deliberately NOT one of the .panel-grid children. It runs to eight
+   or nine items, which is taller than a third of the group on its own, so the
+   balancer had nowhere to put it but a column of its own — leaving the third
+   track empty and reproducing the dead space this was meant to remove. It gets
+   the full width above the grid instead, with the list flowed into its own
+   columns. Items do not break, because a bullet split across a column boundary
+   loses its dot. */
+.features.cols { display: block; columns: 3 290px; column-gap: 34px; }
+.features.cols li { break-inside: avoid; max-width: none; margin: 0 0 14px; }
+
 .prose { max-width: var(--measure); }
 .prose p { margin: 0 0 14px; }
 
 /* A full-width panel telling one story (Controlled randomness, The drop).
-   The line length stays at --measure because that is what is readable; what
-   changes is that the column is centred in the panel, so the leftover width
-   reads as margin rather than as a half-empty box. */
-.prose.story { margin-left: auto; margin-right: auto; }
+
+   These used to be a single --measure column centred in the panel, on the
+   argument that the leftover width then read as margin. It did not; it read as
+   a stripe of text with a lot of faceplate either side, and it got worse when
+   .wrap went to 1240px. Left-aligned multi-column instead: the text starts at
+   the panel's own left edge like every other block on the page, the line length
+   still lands near --measure because the track width is what sets it, and the
+   full width of the panel is actually used. Deliberately no `break-inside` on
+   the paragraphs — the short stories (one or two paragraphs) need to split
+   mid-paragraph to fill both tracks, which is the case that was worst before. */
+.prose.story { max-width: none; margin-left: 0; margin-right: 0; columns: 2 30em; column-gap: 46px; }
 .prose h3 { font-size: 15px; margin: 22px 0 8px; color: var(--text-heading); }
 .prose code {
   font: 12.5px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
