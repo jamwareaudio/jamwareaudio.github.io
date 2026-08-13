@@ -9,6 +9,29 @@ Developer ID certificate that does not exist yet.
 
 ---
 
+## 2026-08-13 — About panel rewritten, version line dropped, Spectrl tagline tweaked
+
+More copy changes from the user, same day as the two batches below:
+
+- **Dropped "All apps are version 1.0.0"** from the Licence &middot; updates
+  &middot; refunds panel (`index.html`, `#licence`).
+- **Replaced the About panel.** "Why they all look the same" (the shared
+  faceplate/one-accent-colour design-language pitch) is gone — the user called
+  it uninteresting. In its place, "Built to be used": built for the author's
+  own sessions first and sold second, following his own workflow and opinions,
+  which is framed honestly as both a possible mismatch for a given buyer and
+  the actual point — these are tools built to be used, not commodities built
+  to be sold.
+- **Spectrl tagline**: "Spectrum, key, note frequencies, ..." → "Spectrum, key
+  **detection**, note frequencies, ...". Fixed in three places: the homepage
+  product card (`index.html`), Spectrl's own page (`apps/spectrl.html`), and
+  the untracked Gumroad kit (`gumroad/cover.html`, `gumroad/GUMROAD-KIT.md`) —
+  the user asked for both site and Gumroad.
+- **Published.** `./publish.sh` run.
+- Commit: `cd5035c`.
+
+---
+
 ## 2026-08-13 — Homepage copy: "Ableton Live Companion apps", eyebrow line dropped
 
 Two more copy changes from the user, on top of the same day's Arranger/hero-crop
