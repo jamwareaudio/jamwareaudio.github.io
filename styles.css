@@ -111,6 +111,86 @@ a:hover { color: var(--accent); }
   text-shadow: 0 1px 0 rgba(255,255,255,0.5);
 }
 .hero p { font-size: 17px; color: var(--text-secondary); margin: 0; max-width: var(--measure); }
+
+/* ---- The engraved nameplate ----------------------------------------------
+
+   The h1 is the brand name cut into the faceplate, not printed on it. Three
+   layers do that, and all three are needed — drop any one and it flattens back
+   into grey text:
+
+     1. The glyph FILL is a top-dark to bottom-light gradient, clipped to the
+        text. That is the inner wall of a cut: the far wall is in shadow, the
+        near wall catches the room. A flat dark fill reads as ink.
+     2. A 1px WHITE drop-shadow BELOW. That is the lower lip of the groove,
+        the only genuinely bright edge on a real engraving, and it is what
+        sells the depth.
+     3. A 1px DARK drop-shadow ABOVE, the upper lip's own shadow.
+
+   filter: drop-shadow() rather than text-shadow, because text-shadow paints
+   behind the glyph and background-clip:text has already made the glyph a
+   window — the shadow would show straight through it and muddy the fill.
+   drop-shadow works on the composited alpha instead, so it hugs the outline.
+
+   -webkit-text-fill-color: transparent is not optional and not legacy cruft:
+   without it the plain `color` paints over the clipped background in every
+   WebKit and Blink browser, which is all of them here. Keep `color` set as
+   well, as the fallback for anything that ignores background-clip.
+
+   .engraved carries the cut; whoever uses it sets its own size and casing. The
+   depth is tuned for the homepage nameplate at ~60px, and it survives being
+   reused at the product pages' 34px because every offset is 1-3px rather than
+   a proportion of the type size — an engraving does not get deeper because the
+   letters got bigger, which is exactly why fixed pixels are right here.       */
+.engraved {
+  color: color-mix(in srgb, var(--ui-bg) 34%, black);
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--ui-bg) 8%, black) 0%,
+    color-mix(in srgb, var(--ui-bg) 20%, black) 45%,
+    color-mix(in srgb, var(--ui-bg) 58%, black) 100%);
+  /* Tile the gradient once per LINE, not once per element. Without this the
+     single gradient stretches over the whole h1 box, so on a two-line headline
+     the first line gets the dark end and the second the light end — two
+     different-coloured lines, which is exactly what it looked like, and no
+     glyph gets the top-to-bottom cut at all. --engrave-line is the line box in
+     ems; keep it equal to whatever line-height the user of the class sets. */
+  --engrave-line: 1.06em;
+  background-size: 100% var(--engrave-line);
+  background-repeat: repeat-y;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+  filter:
+    drop-shadow(0 2px 0 rgba(255,255,255,0.95))
+    drop-shadow(0 -1px 0 rgba(0,0,0,0.45))
+    drop-shadow(0 3px 5px rgba(0,0,0,0.10));
+}
+
+/* Uppercase with open tracking because the homepage h1 is a wordmark now, and
+   because caps have no descenders to break the single milled baseline. */
+.hero h1.engraved {
+  font-size: clamp(30px, 6vw, 60px);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  max-width: 15ch;
+  margin: 0 0 18px;
+}
+
+/* The claim that used to be the h1. Sized between the nameplate and body copy
+   so the eye lands name, claim, paragraph in that order. */
+.hero .hero-claim {
+  font-size: clamp(18px, 2.4vw, 23px);
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--text-heading);
+  letter-spacing: -0.01em;
+  margin: 0 0 18px;
+  max-width: 24ch;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+}
+
 .hero .logo-lockup { max-width: 300px; margin: 0 0 28px; }
 .hero .logo-lockup img { width: 100%; display: block; }
 
@@ -418,7 +498,10 @@ a.btn.gumroad-button:active {
 .product-hero { padding: 48px 0 28px; }
 .product-hero .row { display: flex; align-items: center; gap: 22px; margin-bottom: 22px; }
 .product-hero .icon { width: 88px; height: 88px; border-radius: 17px; flex: none; }
-.product-hero h1 { margin: 0 0 4px; font-size: 34px; letter-spacing: -0.015em; color: var(--text-heading); }
+/* line-height and --engrave-line must stay equal: the cut gradient tiles once
+   per --engrave-line, so if they drift apart the sweep stops lining up with the
+   glyphs and the name goes flat. See the .engraved block. */
+.product-hero h1 { margin: 0 0 4px; font-size: 34px; line-height: 1.15; --engrave-line: 1.15em; letter-spacing: -0.015em; color: var(--text-heading); }
 .product-hero .tagline { margin: 0; color: var(--text-secondary); font-size: 16px; }
 .product-hero .lede { font-size: 17px; max-width: var(--measure); margin: 0 0 24px; }
 
