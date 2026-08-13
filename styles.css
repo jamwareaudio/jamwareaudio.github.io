@@ -235,7 +235,7 @@ a:hover { color: var(--accent); }
 /* The homepage hero shot. Capped in height so a tall dialog screenshot cannot
    push the product list below the fold; the image is anchored to its top so
    the part that sells it stays visible. */
-.hero-shot { padding-bottom: 10px; }
+.hero-shot { padding-bottom: 44px; } /* room for the unit's ground shadow */
 .hero-shot .screen img { max-height: 560px; width: auto; margin: 0 auto; }
 .caption { display: block; margin: 10px 2px 0; }
 
@@ -449,6 +449,183 @@ a.btn.gumroad-button:active {
   color: var(--screen-text);
 }
 .screen img { width: 100%; display: block; border-radius: 2px; }
+
+/* ================================================ THE UNIT (hardware chassis)
+
+   .unit wraps a screenshot in a physical box: a milled faceplate with a real
+   edge, an engraved nameplate, four countersunk screws, an accent rail, and a
+   shadow on the ground under it. It exists because the whole site argues these
+   are instruments rather than utilities, and a flat PNG on a page argues the
+   opposite no matter what the copy says. This is the one place we can spend
+   freely: it is a website, there is no audio thread to starve.
+
+   How the thickness is made, because it is not obvious and it is the part that
+   actually sells it:
+
+     THE EDGE is a ladder of hard 1px box-shadows stepping down and darkening
+     (0 1px, 0 2px, 0 3px ... each a solid colour, no blur). Stacked, they read
+     as one continuous extruded side wall catching less light the further down
+     it goes. A single large shadow cannot do this — it reads as a card lifted
+     off a page, which is a different object entirely. The ladder is what makes
+     it a slab.
+
+     THE CHAMFER is two inset shadows: white along the top inner lip, black
+     along the bottom inner lip. That is a bevelled machined edge, and it is
+     what stops the face reading as a printed rectangle.
+
+     THE GROUND SHADOW is ::after, a blurred ellipse sitting BEHIND the body
+     (z-index -1) and slightly narrower than it. Narrower matters: a shadow the
+     same width as the object reads as a glow. Contact shadows are always
+     tucked under.
+
+     THE SCREWS are four radial-gradients painted as background-image on the
+     face, not elements, so they cost nothing in markup and cannot be selected
+     or read out by a screen reader. Each is a dark countersink well with a
+     bright lower lip, the same light direction as everything else on this page:
+     source above, slightly front. Get the direction wrong on any one of these
+     five things and the whole illusion collapses at once.
+
+   --accent is the product colour, inherited from whatever sets it on the card.
+   The rail down the left is the only place it appears on the chassis; a fully
+   coloured box would look like a toy rather than an instrument.                */
+
+.unit {
+  position: relative;
+  margin: 0 0 10px;
+}
+/* The ground shadow hangs 22px below the body, so a section holding a unit
+   needs that much clearance or the next section clips it off. */
+.unit-section { padding-bottom: 70px; }
+
+.unit-body {
+  position: relative;
+  border-radius: 10px;
+  /* The horizontal padding has to clear the corner screws, which sit 20px in
+     with a 5px radius. At the first attempt it did not, and the nameplate ran
+     straight through the top two. */
+  padding: 0 20px 20px;
+  background:
+    /* Four countersunk screws, one per corner. Each is a single radial with
+       four rings read from the middle out: the dark slot, the lit head, the
+       countersink wall, then the bright lower lip of the well. The first draft
+       used two rings and came out as a hollow circle - an outline of a hole
+       rather than a screw sitting in one. The head has to be lighter than the
+       face and the wall darker than it, or there is nothing to read as depth. */
+    radial-gradient(circle 5px at 20px 20px,
+      hsl(36,6%,52%) 0 20%, hsl(42,10%,84%) 24% 56%,
+      hsl(36,6%,44%) 60% 76%, rgba(255,255,255,0.95) 79% 92%, transparent 94%),
+    radial-gradient(circle 5px at calc(100% - 20px) 20px,
+      hsl(36,6%,52%) 0 20%, hsl(42,10%,84%) 24% 56%,
+      hsl(36,6%,44%) 60% 76%, rgba(255,255,255,0.95) 79% 92%, transparent 94%),
+    radial-gradient(circle 5px at 20px calc(100% - 20px),
+      hsl(36,6%,52%) 0 20%, hsl(42,10%,84%) 24% 56%,
+      hsl(36,6%,44%) 60% 76%, rgba(255,255,255,0.95) 79% 92%, transparent 94%),
+    radial-gradient(circle 5px at calc(100% - 20px) calc(100% - 20px),
+      hsl(36,6%,52%) 0 20%, hsl(42,10%,84%) 24% 56%,
+      hsl(36,6%,44%) 60% 76%, rgba(255,255,255,0.95) 79% 92%, transparent 94%),
+    /* the brushed grain, finer than the page's so the unit reads as a
+       different piece of metal sitting on the panel rather than part of it */
+    repeating-linear-gradient(0deg,
+      rgba(255,255,255,0.05) 0 1px, rgba(0,0,0,0.02) 1px 2px),
+    linear-gradient(180deg, var(--face-hi) 0%, var(--ui-bg) 46%, var(--face-lo) 100%);
+  box-shadow:
+    /* chamfered inner lip */
+    inset 0 1px 0 rgba(255,255,255,0.95),
+    inset 0 -1px 0 rgba(0,0,0,0.22),
+    inset 1px 0 0 rgba(255,255,255,0.5),
+    inset -1px 0 0 rgba(0,0,0,0.12),
+    /* the extruded side wall: hard steps, no blur, darkening downward */
+    0 1px 0 hsl(38, 7%, 70%),
+    0 2px 0 hsl(38, 7%, 66%),
+    0 3px 0 hsl(38, 7%, 61%),
+    0 4px 0 hsl(38, 7%, 56%),
+    0 5px 0 hsl(38, 7%, 51%),
+    0 6px 0 hsl(38, 7%, 46%),
+    0 7px 0 hsl(38, 7%, 42%),
+    /* the cast shadow, thrown down and slightly forward */
+    0 14px 22px rgba(0,0,0,0.20),
+    0 30px 60px rgba(0,0,0,0.16);
+}
+
+/* The contact shadow on the ground. Narrower than the body on purpose: a
+   full-width one reads as a glow rather than as weight resting on something. */
+.unit::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 6%; right: 6%;
+  bottom: -22px;
+  height: 34px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center,
+    rgba(0,0,0,0.34) 0%, rgba(0,0,0,0.16) 45%, transparent 72%);
+  filter: blur(9px);
+  pointer-events: none;
+}
+
+/* The accent rail: a thin anodised strip down the left edge of the face. */
+.unit-body::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 10px; bottom: 10px;
+  width: 3px;
+  border-radius: 10px 0 0 10px;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--accent) 82%, white) 0%,
+    var(--accent) 40%,
+    color-mix(in srgb, var(--accent) 72%, black) 100%);
+  box-shadow: 1px 0 0 rgba(0,0,0,0.18), 0 0 8px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+/* The nameplate row above the screen: engraved name at the left, a pilot lamp
+   and the model legend at the right, the way a front panel is actually laid
+   out. Uses .engraved (see the block above) so the name is cut, not printed. */
+.unit-plate {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px 13px 16px;
+}
+.unit-plate .unit-name {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.1;
+  --engrave-line: 1.1em;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+.unit-plate .unit-model {
+  display: flex; align-items: center; gap: 8px;
+  flex: none;
+}
+/* The pilot lamp. Lit, because the unit is on. */
+.unit-plate .unit-model::before {
+  content: "";
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent);
+  box-shadow:
+    inset 0 0 0 1px rgba(0,0,0,0.3),
+    0 0 7px color-mix(in srgb, var(--accent) 75%, transparent);
+  flex: none;
+}
+
+/* The optional tilt, for decorative shots only. Never put it on a screenshot
+   whose detail matters: rotateY costs legibility at the far edge, which is
+   fine for a hero and wrong for a feature crop. */
+.unit--tilt { perspective: 1800px; }
+.unit--tilt .unit-body {
+  transform: rotateX(2.5deg) rotateY(-3.5deg);
+  transform-origin: 50% 100%;
+}
+
+@media (max-width: 720px) {
+  /* The tilt is a luxury and it eats horizontal room. Drop it on phones. */
+  .unit--tilt .unit-body { transform: none; }
+  .unit-body { padding: 0 14px 14px; }
+  .unit-plate { padding: 12px 14px 11px 14px; }
+}
 
 /* ---- Zoomed feature crops -------------------------------------------------
 

@@ -59,10 +59,21 @@
     </div>
   </section>
 
-  <section class="section wrap">
-    <div class="screen">
-      <img src="../assets/shots/midimirror.png" alt="The MidiMirror window in Device mode: an Akai MIDI Mix drawn on screen with Wavetable in focus, every knob labelled with the Wavetable parameter it controls" />
-    </div>
+  <!-- The window shot sits in a .unit: the milled chassis defined in
+       styles.css. No tilt here, deliberately - this is the shot people read
+       the panel layout off, and rotateY costs legibility at the far edge. -->
+  <section class="section wrap unit-section">
+    <figure class="unit" style="--accent:#E05A2C">
+      <div class="unit-body">
+        <div class="unit-plate">
+          <p class="unit-name engraved">MidiMirror</p>
+          <span class="unit-model legend">JamWare Audio &middot; Remote Script + app</span>
+        </div>
+        <div class="screen">
+          <img src="../assets/shots/midimirror.png" alt="The MidiMirror window in Device mode: an Akai MIDI Mix drawn on screen with Wavetable in focus, every knob labelled with the Wavetable parameter it controls" />
+        </div>
+      </div>
+    </figure>
     <figure class="zoom">
       <div class="screen">
         <img src="../assets/shots/midimirror-knobs.png" alt="A close-up of two knob rows in MidiMirror, each knob labelled with the Wavetable parameter it holds and its current value: filter frequency 20.5 kHz, resonance 0.0 percent, oscillator detune 0 cents, oscillator 2 transpose 0 semitones" />

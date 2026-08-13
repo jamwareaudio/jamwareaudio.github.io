@@ -80,12 +80,25 @@
        wrong first impression of a range of four, and the depth order now does
        the ranking: whatever is in front is what we want looked at first.
        Rebuild it with ./make-hero.py, which is where the ordering lives. -->
+  <!-- The hero shot sits in a .unit: a milled chassis with a real edge, an
+       engraved nameplate and a shadow on the ground. See the .unit block in
+       styles.css for how the thickness is built and why each layer is there.
+       This is the one shot that carries the tilt modifier, because it is
+       decorative; feature crops must stay flat-on so their detail survives. -->
   <section class="wrap hero-shot">
-    <div class="screen">
-      <img src="assets/shots/hero-stack.png"
-           alt="The four apps open at once, cascaded: MutationStation in front, then Chordinator, Spectrl and MidiMirror behind it" />
-    </div>
-    <p class="legend caption">MutationStation, Chordinator, Spectrl, MidiMirror</p>
+    <figure class="unit unit--tilt" style="--accent:#D13A2C">
+      <div class="unit-body">
+        <div class="unit-plate">
+          <p class="unit-name engraved">JamWare Audio</p>
+          <span class="unit-model legend">The Companion Suite &middot; macOS</span>
+        </div>
+        <div class="screen">
+          <img src="assets/shots/hero-stack.png"
+               alt="The four apps open at once, cascaded: MutationStation in front, then Chordinator, Spectrl and MidiMirror behind it" />
+        </div>
+      </div>
+      <figcaption class="legend caption">MutationStation, Chordinator, Spectrl, MidiMirror</figcaption>
+    </figure>
   </section>
 
   <section class="section wrap" id="products">
