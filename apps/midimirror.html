@@ -55,7 +55,7 @@
       having to guess or memorise what every knob does in your Live project.
     </p>
     <div class="btn-row">
-      <a class="btn" href="https://jamwareaudio.gumroad.com/l/midimirror">Get it on Gumroad</a>
+      <a class="btn gumroad-button" href="https://jamwareaudio.gumroad.com/l/midimirror">Get it on Gumroad</a>
     </div>
   </section>
 
@@ -365,6 +365,13 @@
     <span class="spacer legend">Ableton Live only</span>
   </div>
 </footer>
+
+<!-- Gumroad overlay checkout — the buy button above carries .gumroad-button, and
+     this script turns it into a modal over this page instead of a navigation.
+     The full reasoning, and the launch-day check it still needs, are in the
+     matching comment at the foot of ../index.html. Falls back to a plain link
+     if the script does not load. -->
+<script src="https://gumroad.com/js/gumroad.js"></script>
 
 </body>
 </html>

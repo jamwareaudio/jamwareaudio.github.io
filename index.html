@@ -87,7 +87,7 @@
               <li>8-lane Live modulation</li>
             </ul>
             <div class="btn-row">
-              <a class="btn" href="https://jamwareaudio.gumroad.com/l/mutationstation">Get it on Gumroad</a>
+              <a class="btn gumroad-button" href="https://jamwareaudio.gumroad.com/l/mutationstation">Get it on Gumroad</a>
               <a class="btn btn-ghost" href="apps/mutationstation.html">Details</a>
             </div>
           </div>
@@ -116,7 +116,7 @@
               <li>Live clip envelopes</li>
             </ul>
             <div class="btn-row">
-              <a class="btn" href="https://jamwareaudio.gumroad.com/l/chordinator">Get it on Gumroad</a>
+              <a class="btn gumroad-button" href="https://jamwareaudio.gumroad.com/l/chordinator">Get it on Gumroad</a>
               <a class="btn btn-ghost" href="apps/chordinator.html">Details</a>
             </div>
           </div>
@@ -145,7 +145,7 @@
               <li>No plugin required</li>
             </ul>
             <div class="btn-row">
-              <a class="btn" href="https://jamwareaudio.gumroad.com/l/spectrl">Get it on Gumroad</a>
+              <a class="btn gumroad-button" href="https://jamwareaudio.gumroad.com/l/spectrl">Get it on Gumroad</a>
               <a class="btn btn-ghost" href="apps/spectrl.html">Details</a>
             </div>
           </div>
@@ -172,7 +172,7 @@
               <li>macOS app</li>
             </ul>
             <div class="btn-row">
-              <a class="btn" href="https://jamwareaudio.gumroad.com/l/midimirror">Get it on Gumroad</a>
+              <a class="btn gumroad-button" href="https://jamwareaudio.gumroad.com/l/midimirror">Get it on Gumroad</a>
               <a class="btn btn-ghost" href="apps/midimirror.html">Details</a>
             </div>
           </div>
@@ -224,7 +224,7 @@
             drive the whole thing from a controller MidiMirror has labelled.
           </p>
           <div class="btn-row">
-            <a class="btn" href="https://jamwareaudio.gumroad.com/l/companion-suite">Get the Suite</a>
+            <a class="btn gumroad-button" href="https://jamwareaudio.gumroad.com/l/companion-suite">Get the Suite</a>
             <span class="price">Four apps · one purchase</span>
           </div>
         </div>
@@ -269,6 +269,40 @@
     <span class="spacer legend">Any DAW · particular integration with Ableton Live</span>
   </div>
 </footer>
+
+<!-- ==========================================================================
+     GUMROAD OVERLAY CHECKOUT
+     --------------------------------------------------------------------------
+     Every "Get it" button above carries class="btn gumroad-button". That second
+     class is what this script looks for: it intercepts the click and opens
+     Gumroad's checkout in a modal over this page, so the customer buys without
+     appearing to leave the site. The alternative Gumroad offers is an inline
+     embed that renders the whole product box into a div — rejected, because it
+     duplicates copy we have already written here and cannot follow this layout.
+
+     WHY THIS IS SAFE TO ADD BEFORE LAUNCH. The anchors are ordinary links with
+     real hrefs. If this script is blocked, fails to load, or Gumroad changes the
+     class it binds to, every button falls back to being a plain link to the
+     product page — which is exactly the behaviour the site had before. There is
+     no state where adding this leaves a button dead.
+
+     ⚠ THE MODAL ITSELF IS UNVERIFIED UNTIL THE PRODUCTS ARE PUBLISHED. While
+     the four listings are unpublished their /l/<slug> URLs 404 for anyone not
+     signed in as the seller, so the overlay cannot be opened from here — a modal
+     onto a 404 looks identical to one that is broken. On launch day, click one
+     button in a private window and confirm the modal opens.
+
+     The *appearance* is a separate question and it is already settled. This
+     script is a 539-byte loader; it appends a bundle and a stylesheet that
+     repaints .gumroad-button as a pink Gumroad button. That stylesheet is a
+     plain URL and needs no published product, so it was fetched and read, and
+     the guard in styles.css answers it rule by rule — including the part that
+     would otherwise have broken our button outright rather than merely
+     recoloured it. The reasoning is in that block; read it before touching it.
+
+     This is the only third-party script on the site.
+     ====================================================================== -->
+<script src="https://gumroad.com/js/gumroad.js"></script>
 
 </body>
 </html>

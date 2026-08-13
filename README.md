@@ -128,8 +128,44 @@ decisions, and notes about the support address. Keep it out.
    `main` / `/ (root)`**.
 3. It appears at `https://toastonjam-debug.github.io/jamwareaudio/` a minute or
    two later.
+4. ⚠ **Click one buy button in a private window** and check the Gumroad
+   overlay. See below — this is the one thing on the site that cannot be
+   verified before the products are published.
 
 Updating it afterwards is just `git push` — Pages redeploys on its own.
+
+### The buy buttons open a Gumroad overlay
+
+Every "Get it" button is `class="btn gumroad-button"` with `gumroad.js` loaded
+at the foot of the page, so checkout opens in a modal *over* the site instead of
+sending the customer to gumroad.com. The long WHY is in the comment at the foot
+of `index.html`, and the styling guard is in `styles.css` under GUMROAD OVERLAY
+GUARD.
+
+It is safe to ship untested — the anchors are real links, so a blocked or
+changed script leaves them behaving exactly as they did before.
+
+**The styling is already verified.** `gumroad.js` is a small loader that appends
+a stylesheet repainting `.gumroad-button` as a pink Gumroad button. That
+stylesheet is a plain URL requiring no published product, so it was fetched and
+read, and the guard answers it rule by rule. One thing in it is worth knowing
+about: Gumroad sets `--accent` **on the button element itself**, so a buy button
+can no longer read the page's accent from `var(--accent)` — the guard reads
+`--btn-accent` off `.btn-row` instead. Collapsing that back to `var(--accent)`
+does not make the button pink, it makes the gradient fail to parse and vanish.
+
+**Only the modal is untested**, because an unpublished product's `/l/<slug>` URL
+404s for anyone but the seller, and a modal onto a 404 is indistinguishable from
+a broken one. So on launch day, in a private window, check that clicking a buy
+button opens the modal rather than navigating away. If a style property ever
+does leak through after a Gumroad update, add it to the guard block — do not
+drop the overlay for it.
+
+**Gumroad Pages** — the site-builder on your Gumroad profile — is deliberately
+unused: it would be a second, weaker copy of this site to keep in sync. Setting
+up the *profile* page at `jamwareaudio.gumroad.com` is still worth doing, so
+that anyone who trims a URL or arrives from a receipt lands on the four products
+and a link back here.
 
 ### A custom domain
 

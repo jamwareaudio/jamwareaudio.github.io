@@ -47,7 +47,7 @@
       in Live as clip envelopes.
     </p>
     <div class="btn-row">
-      <a class="btn" href="https://jamwareaudio.gumroad.com/l/chordinator">Get it on Gumroad</a>
+      <a class="btn gumroad-button" href="https://jamwareaudio.gumroad.com/l/chordinator">Get it on Gumroad</a>
     </div>
   </section>
 
@@ -399,6 +399,13 @@
     <span class="spacer legend">Any DAW · particular integration with Ableton Live</span>
   </div>
 </footer>
+
+<!-- Gumroad overlay checkout — the buy button above carries .gumroad-button, and
+     this script turns it into a modal over this page instead of a navigation.
+     The full reasoning, and the launch-day check it still needs, are in the
+     matching comment at the foot of ../index.html. Falls back to a plain link
+     if the script does not load. -->
+<script src="https://gumroad.com/js/gumroad.js"></script>
 
 </body>
 </html>
