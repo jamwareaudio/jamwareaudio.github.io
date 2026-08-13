@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>MutationStation — JamWare Audio</title>
+<title>MutationStation · JamWare Audio</title>
 <meta name="description" content="An acid/303 MIDI mutation sequencer for macOS. Feed it a line, get a hundred back, then drag any take straight into your DAW." />
 <link rel="icon" href="../assets/icons/mutationstation-1024.png" />
 <link rel="stylesheet" href="../styles.css" />
@@ -130,7 +130,7 @@
             <strong>Slides and accents the way a 303 does them.</strong> Octave,
             Accent and Slide each get their own amount, their own step pattern
             and their own lock, so you can hold the accents you have and re-roll
-            only the glides — or pin the octave jumps and let everything else
+            only the glides, or pin the octave jumps and let everything else
             move. Connect Notes fills the gaps between them with passing tones,
             in scale or chromatic.
           </p>
@@ -140,8 +140,8 @@
             <img src="../assets/shots/mutationstation-acid.png" alt="The Acid Character column: Octave, Accent and Slide, each with an amount, a sync slider, a locked toggle and a pattern dropdown" />
           </div>
           <figcaption>
-            Acid Character. Three controls, three patterns, three locks — the
-            part that makes a mutated line still sound like a 303 line.
+            Acid Character. Three controls, three patterns, three locks. This is
+            the part that makes a mutated line still sound like a 303 line.
           </figcaption>
         </figure>
       </div>
@@ -163,7 +163,7 @@
             <li>
               <strong>A note pool you can weight.</strong> Twelve keys decide
               which notes mutation may reach for, and a % panel behind them
-              decides how often each one comes up — lean on the root, thin out
+              decides how often each one comes up. Lean on the root, thin out
               the leading tone, and the same algorithm settles into the key
               without you removing a single note.
             </li>
@@ -196,7 +196,7 @@
             <li>
               <strong>A real piano roll.</strong> Draw, drag, resize, set
               velocity, with a History strip that keeps every take you generate so
-              you can rewind to a direction you liked — and
+              you can rewind to a direction you liked, plus
               <strong>+ Snapshot</strong> to bank one you want to come back to,
               settings and all.
             </li>
@@ -215,8 +215,8 @@
               per-step lanes, each driving one parameter on the selected
               device as smooth 14-bit automation. Stream them live, or
               <strong>Send to Live</strong> to build a new Session clip
-              carrying both the notes and the modulation as clip envelopes —
-              or <strong>Replace clip</strong> to overwrite the one you have
+              carrying both the notes and the modulation as clip envelopes, or
+              <strong>Replace clip</strong> to overwrite the one you have
               selected.
             </li>
             <li>
@@ -239,7 +239,7 @@
             <li>
               <strong>Hints and a manual in the window.</strong> Every panel
               explains itself where you are standing, and the full manual opens
-              inside the app — no PDF hunt to find out what a control does.
+              inside the app, so there is no PDF to go hunting for.
             </li>
           </ul>
         </div>
@@ -254,12 +254,11 @@
                 MutationStation runs as its own app, not a plugin, and reaches
                 your DAW the way a hardware groovebox would: as a MIDI device
                 you record from or drag takes out of, the same route any
-                outboard sequencer uses. That separation is deliberate — if
-                your DAW crashes, MutationStation and every take in its
-                History strip are untouched, and if MutationStation hits a
-                snag, your session keeps playing. Two independent programs
-                talking over MIDI beats one process that takes both down when
-                either one stumbles.
+                outboard sequencer uses. That separation is deliberate. If your DAW
+                crashes, MutationStation and every take in its History strip
+                are untouched, and if MutationStation hits a snag, your
+                session keeps playing. One process holding both jobs would
+                lose you both at once.
               </p>
             </div>
           </div>
@@ -321,10 +320,10 @@
               </p>
               <p>
                 Going the other way, <strong>Send to Live</strong> and
-                <strong>Replace clip</strong> write a Session clip back out —
+                <strong>Replace clip</strong> write a Session clip back out, with
                 notes and, if you have drawn any, modulation lanes as clip
-                automation — and a plain MIDI drag remains the notes-only
-                route for any DAW.
+                automation. A plain MIDI drag remains the notes-only route for
+                any DAW.
               </p>
               <p>
                 Other DAWs get the same transport control over

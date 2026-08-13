@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>JamWare Audio — The Companion Suite for music production on macOS</title>
+<title>JamWare Audio · The Companion Suite for music production on macOS</title>
 <meta name="description" content="Small, focused Mac apps for music production: MutationStation, Chordinator, Spectrl and MidiMirror. Any DAW, with particular integration with Ableton Live." />
 <link rel="icon" href="assets/icons/mutationstation-1024.png" />
 <link rel="stylesheet" href="styles.css" />
@@ -36,27 +36,31 @@
 <main>
 
   <section class="hero wrap">
-    <p class="legend eyebrow">JamWare Audio — The Companion Suite</p>
+    <p class="legend eyebrow">JamWare Audio · The Companion Suite</p>
     <h1>Small tools that do one loud thing well.</h1>
     <p>
       Mac apps built around the parts of a session that software usually leaves
       you to do by hand: mutating a bassline into a hundred, triggering chords
       from single keys, seeing what you are actually hearing, and deciding what
-      a knob does. They work with any DAW, with particular integration with
-      Ableton Live.
+      a knob does. They work with any DAW, and go further inside Ableton Live.
     </p>
   </section>
 
-  <!-- The flagship, in the same dark inset screen the product pages use. The
-       app's own window is a cream faceplate around a dark screen, so it nests
-       inside this frame rather than sitting on top of it — which is the whole
-       argument for the site sharing the apps' design language. -->
+  <!-- The range, cascaded, in the same dark inset screen the product pages use.
+       The apps' own windows are cream faceplates around dark screens, so they
+       nest inside this frame rather than sitting on top of it, which is the
+       whole argument for the site sharing the apps' design language.
+
+       This was a single Spectrl window until 2026-08-13. One meter was the
+       wrong first impression of a range of four, and the depth order now does
+       the ranking: whatever is in front is what we want looked at first.
+       Rebuild it with ./make-hero.py, which is where the ordering lives. -->
   <section class="wrap hero-shot">
     <div class="screen">
-      <img src="assets/shots/spectrl.png"
-           alt="The Spectrl window: live spectrum, note ruler, loudness meters and footer readout" />
+      <img src="assets/shots/hero-stack.png"
+           alt="The four apps open at once, cascaded: MutationStation in front, then Chordinator, Spectrl and MidiMirror behind it" />
     </div>
-    <p class="legend caption">Spectrl — live spectrum, note ruler and loudness meters</p>
+    <p class="legend caption">MutationStation, Chordinator, Spectrl, MidiMirror</p>
   </section>
 
   <section class="section wrap" id="products">
@@ -65,7 +69,7 @@
 
       <!-- ------------------------------------------------- MutationStation -->
       <article class="product panel" style="--accent:#D13A2C">
-        <h2 class="panel-head">MutationStation — macOS app</h2>
+        <h2 class="panel-head">MutationStation · macOS app</h2>
         <div class="panel-body">
           <img class="icon" src="assets/icons/mutationstation-1024.png" alt="MutationStation icon" />
           <div>
@@ -81,11 +85,6 @@
               push it back out as one, and draw up to eight modulation lanes
               that stream live or bake into a Session clip as automation.
             </p>
-            <ul class="specs">
-              <li>macOS · Apple Silicon</li>
-              <li>33 pitch strategies</li>
-              <li>8-lane Live modulation</li>
-            </ul>
             <div class="btn-row">
               <a class="btn gumroad-button" href="https://jamwareaudio.gumroad.com/l/mutationstation">Get it on Gumroad</a>
               <a class="btn btn-ghost" href="apps/mutationstation.html">Details</a>
@@ -96,7 +95,7 @@
 
       <!-- ------------------------------------------------------ Chordinator -->
       <article class="product panel" style="--accent:#E0862C">
-        <h2 class="panel-head">Chordinator — macOS app</h2>
+        <h2 class="panel-head">Chordinator · macOS app</h2>
         <div class="panel-body">
           <img class="icon" src="assets/icons/chordinator-1024.png" alt="Chordinator icon" />
           <div>
@@ -110,11 +109,6 @@
               records, groove and humanize passes, and eight modulation lanes
               that land in Live as clip envelopes.
             </p>
-            <ul class="specs">
-              <li>macOS · Apple Silicon</li>
-              <li>Poly sequencer</li>
-              <li>Live clip envelopes</li>
-            </ul>
             <div class="btn-row">
               <a class="btn gumroad-button" href="https://jamwareaudio.gumroad.com/l/chordinator">Get it on Gumroad</a>
               <a class="btn btn-ghost" href="apps/chordinator.html">Details</a>
@@ -125,25 +119,20 @@
 
       <!-- ---------------------------------------------------------- Spectrl -->
       <article class="product panel" style="--accent:#4A86C5">
-        <h2 class="panel-head">Spectrl — macOS app</h2>
+        <h2 class="panel-head">Spectrl · macOS app</h2>
         <div class="panel-body">
           <img class="icon" src="assets/icons/spectrl-1024.png" alt="Spectrl icon" />
           <div>
             <h3><a href="apps/spectrl.html">Spectrl</a></h3>
             <p class="tagline">Spectrum, key, note frequencies, tonal balance and a system-audio sampler in one window.</p>
             <p class="blurb">
-              Live spectrum with musical note mapping, a Scale panel that
-              listens for ten seconds and names the key, loudness metering, an
-              oscilloscope and tonal-balance targets — five tools reading one
-              signal. It taps your default output through Core Audio, so it
+              Five tools reading one signal: live spectrum with musical note
+              mapping, a Scale panel that listens for ten seconds and names the
+              key, loudness metering, an oscilloscope and tonal-balance
+              targets. It taps your default output through Core Audio, so it
               hears your DAW without a plugin on the master, and records
               straight to WAV with nothing to route.
             </p>
-            <ul class="specs">
-              <li>macOS 14.4+ · Apple Silicon</li>
-              <li>Core Audio process tap</li>
-              <li>No plugin required</li>
-            </ul>
             <div class="btn-row">
               <a class="btn gumroad-button" href="https://jamwareaudio.gumroad.com/l/spectrl">Get it on Gumroad</a>
               <a class="btn btn-ghost" href="apps/spectrl.html">Details</a>
@@ -154,7 +143,7 @@
 
       <!-- ------------------------------------------------------- MidiMirror -->
       <article class="product panel" style="--accent:#E05A2C">
-        <h2 class="panel-head">MidiMirror — Remote Script + app</h2>
+        <h2 class="panel-head">MidiMirror · Remote Script + app</h2>
         <div class="panel-body">
           <img class="icon" src="assets/icons/midimirror-1024.png" alt="MidiMirror icon" />
           <div>
@@ -166,11 +155,6 @@
               two jobs on one key, a drop that snaps the whole panel back, and a
               second-screen mirror that labels every control as it moves.
             </p>
-            <ul class="specs">
-              <li>Ableton Live only</li>
-              <li>Any controller</li>
-              <li>macOS app</li>
-            </ul>
             <div class="btn-row">
               <a class="btn gumroad-button" href="https://jamwareaudio.gumroad.com/l/midimirror">Get it on Gumroad</a>
               <a class="btn btn-ghost" href="apps/midimirror.html">Details</a>
@@ -181,7 +165,7 @@
 
       <!-- ---------------------------------------------------------- Arranger -->
       <article class="product panel" style="--accent:#5B9E63">
-        <h2 class="panel-head">Arranger — in development</h2>
+        <h2 class="panel-head">Arranger · in development</h2>
         <div class="panel-body">
           <img class="icon" src="assets/icons/arranger-1024.png" alt="Arranger icon" />
           <div>

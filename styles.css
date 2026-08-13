@@ -182,17 +182,15 @@ a:hover { color: var(--accent); }
 .product .tagline { margin: 0 0 12px; color: var(--text-secondary); font-size: 14px; }
 .product .blurb { margin: 0 0 14px; max-width: var(--measure); }
 
-/* Requirement chips: the spec strip printed on the back of the unit. */
-.specs { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 16px; padding: 0; list-style: none; }
-.specs li {
-  font-size: 10.5px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
-  color: var(--text-secondary);
-  border: 1px solid var(--hairline);
-  border-radius: 3px;
-  padding: 3px 8px;
-  background: color-mix(in srgb, var(--face-hi) 70%, transparent);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
-}
+/* The spec chips that used to sit under each blurb are gone, and .specs went
+   with them on 2026-08-13. They were three short chips per card, and three
+   chips read as *the* feature list: MutationStation was reduced to "33 pitch
+   strategies, 8-lane Live modulation" when it does a great deal more, and every
+   card spent one of its three on "macOS · Apple Silicon", which is a system
+   requirement rather than a reason to buy anything. The same strip had already
+   been cut from the Gumroad cover art for the same reason. Do not reintroduce
+   it: a finite badge row on a card always undersells an app with more in it
+   than fits, and the blurb underneath is doing that job properly. */
 
 /* ================================================================ BUTTONS
 

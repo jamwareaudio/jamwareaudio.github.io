@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Chordinator — JamWare Audio</title>
+<title>Chordinator · JamWare Audio</title>
 <meta name="description" content="Play chords you don't know how to voice. A whole chord under one key, laid out so there is no wrong note on the keybed, then build the sequence out with rhythm patterns, groove, chord suggestions and modulation lanes." />
 <link rel="icon" href="../assets/icons/chordinator-1024.png" />
 <link rel="stylesheet" href="../styles.css" />
@@ -86,7 +86,7 @@
           </div>
           <figcaption>
             The full keybed. Each octave block is a chord family, labelled where
-            it starts — so the register you play in is the flavour you get.
+            it starts, so the register you play in is the flavour you get.
           </figcaption>
         </figure>
       </div>
@@ -100,7 +100,7 @@
         <div class="prose story">
           <p>
             <strong>The algorithms are not stored progressions.</strong> Each one
-            is a table of legal moves — one row per scale degree, listing the two
+            is a table of legal moves: one row per scale degree, listing the two
             or three degrees that degree is allowed to go to, best first. Chord
             Gen takes the rhythm already on the roll, starts somewhere, and walks
             that map. So two rolls of the same algorithm are two different
@@ -110,7 +110,7 @@
             There are dozens, grouped by what they are for: functional (strong
             steps, cadence pull, circle of 5ths), colour (suspension chains,
             upper structures, neo-soul 9ths, quartal drift, Dorian), dub and
-            minimal, house, trance — and a top-line group of nine that hand their
+            minimal, house, trance, plus a top-line group of nine that hand their
             chords to a voicing pass so the bottom notes hold still and the
             highest note carries a melody. Five of them were measured from
             chroma analysis of a reference record rather than written from
@@ -122,7 +122,7 @@
             back round, which between them is what makes a roll a progression
             instead of a chord per hit. <strong>Follow Bass</strong> hands the
             root motion to the bassline already on the roll and leaves the
-            algorithm to choose only which chord of that root — the tonic comes
+            algorithm to choose only which chord of that root. The tonic comes
             from your bass line, the harmony from the engine. And
             <strong>Suggest</strong> reads the same tables with no dice at all:
             it lights the recommended keys on the keybed so you can play the
@@ -135,7 +135,7 @@
           </div>
           <figcaption>
             The generator row: pick the engine, how long a chord holds, how long
-            the loop is — and Follow Bass to keep the root motion you already
+            the loop is, and Follow Bass to keep the root motion you already
             have.
           </figcaption>
         </figure>
@@ -148,7 +148,7 @@
             assign it. The visualiser names and shows whatever you just played,
             and its Edit mode lets you play in a chord the library does not have
             and put it on a key. Beside them sit Invert, Octave and Humanize,
-            the voicing mode and the smoothing switch — appliable to one key or
+            the voicing mode and the smoothing switch, which apply to one key or
             to the whole block at once.
           </p>
         </div>
@@ -158,7 +158,7 @@
           </div>
           <figcaption>
             Chord library, visualiser and chord edit, stacked down the left of
-            the window — search, see it on a keyboard, re-voice it.
+            the window. Search, see it on a keyboard, re-voice it.
           </figcaption>
         </figure>
       </div>
@@ -285,8 +285,8 @@
               backup, separate from your settings.
             </li>
             <li>
-              <strong>Layouts save as JSON.</strong> A whole keybed — every
-              trigger, every voicing — kept per song, per set or per gig.
+              <strong>Layouts save as JSON.</strong> A whole keybed, every
+              trigger and every voicing, kept per song, per set or per gig.
             </li>
           </ul>
         </div>
@@ -331,11 +331,11 @@
                 Chordinator runs as its own app, not a plugin, and reaches
                 your DAW the way a hardware chord box would: over a virtual
                 MIDI port, the same route any outboard MIDI gear uses. That
-                separation is deliberate — if your DAW crashes, Chordinator
-                and the sequence you were building are untouched, and if
-                Chordinator hits a snag, your session keeps playing. Two
-                independent programs talking over MIDI beats one process that
-                takes both down when either one stumbles.
+                separation is deliberate. If your DAW crashes, Chordinator and the
+                sequence you were building are untouched, and if Chordinator
+                hits a snag, your session keeps playing. Two programs talking
+                over MIDI is a lot harder to kill than one process holding
+                both jobs.
               </p>
             </div>
           </div>
