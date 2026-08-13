@@ -1,5 +1,5 @@
 """
-JamWare hardware-render rig, v2 -- modelled controls + studio environment.
+JamWare hardware-render rig, v3 -- the whole panel is geometry.
 
 v1 (render.py) put the flat screenshot on a lit slab and let a real camera
 supply the realism. That got us most of the way, and it is still the base here.
@@ -26,9 +26,17 @@ v2 adds two things.
    the shape of the lights in the surface; a flat world colour gives a dead
    even sheen no real studio produces.
 
-Run: blender -b -P render2.py -- <app> <out.png> <hero|macro|low> [samples] [resx]
+v3 replaces the flat face plate with a grid displaced by a height map derived
+from the screenshot (heightmap.py), so buttons, key caps, indicators, recessed
+windows and the plate's own thickness are all real geometry. See the face plate
+section below for why Solidify rather than a sheet on a cube.
+
+Needs hm-<app>.png next to this script; build it with heightmap.py first.
+
+Run: blender -b -P render3.py -- <app> <out.png> <hero|macro|low> [samples] [resx]
 """
 import bpy, sys, math, os
+import numpy as np
 
 argv = sys.argv[sys.argv.index("--") + 1:]
 APP, OUT = argv[0], argv[1]
@@ -37,6 +45,7 @@ SAMPLES = int(argv[3]) if len(argv) > 3 else 96
 RESX = int(argv[4]) if len(argv) > 4 else 1500
 
 SHOTS = "/Users/jonathansidenros/Documents/CompanionApps/site/assets/shots"
+HMAPS = os.path.dirname(os.path.abspath(__file__))
 
 # Knob centres and body radii in source-image pixels, located by overlaying
 # candidate circles on the shot and checking the crop -- not by a circle
@@ -63,6 +72,7 @@ SPEC = {
 }
 spec = SPEC[APP]
 SHOT = os.path.join(SHOTS, spec["shot"])
+HMAP = os.path.join(HMAPS, "hm-%s.png" % APP)
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 scene = bpy.context.scene
@@ -85,7 +95,18 @@ aspect = iw / ih
 
 W = 1.0
 H = W / aspect
-T = 0.030
+# Thicker than v2's 0.030. Against a width of 1.0 -- call it a 480mm panel --
+# this is a 20mm face plate over an 85mm body, which is the proportion of a
+# desktop unit you could pick up. The v2 plate was 14mm and, now that the
+# relief gives the eye something to judge scale against, read as sheet metal.
+T = 0.042
+
+# World units per unit of height map, where the map runs -0.85 (pocket floor)
+# to +0.75 (key cap). At 0.0045 a cap stands 1.6mm proud and a pocket is 1.9mm
+# deep on a 480mm panel: a little more than a real moulding, which is
+# deliberate -- these are product shots and the relief has to survive being
+# looked at 900px wide on a web page.
+RELIEF = 0.0045
 
 
 def px_to_world(px, py):
@@ -145,7 +166,11 @@ def make_panel_material(name, bump_strength=0.18):
     return mat
 
 
-panel_mat = make_panel_material("panel")
+# Bump down from v2's 0.18. The macro relief is geometry now, so the bump is
+# only doing what it should have been doing all along -- microtexture on the
+# printed legend. At the old strength it embossed the same edges the geometry
+# already has and the two disagreed about which way the light was coming from.
+panel_mat = make_panel_material("panel", bump_strength=0.09)
 
 skirt_mat = bpy.data.materials.new("skirt")
 skirt_mat.use_nodes = True
@@ -156,25 +181,83 @@ if 'Metallic' in sb.inputs:
     sb.inputs['Metallic'].default_value = 0.0
 
 # --- the face plate --------------------------------------------------------
-bpy.ops.mesh.primitive_cube_add(size=1)
+# v3: the plate is no longer a cube with a picture on it. It is a dense grid
+# displaced by a height map built from the screenshot itself (heightmap.py),
+# so every button, key cap, indicator and recessed window in the UI is real
+# geometry with a real silhouette and a real cast shadow.
+#
+# Why a grid + Solidify rather than the obvious "lay a displaced sheet on top
+# of a cube": wells go BELOW the panel surface. A sheet sitting on a cube would
+# have the piano roll's floor several millimetres inside the cube, z-fighting
+# its top face along the whole pocket. Solidify extrudes downward from the
+# displaced surface instead, so the pocket floor takes the plate with it and
+# there is no second surface to fight. The height map is forced flat in an 8px
+# border margin for exactly this reason -- it is what gives the solidified
+# plate straight, vertical side walls.
+edge_mat = bpy.data.materials.new("edge")
+edge_mat.use_nodes = True
+eb = edge_mat.node_tree.nodes["Principled BSDF"]
+eb.inputs['Base Color'].default_value = (0.085, 0.082, 0.078, 1)
+eb.inputs['Roughness'].default_value = 0.48
+
+hmimg = bpy.data.images.load(os.path.abspath(HMAP))
+hw, hh = hmimg.size
+# Non-Color, or Blender applies an sRGB decode to what is a geometric quantity
+# and every height in the map lands somewhere it was not put.
+hmimg.colorspace_settings.name = 'Non-Color'
+px = np.empty(hw * hh * 4, dtype=np.float32)
+hmimg.pixels.foreach_get(px)
+hmap = px.reshape(hh, hw, 4)[:, :, 0]        # row 0 is the BOTTOM row in Blender
+
+# Grid vertex counts. Finer than this stops buying anything: the map's chamfers
+# are ~2px wide at 2000px, so a grid at 1400 already resolves them, and the
+# vertex count is squared in both memory and build time.
+GRID_LONG = 1400
+NX = min(GRID_LONG, hw)
+NY = max(2, int(round(NX * (H / W))))
+bpy.ops.mesh.primitive_grid_add(x_subdivisions=NX, y_subdivisions=NY, size=1)
 slab = bpy.context.object
-slab.scale = (W, H, T)          # size=1 cube: scale IS the final dimension
+slab.scale = (W, H, 1.0)
 bpy.ops.object.transform_apply(scale=True)
-slab.data.polygons.foreach_set('use_smooth', [False] * len(slab.data.polygons))
-
 me = slab.data
-me.uv_layers.new(name="UVMap")
-uvd = me.uv_layers.active.data
-for poly in me.polygons:
-    up = poly.normal.z > 0.9
-    for li in poly.loop_indices:
-        co = me.vertices[me.loops[li].vertex_index].co
-        uvd[li].uv = (co.x / W + 0.5, co.y / H + 0.5) if up else (0.0, 0.0)
-me.materials.append(panel_mat)
 
-bev = slab.modifiers.new("bevel", 'BEVEL')
-bev.width = 0.0035
-bev.segments = 4
+# Displace by sampling each vertex's OWN xy rather than by trusting the grid's
+# vertex ordering. primitive_grid_add's ordering is an implementation detail
+# and has changed between Blender versions; xy is not going to.
+nv = len(me.vertices)
+co = np.empty(nv * 3, dtype=np.float32)
+me.vertices.foreach_get("co", co)
+co = co.reshape(nv, 3)
+u = np.clip(co[:, 0] / W + 0.5, 0, 1)
+v = np.clip(co[:, 1] / H + 0.5, 0, 1)
+row = (v * (hh - 1)).astype(np.int32)
+col = (u * (hw - 1)).astype(np.int32)
+# The map stores 0.5 as the panel surface so that it can carry wells as well as
+# proud faces in an unsigned image.
+rel = hmap[row, col] * 2.0 - 1.0
+co[:, 2] = T / 2 + rel * RELIEF
+me.vertices.foreach_set("co", co.ravel())
+
+# UV from xy as well, same formula as everywhere else in this rig, so the
+# texture lands on the geometry it was used to build.
+uvs = np.empty(len(me.loops) * 2, dtype=np.float32)
+lv = np.empty(len(me.loops), dtype=np.int32)
+me.loops.foreach_get("vertex_index", lv)
+uvs[0::2] = co[lv, 0] / W + 0.5
+uvs[1::2] = co[lv, 1] / H + 0.5
+me.uv_layers.new(name="UVMap")
+me.uv_layers.active.data.foreach_set("uv", uvs)
+
+me.materials.append(panel_mat)    # slot 0 -- the displaced top surface
+me.materials.append(edge_mat)     # slot 1 -- the walls Solidify builds
+me.shade_smooth()
+
+sol = slab.modifiers.new("solidify", 'SOLIDIFY')
+sol.thickness = T
+sol.offset = -1.0                 # extrude downward, top surface stays put
+sol.use_even_offset = False       # even offset balloons the pocket walls
+sol.material_offset = 1
+sol.material_offset_rim = 1
 
 # --- modelled knobs --------------------------------------------------------
 KNOB_TAPER = 0.80
@@ -310,7 +393,18 @@ scene.collection.objects.link(cam)
 scene.camera = cam
 cam_data.dof.use_dof = True
 
-if FRAMING == "macro":
+if FRAMING == "top":
+    # Straight down, no tilt, no DOF. Not a shipping framing -- it exists to
+    # check that the displaced grid's UVs still land the texture exactly where
+    # the flat slab did, which is the one thing a three-quarter view is bad at
+    # showing.
+    cam_data.lens = 50
+    cam_data.dof.aperture_fstop = 22.0
+    cam.location = (0, 0, 2.6)
+    cam.rotation_euler = (0, 0, 0)
+    focus_at = (0, 0, T / 2)
+    ratio = H / W
+elif FRAMING == "macro":
     cam_data.lens = 70
     cam_data.dof.aperture_fstop = 4.0
     cam.location = (-0.84, -1.24, 0.84)
