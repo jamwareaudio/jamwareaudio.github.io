@@ -9,6 +9,31 @@ Developer ID certificate that does not exist yet.
 
 ---
 
+## 2026-08-13 — "The apps" kicker removed; Gumroad tagline sync still blocked on Chrome
+
+The user flagged (via a cropped screenshot) that the `<span class="legend">The
+apps</span>` kicker sitting above the product grid in `index.html` read as out
+of place — it sat directly on top of each panel's own colored-dot header bar
+("MUTATIONSTATION · MACOS APP"), duplicating what that header already says,
+unlike the site's other `.legend` kickers (Bundles, What you get, About) which
+each introduce genuinely unlabeled content. Removed the `<span>` (`49f66b2`),
+committed, and published live via `./publish.sh` — confirmed on
+`jamwareaudio.github.io`.
+
+The user also asked to sync Gumroad's taglines with the website's current
+ones. Checked both local kit files this session — `gumroad/cover.html`'s
+`APPS` table and `gumroad/GUMROAD-KIT.md`'s per-product Summary lines — against
+the four `<p class="tagline">` strings in `index.html`: **all four already
+match word-for-word.** So the drift the user is seeing has to be on the *live*
+Gumroad listings themselves, not the local kit. Checked
+`list_connected_browsers` to push the fix live and it returned empty — same
+blocker as the standing board note about the four descriptions. **Not
+attempted this session**; needs the user to connect the Claude Chrome
+extension before the live Summary fields (and description bodies, if they
+also drifted) can be checked and corrected.
+
+---
+
 ## 2026-08-13 — Gumroad description screenshot fix: new "shot" generator, cutout-on-faceplate
 
 The user flagged that the screenshot in the Gumroad description reads much
