@@ -235,8 +235,44 @@ a:hover { color: var(--accent); }
     color-mix(in srgb, var(--control-bg) 84%, black) 0%,
     color-mix(in srgb, var(--control-bg) 90%, black) 100%);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.42);
-  text-shadow: 0 1px 0 rgba(255,255,255,0.35);
   display: flex; align-items: center; gap: 8px;
+
+  /* ---- Cut into the band, not printed on it ------------------------------
+     This is the apps' own `.app-topbar-brand-name` recipe — the wordmark
+     engraved at the right-hand end of every app's top row — brought over so a
+     section title on the site is milled the same way a section title is milled
+     in the software. Two hard 1px shadows and a fill below the plate:
+
+       0  1px white   the groove's lower lip, the far wall catching the light
+       0 -1px dark    the upper lip's own shadow, above the letter
+
+     ⚠ NOT the .engraved class. That one clips a vertical gradient into the
+     glyphs and hangs 2-3px drop-shadows off them, which is right for a 34-60px
+     nameplate and wrong here twice over: at an 11px cap height there is no room
+     for a gradient to read as an inner wall, and a 2px lip on a 11px letter is
+     a letter with a white letter under it. An engraving does not get deeper
+     because the type got smaller either, so the app's 1px is the correct depth
+     at this size — which is exactly why the apps use this recipe and not that
+     one for their own small caps.
+
+     ⚠ NO BLUR on either shadow. A groove edge is a hard edge; a blurred halo
+     turns the letter into something LYING ON the surface instead of cut into
+     it. MutationStation's source records that as a rejected pass, and the same
+     mistake is available here.
+
+     The fill is the one number that had to be re-derived rather than copied.
+     The app's rule is "about twelve points of lightness below the plate the
+     word sits on", measured there against a 95% face-hi. Our band is darker
+     (control-bg mixed with black, ~79-85%), and twelve points below that is a
+     title you cannot read at 11px — the app can be that subtle because a
+     wordmark is scenery and these are the headings you navigate the page by.
+     ~22 points down instead: still plainly below the surface, still legible.
+     Mixed from the band's own token so a palette change carries the cut with
+     it, rather than hardcoded. */
+  color: color-mix(in srgb, var(--control-bg) 62%, black);
+  text-shadow:
+    0  1px 0 hsla(0,0%,100%,0.72),
+    0 -1px 0 hsla(28,12%,14%,0.30);
 }
 /* The accent pilot lamp on the header band — the one place each product's
    colour announces itself before you have read anything. */
