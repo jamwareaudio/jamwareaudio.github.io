@@ -33,7 +33,7 @@
       <img class="icon" src="../assets/icons/mutationstation-1024.png" alt="MutationStation icon" />
       <div>
         <h1>MutationStation</h1>
-        <p class="tagline">Lock the notes that work, re-roll the rest, and chase acid lines you would not have written.</p>
+        <p class="tagline">Lock the notes that work, re-roll/mutate the rest, and chase acid lines you would not have written.</p>
       </div>
     </div>
     <p class="lede">
@@ -82,6 +82,17 @@
             the phrase corners that hold a bar together.
           </p>
           <p>
+            <strong>Or mutate one stretch and leave the rest alone.</strong>
+            Drag along the bar/beat ruler above the roll to mark a range. The
+            marked bars shade, a <strong>Range</strong> chip names them in the
+            tool row, and from that moment every mutation device only reshapes
+            what is inside it — move any slider and the bars outside come
+            through exactly as they were. Click the chip or press Esc to
+            unmark. Membership is by where a note starts, so a note that begins
+            before the mark and rings into it belongs to the part you did not
+            mark.
+          </p>
+          <p>
             Every roll runs on seeded dice, so the take you liked is the take
             you get back, and you can re-roll one panel at a time while the rest
             stays put.
@@ -107,7 +118,7 @@
       <div class="panel-body">
         <div class="prose story">
           <p>
-            <strong>33 pitch strategies,</strong> from the simple (Random,
+            <strong>34 pitch strategies,</strong> from the simple (Random,
             Proximity, Root/Fifth) to measured acid and techno voices like Acid
             Trip, Hypno Root, Seventh Anchor, Lead Line and Offbeat Anchor. Many
             are measured from real bass and synth loops, so they move the way
@@ -144,6 +155,42 @@
             the part that makes a mutated line still sound like a 303 line.
           </figcaption>
         </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="panel">
+      <h2 class="panel-head">Take the rhythm off a clip — including an audio clip</h2>
+      <div class="panel-body">
+        <div class="prose story">
+          <p>
+            <strong>↓ Rhythm Import</strong> takes the timing of whatever clip
+            Ableton is showing and lands it in the roll as a monophonic line on
+            the root note: a rhythm nobody typed in, sitting there ready for
+            every mutation panel to write a line onto. Click a clip in Live,
+            press the button, and the groove of your drums is now the groove of
+            your bassline.
+          </p>
+          <p>
+            <strong>It works on audio clips, not only MIDI ones.</strong> Live's
+            scripting cannot hand an app the audio, so MutationStation reads the
+            sample off disk, decodes it, and finds the attacks itself — by
+            spectral flux, meaning how much the spectrum <em>grew</em> from one
+            frame to the next, which is what an attack actually is. That is why
+            it finds a kick sitting under a held pad, where plain loudness
+            barely moves but the spectrum does. Hit strength becomes velocity,
+            so the accents survive the trip.
+          </p>
+          <p>
+            A warped clip is read through its own warp map, so the hits land on
+            the grid you are looking at rather than where they fell in the raw
+            file, and only the region Live actually plays is analysed. Hits snap
+            to the roll's current grid. WAV, AIFF, MP3, FLAC and M4A. On a MIDI
+            clip a chord counts as one hit, at the velocity of its loudest note,
+            and deactivated notes are ignored.
+          </p>
+        </div>
       </div>
     </div>
   </section>
