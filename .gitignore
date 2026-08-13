@@ -6,3 +6,4 @@
 gumroad/
 
 .DS_Store
+.public-mirror/

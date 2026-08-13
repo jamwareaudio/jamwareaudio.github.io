@@ -102,37 +102,52 @@ An accent lives in three places and all three must agree:
 This folder is its own git repository, deliberately separate from the app source
 in `CompanionApps/` — publishing the website never means publishing the apps.
 
-**Remote:** `https://github.com/toastonjam-debug/jamwareaudio` — pushed
-2026-08-10, and **private**, with Pages switched off. Nothing is on the web yet.
-That is on purpose: while the four Gumroad products are unpublished their
-`/l/<slug>` URLs 404 for anyone who is not signed in as the seller, so a live
-site today would be a shopfront of dead buttons.
+**THE SITE IS LIVE** at `https://toastonjam-debug.github.io/jamwareaudio-site/`
+as of 2026-08-13. Read the next paragraph before you push anything, because the
+repository you are looking at is *not* the one being served.
 
-⚠ `gumroad/` is in `.gitignore` and is NOT in the repo. Pages serves every file
-it is given, and `GUMROAD-KIT.md` is internal — pricing strategy, open
-decisions, and notes about the support address. Keep it out.
+### Two repositories, and which one the web sees
 
-### Going live, when the store is ready
+| Repository | Visibility | What it is |
+|---|---|---|
+| `toastonjam-debug/jamwareaudio` | **private** | this directory — the real work |
+| `toastonjam-debug/jamwareaudio-site` | **public** | build output; only what a visitor loads |
+
+GitHub Pages on the free tier serves only a public repository, and it serves
+*every file in it*. This directory is a working lane as well as a website: it
+carries `CLAUDE.md`, `HANDOFF.md` and this README, none of which should be a URL.
+Making `jamwareaudio` public to get a web address would have published all of
+that, history included, to save copying six files. Visibility is a property of a
+repository and not of a branch, so the split had to be by repository.
+
+**`git push` here publishes nothing.** To update the live site:
+
+```sh
+./publish.sh
+```
+
+That copies an **allowlist** of paths — `index.html`, `styles.css`, `apps/`,
+`assets/` — into a gitignored `.public-mirror/` checkout and pushes it. Pages
+redeploys a minute or two later. The allowlist is deliberate and the long
+reasoning is at the top of the script: an exclude list fails *open*, publishing
+the next `NOTES.md` somebody drops in here, while an allowlist fails closed.
+
+⚠ `gumroad/` is in `.gitignore` and has never been committed to either
+repository. `GUMROAD-KIT.md` is internal — pricing strategy, open decisions, and
+notes about the support address. Keep it out.
+
+⚠ The public repo is **output, not a place to work**. `publish.sh` overwrites it
+wholesale; anything edited there is lost on the next run.
+
+### Still to do before this is a real shopfront
 
 1. Publish the four products on Gumroad and settle the Suite bundle (see the
-   checklist above).
-2. Make the repo public and turn Pages on:
-
-   ```sh
-   gh repo edit toastonjam-debug/jamwareaudio --visibility public
-   gh api -X POST repos/toastonjam-debug/jamwareaudio/pages \
-     -f 'source[branch]=main' -f 'source[path]=/'
-   ```
-
-   Or by hand: **Settings → Pages → Source: Deploy from a branch →
-   `main` / `/ (root)`**.
-3. It appears at `https://toastonjam-debug.github.io/jamwareaudio/` a minute or
-   two later.
-4. ⚠ **Click one buy button in a private window** and check the Gumroad
-   overlay. See below — this is the one thing on the site that cannot be
+   checklist above). Until then every buy button 404s for the public — the site
+   is up as a preview, which was a deliberate choice on 2026-08-13, not an
+   oversight.
+2. ⚠ **Then click one buy button in a private window** and check the Gumroad
+   overlay opens. See below — it is the one thing on the site that cannot be
    verified before the products are published.
-
-Updating it afterwards is just `git push` — Pages redeploys on its own.
 
 ### The buy buttons open a Gumroad overlay
 
@@ -172,8 +187,9 @@ and a link back here.
 `jamware.io` / `jamware.app` / `jamware.dev` — whichever you get — makes the
 Gumroad pages look like part of a company rather than a hobby.
 
-1. Add a file called `CNAME` in this folder containing just the domain, e.g.
-   `jamware.app`.
+1. Add a file called `CNAME` containing just the domain, e.g. `jamware.app` —
+   in `.public-mirror/`, **not here**, since it belongs to the published site.
+   `publish.sh` leaves files it does not manage alone, so it survives republishes.
 2. At your registrar, add these DNS records:
    - `A` records for the apex `@` pointing at `185.199.108.153`,
      `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
