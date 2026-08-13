@@ -543,6 +543,72 @@ a.btn.gumroad-button:active {
   color: var(--text-secondary);
 }
 
+/* ---- Portrait crops: .zoom-pair and .media-split ---------------------------
+
+   Four of the crops on these pages are portrait — Chordinator's library rail,
+   MidiMirror's Remote Script / Modes panel, MutationStation's open algorithm
+   list and its Acid Character column. Inside a plain figure.zoom each was
+   centred at its natural width, which on a 1240px .wrap means a ~270px picture
+   with two ~450px stripes of empty faceplate either side. That was the worst
+   dead space left on the site, and the user called it out on three separate
+   pages in a row, which is what these two layouts answer.
+
+   Two of them, because there are two different situations:
+
+   .zoom-pair stands two figures side by side, each left-aligned in its own
+   track with its caption under its own image. Used where there genuinely is a
+   second thing worth showing next to the tall one — Chordinator's history strip
+   beside the library, MutationStation's shaping column beside Acid Character,
+   the Pitch Mutation panel beside the list of what its Algorithm menu holds.
+
+   .media-split runs the prose down the left and stands the figure in a track on
+   the right, for the tall crop that has no partner: the text explaining it is
+   then the thing filling the other half, which is better than inventing a
+   screenshot to fill it. The prose drops to one column inside the split — it is
+   already narrow there, and two 30em tracks squeezed into half a page read as a
+   newspaper clipping.
+
+   Deliberately NOT reusing the .two-col grid for either. two-col is 1fr 1fr and
+   these both need the picture track sized to the picture: a portrait crop given
+   half of 1176px either scales up past its pixel width and goes soft, or sits
+   centred in its own half and reproduces the same dead space one level down.
+
+   They collapse at 900px rather than the site's usual 720 breakpoint, because a
+   430px track is already too narrow for a screenshot with legible labels in it;
+   these want to stack well before the rest of the page does. */
+.zoom-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px 34px;
+  align-items: start;
+  margin: 22px 0 0;
+}
+.media-split {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 34px;
+  align-items: start;
+  margin: 22px 0 0;
+}
+.zoom-pair > .zoom, .media-split > .zoom { margin: 0; }
+.media-split > .zoom { max-width: 400px; }
+.media-split .prose.story { columns: 1; }
+
+/* `margin: 0 auto` on the image is precisely what centres it in the full-width
+   case, so it is the thing being undone here — the whole point of both layouts
+   is that the picture starts at its track's left edge. The height cap comes
+   down too: 620px was set for a figure with the full page to itself. */
+.zoom-pair .screen img,
+.media-split .screen img { margin: 0; max-height: 540px; }
+/* 66ch does not fit in half a page, and a caption wrapping at some width other
+   than its own track's looks like a mistake rather than a measure. */
+.zoom-pair figcaption, .media-split figcaption { max-width: none; }
+
+@media (max-width: 900px) {
+  .zoom-pair, .media-split { grid-template-columns: 1fr; }
+  .media-split > .zoom { max-width: 100%; }
+}
+
 /* ---- No .render rule here, and that is on purpose --------------------------
 
    There used to be one, for Blender renders of the apps as physical objects.
