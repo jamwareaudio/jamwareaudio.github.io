@@ -176,21 +176,26 @@ a:hover { color: var(--accent); }
    letters got bigger, which is exactly why fixed pixels are right here.       */
 .engraved {
   font-family: var(--font-plate);
-  /* ⚠ The whole gradient sits HIGH — every stop within about 25 lightness points
-     of the faceplate, rather than the near-black-to-mid-grey range it ran at
-     until 2026-08-14. The user's ruling, given for all three engravings on the
-     site at once: the cut should look like the plate with a groove in it, not
-     like dark type sitting on the plate. It works because what you actually read
-     is the pair of lips (the white one below, the dark hairline above), not the
-     contrast of the fill against the background — same principle the 15px
-     wordmarks inside the apps run on, applied here at 60px. Keep the stops in
-     the same order and roughly the same spread if you retune: dark at the top is
-     the far wall of the groove, and inverting it turns the letter into a ridge. */
-  color: color-mix(in srgb, var(--ui-bg) 82%, black);
+  /* ⚠ THESE STOPS ARE SHARED WITH gumroad/cover.html AND MUST STAY IN STEP.
+     The cover art and this nameplate are the same wordmark on the same
+     faceplate — one in a store grid, one at the top of the page — and the user
+     called it as a defect the moment they drifted apart. If you retune here,
+     retune the h1 in cover.html to match and re-run gumroad/make-gumroad-art.sh.
+     They are duplicated rather than shared because cover.html is a standalone
+     render target for headless Chrome and deliberately depends on no stylesheet.
+
+     The range went very light on 2026-08-14 and came back to this mid-grey the
+     same day: light enough that the cut is what you read, dark enough that the
+     name survives being a thumbnail in a grid of other sellers' covers.
+
+     Keep the stops in this order if you retune. Dark at the top is the far wall
+     of the groove; inverting it turns the letter into a ridge standing proud,
+     which is the one thing this site never does.                              */
+  color: color-mix(in srgb, var(--ui-bg) 48%, black);
   background: linear-gradient(180deg,
-    color-mix(in srgb, var(--ui-bg) 72%, black) 0%,
-    color-mix(in srgb, var(--ui-bg) 82%, black) 45%,
-    color-mix(in srgb, var(--ui-bg) 95%, black) 100%);
+    color-mix(in srgb, var(--ui-bg) 39%, black) 0%,
+    color-mix(in srgb, var(--ui-bg) 52%, black) 45%,
+    color-mix(in srgb, var(--ui-bg) 75%, black) 100%);
   /* Tile the gradient once per LINE, not once per element. Without this the
      single gradient stretches over the whole h1 box, so on a two-line headline
      the first line gets the dark end and the second the light end — two
@@ -206,9 +211,8 @@ a:hover { color: var(--accent); }
   text-shadow: none;
   filter:
     drop-shadow(0 2px 0 rgba(255,255,255,0.95))
-    /* Up from 0.45 with the lighter fill: the upper lip is now carrying most of
-       the definition, since the fill no longer separates itself from the plate. */
-    drop-shadow(0 -1px 0 rgba(0,0,0,0.55))
+    /* Matches cover.html's upper lip. */
+    drop-shadow(0 -1px 0 rgba(0,0,0,0.42))
     drop-shadow(0 3px 5px rgba(0,0,0,0.10));
 }
 
