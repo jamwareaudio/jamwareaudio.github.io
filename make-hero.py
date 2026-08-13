@@ -87,17 +87,18 @@ for i, win in enumerate(windows):
     canvas = Image.alpha_composite(canvas, layer)
 
 # ---- Crop the cascade into the frame ---------------------------------------
-# The full stack was 1970px wide with the front window taking 76% of it, which
-# at the site's 1000px content width rendered every window at under half the
-# size its UI was designed for. The apps are laid out for a 1600pt window; a
-# hero nobody can read is a hero that only says "some software exists".
-#
-# So the stack is cropped into rather than shrunk to fit: the back windows run
-# off the top-left edge of the frame the way windows run off the edge of a real
-# desktop, and the front two, which are the ones the site is actually arguing
-# for, get the pixels. Raise BLEED to push more of the range out of frame and
-# make the front window bigger; drop it to show more of the stack.
-BLEED = 0.62
+# BLEED used to be 0.62, on the theory that cropping into the back of the
+# stack would make the front window bigger once the page's 620px height cap
+# scaled it down. That theory was wrong: the height cap scales from the
+# canvas's own height, which barely moves as BLEED changes (the crop trims
+# width, not height), so the front window rendered at the same size either
+# way and the only visible effect was cost. At 0.62 it cropped MidiMirror out
+# of the frame entirely and sliced through the middle of Spectrl's toolbar
+# instead of along its rounded corner, which reads as a broken image rather
+# than a window lying at an angle. BLEED=0 shows the full cascade — all four
+# windows, each ending on its own rounded corner and drop shadow rather than
+# a straight crop line through its content.
+BLEED = 0.0
 canvas = canvas.crop((round(span_x * BLEED), round(span_y * BLEED),
                       canvas_w, canvas_h))
 
