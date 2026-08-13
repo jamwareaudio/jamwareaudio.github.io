@@ -9,6 +9,28 @@ Developer ID certificate that does not exist yet.
 
 ---
 
+## 2026-08-13 — Homepage copy: "Ableton Live Companion apps", eyebrow line dropped
+
+Two more copy changes from the user, on top of the same day's Arranger/hero-crop
+batch below:
+
+- **Hero claim reworded.** "Standalone Mac apps with the depth of hardware" →
+  "Ableton Live Companion apps with the depth of hardware", across the
+  `<h1 class="hero-claim">` and the meta description / `og:description` /
+  `twitter:description` tags (4 occurrences, `index.html`). The `<title>` tag
+  ("JamWare Audio · Standalone Mac apps for music production") is worded
+  differently and was left alone — not the string the user named.
+- **Dropped the `<p class="legend eyebrow">Standalone tools for macOS</p>`**
+  line above the hero heading entirely, per the user's instruction to remove
+  it from the front-page title. `.hero .eyebrow` in `styles.css` is a generic,
+  reusable rule shared with other uses of `.legend` — left in place.
+- This commit also carried the `make-hero.py`/`hero-stack.png` BLEED fix from
+  the entry below, which had been made but not yet committed in this repo.
+- **Published.** `./publish.sh` run.
+- Commit: `222cbf2`.
+
+---
+
 ## 2026-08-13 — Arranger pulled off the site, hero cascade crop fixed
 
 The user flagged two live-site bugs from a screenshot, both from the
