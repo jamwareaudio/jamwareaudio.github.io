@@ -9,6 +9,92 @@ Developer ID certificate that does not exist yet.
 
 ---
 
+## 2026-08-13 — MidiMirror: per-device saved order promoted, every Device-mode shot recaptured against an instrument, the drop shown at last
+
+**The user's instruction was flat: not a single MidiMirror screenshot may show
+the Pitch MIDI effect as the addressed device.** Pitch is a three-parameter
+utility, so a Device-mode shot built on it makes the feature look thin — the
+knob row reads "Pitch, Pitch, Lowest, Range" and the mapping screen offers a
+handful of parameters where a real instrument offers ninety-two. Everything was
+recaptured against a plain Wavetable on its own track, so the deck header reads
+3-WAVETABLE / Wavetable and the swap bar's button reads **Remember this order
+for Wavetable** — which is the point of that panel, since the order key is the
+Live device display name (`MidiMirror/visualizer/swap.js` around 265).
+
+Three commits in this lane: `96de644` promoted the per-device saved-order copy
+into its own panel high on `apps/midimirror.html` (the user's own bullet,
+lightly edited — it had been a trailing `li` on Gumroad and absent from the site
+entirely); `1323849` replaced the shots and rewrote every alt and figcaption
+that named Pitch.
+
+| `assets/shots/` | Size | State |
+|---|---|---|
+| `midimirror.png` | 3456x2016 | already Wavetable, untouched |
+| `midimirror-knobs.png` | 1979x738 | already Wavetable, untouched |
+| `midimirror-modes.png` | 447x1279 | side panel only, untouched |
+| `midimirror-order.png` | 2532x500 | **recaptured** |
+| `midimirror-mapping.png` | 3426x1992 | **recaptured** |
+| `midimirror-map-dialog.png` | 1448x784 | **recaptured** |
+| `midimirror-drop.png` | 3408x742 | **new** |
+
+The drop shot is taken deliberately mid-move: the drop is held, then six knobs
+and a fader were dragged away from where they were stored, so the orange pip
+sits visibly apart from the pointer instead of hiding underneath it. A shot
+taken straight after arming looks like nothing happened, which is exactly the
+failure the paragraph beside it is trying to explain. The page had described
+snap-back in prose since it was written and never once showed it.
+
+**Gumroad `ohhpmz` is in step with the page.** Seven images now, four of them
+uploaded this session; the two old *Pitch* blobs that were still live (the
+picker and the mapping screen) were swapped out too, which is easy to miss —
+the placeholder keys in the staged description were not the only ones that
+needed replacing. Verified after a reload: 7 images, zero occurrences of
+"Pitch", captions matching the site's. Still **unpublished**; only "Save and
+continue" was clicked.
+
+### Two capture lessons worth more than the shots
+
+- **`screencapture -x -o -l<windowid> out.png` grabs the window's own backing
+  buffer**, so an overlapping window no longer ruins the frame. Window ids come
+  from `Quartz.CGWindowListCopyWindowInfo(kCGWindowListOptionOnScreenOnly, …)`,
+  which returns front-to-back z-order with `kCGWindowNumber`, owner name and
+  bounds in *points*. This removes the entire class of retakes lost to the
+  Claude desktop window raising itself, and it crops to the target window by
+  construction — which is also the privacy-safe default after the full-screen
+  capture that once caught the user's Mail app mid-search.
+- **Display scale here is exactly 2.0.** Points are real pixels halved;
+  framebuffer 3456x2234, desktop bounds 1728x1117. The figure 1.728 that an
+  earlier session used as a scale factor is the screen *width in points*, and
+  reading it as a ratio is what made every click miss.
+
+Two traps that cost time and will again:
+
+- **`cliclick` clicks go to whatever is topmost at that point.** A full-screen
+  MidiMirror window silently ate every click aimed at Live behind it, including
+  a `kp:delete` meant for a track. Check with
+  `osascript -e 'tell application "System Events" to name of first process whose frontmost is true'`
+  before trusting a click, and quit the app in front rather than trying to raise
+  the one behind (root `CLAUDE.md` §5 — MidiMirror cannot be raised by
+  `activate`).
+- **The Gumroad save interceptor must not filter on the request URL.** The
+  version documented below matched only URLs containing `/products/`; the real
+  save goes out somewhere else, so it sailed past unpatched and committed the
+  raw editor body — four freshly uploaded images dumped at the caret, on top of
+  the old ones. Swap on *any* body whose string contains `"description"`
+  instead, and treat an empty `window.__hits` after a successful save as a
+  failure even when the URL moves `/edit` → `/edit/content`. Recovery is just a
+  reload and a second attempt; the damage is only ever one bad description.
+- The first click on "Save and continue" often does nothing and the second one
+  saves. Also: `computer` coordinates are screenshot pixels (1528 wide here),
+  not CSS pixels (1728) — multiply a `getBoundingClientRect()` result by ~0.884
+  before clicking it.
+
+The machine was left as it was found: the drop released so every Live value
+snapped back, MidiMirror quit, and the temporary "3 Wavetable" track deleted
+with the user's own two tracks and their automation intact.
+
+---
+
 ## 2026-08-13 — Feature gaps filled, zoom crops added, all four Gumroad descriptions rewritten from the site pages
 
 **The site and Gumroad now carry the same text.** This was the session's whole
