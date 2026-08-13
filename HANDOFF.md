@@ -9,7 +9,37 @@ Developer ID certificate that does not exist yet.
 
 ---
 
-## 2026-08-13 (latest) — 3D nameplate work tried and retired, two bundles replace the Companion Suite, a review pass, the cutout fix, and a stale publish caught
+## 2026-08-13 — Arranger pulled off the site, hero cascade crop fixed
+
+The user flagged two live-site bugs from a screenshot, both from the
+`35bc8dc` cutout work: the homepage hero (`assets/shots/hero-stack.png`)
+had MidiMirror cropped out of frame entirely, and Spectrl was sliced
+through the middle of its toolbar instead of along a rounded corner. Also:
+Arranger was live on the homepage and had its own product page before
+there is anything to sell — should not have been there yet.
+
+- **Hero crop fixed.** `make-hero.py`'s `BLEED` constant was 0.62, on the
+  theory that cropping into the back of the cascade made the front window
+  read bigger once scaled down to the page's 620px height cap. That theory
+  was wrong: the cap scales off the canvas's *height*, and the crop only
+  trims width/top, so the front window rendered the same size regardless —
+  the only effect of a high BLEED was cropping the back windows out. Set to
+  `BLEED = 0` (full cascade, no crop) and regenerated `hero-stack.png`; all
+  four windows now show with clean rounded corners and their own drop
+  shadow, MidiMirror included.
+- **Arranger removed from the homepage**, not just relabelled: pulled its
+  product card, deleted `apps/arranger.html`, and fixed the Toolbox
+  Bundle's copy/icon-row/price line, which used to read "Spectrl, MidiMirror
+  and Arranger" — it's a two-app bundle (Spectrl + MidiMirror) until
+  Arranger actually ships. Also dropped `arranger` from the untracked
+  Gumroad art tooling (`gumroad/cover.html`, `gumroad/make-gumroad-art.sh`)
+  so that local kit doesn't generate art for an unlisted product either.
+- **Published.** `./publish.sh` run; live site is at `00dd201`.
+- Commit: `00dd201`.
+
+---
+
+## 2026-08-13 — 3D nameplate work tried and retired, two bundles replace the Companion Suite, a review pass, the cutout fix, and a stale publish caught
 
 Catch-up entry: six commits (`43b6328`..`35bc8dc`) had landed in this repo with
 no handoff section written for any of them, and the live site had not been
