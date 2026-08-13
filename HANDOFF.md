@@ -9,6 +9,93 @@ Developer ID certificate that does not exist yet.
 
 ---
 
+## 2026-08-13 — The site is on the web, the buy buttons became an overlay, and `git push` no longer publishes anything
+
+**THE SITE IS LIVE:** `https://toastonjam-debug.github.io/jamwareaudio-site/`
+Verified after the first Pages build — `/`, `/styles.css`, `/apps/midimirror.html`
+and a screenshot all `200`; `/README.md`, `/CLAUDE.md` and `/HANDOFF.md` all
+`404`, which is the entire point of the arrangement below.
+
+### ⚠ Read this before you push: there are now two repositories
+
+| Repository | Visibility | Role |
+|---|---|---|
+| `toastonjam-debug/jamwareaudio` | **private** | `site/` — the real work |
+| `toastonjam-debug/jamwareaudio-site` | **public** | build output only |
+
+Pages on the free tier serves only a *public* repository, and serves every file
+in it. This directory is a working lane as well as a website — `CLAUDE.md`,
+`HANDOFF.md`, `README.md` — so making `jamwareaudio` public to obtain a URL
+would have published the lane rules, every session note and the go-live
+checklist, history included, in order to save copying six files. Visibility is a
+property of a repository and not of a branch, so branch tricks do not help and
+the split had to be a second repo.
+
+**`git push` in `site/` publishes nothing now.** `./publish.sh` does. It copies
+an **allowlist** — `index.html`, `styles.css`, `apps/`, `assets/` — into a
+gitignored `.public-mirror/` checkout and pushes that. The script's header
+argues the allowlist at length and it is worth not undoing: the obvious
+inversion, copy-everything-minus-the-internal-files, **fails open**. The day
+someone drops a `NOTES.md` or a `.env` in here an exclude list publishes it and
+nobody finds out. An allowlist fails closed — a new page is simply missing from
+the site, which is a bug you notice rather than one a customer notices for you.
+
+The public repo is output, not a workspace: `publish.sh` overwrites it wholesale
+and anything edited there is lost. A `CNAME` for a custom domain is the one
+exception and belongs in `.public-mirror/`, where a republish leaves it alone.
+
+⚠ **This is the first public repository in the tree**, against the standing
+"every JamWare repository is private" rule. It was the user's explicit choice
+after being shown what going public would expose, and it holds no app source —
+only the rendered website. The rule stands for all seven others.
+
+### The buy buttons open a Gumroad overlay now (`0d1a626`)
+
+All nine "Get it" anchors carry `class="btn gumroad-button"` and every page loads
+`gumroad.js`, so checkout opens as a modal *over* the site rather than sending
+the customer to gumroad.com — the user's ask was to make buying "as quick and
+smooth as possible". The anchors keep real `href`s, so a blocked or changed
+script degrades to the plain links the site already had; no state leaves a
+button dead. Gumroad's *inline* embed was rejected: it renders the whole product
+box into a div, duplicating copy already written here and ignoring the layout.
+
+**The styling guard in `styles.css` was written against the real CSS, not
+guessed.** `gumroad.js` is a 539-byte loader that appends
+`assets.gumroad.com/vite/assets/entrypoints/overlay-<hash>.css`; that URL needs
+no published product, so it was fetched and read. Two findings a guess would
+have missed, both now answered:
+
+- Its `:hover`/`:active` rules are one pseudo-class *more* specific than a base
+  rule, so they would have won — the button would slide up-left a quarter rem on
+  hover, grow a hard offset shadow and turn pink. Hence the explicit
+  `a.btn.gumroad-button:hover` / `:active` rules mirroring `.btn`'s.
+- ⚠ **Gumroad sets `--accent: 255 144 232` on `.gumroad-button` itself.** Any
+  `var(--accent)` in a rule targeting that element resolves against *that* — and
+  a bare `255 144 232` is not a colour, so our gradient and border would not go
+  pink, they would fail to parse and vanish, leaving a transparent button. The
+  guard reads `--btn-accent` instead, copied off `.btn-row` one level up where
+  Gumroad's rules cannot reach. **Do not "simplify" it back to `var(--accent)`.**
+
+**Still unverified, and unverifiable for now:** that the modal actually opens.
+An unpublished product's `/l/<slug>` 404s for anyone but the seller, and a modal
+onto a 404 is indistinguishable from a broken one. It is a launch-day check in
+`README.md`.
+
+### What the live site is, honestly
+
+A preview. The four Gumroad listings remain **unpublished** by standing
+instruction, so every buy button 404s for the public — the user was shown this
+and chose to go up anyway to see the thing. Publishing the listings is theirs to
+do in their own browser, and it is the last step before the site is a shopfront
+rather than a brochure. The Apple Developer enrolment blocker is unchanged.
+
+Also decided, and recorded in `README.md`: **Gumroad Pages is not being used** —
+it would be a second, weaker copy of this site to keep in sync. The *profile*
+page at `jamwareaudio.gumroad.com` is still worth setting up so a trimmed URL or
+a receipt link lands on the four products.
+
+---
+
 ## 2026-08-13 — MidiMirror: per-device saved order promoted, every Device-mode shot recaptured against an instrument, the drop shown at last
 
 **The user's instruction was flat: not a single MidiMirror screenshot may show
