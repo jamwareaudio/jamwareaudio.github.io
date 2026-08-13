@@ -428,12 +428,16 @@ a.btn.gumroad-button:active {
    argument for the bundle made visually rather than in prose. */
 
 .suite .panel-body { display: grid; grid-template-columns: auto 1fr; gap: 26px; align-items: center; }
-.suite-icons { display: grid; grid-template-columns: repeat(2, 74px); gap: 10px; }
+.bundles { display: grid; gap: 20px; }
+/* Column flow rather than a fixed 2-wide grid: the Creative Bundle carries two
+   icons and the Toolbox three, and a 2-column grid put the third on its own
+   second row looking like an afterthought. */
+.suite-icons { display: grid; grid-auto-flow: column; gap: 10px; }
 .suite-icons img { width: 74px; height: 74px; border-radius: 15px; display: block; }
 
 @media (max-width: 720px) {
   .suite .panel-body { grid-template-columns: 1fr; gap: 18px; }
-  .suite-icons { grid-template-columns: repeat(4, 60px); }
+  
   .suite-icons img { width: 60px; height: 60px; border-radius: 12px; }
 }
 
