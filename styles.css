@@ -485,6 +485,46 @@ a.btn.gumroad-button:active {
   color: var(--text-secondary);
 }
 
+/* ---- Product renders ------------------------------------------------------
+
+   These are Blender renders, not screenshots: the app's own window capture is
+   UV-mapped onto a physical slab with a chassis under it and its knobs standing
+   proud as real geometry, lit by four softboxes and shot with a real f-stop.
+   The rig lives in the handoff; what matters here is that they are PHOTOGRAPHS
+   of an object, so they get framed as photographs and not as screens.
+
+   That is the whole reason .render is not .screen. The .screen recess above is
+   a bezel: an inset shadow and a bright bottom lip, drawn so a flat UI capture
+   reads as something set into the page. Putting a render inside it stacks a
+   fake bezel around an object that already has a real one, and the two edges
+   argue — you get a photograph of hardware sitting inside a drawing of
+   hardware. An earlier pass did exactly that and it was the tell.
+
+   So: no border, no recess, no padding. The render's own dark floor already
+   fades to near the page background, so it seats itself. The only decoration
+   is a soft drop shadow underneath, which reads as the object's weight rather
+   than as a frame around a picture.
+
+   No max-height cap either (contrast .zoom). These are shot at 1800x1116 and
+   composed to be seen whole; capping the height would crop the composition,
+   and the whole point of a hero framing is the silhouette. */
+
+.render { margin: 0; }
+.render img {
+  width: 100%;
+  display: block;
+  border-radius: calc(var(--radius) - 2px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+}
+.render figcaption {
+  display: block;
+  margin: 14px 2px 0;
+  max-width: 66ch;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
 /* Placeholder for a product that has no screenshot yet. Deliberately looks
    like an unlit screen, not a broken image. */
 .screen.empty {
