@@ -34,6 +34,28 @@
 
   --radius:         4px;
   --measure:        66ch;
+
+  /* --- plate type, from the apps ----------------------------------------
+     Every app's faceplate typography — the engraved wordmark in the top row,
+     the panel headers, the control labels — runs on this exact stack (see
+     MutationStation/standalone/dist/interface.html, mirrored in the others).
+     The site had never declared it, so all of it fell through to -apple-system
+     and the milled headings came out in SF next to screenshots of the same
+     words in Futura. Nobody spots the substitution as such; it just makes the
+     site look like a brochure ABOUT the instruments rather than another panel
+     of the same instrument, which is the one thing the whole palette is for.
+
+     Century Gothic ships with Office and Futura with macOS, so on this machine
+     and most Mac buyers' the first or second entry hits. -apple-system stays in
+     the stack as the fallback rather than a webfont: a 200KB download to render
+     four headings, blocking or flashing on first paint, is the wrong trade for
+     a page whose job is to load fast and look solid.
+
+     ⚠ Body prose deliberately stays on -apple-system. Futura at 15px over 66ch
+     is a poster face doing a paragraph's job — the apps do not set body copy in
+     it either, because they have none. This token is for text that is cut into
+     the plate, not text printed on the page.                                  */
+  --font-plate: "Century Gothic", Futura, -apple-system, "Segoe UI", Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -60,6 +82,7 @@ body {
 /* Engraved-legend type: the small uppercase labels silkscreened onto hardware.
    Used for every eyebrow, panel header and legend on the site. */
 .legend {
+  font-family: var(--font-plate);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -99,6 +122,7 @@ a:hover { color: var(--accent); }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .brand svg, .brand img { height: 22px; width: auto; display: block; }
 .wordmark {
+  font-family: var(--font-plate);
   font-size: 16px; font-weight: 700; letter-spacing: 0.06em;
   color: var(--text-heading); text-transform: uppercase;
   text-shadow: 0 1px 0 rgba(255,255,255,0.6);
@@ -151,11 +175,22 @@ a:hover { color: var(--accent); }
    a proportion of the type size — an engraving does not get deeper because the
    letters got bigger, which is exactly why fixed pixels are right here.       */
 .engraved {
-  color: color-mix(in srgb, var(--ui-bg) 34%, black);
+  font-family: var(--font-plate);
+  /* ⚠ The whole gradient sits HIGH — every stop within about 25 lightness points
+     of the faceplate, rather than the near-black-to-mid-grey range it ran at
+     until 2026-08-14. The user's ruling, given for all three engravings on the
+     site at once: the cut should look like the plate with a groove in it, not
+     like dark type sitting on the plate. It works because what you actually read
+     is the pair of lips (the white one below, the dark hairline above), not the
+     contrast of the fill against the background — same principle the 15px
+     wordmarks inside the apps run on, applied here at 60px. Keep the stops in
+     the same order and roughly the same spread if you retune: dark at the top is
+     the far wall of the groove, and inverting it turns the letter into a ridge. */
+  color: color-mix(in srgb, var(--ui-bg) 82%, black);
   background: linear-gradient(180deg,
-    color-mix(in srgb, var(--ui-bg) 8%, black) 0%,
-    color-mix(in srgb, var(--ui-bg) 20%, black) 45%,
-    color-mix(in srgb, var(--ui-bg) 58%, black) 100%);
+    color-mix(in srgb, var(--ui-bg) 72%, black) 0%,
+    color-mix(in srgb, var(--ui-bg) 82%, black) 45%,
+    color-mix(in srgb, var(--ui-bg) 95%, black) 100%);
   /* Tile the gradient once per LINE, not once per element. Without this the
      single gradient stretches over the whole h1 box, so on a two-line headline
      the first line gets the dark end and the second the light end — two
@@ -171,7 +206,9 @@ a:hover { color: var(--accent); }
   text-shadow: none;
   filter:
     drop-shadow(0 2px 0 rgba(255,255,255,0.95))
-    drop-shadow(0 -1px 0 rgba(0,0,0,0.45))
+    /* Up from 0.45 with the lighter fill: the upper lip is now carrying most of
+       the definition, since the fill no longer separates itself from the plate. */
+    drop-shadow(0 -1px 0 rgba(0,0,0,0.55))
     drop-shadow(0 3px 5px rgba(0,0,0,0.10));
 }
 
@@ -190,7 +227,10 @@ a:hover { color: var(--accent); }
   line-height: 1.06;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  max-width: 15ch;
+  /* 15ch until the plate font landed. `ch` is the width of a zero, and Futura's
+     is much wider than SF's, so the same 15ch stopped fitting "COMPANION APPS"
+     and broke the wordmark across three lines with APPS orphaned on its own. */
+  max-width: 18ch;
   margin: 0 0 18px;
 }
 
@@ -226,6 +266,7 @@ a:hover { color: var(--accent); }
   box-shadow: 0 1px 0 rgba(255,255,255,0.6), 0 2px 5px rgba(0,0,0,0.14);
 }
 .panel > .panel-head {
+  font-family: var(--font-plate);
   font-size: 11px; font-weight: 700; text-transform: uppercase;
   letter-spacing: 0.09em; color: var(--text-heading);
   margin: 0; padding: 6px 14px 7px;
@@ -260,19 +301,22 @@ a:hover { color: var(--accent); }
      it. MutationStation's source records that as a rejected pass, and the same
      mistake is available here.
 
-     The fill is the one number that had to be re-derived rather than copied.
-     The app's rule is "about twelve points of lightness below the plate the
-     word sits on", measured there against a 95% face-hi. Our band is darker
-     (control-bg mixed with black, ~79-85%), and twelve points below that is a
-     title you cannot read at 11px — the app can be that subtle because a
-     wordmark is scenery and these are the headings you navigate the page by.
-     ~22 points down instead: still plainly below the surface, still legible.
-     Mixed from the band's own token so a palette change carries the cut with
-     it, rather than hardcoded. */
-  color: color-mix(in srgb, var(--control-bg) 62%, black);
+     The fill follows the apps' own rule — about twelve lightness points below
+     the plate the word sits on — mixed from the band's own token so a palette
+     change carries the cut with it. Our band is control-bg darkened to ~79-85%,
+     so the fill lands around 68%.
+
+     ⚠ It first shipped at 62% instead, on the argument that the app can afford
+     to be that subtle because a wordmark is scenery whereas these are headings
+     you navigate the page by, and that twelve points down is unreadable at an
+     11px cap height. The user overruled that on 2026-08-14 across all three
+     engravings on the site: the cut is supposed to look like the plate with a
+     groove in it, and a fill dark enough to read on its own is just dark type.
+     The lips do the work. Do not walk this back down without asking.          */
+  color: color-mix(in srgb, var(--control-bg) 74%, black);
   text-shadow:
-    0  1px 0 hsla(0,0%,100%,0.72),
-    0 -1px 0 hsla(28,12%,14%,0.30);
+    0  1px 0 hsla(0,0%,100%,0.88),
+    0 -1px 0 hsla(28,12%,14%,0.42);
 }
 /* The accent pilot lamp on the header band — the one place each product's
    colour announces itself before you have read anything. */
@@ -316,6 +360,7 @@ a:hover { color: var(--accent); }
 }
 .product .icon { width: 96px; height: 96px; display: block; border-radius: 18px; }
 .product h3 {
+  font-family: var(--font-plate);
   margin: 0 0 2px; font-size: 21px; letter-spacing: -0.01em;
 }
 /* ---- The product name, cut into the card ---------------------------------
