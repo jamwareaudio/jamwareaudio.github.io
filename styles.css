@@ -242,8 +242,17 @@ a:hover { color: var(--accent); }
 /* The homepage hero shot. Capped in height so a tall dialog screenshot cannot
    push the product list below the fold; the image is anchored to its top so
    the part that sells it stays visible. */
-.hero-shot { padding-bottom: 10px; }
-.hero-shot .screen img { max-height: 560px; width: auto; margin: 0 auto; }
+/* Wider than the 1000px text column, and taller than the panels below it, for
+   one reason: the apps are laid out for a 1600pt window, so every pixel the
+   frame loses comes off legibility until the screenshot is decorative. This is
+   the only element on the site allowed out of the measure. Together with the
+   BLEED crop in make-hero.py it puts the front window back at a size where the
+   piano roll reads as a piano roll. */
+.wrap.hero-shot { max-width: 1180px; padding-bottom: 10px; }
+/* max-width before width:auto, in that order of importance: width:auto lets the
+   height cap drive the size, which on a phone resolved to a ~1000px image in a
+   371px viewport and gave the whole page a horizontal scrollbar. */
+.hero-shot .screen img { max-height: 620px; max-width: 100%; width: auto; margin: 0 auto; }
 .caption { display: block; margin: 10px 2px 0; }
 
 /* ========================================================= PRODUCT CARDS */
@@ -573,12 +582,41 @@ a.btn.gumroad-button:active {
 
 /* =============================================================== MOBILE */
 
+/* ---- Phones ---------------------------------------------------------------
+
+   This used to be four declarations, on the assumption that a one-column layout
+   degrades gracefully on its own. Mostly it does; these are the places where it
+   does not, each one checked at 390px:
+
+     - the header is a sticky 58px bar carrying a wordmark and five nav items,
+       which collide long before 390px. The nav wraps under the brand and the
+       bar stops being a fixed height rather than squeezing the type further;
+     - background-attachment: fixed forces iOS Safari to repaint the whole
+       gradient on every scroll frame, which is the single most expensive thing
+       on this page on a phone and buys nothing once the viewport is narrower
+       than the panel it is meant to unify. Scroll it with the page instead;
+     - the bundle icon rows and the buy buttons are laid out for a mouse. Both
+       get full-width targets rather than 13px type in a 9px-tall pill.       */
 @media (max-width: 720px) {
   .product .panel-body { grid-template-columns: 64px 1fr; gap: 16px; }
   .product .icon { width: 64px; height: 64px; border-radius: 13px; }
   .two-col { grid-template-columns: 1fr; }
-  .site-nav { gap: 14px; font-size: 13px; }
   .hero { padding: 48px 0 36px; }
+
+  body { background-attachment: scroll; }
+  .wrap { padding: 0 16px; }
+  .section { padding: 28px 0; }
+
+  .site-header .wrap {
+    height: auto; min-height: 58px;
+    flex-wrap: wrap; gap: 8px 16px; padding-top: 10px; padding-bottom: 10px;
+  }
+  .site-nav { margin-left: 0; width: 100%; gap: 16px; font-size: 13px; flex-wrap: wrap; }
+  .wordmark { font-size: 15px; }
+
+  .btn { padding: 11px 16px; }
+  .btn-row .btn { flex: 1 1 100%; justify-content: center; }
+  .btn-row .price, .btn-row .status { flex: 1 1 100%; }
 }
 
 /* The faceplate is a physical object with one lighting direction; there is no

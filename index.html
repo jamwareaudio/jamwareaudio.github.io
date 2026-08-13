@@ -5,15 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>JamWare Audio · Standalone Mac apps for music production</title>
 <meta name="description" content="Standalone Mac apps with the depth of hardware: MutationStation, Chordinator, Spectrl and MidiMirror. Built for Ableton Live, compatible with any DAW." />
-<link rel="icon" href="assets/icons/mutationstation-1024.png" />
+<!-- The company mark, not an app icon: every tab of this site used to be
+     branded MutationStation, which reads as one product rather than five. -->
+<link rel="icon" href="assets/favicon.svg" />
+
+<!-- Social cards. Pasting a link to this site into a DM, a forum or a post
+     previewed as a blank box before 2026-08-13, which is most of how anything
+     gets shared. og:image must be an absolute URL: several scrapers do not
+     resolve relative ones, and the fallback when they fail is nothing at all.
+     If the site ever moves off https://jamwareaudio.github.io/ these five URLs move with it. -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="JamWare Audio" />
+<meta property="og:title" content="JamWare Audio · Standalone Mac apps for music production" />
+<meta property="og:description" content="Standalone Mac apps with the depth of hardware: MutationStation, Chordinator, Spectrl and MidiMirror. Built for Ableton Live, compatible with any DAW." />
+<meta property="og:url" content="https://jamwareaudio.github.io/" />
+<meta property="og:image" content="https://jamwareaudio.github.io/assets/shots/hero-stack.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="JamWare Audio · Standalone Mac apps for music production" />
+<meta name="twitter:description" content="Standalone Mac apps with the depth of hardware: MutationStation, Chordinator, Spectrl and MidiMirror. Built for Ableton Live, compatible with any DAW." />
+<meta name="twitter:image" content="https://jamwareaudio.github.io/assets/shots/hero-stack.png" />
 <link rel="stylesheet" href="styles.css" />
 
 <!-- ==========================================================================
      STORE LINKS — every "Get it" button on this site points at Gumroad, and
      every one of them is written as https://jamwareaudio.gumroad.com/l/<slug>.
-     These are ASSUMED slugs, not confirmed ones. Check them against the real
-     product URLs in your Gumroad dashboard and fix any that differ; they
+
+     The four app slugs (mutationstation, chordinator, spectrl, midimirror) were
+     checked against the live dashboard on 2026-08-13 and are correct. They
      appear here on the cards and once more on each page in apps/.
+
+     ⚠ The two bundle slugs, creative-bundle and toolbox-bundle, are NOT
+     confirmed: those products do not exist on Gumroad yet. Both buttons 404
+     until they are created. Nothing here needs changing if the products are
+     made with these slugs; if they end up named differently, fix them in the
+     #bundles section below.
      ====================================================================== -->
 </head>
 <body>
@@ -27,6 +52,7 @@
     <nav class="site-nav">
       <a href="#products">Products</a>
       <a href="#bundles">Bundles</a>
+      <a href="#licence">Licence</a>
       <a href="#about">About</a>
       <a href="mailto:toastonjam12345@gmail.com">Support</a>
     </nav>
@@ -278,6 +304,44 @@
     </div>
   </section>
 
+  <!-- The three questions anyone asks with a card in their hand, answered on the
+       page rather than buried in a Gumroad receipt: how many machines, what
+       happens on update, and can I get my money back. It sits between the
+       bundles and the About panel deliberately, which is where a reader who has
+       just looked at a price is standing.
+
+       ⚠ The activation flow described here is a promise, and as of 2026-08-13 no
+       code implements it. Nothing in the apps checks a licence, counts machines
+       or deactivates anything. If activation ships in a different shape, this
+       panel is the copy that has to change with it. -->
+  <section class="section wrap" id="licence">
+    <span class="legend">What you get</span>
+    <div class="panel" style="--accent:#5B9E63">
+      <h2 class="panel-head">Licence &middot; updates &middot; refunds</h2>
+      <div class="panel-body">
+        <div class="prose">
+          <p>
+            <strong>Three machines.</strong> One purchase covers up to three Macs,
+            which is a studio machine, a laptop and the one you have not replaced
+            yet. Moving to a new machine does not cost anything: delete the old
+            activation code and generate a fresh one for the new Mac.
+          </p>
+          <p>
+            <strong>Updates, your way.</strong> Every app can check for updates on
+            its own and tell you when one is ready, or stay quiet and leave it to
+            you to check by hand. Set it whichever way you prefer in the app.
+          </p>
+          <p>
+            <strong>14 days, no questions asked.</strong> Refunds follow EU
+            consumer law: if it is not for you, ask within 14 days of purchase and
+            you get your money back. No form to fill in and no reason to give.
+          </p>
+          <p class="legend">All apps are version 1.0.0</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section wrap" id="about">
     <span class="legend">About</span>
     <div class="panel" style="--accent:#E0862C">
@@ -297,8 +361,9 @@
             no app ever has two colours competing to mean "important".
           </p>
           <p>
-            Everything is small, does one job, and stays out of the master chain.
-            Nothing phones home.
+            Each one does a single job properly, stays out of the master chain,
+            and leaves the writing to you. They are tools, not a machine that
+            makes the record for you. Nothing phones home.
           </p>
         </div>
       </div>

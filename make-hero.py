@@ -86,5 +86,20 @@ for i, win in enumerate(windows):
     layer.paste(win, (x, y), win)
     canvas = Image.alpha_composite(canvas, layer)
 
+# ---- Crop the cascade into the frame ---------------------------------------
+# The full stack was 1970px wide with the front window taking 76% of it, which
+# at the site's 1000px content width rendered every window at under half the
+# size its UI was designed for. The apps are laid out for a 1600pt window; a
+# hero nobody can read is a hero that only says "some software exists".
+#
+# So the stack is cropped into rather than shrunk to fit: the back windows run
+# off the top-left edge of the frame the way windows run off the edge of a real
+# desktop, and the front two, which are the ones the site is actually arguing
+# for, get the pixels. Raise BLEED to push more of the range out of frame and
+# make the front window bigger; drop it to show more of the stack.
+BLEED = 0.62
+canvas = canvas.crop((round(span_x * BLEED), round(span_y * BLEED),
+                      canvas_w, canvas_h))
+
 canvas.save(OUT)
 print(f"wrote {OUT} {canvas.size}")
