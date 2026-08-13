@@ -9,6 +9,113 @@ Developer ID certificate that does not exist yet.
 
 ---
 
+## 2026-08-13 (later) — Cascaded hero, the stale spec strips are gone, and a de-AI pass over every word on the site (`c0bee4d`)
+
+Three items from the user, all three shipped and live. The em-dash item is the
+one with a long tail, so read that part before writing any new copy here.
+
+### 1. The hero is no longer one Spectrl window
+
+`make-hero.py` builds `assets/shots/hero-stack.png` from the four existing
+captures: four windows cascaded back-to-front, **MutationStation in front and
+Chordinator immediately behind it**, which was the brief. The script's header
+carries the reasoning at length; the short version is that a lone spectrum
+analyser was the wrong first impression for a company selling four tools, and
+depth ordering is what does the ranking.
+
+⚠ **Do not hand-edit the PNG — re-run `./make-hero.py`.** The four source
+captures disagree with each other (two RGB with the corners already flattened to
+black, one RGBA with real transparent corners, one full-retina and
+square-cornered), so every window is rescaled to one width and re-masked with
+the same radius. That uniform re-mask is why the stack reads as four windows on
+one desktop rather than four screenshots taken on four different days. The
+output background is transparent on purpose: it nests in the site's dark
+`.screen` recess, and a baked-in colour would show as a rectangle the moment
+that recess changes.
+
+### 2. The spec strips are gone, and the CSS rule went with them
+
+The `.specs` badge rows came off all five product pages, and the `.specs` rule
+was deleted from `styles.css` and replaced with a comment saying not to
+reintroduce it. This is the *same* correction the user had already made once
+against the Gumroad covers, and it had been missed here — worth knowing, because
+the reason generalises:
+
+- A finite row of badges reads as *the* feature list. Every one of these apps
+  has more in it than three chips, so the strip actively undersold them.
+- One of the three chips was `macOS · Apple Silicon`, which is a system
+  requirement and not a reason to buy anything.
+
+### 3. The de-AI pass — and the rule for anything written here from now on
+
+The user's words: *"avoid ai tells, like long - . Make it seem human written."*
+
+**The em dash was the tell.** Every one in reader-visible copy is gone from all
+six pages. What replaced it was chosen per sentence, never by find-and-replace,
+because a blanket swap to a comma produces its own tell:
+
+- In titles and `panel-head` bands → `·`, which is **already this site's own
+  separator** (the footer legend and the suite price both used it before this
+  pass). Nothing new was invented.
+- Mid-sentence, where the dash introduced an explanation → a colon, or a full
+  stop and a new sentence. Several of these read better short.
+- Around an aside → parentheses, or commas where the aside was brief.
+
+⚠ **Five em dashes remain in `index.html` and all five are inside HTML
+comments.** That is house style for the WHY blocks and readers never see them.
+Do not "finish the job" by stripping those.
+
+**The bigger tell was not punctuation, it was repetition.** The identical
+sentence *"Two independent programs talking over MIDI beats one process that
+takes both down when either one stumbles."* closed the "Why standalone" section
+on three different product pages, word for word. Anybody who opens two pages
+sees it instantly, and it is a stronger generated-copy signal than any dash.
+Each is now written in that app's own terms. **Do not reintroduce shared
+boilerplate across the product pages** — if a paragraph is worth saying on three
+pages, it is worth saying three different ways.
+
+Also checked and clean: no en dashes anywhere, and a grep for the usual vocabulary
+tells (`seamless`, `effortless`, `unlock`, `elevate`, `robust`, `leverage`,
+`cutting-edge`, `delve`, `whether you`, `isn't just`, …) found nothing. Three
+uses of "not just" survive and were left deliberately — all three are natural
+("Reads in notes, not just hertz").
+
+Register, from the user, and it governs everything above: **"They are tools, not
+ai doing the work for you."** No copy here should imply the app is making the
+music.
+
+### ⚠ Still owed: the Gumroad half of item 3
+
+The user asked for the de-AI pass over **"gumroad and website"**. Only the
+website half is done. The four descriptions — MidiMirror `ohhpmz`, Spectrl
+`zpedfw`, Chordinator `ztjqq`, MutationStation `gligmk` — still carry the old
+prose, so the store and the site now disagree with each other.
+
+It is blocked on the browser: the Claude Chrome extension was not connected this
+session (`list_connected_browsers` returned empty), and there is no other way
+into that editor.
+
+**When it is connected, the method is the one already documented below** under
+the Gumroad editor section — every trap in it still applies, in particular that
+the save interceptor must swap on **any** body containing `"description"` and
+must never filter on the request URL. The specific plan:
+
+1. Read each description's current HTML straight out of the editor.
+2. Apply the *same* substitutions already made to the matching
+   `site/apps/*.html`, as targeted text-only replacements.
+3. Swap it in through the `fetch` / `XMLHttpRequest` interceptor.
+
+Step 2 being text-only is the important part: it leaves every image node in the
+description untouched, so **nothing has to be re-uploaded**. Rebuilding the HTML
+from scratch would mean re-running the whole blob-key dance for no reason.
+
+⚠ All four listings are still deliberately **unpublished**. Click only **Save
+and continue**. Never the pink **Publish and continue** — publishing is the
+user's own job in their own browser. And nothing is to be done about TouchXY:
+*"Let's wait with uploading touchxy. I wanna release ur a bit later."*
+
+---
+
 ## 2026-08-13 — The site is on the web, the buy buttons became an overlay, and `git push` no longer publishes anything
 
 **THE SITE IS LIVE:** `https://toastonjam-debug.github.io/jamwareaudio-site/`
