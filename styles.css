@@ -306,14 +306,15 @@ a:hover { color: var(--accent); }
      change carries the cut with it. Our band is control-bg darkened to ~79-85%,
      so the fill lands around 68%.
 
-     ⚠ It first shipped at 62% instead, on the argument that the app can afford
-     to be that subtle because a wordmark is scenery whereas these are headings
-     you navigate the page by, and that twelve points down is unreadable at an
-     11px cap height. The user overruled that on 2026-08-14 across all three
-     engravings on the site: the cut is supposed to look like the plate with a
-     groove in it, and a fill dark enough to read on its own is just dark type.
-     The lips do the work. Do not walk this back down without asking.          */
-  color: color-mix(in srgb, var(--control-bg) 74%, black);
+     ⚠ This one number was tuned three times in a row, so the range is settled
+     and the endpoints are both wrong: 62% first (readable but plainly dark type
+     on a band, not a cut), then 74% with the site-wide lightening, which the
+     user then called back as too faint HERE SPECIFICALLY while keeping the
+     lighter treatment on the hero nameplate and the card names. 66% is the
+     settled answer. The band is the one engraving that has to stay legible at
+     an 11px cap height while the big ones can afford to be nearly invisible —
+     that asymmetry is deliberate, not an inconsistency to tidy up.            */
+  color: color-mix(in srgb, var(--control-bg) 66%, black);
   text-shadow:
     0  1px 0 hsla(0,0%,100%,0.88),
     0 -1px 0 hsla(28,12%,14%,0.42);
