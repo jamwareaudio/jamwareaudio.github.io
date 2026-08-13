@@ -9,6 +9,75 @@ Developer ID certificate that does not exist yet.
 
 ---
 
+## 2026-08-13 (latest) — 3D nameplate work tried and retired, two bundles replace the Companion Suite, a review pass, the cutout fix, and a stale publish caught
+
+Catch-up entry: six commits (`43b6328`..`35bc8dc`) had landed in this repo with
+no handoff section written for any of them, and the live site had not been
+republished since `43b6328` — so the cutout fix below was sitting unpublished
+while the user was looking straight at the bug it was meant to fix. Both gaps
+are closed now: this section, and `./publish.sh` run at the end of it.
+
+- **Three attempts at giving the site physical depth, all rejected, now
+  deleted** (`9dd1649`→`fb71f78`, retired in `4b65935`): a CSS/PIL hardware
+  chassis around the screenshots, extruded-screenshot renders (rejected because
+  treating a whole app window as the render subject gives hundreds of elements
+  uniform micro-relief and warps legend text at any raking angle), and a
+  modelled-metal nameplate built as real Blender geometry (anodised plate,
+  boolean-cut wordmark, DIN type) — closer, but never placed on any page before
+  the whole direction was dropped. **This site engraves only; it does not
+  emboss** — a raised/embossed treatment was tried as `.engraved`'s mirror and
+  rejected too, and both dead rules carry do-not-reintroduce comments rather
+  than being silently deletable-and-forgettable. Render assets and both render
+  rigs are gone.
+- **The Companion Suite (all four apps, one price) is replaced by two bundles**
+  (`f57e55f`): **Creative** (MutationStation + Chordinator — the two that write
+  notes) and **Toolbox** (Spectrl + MidiMirror + Arranger — the three that
+  handle the session around them). The old bundle asked a first-time visitor to
+  commit to everything at once and lumped two different buying reasons into one
+  price. ⚠ **Neither Gumroad product exists yet** — `/l/creative-bundle` and
+  `/l/toolbox-bundle` are linked from the site but 404 until created.
+- **Site review pass** (`aed594e`): OG/Twitter social cards on all six pages
+  (every link pasted anywhere had been previewing as a blank box — there were
+  no `og:`/`twitter:` tags at all); a licence/updates/refunds panel (three
+  machines, deactivate-and-regenerate on a Mac move, 14-day EU refund window —
+  ⚠ **no activation code exists yet, the panel says so in a comment**); version
+  1.0.0 stated on the four released app pages; "small" dropped from the About
+  copy (the same pricing-down problem the headline rewrite already fixed once);
+  real favicon (company mark, not MutationStation's icon, on the homepage only
+  — app pages correctly keep their own icons); hero cropped tighter for
+  legibility (windows were rendering under half their designed size); mobile
+  header/button/scroll-repaint/overflow fixes, verified overflow-free at 390px
+  on all six pages. Prices and an update feed were explicitly deferred by the
+  user, not forgotten.
+- **The screenshots came out of the dark recess** (`35bc8dc`, the fix the user
+  asked about): the `.screen` inset was borrowed from the apps' own dark
+  analyser/piano-roll panels — right for UI-inside-an-app, wrong for a picture
+  of a whole app, since it wrapped a black rectangle around a cream window and
+  made every page read as a dark card on the plate instead of a window lying on
+  it. Screenshots now sit directly on the faceplate with `filter:
+  drop-shadow()` (not `box-shadow`, which traces the bounding box and would
+  print a hard square behind the corners the cutout just made transparent).
+  New `make-cutouts.py` re-masks each full-window capture to a rounded
+  rectangle (antialiased, 4x-supersampled, radius scaled to each capture's own
+  width) because macOS rounds a window's corners but a screenshot flattens
+  whatever was behind them into the file — `chordinator.png` and
+  `mutationstation.png` had pure black baked into all four corners,
+  `midimirror.png` a grey desktop. Idempotent, safe to rerun after any
+  recapture. ⚠ **The hero composite is deliberately not in its list** —
+  `make-hero.py` bakes its own shadows between the stacked windows, so running
+  the cutout mask over it would double up. `.screen.empty` is untouched and
+  keeps the dark inset — the arranger page has no window to cut out, and bare
+  text on the plate needs to read as a filled panel, not a gap waiting for one.
+  Also fixed in the same commit: a 3px horizontal overflow on the
+  MutationStation page at 371px (one unbreakable 15-character name at a fixed
+  width next to an 88px icon).
+- **Republished.** `.public-mirror` was six commits stale (last publish
+  `43b6328`); `./publish.sh` run after this entry brings
+  `jamwareaudio.github.io` up to `35bc8dc`. If the black corners are still
+  visible, it's GitHub Pages' redeploy lag (a minute or two), not a code gap.
+
+---
+
 ## 2026-08-13 (later still) — The site has a short URL: `https://jamwareaudio.github.io/`
 
 The old address was `toastonjam-debug.github.io/jamwareaudio-site/`, which the
