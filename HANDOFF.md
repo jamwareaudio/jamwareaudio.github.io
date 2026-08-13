@@ -9,6 +9,35 @@ Developer ID certificate that does not exist yet.
 
 ---
 
+## 2026-08-13 — Gumroad kit brought back in sync with the site
+
+User asked to confirm all the day's website content changes are also live on
+the Gumroad side. Most already were (taglines, Arranger's absence), but
+`gumroad/GUMROAD-KIT.md` still described the old single four-app "Companion
+Suite" bundle from before `f57e595` split it into two — that predates every
+change in this session and was the real gap.
+
+- **Rewrote the bundle section** of `GUMROAD-KIT.md`: one Companion Suite
+  entry → two entries, Creative Bundle (MutationStation + Chordinator) and
+  Toolbox Bundle (Spectrl + MidiMirror), copy matching `index.html`'s
+  `#bundles` panel word for word, plus the exact Gumroad permalink slugs
+  (`creative-bundle`, `toolbox-bundle`) the website's buttons already link to.
+- **Updated the profile section order and the cohesion checklist** to match —
+  "the Suite" language throughout replaced with "each bundle" / "both
+  bundles".
+- **Regenerated the local Gumroad art** (`./make-gumroad-art.sh`) so the
+  MutationStation and Spectrl cover images carry the current tagline wording
+  rather than the pre-edit text baked into the old PNGs.
+- `gumroad/` is entirely gitignored (per `.gitignore`), so none of this is a
+  commit — it is what actually gets pasted into Gumroad's product editor by
+  hand. Nothing on the live site changed this round; no publish needed.
+- **Still open:** the actual Gumroad listings for `creative-bundle` and
+  `toolbox-bundle` need to exist at those permalinks with this copy pasted in
+  — that's a manual step in the Gumroad dashboard, not something a commit
+  here can do.
+
+---
+
 ## 2026-08-13 — MutationStation tagline tweak
 
 "...and chase acid lines you would not have written" → "...and discover acid
