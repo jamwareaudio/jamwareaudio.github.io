@@ -493,9 +493,9 @@ a.btn.gumroad-button:active {
   position: relative;
   margin: 0 0 10px;
 }
-/* The ground shadow hangs 22px below the body, so a section holding a unit
-   needs that much clearance or the next section clips it off. */
-.unit-section { padding-bottom: 70px; }
+/* The ground shadow hangs below the body, so a section holding a unit needs
+   that much clearance or the next section clips it off. */
+.unit-section { padding-bottom: 96px; }
 
 .unit-body {
   position: relative;
@@ -503,7 +503,11 @@ a.btn.gumroad-button:active {
   /* The horizontal padding has to clear the corner screws, which sit 20px in
      with a 5px radius. At the first attempt it did not, and the nameplate ran
      straight through the top two. */
-  padding: 0 20px 20px;
+  /* Deeper below than above, because hardware carries its mass under the
+     controls. An even margin all round is one of the four things that made the
+     first version of this read as a tablet; see --edge below. */
+  padding: 0 20px 30px;
+  --screw-x: 20px;
   background:
     /* Four countersunk screws, one per corner. Each is a single radial with
        four rings read from the middle out: the dark slot, the lit head, the
@@ -511,16 +515,16 @@ a.btn.gumroad-button:active {
        used two rings and came out as a hollow circle - an outline of a hole
        rather than a screw sitting in one. The head has to be lighter than the
        face and the wall darker than it, or there is nothing to read as depth. */
-    radial-gradient(circle 5px at 20px 20px,
+    radial-gradient(circle 5px at var(--screw-x) 20px,
       hsl(36,6%,52%) 0 20%, hsl(42,10%,84%) 24% 56%,
       hsl(36,6%,44%) 60% 76%, rgba(255,255,255,0.95) 79% 92%, transparent 94%),
-    radial-gradient(circle 5px at calc(100% - 20px) 20px,
+    radial-gradient(circle 5px at calc(100% - var(--screw-x)) 20px,
       hsl(36,6%,52%) 0 20%, hsl(42,10%,84%) 24% 56%,
       hsl(36,6%,44%) 60% 76%, rgba(255,255,255,0.95) 79% 92%, transparent 94%),
-    radial-gradient(circle 5px at 20px calc(100% - 20px),
+    radial-gradient(circle 5px at var(--screw-x) calc(100% - 20px),
       hsl(36,6%,52%) 0 20%, hsl(42,10%,84%) 24% 56%,
       hsl(36,6%,44%) 60% 76%, rgba(255,255,255,0.95) 79% 92%, transparent 94%),
-    radial-gradient(circle 5px at calc(100% - 20px) calc(100% - 20px),
+    radial-gradient(circle 5px at calc(100% - var(--screw-x)) calc(100% - 20px),
       hsl(36,6%,52%) 0 20%, hsl(42,10%,84%) 24% 56%,
       hsl(36,6%,44%) 60% 76%, rgba(255,255,255,0.95) 79% 92%, transparent 94%),
     /* the brushed grain, finer than the page's so the unit reads as a
@@ -534,17 +538,34 @@ a.btn.gumroad-button:active {
     inset 0 -1px 0 rgba(0,0,0,0.22),
     inset 1px 0 0 rgba(255,255,255,0.5),
     inset -1px 0 0 rgba(0,0,0,0.12),
-    /* the extruded side wall: hard steps, no blur, darkening downward */
-    0 1px 0 hsl(38, 7%, 70%),
-    0 2px 0 hsl(38, 7%, 66%),
-    0 3px 0 hsl(38, 7%, 61%),
-    0 4px 0 hsl(38, 7%, 56%),
-    0 5px 0 hsl(38, 7%, 51%),
-    0 6px 0 hsl(38, 7%, 46%),
-    0 7px 0 hsl(38, 7%, 42%),
+    /* THE EXTRUDED SIDE WALL: hard steps, no blur, darkening downward, and
+       stepping slightly RIGHT as well as down so a genuine side face shows
+       rather than only a bottom lip.
+
+       It used to stop at 7px and that was the single biggest reason these read
+       as tablets rather than instruments. A tablet and a MIDI controller are
+       distinguished in a still image by almost nothing except the ratio of body
+       to screen, and 7px of body under a 900px face is a ratio no piece of
+       studio hardware has ever had. Sixteen steps is a slab. Keep it. */
+    1px 1px 0 hsl(38, 7%, 72%),
+    1px 2px 0 hsl(38, 7%, 69%),
+    2px 3px 0 hsl(38, 7%, 66%),
+    2px 4px 0 hsl(38, 7%, 63%),
+    3px 5px 0 hsl(38, 7%, 60%),
+    3px 6px 0 hsl(38, 7%, 57%),
+    4px 7px 0 hsl(38, 7%, 54%),
+    4px 8px 0 hsl(38, 7%, 51%),
+    5px 9px 0 hsl(38, 7%, 48%),
+    5px 10px 0 hsl(38, 7%, 45%),
+    6px 11px 0 hsl(38, 7%, 42%),
+    6px 12px 0 hsl(38, 7%, 39%),
+    7px 13px 0 hsl(38, 7%, 36%),
+    7px 14px 0 hsl(38, 7%, 34%),
+    8px 15px 0 hsl(38, 7%, 32%),
+    8px 16px 0 hsl(38, 7%, 30%),
     /* the cast shadow, thrown down and slightly forward */
-    0 14px 22px rgba(0,0,0,0.20),
-    0 30px 60px rgba(0,0,0,0.16);
+    0 26px 30px rgba(0,0,0,0.22),
+    0 46px 70px rgba(0,0,0,0.18);
 }
 
 /* The contact shadow on the ground. Narrower than the body on purpose: a
@@ -554,8 +575,8 @@ a.btn.gumroad-button:active {
   position: absolute;
   z-index: -1;
   left: 6%; right: 6%;
-  bottom: -22px;
-  height: 34px;
+  bottom: -34px;
+  height: 40px;
   border-radius: 50%;
   background: radial-gradient(ellipse at center,
     rgba(0,0,0,0.34) 0%, rgba(0,0,0,0.16) 45%, transparent 72%);
@@ -620,11 +641,75 @@ a.btn.gumroad-button:active {
   transform-origin: 50% 100%;
 }
 
+/* ---- .unit--panel: the UI *is* the faceplate --------------------------------
+
+   Three of the four apps are instruments, and their interface is the front
+   panel of one: knobs, faders, a sequencer grid. Putting that behind .screen's
+   dark inset recess says the opposite - that it is a display showing a picture
+   of a panel - and dark-recess plus thin-slab plus even-bezel is not a near
+   miss for a tablet, it is the visual definition of one.
+
+   So this modifier takes the recess away and mills the screenshot into the
+   metal instead: flush with the face, one bright lip above and left, one dark
+   below and right. Plus wooden end cheeks, which are the single most legible
+   "this is an instrument" signal there is and cost one pseudo-element.
+
+   Spectrl deliberately does NOT get this. Spectrl is an analyser; its display
+   genuinely is a screen, and engraving a spectrum into aluminium would be a
+   lie about what the product does. Leave it on plain .unit.                   */
+
+.unit--panel .unit-body {
+  /* wide enough that the content clears the cheeks and the screws */
+  padding: 0 34px 30px;
+  --screw-x: 42px;
+}
+.unit--panel .unit-plate {
+  /* clear of the two top screws at --screw-x: 42px, which the first pass was
+     not — the engraved name started on top of the left one */
+  padding: 14px 28px 13px 28px;
+}
+
+/* The end cheeks. One element, two gradients pinned to the left and right
+   edges; they sit inside the body padding so they never cover the screenshot. */
+.unit--panel .unit-body::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, #7d5230 0%, #5b361d 45%, #35200f 100%) left / 22px 100% no-repeat,
+    linear-gradient(180deg, #7d5230 0%, #5b361d 45%, #35200f 100%) right / 22px 100% no-repeat;
+  box-shadow:
+    inset 22px 0 0 -21px rgba(0,0,0,0.45),
+    inset -22px 0 0 -21px rgba(255,255,255,0.16);
+}
+
+/* The screenshot, flush and raised, instead of sunk behind glass. */
+.unit--panel .screen {
+  background: none;
+  border: 0;
+  padding: 0;
+  border-radius: 3px;
+  box-shadow:
+    0 -1px 0 rgba(255,255,255,0.85),
+    -1px 0 0 rgba(255,255,255,0.6),
+    0 1px 0 rgba(0,0,0,0.34),
+    1px 0 0 rgba(0,0,0,0.26);
+}
+
 @media (max-width: 720px) {
   /* The tilt is a luxury and it eats horizontal room. Drop it on phones. */
   .unit--tilt .unit-body { transform: none; }
-  .unit-body { padding: 0 14px 14px; }
+  .unit-body { padding: 0 14px 20px; }
+  .unit--panel .unit-body { padding: 0 24px 20px; --screw-x: 32px; }
+  .unit--panel .unit-body::after {
+    background:
+      linear-gradient(180deg, #7d5230 0%, #5b361d 45%, #35200f 100%) left / 14px 100% no-repeat,
+      linear-gradient(180deg, #7d5230 0%, #5b361d 45%, #35200f 100%) right / 14px 100% no-repeat;
+  }
   .unit-plate { padding: 12px 14px 11px 14px; }
+  .unit--panel .unit-plate { padding: 12px 22px 11px 22px; }
 }
 
 /* ---- Zoomed feature crops -------------------------------------------------
