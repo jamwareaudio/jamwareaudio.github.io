@@ -317,9 +317,42 @@ a:hover { color: var(--accent); }
 .product .icon { width: 96px; height: 96px; display: block; border-radius: 18px; }
 .product h3 {
   margin: 0 0 2px; font-size: 21px; letter-spacing: -0.01em;
-  color: var(--text-heading);
 }
-.product h3 a { text-decoration: none; }
+/* ---- The product name, cut into the card ---------------------------------
+   Every product page's h1 has been .engraved since the site was built; the
+   homepage card carrying the same name was flat ink, which is the inconsistency
+   the user pointed at. Engraved here too — but with the apps' 1px recipe, not
+   the .engraved class, for the reason set out over .panel-head: the clipped
+   gradient and 2-3px lips in .engraved are tuned for a 34-60px nameplate and at
+   21px the lip starts reading as a second letter rather than a groove edge.
+
+   ⚠ The fill is deliberately LIGHT — near the plate rather than near the ink,
+   which is the user's own instruction ("rather more white or like the
+   background looking"), and it is also the apps' actual number: about twelve
+   points of lightness below the surface the word sits on. Our card body is
+   control-bg at 94%, so the fill lands ~82%. That is much fainter than a
+   heading normally dares to be, and it works for the same reason it works on
+   the hardware: what you read is not the contrast of the letter against the
+   plate, it is the white lower lip and the dark upper lip drawing the edges of
+   the cut. Take either shadow away and this collapses into illegible grey.
+
+   Set on the <a>, not the <h3>: the anchor carries `color: var(--ink)` from the
+   base rule, which would otherwise paint straight over anything set on the
+   heading. Hover tints the fill toward the product's accent and keeps the cut,
+   rather than swapping to flat accent-coloured text — the name should not pop
+   out of the plate on the way to being clicked. */
+.product h3 a {
+  text-decoration: none;
+  color: color-mix(in srgb, var(--control-bg) 87%, black);
+  text-shadow:
+    0  1px 0 hsla(0,0%,100%,0.92),
+    0 -1px 0 hsla(28,12%,14%,0.42);   /* a touch above the app's 0.35: the fill is
+                                         lighter here than on the app's plate, so
+                                         the upper lip is doing more of the work */
+}
+.product h3 a:hover {
+  color: color-mix(in srgb, var(--accent) 48%, var(--control-bg));
+}
 .product .tagline { margin: 0 0 12px; color: var(--text-secondary); font-size: 14px; }
 .product .blurb { margin: 0 0 14px; max-width: var(--measure); }
 
