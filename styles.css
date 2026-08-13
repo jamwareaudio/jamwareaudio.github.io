@@ -450,25 +450,50 @@ a.btn.gumroad-button:active {
   .suite-icons img { width: 60px; height: 60px; border-radius: 12px; }
 }
 
-/* ================================================== THE DARK INSET SCREEN
+/* ================================================== SCREENSHOTS, CUT OUT
 
-   Spectrl's analyser window and MutationStation's piano roll are both a dark
-   screen sunk into the cream plate. Screenshots and the feature list on
-   product pages sit in the same recess, so imagery is framed by the product
-   rather than floating on it. */
+   These used to sit in a dark inset recess, borrowed from Spectrl's analyser
+   window and MutationStation's piano roll — both of which are genuinely a dark
+   screen sunk into a cream plate. That reads correctly for a piece of UI inside
+   an app and wrong for a picture of a whole app: it wrapped a black rectangle
+   around a cream window, so the pages read as a stack of dark cards laid on the
+   plate rather than as windows lying on it. The user's call, and it is the right
+   one — the screenshots now sit directly on the faceplate with nothing behind
+   them.
 
-.screen {
-  background: var(--screen-bg);
-  border: 1px solid var(--screen-edge);
-  border-radius: var(--radius);
-  box-shadow:
-    inset 0 2px 6px rgba(0,0,0,0.6),
-    inset 0 0 0 1px rgba(255,255,255,0.04),
-    0 1px 0 rgba(255,255,255,0.5);
-  padding: 10px;
-  color: var(--screen-text);
+   .screen is kept as a class name rather than renamed across 23 call sites in
+   index.html and apps/, because it still marks the same thing (this is imagery,
+   frame it), and .screen.empty below still is a screen.
+
+   THE SHADOW IS `filter`, NOT `box-shadow`, and that is the whole trick. macOS
+   rounds a window's corners but a screenshot flattens whatever was behind them
+   into the file, so these captures arrived with black or grey corner nubs;
+   make-cutouts.py masks them to transparency (read its docstring before
+   recapturing anything). A box-shadow would then trace the image's bounding
+   BOX, printing a hard square shadow behind those now-transparent corners and
+   undoing the cutout. drop-shadow() traces the alpha channel, so the shadow
+   follows the real rounded silhouette. Two of them, tight-and-dark over
+   wide-and-soft, is the usual contact-plus-ambient pair; a single shadow either
+   floats or smudges.
+
+   No border-radius here on purpose: the curve lives in the PNG's alpha now. A
+   CSS radius on top would cut a second, differently-sized arc across the first. */
+
+.screen { display: block; }
+.screen img {
+  width: 100%;
+  display: block;
+  filter:
+    drop-shadow(0 1px 2px rgba(58, 48, 38, 0.30))
+    drop-shadow(0 14px 28px rgba(58, 48, 38, 0.22));
 }
-.screen img { width: 100%; display: block; border-radius: 2px; }
+
+/* The hero composite is the one image that must NOT get the filter: make-hero.py
+   composites its own shadow under each window as it stacks them (SHADOW_BLUR,
+   SHADOW_OFFSET, SHADOW_ALPHA in that file), because the shadows there have to
+   fall BETWEEN the stacked windows, which no single CSS shadow on the finished
+   PNG can do. Adding this one on top gives every window in the stack two. */
+.hero-shot .screen img { filter: none; }
 
 /* ---- Zoomed feature crops -------------------------------------------------
 
@@ -489,7 +514,11 @@ a.btn.gumroad-button:active {
    the full measure, where a 322px-wide column becomes a soft 1000px smear. */
 
 .zoom { margin: 22px 0 0; }
-.zoom .screen { padding: 8px; }
+/* These crops are interiors — slices from the middle of a window — so unlike the
+   full-window shots they have square corners and no transparency, and they are
+   left that way (make-cutouts.py explains why rounding them would invent a curve
+   the app does not have). The drop-shadow inherited from .screen img is what
+   separates them from the plate now that the recess is gone. */
 .zoom .screen img { width: auto; max-width: 100%; max-height: 620px; margin: 0 auto; display: block; }
 /* Deliberately NOT .legend. The engraved-label style above is for two or three
    words silkscreened onto hardware; a caption here is a sentence explaining what
@@ -515,15 +544,28 @@ a.btn.gumroad-button:active {
 
    The conclusion, which is a design decision and not a gap: this site is FLAT.
    Depth is drawn the way the apps draw it, with the engraved/embossed text
-   treatments above and the .screen recess, never with a photograph of an object
-   that does not exist. Do not reintroduce a render class or the assets that
-   went with it. */
+   treatments above and the .screen.empty recess, never with a photograph of an
+   object that does not exist. Do not reintroduce a render class or the assets
+   that went with it. */
 
 /* Placeholder for a product that has no screenshot yet. Deliberately looks
-   like an unlit screen, not a broken image. */
+   like an unlit screen, not a broken image — which is why this one keeps the
+   dark inset the photographs gave up: there is no window to cut out here, and a
+   bare line of text on the plate would read as missing copy rather than as a
+   panel waiting to be filled. This is now the last user of --screen-bg and its
+   siblings; keep those variables when the arranger shot lands and this rule
+   goes, since they are the apps' own screen colours. */
 .screen.empty {
   display: grid; place-items: center;
   min-height: 220px; text-align: center; padding: 30px;
+  background: var(--screen-bg);
+  border: 1px solid var(--screen-edge);
+  border-radius: var(--radius);
+  box-shadow:
+    inset 0 2px 6px rgba(0,0,0,0.6),
+    inset 0 0 0 1px rgba(255,255,255,0.04),
+    0 1px 0 rgba(255,255,255,0.5);
+  color: var(--screen-text);
 }
 .screen.empty .legend { color: var(--screen-dim); text-shadow: none; }
 
@@ -617,6 +659,20 @@ a.btn.gumroad-button:active {
   .btn { padding: 11px 16px; }
   .btn-row .btn { flex: 1 1 100%; justify-content: center; }
   .btn-row .price, .btn-row .status { flex: 1 1 100%; }
+
+  /* The product-page title row overflowed by 3px on a 371px viewport, and only
+     on MutationStation: "MutationStation" is one unbreakable 15-character word,
+     so at a fixed 34px it sets a min-content width the flex row cannot shrink
+     below, and an 88px icon plus a 22px gap ahead of it spent the rest of the
+     measure. Both ends give a little here. The h1 is a clamp rather than a flat
+     smaller size so the other four pages, whose names fit, keep their weight —
+     and it is not `overflow-wrap: break-word`, which would fix the number by
+     hyphenating the product's name in half. If a longer name ever ships, lower
+     the vw term, do not let it break. */
+  .product-hero { padding: 32px 0 22px; }
+  .product-hero .row { gap: 16px; }
+  .product-hero .icon { width: 64px; height: 64px; border-radius: 13px; }
+  .product-hero h1 { font-size: clamp(24px, 7.2vw, 34px); }
 }
 
 /* The faceplate is a physical object with one lighting direction; there is no
