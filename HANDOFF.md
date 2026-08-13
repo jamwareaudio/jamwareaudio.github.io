@@ -9,6 +9,19 @@ Developer ID certificate that does not exist yet.
 
 ---
 
+## 2026-08-13 — MutationStation tagline tweak
+
+"...and chase acid lines you would not have written" → "...and discover acid
+lines you would not have usually written." Updated in the four places it
+appears: homepage product card and `apps/mutationstation.html` (both
+`index.html`'s repo), plus the untracked Gumroad kit (`gumroad/cover.html`,
+`gumroad/GUMROAD-KIT.md`).
+
+- **Published.** `./publish.sh` run.
+- Commit: `e8d977d`.
+
+---
+
 ## 2026-08-13 — About panel rewritten, version line dropped, Spectrl tagline tweaked
 
 More copy changes from the user, same day as the two batches below:
