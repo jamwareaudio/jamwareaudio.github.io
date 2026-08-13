@@ -9,6 +9,55 @@ Developer ID certificate that does not exist yet.
 
 ---
 
+## 2026-08-13 (later still) — The site has a short URL: `https://jamwareaudio.github.io/`
+
+The old address was `toastonjam-debug.github.io/jamwareaudio-site/`, which the
+user called out as long and, fairly, as not reading like a company — it had
+"debug" in it. Two separate problems lived in that string and they had different
+fixes:
+
+- **The `/jamwareaudio-site/` path segment** exists because GitHub serves a
+  repository at the domain *root* only when it is named exactly
+  `<account>.github.io`. Any other name is a project page one segment deeper.
+- **`toastonjam-debug`** is the account name and nothing about the repository
+  could change it.
+
+So both were renamed, and they have to match. The account rename
+(`toastonjam-debug` → `jamwareaudio`) was the **user's own action in GitHub's web
+UI — there is no REST endpoint for changing your own login**, so do not go
+looking for one. The repo rename and everything downstream was scripted.
+
+⚠ **Do not rename the public repo.** `jamwareaudio.github.io` is load-bearing;
+renaming it silently puts the path segment back.
+
+**What moved with it:** eight git remotes (all seven lanes plus the
+`.public-mirror` checkout), `publish.sh` (`REPO=` and the URL it prints),
+`site/README.md`, this file, root `CLAUDE.md`, `releases/README.md` and
+`workspace/BOARD.md`. **No published page referenced the URL**, so the site's own
+HTML needed no edit.
+
+Verified after republishing: `/`, `/styles.css`, `/apps/spectrl.html` and
+`/assets/shots/hero-stack.png` all `200`; `/README.md`, `/CLAUDE.md`,
+`/HANDOFF.md` and `/publish.sh` all `404` — the allowlist fence survived the move
+intact, which was the thing worth checking.
+
+⚠ **The old URL is dead, not redirected** — `404`, no `Location` header. GitHub
+redirects renamed *repositories*, but a `<user>.github.io` domain simply stops
+existing when the user is renamed. Worse, the freed `toastonjam-debug` username
+is claimable by anyone, so even the repo-level redirects are on borrowed time.
+Anything already sent out carrying the old link should be reissued rather than
+left to a redirect that may one day land on a stranger's account.
+
+**The four Gumroad descriptions are the live instance of that** and are still
+untouched (browser not connected), so when they are next edited, check them for
+the old URL as well as for the de-AI pass below.
+
+Not done, and it is the better answer if it ever comes up again: a real domain.
+`jamwareaudio.github.io` still reads as a GitHub page. The DNS steps are in
+`README.md` under *A custom domain*; the purchase is the user's to make.
+
+---
+
 ## 2026-08-13 (later) — Cascaded hero, the stale spec strips are gone, and a de-AI pass over every word on the site (`c0bee4d`)
 
 Three items from the user, all three shipped and live. The em-dash item is the
@@ -118,7 +167,7 @@ user's own job in their own browser. And nothing is to be done about TouchXY:
 
 ## 2026-08-13 — The site is on the web, the buy buttons became an overlay, and `git push` no longer publishes anything
 
-**THE SITE IS LIVE:** `https://toastonjam-debug.github.io/jamwareaudio-site/`
+**THE SITE IS LIVE:** `https://jamwareaudio.github.io/`
 Verified after the first Pages build — `/`, `/styles.css`, `/apps/midimirror.html`
 and a screenshot all `200`; `/README.md`, `/CLAUDE.md` and `/HANDOFF.md` all
 `404`, which is the entire point of the arrangement below.
@@ -127,8 +176,8 @@ and a screenshot all `200`; `/README.md`, `/CLAUDE.md` and `/HANDOFF.md` all
 
 | Repository | Visibility | Role |
 |---|---|---|
-| `toastonjam-debug/jamwareaudio` | **private** | `site/` — the real work |
-| `toastonjam-debug/jamwareaudio-site` | **public** | build output only |
+| `jamwareaudio/jamwareaudio` | **private** | `site/` — the real work |
+| `jamwareaudio/jamwareaudio.github.io` | **public** | build output only |
 
 Pages on the free tier serves only a *public* repository, and serves every file
 in it. This directory is a working lane as well as a website — `CLAUDE.md`,
@@ -678,11 +727,11 @@ needed.
 6. Publish the four products on Gumroad.
 7. Make the site public:
    ```sh
-   gh repo edit toastonjam-debug/jamwareaudio --visibility public
-   gh api -X POST repos/toastonjam-debug/jamwareaudio/pages \
+   gh repo edit jamwareaudio/jamwareaudio --visibility public
+   gh api -X POST repos/jamwareaudio/jamwareaudio/pages \
      -f 'source[branch]=main' -f 'source[path]=/'
    ```
-   Live at `https://toastonjam-debug.github.io/jamwareaudio/` a minute or two
+   Live at `https://jamwareaudio.github.io/jamwareaudio/` a minute or two
    later. After that, updating the site is just `git push`.
 
 ### ⚠ Which DMG to upload
@@ -710,7 +759,7 @@ Check mtimes before uploading — the same rename-litter pattern filled
 
 **Website** — `site/`, a static site, no build step.
 
-- Its own git repo, pushed to <https://github.com/toastonjam-debug/jamwareaudio>,
+- Its own git repo, pushed to <https://github.com/jamwareaudio/jamwareaudio>,
   **private**, Pages off, working tree clean at `5eaf777`.
 - ⚠ `gumroad/` is **gitignored on purpose**. `GUMROAD-KIT.md` holds pricing
   strategy, open decisions and internal notes about the support address. Pages

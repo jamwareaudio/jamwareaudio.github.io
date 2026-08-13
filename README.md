@@ -102,7 +102,7 @@ An accent lives in three places and all three must agree:
 This folder is its own git repository, deliberately separate from the app source
 in `CompanionApps/` — publishing the website never means publishing the apps.
 
-**THE SITE IS LIVE** at `https://toastonjam-debug.github.io/jamwareaudio-site/`
+**THE SITE IS LIVE** at `https://jamwareaudio.github.io/`
 as of 2026-08-13. Read the next paragraph before you push anything, because the
 repository you are looking at is *not* the one being served.
 
@@ -110,8 +110,26 @@ repository you are looking at is *not* the one being served.
 
 | Repository | Visibility | What it is |
 |---|---|---|
-| `toastonjam-debug/jamwareaudio` | **private** | this directory — the real work |
-| `toastonjam-debug/jamwareaudio-site` | **public** | build output; only what a visitor loads |
+| `jamwareaudio/jamwareaudio` | **private** | this directory — the real work |
+| `jamwareaudio/jamwareaudio.github.io` | **public** | build output; only what a visitor loads |
+
+⚠ **The public repo's name is load-bearing — do not rename it.** GitHub serves a
+repository called exactly `<account>.github.io` at the root of that domain. Under
+any other name it becomes a *project page* one path segment deeper, which is
+what the URL used to be and why it was changed on 2026-08-13:
+
+    https://toastonjam-debug.github.io/jamwareaudio-site/   →   https://jamwareaudio.github.io/
+
+That took an account rename (`toastonjam-debug` → `jamwareaudio`, done by the
+user in GitHub's web UI — there is no API for it) as well as the repo rename,
+because the two names have to match.
+
+⚠ **The old URL is dead, and its death is not entirely under our control.**
+GitHub redirects renamed repositories, but only until somebody else registers
+the freed `toastonjam-debug` username, at which point every old link resolves to
+a stranger's account. Treat anything already sent out — a Gumroad description, a
+message, a bookmark — as pointing at a URL that will stop working, and reissue
+the short one rather than relying on the redirect.
 
 GitHub Pages on the free tier serves only a public repository, and it serves
 *every file in it*. This directory is a working lane as well as a website: it
@@ -193,7 +211,7 @@ Gumroad pages look like part of a company rather than a hobby.
 2. At your registrar, add these DNS records:
    - `A` records for the apex `@` pointing at `185.199.108.153`,
      `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-   - a `CNAME` for `www` pointing at `<you>.github.io`
+   - a `CNAME` for `www` pointing at `jamwareaudio.github.io`
 3. Back in **Settings → Pages**, enter the domain and tick **Enforce HTTPS**
    once the certificate has been issued (it can take up to an hour).
 

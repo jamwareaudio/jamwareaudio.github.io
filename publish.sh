@@ -14,8 +14,12 @@
 # Splitting by branch does not help — visibility is a property of the repository,
 # not the branch — so the split has to be by repository:
 #
-#   toastonjam-debug/jamwareaudio        PRIVATE   this directory, the real work
-#   toastonjam-debug/jamwareaudio-site   PUBLIC    only what a visitor loads
+#   jamwareaudio/jamwareaudio             PRIVATE   this directory, the real work
+#   jamwareaudio/jamwareaudio.github.io   PUBLIC    only what a visitor loads
+#
+# The public repo's NAME IS LOAD-BEARING. GitHub serves a repo called exactly
+# <account>.github.io at the root of that domain; any other name becomes a
+# project page one path segment deeper. Renaming it breaks the short URL.
 #
 # The public one is a build output, not a place to work. Nothing is ever edited
 # there; this script overwrites it wholesale. If it drifts, delete the mirror
@@ -35,7 +39,7 @@
 #
 set -euo pipefail
 
-REPO="toastonjam-debug/jamwareaudio-site"
+REPO="jamwareaudio/jamwareaudio.github.io"
 MIRROR=".public-mirror"          # gitignored; a checkout of the public repo
 
 # Everything a browser loads, and nothing else.
@@ -82,4 +86,4 @@ fi
 git -C "$MIRROR" commit --quiet -m "Publish site from jamwareaudio@$(git rev-parse --short HEAD)"
 git -C "$MIRROR" push --quiet origin HEAD:main
 echo "==> Pushed. GitHub Pages redeploys in a minute or two."
-echo "    https://toastonjam-debug.github.io/jamwareaudio-site/"
+echo "    https://jamwareaudio.github.io/"
