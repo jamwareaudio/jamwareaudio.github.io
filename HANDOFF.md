@@ -9,6 +9,53 @@ Developer ID certificate that does not exist yet.
 
 ---
 
+## 2026-08-13 — Session wrap: bug fixes + a round of copy edits, site and Gumroad both live
+
+Everything below is detailed in its own entry further down; this is the
+one-screen version for a session that starts cold. Nine commits, `00dd201`
+through `b06e8f0`, all in this repo.
+
+**What changed and why:**
+- Two live-site bugs the user caught from a screenshot: the homepage hero
+  cascade (`assets/shots/hero-stack.png`) had MidiMirror cropped out of frame
+  and Spectrl sliced through mid-toolbar — `make-hero.py`'s `BLEED` constant
+  was cropping on a theory that didn't hold once the CSS height cap was
+  accounted for. Fixed by setting `BLEED = 0`.
+- Arranger pulled off the site entirely — product card, `apps/arranger.html`,
+  and the Toolbox Bundle copy that used to name it as a third app — because it
+  is not released yet and should not have been visible.
+- A round of homepage/product copy changes at the user's request: the hero
+  claim reworded to "Ableton Live Companion apps with the depth of hardware",
+  the "Standalone tools for macOS" eyebrow and "All apps are version 1.0.0"
+  lines dropped, the About panel rewritten from "Why they all look the same"
+  (design-language pitch, called uninteresting) to "Built to be used" (built
+  for the author's own sessions first, sold second), and tagline wording
+  tweaks on Spectrl ("key detection") and MutationStation ("discover ...
+  usually written").
+- Every one of those copy changes was cross-checked against `gumroad/` (the
+  untracked local Gumroad kit) and applied there too. That surfaced one real
+  gap unrelated to today's edits: `gumroad/GUMROAD-KIT.md` still described the
+  old single four-app "Companion Suite" from before `f57e55f` split it into
+  two bundles — rewritten to match the site's actual Creative Bundle / Toolbox
+  Bundle copy and permalinks.
+
+**Verified working:** hero cascade renders correctly (all four windows, clean
+rounded corners) — checked visually after regenerating the PNG. All copy
+changes confirmed live via `./publish.sh`'s push to the public mirror. Working
+tree is clean; nothing outstanding in this repo.
+
+**Still half-done / not this lane's to finish:** the Gumroad-side product
+listings for `creative-bundle` and `toolbox-bundle` need to actually exist at
+those permalinks with the corrected copy pasted in by hand — that's a manual
+Gumroad-dashboard step, not something committed here. The Apple Developer ID
+/ notarization blocker noted at the top of this file is unchanged.
+
+**Next session should pick up:** confirm the two Gumroad bundle listings exist
+and match `gumroad/GUMROAD-KIT.md`, then re-run the cohesion checklist in that
+file (§3) once they do.
+
+---
+
 ## 2026-08-13 — Gumroad kit brought back in sync with the site
 
 User asked to confirm all the day's website content changes are also live on
