@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>MidiMirror · JamWare Audio</title>
-<meta name="description" content="Build what every knob on your MIDI controller does in Ableton Live, without writing Python. Custom modes, combos and holds, generated into a real Remote Script, with an on-screen mirror that labels every control." />
+<meta name="description" content="Build what every knob on your MIDI controller does in Ableton Live, without writing Python. Custom modes, combos and holds, generated into a real Remote Script, with an on-screen mirror that labels every control. Run two controllers at once for a window each, or switch to JamWare mode and drive Chordinator and MutationStation from the same hardware." />
 <link rel="icon" href="../assets/icons/midimirror-1024.png" />
 
 <!-- Social cards. Pasting a link to this site into a DM, a forum or a post
@@ -15,12 +15,12 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="JamWare Audio" />
 <meta property="og:title" content="MidiMirror · JamWare Audio" />
-<meta property="og:description" content="Build what every knob on your MIDI controller does in Ableton Live, without writing Python. Custom modes, combos and holds, generated into a real Remote Script, with an on-screen mirror that labels every control." />
+<meta property="og:description" content="Build what every knob on your MIDI controller does in Ableton Live, without writing Python. Custom modes, combos and holds, generated into a real Remote Script, with an on-screen mirror that labels every control. Run two controllers at once for a window each, or switch to JamWare mode and drive Chordinator and MutationStation from the same hardware." />
 <meta property="og:url" content="https://jamwareaudio.github.io/apps/midimirror.html" />
 <meta property="og:image" content="https://jamwareaudio.github.io/assets/shots/midimirror.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="MidiMirror · JamWare Audio" />
-<meta name="twitter:description" content="Build what every knob on your MIDI controller does in Ableton Live, without writing Python. Custom modes, combos and holds, generated into a real Remote Script, with an on-screen mirror that labels every control." />
+<meta name="twitter:description" content="Build what every knob on your MIDI controller does in Ableton Live, without writing Python. Custom modes, combos and holds, generated into a real Remote Script, with an on-screen mirror that labels every control. Run two controllers at once for a window each, or switch to JamWare mode and drive Chordinator and MutationStation from the same hardware." />
 <meta name="twitter:image" content="https://jamwareaudio.github.io/assets/shots/midimirror.png" />
 <link rel="stylesheet" href="../styles.css" />
 <style>:root { --accent: #E05A2C; }</style>
@@ -252,6 +252,77 @@
             snap-back point. Nothing moves on the way in or out, so you can
             change where a drop returns to in the middle of a take without ever
             passing through the sound of the old one.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ⚠ The two sections below are deliberately TEXT-ONLY, no figure.zoom.
+       There is no screenshot of either feature in assets/shots/ yet, and the
+       figure.zoom count on this page is load-bearing: gumroad/make-gumroad-art.sh
+       drives detail.html over `midimirror:5`, one card per figure, by index. Add
+       a figure here and that script silently stops matching the page — the last
+       figure never becomes a card and the captions shift under the cards that
+       do. If shots of the two windows and of JamWare mode land later, add the
+       figures AND bump the count in that script in the same sitting. -->
+  <section class="section wrap">
+    <div class="panel">
+      <h2 class="panel-head">Two controllers, two windows</h2>
+      <div class="panel-body">
+        <div class="prose story">
+          <p>
+            Run two controllers at once — two Control Surface slots in Live,
+            each with its own generated script — and you get
+            <strong>two windows, one per controller</strong>, both on screen
+            together. Neither is a copy of the other: each draws its own
+            hardware, keeps its own saved setups, layout and modes, and answers
+            only to its own MIDI.
+          </p>
+          <p>
+            There is nothing to switch between, which is the point. A mirror is
+            glanced at while your hands are busy, and a glance cannot click.
+            The first time two are open they are placed side by side for you;
+            move either one by hand and it is yours from then on, remembered
+            per controller and per monitor, even if you unplug that screen in
+            between. A window appears when its controller does and goes when it
+            goes, so changing Live's Control Surface slots rearranges the
+            windows to match with no restart — and it will not steal focus from
+            Live to do it.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="panel">
+      <h2 class="panel-head">JamWare mode: your controller runs the other apps</h2>
+      <div class="panel-body">
+        <div class="prose story">
+          <p>
+            Switch to <strong>JamWare mode</strong> and the panel becomes the
+            front panel of another JamWare app. Every knob, fader and key fills
+            with the parameters of whichever of <strong>Chordinator</strong> or
+            <strong>MutationStation</strong> you last touched — named, with live
+            values, in the app's own order. Turn a knob here and the app moves.
+          </p>
+          <p>
+            It follows focus the way device mode follows the blue hand: click
+            into MutationStation and the panel is MutationStation's, click into
+            Chordinator and it is Chordinator's. Nothing to select, no port to
+            choose, and nothing to map — the parameters arrive already
+            labelled. The app's own groups claim whole columns of the panel, so
+            a switch sits directly beneath the knobs it changes, and a key bound
+            to a switch lights to show whether it is on, both ways: flick it in
+            the app's window and the key follows.
+          </p>
+          <p>
+            Nothing runs until you ask for it. MidiMirror announces itself only
+            while this mode is showing and the apps publish only while it is, so
+            leaving the mode closes the port on both sides. Free mode is
+            untouched and still there beside it — that one hands your controls
+            to Live's own MIDI map; this one hands them to the app.
           </p>
         </div>
       </div>
