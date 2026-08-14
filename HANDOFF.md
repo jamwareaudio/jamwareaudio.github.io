@@ -9,6 +9,106 @@ Developer ID certificate that does not exist yet.
 
 ---
 
+## 2026-08-14 — Gumroad brought into line with the site; two new MidiMirror features marketed
+
+Long session, all of it through the Chrome extension (the blocker recorded in
+the 2026-08-13 entry below is gone — the user connected it). Four threads.
+
+**1. The Gumroad description images, which the user had already asked for twice.**
+The complaint was that the description screenshots were "way too over the top
+big and zoomed in, and in bad resolution because of it", square-cornered where
+the site's are rounded, and generally not the website. Two generators now exist
+in `gumroad/`, and the reasoning is in their headers at length rather than here:
+
+- `gumroad/make-gumroad-shots.py` — the full-window shot. The site's cutout
+  (`assets/shots/<app>.png`) is transparent-cornered and relies on the site's
+  cream faceplate and shadow; dropped on Gumroad's white page the corners
+  vanish and it reads worse than the square screenshot it replaced. The script
+  bakes the stage in: same three gradient stops as `styles.css` `body` and
+  `cover.html`, a `JAMWARE AUDIO` rail with the app's accent lamp, the site's
+  own two-layer shadow. `EXTRA_SHOTS` handles a second whole-window image
+  (`midimirror-mapping`); the rule for which path an image takes is simply
+  whether it is a whole window.
+- `gumroad/detail.html` — the zoom crops. Gumroad stretches every image to the
+  column width, so a 322px 1x crop was being blown up to ~700px. The fix is a
+  fixed 1000×620 cream card where the crop is **never displayed above half its
+  natural width**, screenshotted at `--force-device-scale-factor=2` so half-CSS
+  lands at 1:1 device px. Figure and caption are lifted live out of
+  `apps/<app>.html` by index rather than retyped, so the cards cannot drift
+  from the site.
+
+⚠ The card height is **620, not 480** — the first cut had `BOX` sized for 620
+against a 480 card and every wide card came out with its feet sliced off by
+`overflow:hidden`, silently. If you change it, change `BOX` *and*
+`--window-size` in `make-gumroad-art.sh` together.
+
+⚠ **`site/.gitignore` line 6 ignores all of `gumroad/`** (`git check-ignore -v`
+→ `.gitignore:6:gumroad/`), so all three generators above are **unversioned** —
+`git commit` reports "nothing to commit" and no history exists for them. Left
+as-is this session rather than changed unilaterally, but it wants a decision:
+`publish.sh` copies by allowlist, so un-ignoring `gumroad/` would not leak the
+kit into the published site. Flagged to the user.
+
+**2. Gumroad "Additional details" rows — now filled on all four app products,**
+saved and re-read after a full page reload in each case. Mechanics, because
+they cost a lot of time to work out: the rows live under
+`b.closest('section')` where `b` is the "Add detail" button; `inputs[0]` is the
+**Summary** field and the detail rows are `inputs[1..]` in attribute/value
+pairs. Repeated `b.click()` inside one JS call adds only ONE row (React
+batches) — click them one at a time with a real `computer left_click` at
+measured coordinates, re-measuring between each. Fill with the native
+`HTMLInputElement.prototype.value` setter plus `input`+`change` events; a plain
+assignment does not reach React.
+
+Live Summary fields were spot-checked against `cover.html`'s `APPS` table at
+the same time. **Spectrl's was stale** and was corrected to the canonical
+"Spectrum, key detection, note frequencies, tonal balance and a system-audio
+sampler in one window." Chordinator's and MidiMirror's already matched.
+
+**3. Two new MidiMirror features marketed, site and Gumroad.** The features are
+running two controllers at once (two Control Surface slots → a window each) and
+JamWare mode (the panel becomes Chordinator's or MutationStation's front
+panel). Two new text sections in `apps/midimirror.html` before the *What else
+is in it* panel, a line added to the MidiMirror card in `index.html`, and the
+same sentence appended to all three meta descriptions. Committed as `03c4cac`.
+The same two sections were then typed into the Gumroad description body on
+`ohhpmz` (as `### ` headings — Gumroad's editor honours markdown input rules)
+and two detail rows added, *Multiple controllers* and *JamWare mode*, both
+saved and verified after reload.
+
+⚠ **The two new site sections are deliberately TEXT-ONLY, no `figure.zoom`,**
+and the HTML comment above them says why: `gumroad/make-gumroad-art.sh` drives
+`detail.html` over `midimirror:5`, one card per figure **by index**. A sixth
+figure silently stops matching — the last figure never becomes a card and the
+captions shift under the cards that do. If shots of the two windows and of
+JamWare mode ever land, add the figures *and* bump that count in the same
+sitting.
+
+Copy accuracy was taken from `MidiMirror/docs/MANUAL.md` §"Two controllers, two
+windows" and §3.4, **not** from `docs/JAMWARE-MODE.md` — that file's header
+still says "BUILT … but NOT PACKAGED and never run in Live", which
+`workspace/BOARD.md` line 65 contradicts (the user's first hardware run
+happened and the mode was reworked to column blocks with lit keys). That note
+is out of date and belongs to `macro-core`.
+
+**Still open, for the next session or the user:**
+
+- **MidiMirror has not been repackaged since the JamWare/column rework**, so
+  the two features now advertised on the site and the store are not in any
+  installed build. That is an app-lane/`macro-core` job, not ours, but the
+  marketing is now ahead of the artefact.
+- MutationStation's and MidiMirror's Gumroad **Content tabs are empty** — no
+  build attached to either.
+- All four app products are still **Unpublished**. Nothing was published this
+  session and "Publish and continue" was never clicked.
+- **Chordinator's and Spectrl's price is 0**, with Gumroad's "Free products
+  require a pay what they want price" notice showing on both.
+- Two engraving questions raised earlier and never answered: whether the
+  panel-head bands (66%) should follow the hero into the cover-matched range,
+  and whether the product-card names (near-plate) should come into line.
+
+---
+
 ## 2026-08-13 — "The apps" kicker removed; Gumroad tagline sync still blocked on Chrome
 
 The user flagged (via a cropped screenshot) that the `<span class="legend">The
