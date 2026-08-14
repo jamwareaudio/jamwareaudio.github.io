@@ -9,7 +9,70 @@ Developer ID certificate that does not exist yet.
 
 ---
 
-## 2026-08-14 (latest) — Fourth-pass column split for the two tall-list detail cards; both re-uploaded
+## 2026-08-14 (latest) — Fifth-pass `?scale=N`; Chordinator library/visualiser and history cards re-uploaded
+
+Follow-up to the fourth-pass `?cols=N` below. The user flagged two more
+Chordinator (`ztjqq`) cards as "very low resolution AND too big": the chord
+library / visualiser / chord-edit panel (`chordinator-library` fig) and
+History & Snapshots. Neither is a tall narrow list like the fourth-pass
+targets — `cols` didn't fit either. The library card is three roughly-square
+panels side by side already (a multi-band crop, but the bands themselves were
+being drawn oversized); the history card is a 3×4 grid of small thumbnails
+that reads fine small but was being upscaled like everything else pre-cap.
+
+**The fix, in `gumroad/detail.html`: `?scale=N`, a per-card multiplier on top
+of the existing single-band/multi-band draw width**, same "explicit per card,
+not auto-detected" reasoning as `cols` — a guessed threshold on band count or
+aspect ratio would silently mangle some other card that happens to look
+similar. `scale` composes with the existing `drawScale` cap (still never
+upscales past the crop's own natural resolution; `scale<1` only ever shrinks
+further). Used `cols=3` for the library card (splits it the same way the
+fourth pass splits tall lists, just on this card's own proportions) and
+`scale=2` for the history card (halves the draw size of an already-multi-band
+crop that didn't need `cols`).
+
+**Regenerated and uploaded both** via the same ProseMirror replace-in-place
+flow as the third/fourth passes. Results: library/visualiser/chord-edit card
+1440×3206 → 1440×630; history/snapshots card 1440×1250 → 1440×1184. Verified
+sharp and correctly composed by screenshotting both after save.
+
+**This pass is also the one where the replace-in-place flow itself finally
+got nailed down reliably — write it down so the next session doesn't relearn
+it the expensive way.** The flow is: click the old `<img>` → confirm its
+wrapper actually carries `ProseMirror-selectednode` (not just "the click
+landed somewhere near it" — a screenshot alone does not prove selection) →
+`file_upload` the new file, which inserts it immediately *before* whatever is
+selected → re-verify `ProseMirror-selectednode`'s `img[src]` now matches the
+*old* node again → synthetic `KeyboardEvent('keydown', {key:'Backspace',
+keyCode:8, bubbles:true, cancelable:true})` on `.ProseMirror` to delete it.
+Skipping the verification step either side is exactly what went wrong on the
+first attempt this pass: an unverified selection meant `file_upload` dropped
+the new library-card image at document index 0 instead of next to its
+intended neighbor, and the following Backspace — still trusting stale
+selection state — deleted the wrong (old) node instead. **Cut/paste is not a
+usable recovery path here**: synthetic Cmd+X does remove a ProseMirror image
+node (confirmed via image-count delta) but synthetic Cmd+V is a silent no-op
+in this automation context — no real OS/browser clipboard gets written, so
+the image is just gone, not repositioned. **`document.execCommand('undo')` is
+actively unsafe for recovery** — used to try to get the cut image back, it
+did restore it but also silently deleted an unrelated, unaffected node (the
+product's own hero/cover image) elsewhere in the same document; a second
+undo was a no-op with the damage already done. The only clean recovery, and
+the one that actually worked: since nothing had been saved yet, reload the
+page (Cmd+R) to discard all unsaved ProseMirror edits and fall back to the
+last-saved server state, then redo the replacement correctly with the
+selection check in place both times.
+
+Listing stayed UNPUBLISHED — only "Save and continue" was used, confirmed by
+re-checking the Product tab still lists the correct 7 images and the primary
+button still reads "Save and continue" rather than only "Publish".
+`gumroad/detail.html` is gitignored (see below) so the `scale` param change is
+not committed anywhere — it lives only on disk. Regenerated PNGs are in
+`gumroad/out/`.
+
+---
+
+## 2026-08-14 — Fourth-pass column split for the two tall-list detail cards; both re-uploaded
 
 Follow-up to the third-pass size cap below. That pass fixed every *panel*
 crop, but two cards are long *lists*, not panels — MutationStation's
