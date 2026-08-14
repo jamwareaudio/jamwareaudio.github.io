@@ -9,6 +9,100 @@ Developer ID certificate that does not exist yet.
 
 ---
 
+## 2026-08-14 (later) — narrow-window padding fixed; detail cards re-cut and re-uploaded to all four listings
+
+Continues the session below, which is where the detail-card generator came from.
+Two threads, both from direct user reports.
+
+**1. Text sat hard against the left edge in a half-width window.**
+`.wrap` carries the site's horizontal gutter (`padding: 0 32px`, 20px under
+720px), but `.hero`, `.section` and `.product-hero` each set a `padding`
+*shorthand* for their vertical rhythm, and the shorthand resets the horizontal
+value to 0 on the very elements `.wrap` sits inside. At full width nothing shows
+it — the content is centred and nowhere near the viewport edge — so it only
+surfaced with the window halved and left-aligned, which is how the user found
+it. All three now use `padding-block`, and there is a ⚠ comment above `.wrap`
+saying not to reach for the `padding` shorthand in new section rules, because
+this is the second thing that would silently reintroduce it. Committed `9064a8f`
+and published.
+
+**2. "Some of the screenshots on the Gumroad page are zoomed out too far."**
+Correct, and it was the *fix* from the session below that caused it. That pass
+put every crop on a fixed 1000×620 card with two fixed inner boxes (430×330
+beside the caption, 892×250 stacked above it). Uniform cards were the goal; what
+they actually did was override the half-natural rule whenever a crop did not fit
+the box. Measured across all 18 cards, **six were being drawn at 0.24–0.40 of
+natural** — worst are the algorithm dropdowns (985px tall, squeezed into 330)
+and MidiMirror's knob strips (up to 3408px wide, squeezed into 892). At 0.24 the
+parameter values under the knobs are three or four device pixels tall on the
+live page: present, unreadable. That is exactly the report.
+
+The rework, all of it documented at length in `gumroad/detail.html`'s header:
+
+- **The crop sets the card, not the reverse.** Width stays 1000 so every card
+  still scales identically in the description column; height is whatever the
+  crop needs at half natural. Cards are no longer a uniform height — that is the
+  price, and it is much the cheaper of the two.
+- **Ultra-wide strips are wrapped, not shrunk.** Half of a 3408px strip is 1704
+  CSS px against a 912px content box, so those are cut into 2–3 equal bands
+  stacked down the card, each band at the same half-natural scale. A band
+  boundary can fall mid-control; that is accepted deliberately, because the
+  alternative is the whole row at 0.26. `SLACK = 1.08` lets a strip that is only
+  just too wide through uncut.
+- **Shoot tall, then trim.** Headless Chrome has no "shoot this element" mode —
+  the window size *is* the frame — so `make-gumroad-art.sh` shoots each card
+  into a 2000px window and a PIL pass crops at the last non-white row, exiting 1
+  if a card reached the ceiling. ⚠ **Do not replace this with a `--dump-dom`
+  probe of `data-card-h`.** `--dump-dom` returns before `detail.html`'s fetch of
+  `../apps/<app>.html` resolves — tried with and without
+  `--virtual-time-budget`, under both `--headless` and `--headless=new` — so the
+  attribute is reliably absent and any fallback height cuts every card's feet
+  off. The attribute is still published; nothing consumes it.
+
+⚠ **`make-gumroad-art.sh` now passes `--user-data-dir="$(mktemp -d)"` on every
+headless invocation, and must keep doing so.** Without an explicit profile the
+headless instances attach to the default one; a batch of them took the user's
+own running Chrome down mid-session — windows, logged-in Gumroad tabs and all.
+
+All 36 files regenerated. Detail-card heights, all 2000 wide: chordinator
+665/595/1267/904/711, midimirror 2082/1606/1362/1592/2090, mutationstation
+884/620/1710/957/963, spectrl 570/919/567.
+
+**The Gumroad half is done too — all four listings re-uploaded, saved and
+reload-verified.** Node counts returned to their originals every time, which is
+the integrity check worth keeping: MutationStation `gligmk` 32→32, Chordinator
+`ztjqq` 37→37, Spectrl `zpedfw` 21→21, MidiMirror `ohhpmz` likewise. Only "Save
+and continue" was clicked; **all four remain Unpublished.**
+
+Two things about the editor that cost time and will again:
+
+- **Uploading does not replace, it inserts.** A real `left_click` on an `<img>`
+  selects the node (pink outline, "Add a caption", `.ProseMirror-selectednode`),
+  and `file_upload` to the description toolbar's hidden input then puts the new
+  image **before** it. The loop is: click target → *verify the selection
+  exists* → upload → wait ~5–7s → re-centre the old node, which has shifted →
+  click → `Backspace`. Verify each step by `naturalWidth×naturalHeight`.
+- **The first image click after a page load does not select.** It happened on
+  both Chordinator and Spectrl, and the upload then landed at `children[0]` —
+  a new card at the very top of the description. Always re-read
+  `.ProseMirror-selectednode` before uploading, and re-list the image-bearing
+  child indices after every mutation rather than assuming they shifted by one.
+
+Mapping a card on Gumroad to its source figure should not be guessed either:
+read `img.src` out of the ProseMirror DOM, `curl` the files from
+`public-files.gumroad.com`, build a downscaled contact sheet and read it against
+the `figcaption`s parsed from the app's own page. Doing that caught that
+**MutationStation's description carries only four of its five detail figures** —
+the `shape` card was never uploaded. Not fixed; a positional assumption would
+have silently mis-replaced a card instead.
+
+Still true from the session below: `site/.gitignore` ignores all of `gumroad/`,
+so both generators are unversioned; MidiMirror has not been repackaged since the
+JamWare/column rework; MutationStation's and MidiMirror's Content tabs are
+empty; Chordinator's and Spectrl's price is 0.
+
+---
+
 ## 2026-08-14 — Gumroad brought into line with the site; two new MidiMirror features marketed
 
 Long session, all of it through the Chrome extension (the blocker recorded in
