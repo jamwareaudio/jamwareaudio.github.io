@@ -9,7 +9,47 @@ Developer ID certificate that does not exist yet.
 
 ---
 
-## 2026-08-14 (latest) — Detail cards shrunk + sharpened: portrait crops no longer upscaled to full width
+## 2026-08-14 (latest) — Fourth-pass column split for the two tall-list detail cards; both re-uploaded
+
+Follow-up to the third-pass size cap below. That pass fixed every *panel*
+crop, but two cards are long *lists*, not panels — MutationStation's
+34-strategy pitch-algorithm list and MidiMirror's remote-script "modes and
+combos" card — and both are already narrower than AVAIL, so the band-splitter
+never engages on them. The size cap just drew them at natural width and
+natural height, leaving ~1400px-tall, hard-to-read cards.
+
+**The fix, in `gumroad/detail.html`: `?cols=N`, the mirror-image of bands.**
+Bands only have a lever on width (a crop wider than AVAIL gets sliced into
+horizontal strips stacked vertically). A tall-narrow crop needs the opposite
+lever: cut the crop's *height* into `cols` equal pieces and lay them side by
+side, same "unfold sideways" idea as bands, walked in the other axis. Passed
+explicitly per card (not auto-detected from aspect ratio) — only these two
+cards need it, and guessing a threshold risks silently mangling every other
+portrait-shaped card. Same never-upscale-past-natural-width rule as the
+single-band case (`drawScale` capped at 1). See the new comment block and the
+`cols`/`pieceH`/`compositeW` logic added around the existing `bands` branch.
+
+**Regenerated and uploaded both cards** via the same ProseMirror
+replace-in-place flow as the third pass (synthetic-select old node →
+`file_upload` inserts new before it → synthetic `Backspace` keydown deletes
+old). Results: MutationStation algorithms card 1440×3212 → 1440×1220;
+MidiMirror modes/combos card 1440×4116 → 1440×1300. Both now render
+wide-and-short instead of tall-and-narrow, text is sharp and readable at the
+column width. Verified by reloading both listings and re-checking image
+dimensions after save — both persisted correctly.
+
+**Every listing stayed UNPUBLISHED** — only "Save and continue" used on each;
+neither Publish button was touched. `gumroad/detail.html` is gitignored (see
+below) so this generator change is not committed anywhere — it lives only on
+disk. The regenerated PNGs are in `gumroad/out/`.
+
+Two scrollback export dumps (`2026-08-14-183323-resume.txt`,
+`2026-08-14-190437-continue.txt`) are sitting untracked in the repo root from
+`/export` — left alone, not cleaned up; ask the user before deleting.
+
+---
+
+## 2026-08-14 — Detail cards shrunk + sharpened: portrait crops no longer upscaled to full width
 
 The user reported the in-description feature images were "too huge and blurry /
 low resolution" again — the back-and-forth between too-big and too-small had
