@@ -9,6 +9,132 @@ Developer ID certificate that does not exist yet.
 
 ---
 
+## 2026-08-14 (latest) — Detail cards shrunk + sharpened: portrait crops no longer upscaled to full width
+
+The user reported the in-description feature images were "too huge and blurry /
+low resolution" again — the back-and-forth between too-big and too-small had
+landed on too-big — and named exactly which to shrink:
+
+- **MutationStation (`gligmk`):** acid character, pitch algorithm list, pitch
+  mutation panel (description images i=3 pitch, i=4 algorithms, i=5 acid).
+- **Chordinator (`ztjqq`):** the chord library / visualiser / chord-edit panel
+  (one stacked card, `chordinator-library` fig) and history & snapshots.
+- **MidiMirror (`ohhpmz`):** the remote-script "modes and combos" card
+  (`midimirror-modes` fig).
+
+**Root cause and the fix — in `gumroad/detail.html`, THIRD-PASS size cap.** The
+second-pass rule filled the card content width (AVAIL=656) with *every* crop, so
+a 328px panel was drawn at 656 CSS → 1312 device px at dsf2: a 4× upscale baked
+into the file = the "huge and blurry". Gumroad forces every description image to
+full column width regardless of natural size (measured: all render at clientW
+~679), so "make smaller" can only be done by changing the card's *aspect ratio* —
+a wider/shorter card renders shorter on the page. The new rule: a **single-band**
+crop is drawn at `min(AVAIL, natW)` — its own natural width — CENTRED on the
+faceplate with cream margins (the trim keeps cream, only pure white is cropped,
+so the card stays 720 wide). That halves both on-page size and upscale for the
+small panels. Multi-band ultra-wide strips are unchanged. See the long comment
+block added around the `bandW`/`imgDrawW` computation.
+
+**Regenerated only the 6 affected cards** (scratchpad `regen6.sh`, same
+throwaway-profile + poll-and-kill pattern as `make-gumroad-art.sh`; did NOT run
+the full 36-file build). Heights dropped: MS pitch 1540→924, algorithms
+3634→3212, acid 2936→1598; Chord library 3206→1492, history 1250→800; MM modes
+4116→2920 (all at dsf2, width stays 1440).
+
+**Uploaded in place** on all three listings via the ProseMirror replace flow
+(synthetic-click old node → `file_upload` to `ref_17` inserts new before it →
+delete old). Order preserved, image counts back to original on each. **Every
+listing stayed UNPUBLISHED** — only "Save and continue" used; each save toast
+confirmed "Changes saved!" and MidiMirror/Chordinator additionally showed "not
+currently for sale" (the draft tell).
+
+**Duplicate MutationStation cover: already resolved.** The user reported two
+duplicate covers on `gligmk`; the Cover carousel now shows exactly one asset
+(`navCount:1`, one thumbnail + the "+"), so nothing was removed — removing the
+sole cover would have left zero. Left as-is.
+
+⚠ **Delete gotcha for next time:** the computer-tool `Backspace` key silently
+failed to delete a selected ProseMirror node on the Chordinator page (worked on
+MS). What worked reliably everywhere was dispatching a synthetic
+`KeyboardEvent('keydown',{key:'Backspace',keyCode:8})` on the `.ProseMirror`
+element after the synthetic node-select. Prefer the dispatched keydown.
+
+`detail.html`, `make-gumroad-art.sh`, `cover.html` are all in `gumroad/` which
+is gitignored — the generator change is not committed anywhere; it lives only on
+disk. The regenerated PNGs are in `gumroad/out/`.
+
+---
+
+## 2026-08-14 — Spectrl + MidiMirror listings: bright covers uploaded, all rail'd detail cards replaced
+
+Finishes the three-part Gumroad correction the user asked for twice (brighter
+engraved cover text; in-text feature images too zoomed-out; and remove the
+"JamWare Audio" rail from those in-text feature images). Chordinator (`ztjqq`)
+and MutationStation (`gligmk`) were done in earlier sessions; this session
+closed out **Spectrl (`zpedfw`)** and **MidiMirror (`ohhpmz`)**. **Every listing
+stayed UNPUBLISHED throughout** — only "Save and continue"/"Save changes" was
+used, and the pink "Publish and continue" button was verified present after each
+save, which is the tell that a listing is still a draft.
+
+**What "replace a detail card" means here, and the method that finally worked.**
+The old descriptions carried two *kinds* of image and only one had to change:
+
+- **1600-wide** images are whole-window app screenshots. They legitimately carry
+  the JAMWARE AUDIO rail (it does real work on a surface seen away from the
+  product page) — **KEEP them**. MidiMirror had two; Spectrl one.
+- **2000-wide** images are the OLD rail'd detail/feature cards — **REPLACE**.
+- **1440-wide** images are the NEW rail-free cards from `gumroad/detail.html`
+  (720 CSS × device-scale-factor 2). These are what the 2000s are replaced with.
+
+Gumroad's description editor is TipTap/ProseMirror, and there are **two**
+`.ProseMirror` nodes in the DOM — operate only on
+`document.querySelector('.ProseMirror[contenteditable="true"]')`. Screen-
+coordinate clicks to select an image are unreliable because the editor scrolls
+internally, so screenshot coordinates ≠ `getBoundingClientRect` coordinates. The
+method that worked every time: dispatch a synthetic `mousedown`/`mouseup`/`click`
+MouseEvent sequence on the target `img` (using its own `getBoundingClientRect`
+centre) — that node-selects it *and* focuses the editor. Then:
+
+1. synthetic-click the OLD 2000-wide node, verify its dims and
+   `document.activeElement===pm`;
+2. `file_upload` the new PNG into the description image input — **this INSERTS
+   the new image immediately BEFORE the selected node, it does not replace**;
+3. poll the img list until the new 1440-wide image appears (the old node has now
+   shifted +1 in index);
+4. synthetic-click the old node again at its new index, re-verify 2000-wide dims
+   and focus, then press **Backspace** (computer tool) to delete it;
+5. re-query the img list to confirm.
+
+MidiMirror final description state: `[1600, 1440, 1440, 1440, 1440, 1600, 1440]`
+— i.e. 2 whole-window KEEPs + 5 new rail-free cards. Spectrl: 1 whole-window
+KEEP + 3 new cards.
+
+**Covers.** Both listings still had the OLD grey-engraved cover. Uploaded the
+bright ones from disk (`gumroad/out/<app>-cover.png`, generated by the brightened
+`gumroad/cover.html`) via the Cover "+" → "Upload images or videos" flow, which
+**appends** the new cover as a second thumbnail; then deleted the old grey
+thumbnail by its red X. On MidiMirror the two covers looked near-identical at
+thumbnail size, so I proved which was which in-page: a full-image canvas diff of
+the two `public-files.gumroad.com` thumbnails showed they differ **only** in the
+`MidiMirror` glyph box (x464–759, y198–244 at the 1005×565 preview size), and
+sampling that box gave the old cover glyph avg **177** vs the new **224** —
+deleted the 177 (grey) one. (Canvas sampling works on `public-files.gumroad.com`;
+it is the *live product* CDN that sends no CORS header and taints the canvas —
+verify brightness on the on-disk PNG with PIL there, as before.)
+
+**Nothing in the `site/` repo changed** — this was all browser work against
+Gumroad. `gumroad/` is gitignored and its generators (`cover.html`,
+`detail.html`, `make-gumroad-art.sh`) are unversioned; the corrected art on disk
+under `gumroad/out/` (dated Aug 14) is what got uploaded.
+
+**Next session:** all four live listings now have bright covers and
+large, rail-free detail cards, and all four are still drafts. The user has not
+asked for them to be published — **do not publish without an explicit yes.** The
+launch blocker is unchanged: Apple Developer ID signing (see the top of this
+file and `site/CLAUDE.md`).
+
+---
+
 ## 2026-08-14 (later) — narrow-window padding fixed; detail cards re-cut and re-uploaded to all four listings
 
 Continues the session below, which is where the detail-card generator came from.
