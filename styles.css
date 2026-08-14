@@ -103,6 +103,20 @@ a:hover { color: var(--accent); }
    single-column sections (hero copy, .prose.story) start reading as a stripe
    of text floating in a very large panel, which is the problem in the other
    direction. */
+/* ⚠ The side padding here is the ONLY thing keeping text off the viewport edge,
+   and for a long time it was not doing it. Every content section on every page
+   is `class="hero wrap"` / `"section wrap"` / `"product-hero wrap"`, and each of
+   those three rules set a `padding` SHORTHAND for its vertical rhythm —
+   `padding: 40px 0` and friends. Same specificity as this rule, declared later
+   in the file, so the shorthand's `0` won and the horizontal padding was gone
+   sitewide. It was invisible above ~1300px, where `max-width` centres the
+   column and leaves margin either side by accident, and only showed up when the
+   window was halved: the copy ran flush into the left edge with nothing between
+   it and the frame.
+
+   Those three rules now use `padding-block`, which cannot reach this axis. Keep
+   it that way — if you add a section rule here, give it `padding-block`, never
+   the shorthand. */
 .wrap { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
 
 /* ============================================================ SITE HEADER */
@@ -133,7 +147,7 @@ a:hover { color: var(--accent); }
 
 /* ================================================================== HERO */
 
-.hero { padding: 72px 0 56px; }
+.hero { padding-block: 72px 56px; }
 .hero .eyebrow { margin: 0 0 18px; }
 .hero h1 {
   font-size: clamp(30px, 5vw, 46px);
@@ -351,7 +365,7 @@ a:hover { color: var(--accent); }
 
 /* ========================================================= PRODUCT CARDS */
 
-.section { padding: 40px 0; }
+.section { padding-block: 40px; }
 .section > .legend { display: block; margin-bottom: 14px; }
 
 .products { display: grid; gap: 20px; }
@@ -765,7 +779,7 @@ a.btn.gumroad-button:active {
 
 /* ========================================================== PRODUCT PAGES */
 
-.product-hero { padding: 48px 0 28px; }
+.product-hero { padding-block: 48px 28px; }
 .product-hero .row { display: flex; align-items: center; gap: 22px; margin-bottom: 22px; }
 .product-hero .icon { width: 88px; height: 88px; border-radius: 17px; flex: none; }
 /* line-height and --engrave-line must stay equal: the cut gradient tiles once
@@ -876,11 +890,11 @@ a.btn.gumroad-button:active {
   .product .panel-body { grid-template-columns: 64px 1fr; gap: 16px; }
   .product .icon { width: 64px; height: 64px; border-radius: 13px; }
   .two-col { grid-template-columns: 1fr; }
-  .hero { padding: 48px 0 36px; }
+  .hero { padding-block: 48px 36px; }
 
   body { background-attachment: scroll; }
-  .wrap { padding: 0 16px; }
-  .section { padding: 28px 0; }
+  .wrap { padding: 0 20px; }
+  .section { padding-block: 28px; }
 
   .site-header .wrap {
     height: auto; min-height: 58px;
@@ -902,7 +916,7 @@ a.btn.gumroad-button:active {
      and it is not `overflow-wrap: break-word`, which would fix the number by
      hyphenating the product's name in half. If a longer name ever ships, lower
      the vw term, do not let it break. */
-  .product-hero { padding: 32px 0 22px; }
+  .product-hero { padding-block: 32px 22px; }
   .product-hero .row { gap: 16px; }
   .product-hero .icon { width: 64px; height: 64px; border-radius: 13px; }
   .product-hero h1 { font-size: clamp(24px, 7.2vw, 34px); }
