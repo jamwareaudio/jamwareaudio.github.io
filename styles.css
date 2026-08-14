@@ -190,17 +190,23 @@ a:hover { color: var(--accent); }
    letters got bigger, which is exactly why fixed pixels are right here.       */
 .engraved {
   font-family: var(--font-plate);
-  /* ⚠ THESE STOPS ARE SHARED WITH gumroad/cover.html AND MUST STAY IN STEP.
-     The cover art and this nameplate are the same wordmark on the same
-     faceplate — one in a store grid, one at the top of the page — and the user
-     called it as a defect the moment they drifted apart. If you retune here,
-     retune the h1 in cover.html to match and re-run gumroad/make-gumroad-art.sh.
-     They are duplicated rather than shared because cover.html is a standalone
-     render target for headless Chrome and deliberately depends on no stylesheet.
+  /* ⚠ THESE STOPS USED TO BE SHARED WITH gumroad/cover.html. THEY ARE NOT ANY
+     MORE, BY THE USER'S RULING OF 2026-08-14: the product name on the cover art
+     was to be "brighter, more like the background white", this nameplate was
+     not. cover.html's h1 now runs in a near-plate range with a heavier upper
+     lip; this one stays mid-grey. That file's header carries the matching note.
+
+     Everything else about the two is still shared and still has to be — the
+     recipe, the stop ORDER, the lips' geometry. They are duplicated rather than
+     imported because cover.html is a standalone render target for headless
+     Chrome and deliberately depends on no stylesheet. If you retune the recipe
+     here, retune it there and re-run gumroad/make-gumroad-art.sh; if you only
+     retune the lightness, that is now a per-surface decision.
 
      The range went very light on 2026-08-14 and came back to this mid-grey the
      same day: light enough that the cut is what you read, dark enough that the
-     name survives being a thumbnail in a grid of other sellers' covers.
+     name survives against the body copy sitting directly under it. That revert
+     is about THIS surface only — do not apply it to the covers.
 
      Keep the stops in this order if you retune. Dark at the top is the far wall
      of the groove; inverting it turns the letter into a ridge standing proud,
