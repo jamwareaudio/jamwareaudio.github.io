@@ -9,7 +9,62 @@ Developer ID certificate that does not exist yet.
 
 ---
 
-## 2026-08-15 (latest) — Cover redesign: dark title + interface shelf, all products
+## 2026-08-16 (latest) — Bigger/sharper Gumroad detail cards, 2× source re-shoots, MidiMirror held back
+
+The user's two asks: (1) make the Gumroad description "detail card" images bigger
+and higher-resolution so a customer can read control detail without reading the
+copy, and (2) trim the grey dead-space around them — reduce, not remove. Also:
+set product thumbnails to the new square covers.
+
+What landed:
+
+- **`gumroad/detail.html` slimmer frame (on-disk only — `gumroad/` is
+  gitignored).** `.card` padding `34px 32px 38px` → `22px 22px 26px`, `.body`
+  gap `22px` → `16px`, and `PAD_X` `32` → `22` (so `AVAIL` 656 → 676). Wider
+  crop area + thinner cream border = less dead-space, and small crops now fill
+  more of the card. Comment block "SIXTH PASS — SLIMMER FRAME" records it and
+  the pairing with the re-shoots below.
+- **5 source crops re-captured at ~2× DPI** and committed (`ba9614e`), because
+  they were genuinely low-res (a few hundred px) and could not be enlarged
+  sharply: `chordinator-chordgen` 623×80→1258×166, `chordinator-library`
+  268×592→552×1094, `mutationstation-pitch` 328×308→667×642,
+  `mutationstation-acid` 322×645→667×1297, `mutationstation-shape`
+  330×501→667×1378. Same crops/framing, resampled from a higher-DPI render.
+  These are the **website's** figure.zoom sources too, so the live app pages
+  sharpen — pushed + `publish.sh` run (user's standing rule: site changes always
+  publish). The `mutationstation-shape` shot now includes the Extend Loop drift
+  block the current app renders unconditionally (greyed while Repeats=Off) —
+  faithful to today's UI.
+- **All non-MidiMirror detail cards regenerated** via `make-gumroad-art.sh` and
+  **delivered to the user** as files (they place them in the Gumroad description
+  bodies themselves) — MutationStation ×5, Chordinator ×5 (incl. a re-cut
+  history card so its frame matches; user already had the old one and may skip
+  it), Spectrl ×3 — plus the three **square thumbnails**
+  (`<app>-square.png`, already the new cover design). Spectrl sources were
+  already hi-res; those cards were only re-cut for the slimmer frame.
+
+**MidiMirror deliberately held back.** Mid-task the user said "skip midimirror
+screenshots because we are still working on it" (its UI is in flight). So:
+`assets/shots/midimirror-modes.png` was **reverted** (`git checkout`) after the
+capture agent had re-shot it — the live site keeps the current MidiMirror
+screenshot — and **no** MidiMirror detail card or thumbnail was delivered.
+`make-gumroad-art.sh` exited 1 on `midimirror-detail-4` hitting the 4800px
+SHOOT_H ceiling; that's the MidiMirror card we're skipping, so it's expected, but
+it means the trailing `make-gumroad-shots.py` faceplate-shot pass did NOT run
+this batch. **Pick-up for MidiMirror:** once its UI settles, re-shoot
+`midimirror-modes.png` at 2× (harness pattern in the 2026-08-16 capture agent —
+override `appData` before `require('main.js')` to dodge the single-instance
+lock; the modes panel is `#config-panel`, DOM-trimmed to Remote Script + Modes +
+Button Combos), regenerate `midimirror-detail-*`, and either raise SHOOT_H or
+split the tall modes card, then deliver.
+
+**Thumbnails not yet applied to Gumroad** — handed to the user as files; offered
+to set them via browser automation (as the covers were) if they'd prefer. No
+Gumroad product made public (standing rule).
+
+---
+
+## 2026-08-15 — Cover redesign: dark title + interface shelf, all products
 
 The user asked for two changes to every Gumroad product cover, approved from
 mockups first (`gumroad/cover-mock.html`, now deleted):
