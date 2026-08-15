@@ -9,7 +9,87 @@ Developer ID certificate that does not exist yet.
 
 ---
 
-## 2026-08-15 (latest) — Shortened About text, swept "ai-tell" em-dashes from site + Gumroad copy
+## 2026-08-15 (latest) — Screenshot capture attempt, template mutation near-miss, reverted to text-only
+
+Picked up the "still open" item from the entry below: the four screenshots
+blocking the targeted-mutation / multi-controller / JamWare-mode marketing
+push (`mutationstation-range.png`, `chordinator-rerolled.png`,
+`midimirror-two-windows.png`, `midimirror-jamware-mode.png`).
+
+**Correction to the prior entry:** "no desktop-capture tool is available in
+this environment" was wrong. `screencapture -x -o -l<CGWindowID> <path>` works
+fine and is silent; `python3 -c "import Quartz; ..."` (`CGWindowListCopyWindowInfo`)
+enumerates on-screen windows and gives the CGWindowID `-l` needs. What actually
+blocked the prior session was blind pixel-coordinate clicking (`cliclick`)
+missing UI targets under multi-display DPI mismatches, not an absence of a
+capture tool. The reliable fix, once found: drive the target app through the
+System Events **accessibility tree** instead of coordinates — `entire contents
+of window 1` returns fully-qualified named elements, and
+`click button "<name>" of <path>` hits them deterministically regardless of
+screen geometry or scaling.
+
+**Why the shots still didn't get taken:** getting MidiMirror into "JamWare
+mode" for the shot meant clicking its real DEVICE MODE / JAMWARE tab via the
+accessibility tree above. That click had an unintended side effect: it changed
+the loaded **template** in the dropdown from "JamWare Def..." to "My
+template" — a real data change, not just a view toggle; the mode tab itself
+didn't even visibly engage. This was flagged to the user rather than pushed
+through or silently reverted. A follow-up attempt to reopen the template
+dropdown to fix it by hand was blocked by Claude Code's own permission
+classifier (an explicit "don't try to bypass this, stop and ask" denial) — that
+was respected, no workaround was attempted. Recovery instead: `key code 53`
+(Escape) closed the open menu, which discarded the pending selection rather
+than committing it, and a screenshot confirmed the template had reverted to
+"JamWare Def..." on its own; the DEVICE MODE tab was then restored the same
+way. MidiMirror's real saved state was verified back to exactly where it
+started. Chordinator and MutationStation were never touched (they weren't
+even running, and getting them into the pictured states risked the same kind
+of mutation), so no risk was taken there.
+
+**User's call, verbatim: "Ignore the screenshots then. just go with the text
+on both website + gumroad."** Abandoning automated capture of real app state
+for this is now the standing default here — see the note on the accessibility
+technique above if a *future* session wants to try again, but do so only with
+a much more conservative plan (e.g. capture on a disposable/duplicate saved
+template, never the user's live one).
+
+**Site (`apps/chordinator.html`, `apps/midimirror.html`,
+`apps/mutationstation.html`, commit `fe0ff35`):** removed the four
+`figure.zoom` blocks that referenced the never-produced screenshots. One of
+them was half of a `.zoom-pair` (mutationstation's lock/range pair); the
+remaining `mutationstation-lock.png` figure was converted back to a standalone
+`.zoom` rather than left as a broken half-empty grid. MidiMirror's two
+sections ("Two controllers, two windows", "JamWare mode") are prose-only
+again; the stale in-HTML comment documenting the 2026-08-15 figure-count bump
+was rewritten to explain why they're text-only again and what to do if shots
+are ever added by hand. Verified after editing: `figure.zoom` counts are back
+to baseline (mutationstation 5, chordinator 5, midimirror 5, spectrl
+untouched at 3), and no remaining reference anywhere in `apps/*.html` to the
+four dropped filenames.
+
+**`gumroad/make-gumroad-art.sh` (gitignored — this edit will never show in
+`git status`/`git diff`/any commit in this repo, so it's recorded here
+instead):** reverted the `for spec in ...` figure-count line back to
+`mutationstation:5 chordinator:5 spectrl:3 midimirror:5` (was bumped to
+`:6 :6 :3 :7` in the abandoned push). `gumroad/out/*-detail-*.png` already only
+had 5 cards per app on disk, so nothing stale to clean up there, and no
+evidence any 6/7-count card was ever pushed to a live Gumroad draft.
+
+**Gumroad drafts:** checked `gumroad/GUMROAD-KIT.md` and `gumroad/cover.html`
+for any reference to the four dropped filenames or their concepts — none
+found (the only "range" hits are unrelated mutation-range prose). Since
+`gumroad/detail.html` builds its cards by reading each app's live
+`figure.zoom` count, fixing the site pages and `make-gumroad-art.sh` above
+already brings Gumroad back into sync; no separate Gumroad-side edit was
+needed.
+
+**Still open:** the two stray untracked transcript files in the repo root
+(`2026-08-14-183323-resume.txt`, `2026-08-14-190437-continue.txt`) — user has
+still not said whether to delete them.
+
+---
+
+## 2026-08-15 — Shortened About text, swept "ai-tell" em-dashes from site + Gumroad copy
 
 User asked for two things: shorten the About paragraph on the homepage (drop
 its second half, keep the first), and sweep the website and Gumroad texts for
