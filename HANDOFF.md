@@ -9,7 +9,51 @@ Developer ID certificate that does not exist yet.
 
 ---
 
-## 2026-08-15 (latest) — Screenshot capture attempt, template mutation near-miss, reverted to text-only
+## 2026-08-15 (latest) — About text confirmed already short, second Gumroad em-dash pass, publish.sh not yet run
+
+Three separate asks from the user this session: shorten the About paragraph
+further, re-sweep site + Gumroad text for em-dashes, and answer "have you
+pushed the website edits, this text isn't up yet."
+
+**About text:** already matched the user's requested shortened wording in
+`index.html` (from the `dfc1a8e` commit two sessions back) — no code edit
+needed. The one difference ("Every one of these apps" vs. the user's pasted
+"Every these apps") reads as a typo in the user's paste, so it was left as the
+grammatical version pending confirmation.
+
+**Why the user still sees the old text live:** this repo (`jamwareaudio/jamwareaudio`,
+private) is not what GitHub Pages serves. Pages serves a separate **public**
+repo, `jamwareaudio/jamwareaudio.github.io`, which only gets updated by running
+`./publish.sh` from here — it does an allowlisted copy into a gitignored local
+checkout (`.public-mirror/`) and pushes that. Confirmed via
+`.public-mirror/index.html`: still had the old long About paragraph, last
+published from commit `4f75d51`, which predates the `dfc1a8e` shortening.
+**Neither `fe0ff35`/`98d3886` have been pushed to `origin` nor has `publish.sh`
+been run this session** — both are pushing/publishing actions and need explicit
+go-ahead first.
+
+**Gumroad em-dash sweep, round 2:** the prior sweep only checked description
+bodies. This pass also checked the "Additional details" key/value rows
+(Platform/Works with/Format/etc.), which the prior pass missed, and found three:
+
+- Spectrl (`zpedfw`) "Works with": `"...it taps system audio directly — nothing to route"` → recolon'd, saved.
+- MutationStation (`gligmk`) "Works with": `"...built and tested in Ableton Live"` (em-dash before "built") → recolon'd, saved.
+- Chordinator (`ztjqq`) "Works with": `"Any DAW — chords go out..."` → recolon'd, saved.
+
+MidiMirror (`ohhpmz`) checked clean (description + details, no dashes). No
+bundle listings (`creative-bundle`/`toolbox-bundle`) exist yet on the account —
+only the four apps, a "Buy me a coffee" tip listing, and an old, unrelated
+"Dub Adventures Vol 1" sample pack (also checked, clean, not part of the app
+lineup so not a priority target anyway). Each Gumroad save was verified by URL
+change (`/edit` → `/edit/content`), not just the preview pane.
+
+**Still open:** push `fe0ff35` + `98d3886` to `origin`, then run `./publish.sh`
+to actually put the current About text and everything else live — both need
+the user's go-ahead, not yet asked for as of this entry.
+
+---
+
+## 2026-08-15 — Screenshot capture attempt, template mutation near-miss, reverted to text-only
 
 Picked up the "still open" item from the entry below: the four screenshots
 blocking the targeted-mutation / multi-controller / JamWare-mode marketing
