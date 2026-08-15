@@ -258,14 +258,12 @@
     </div>
   </section>
 
-  <!-- ⚠ The two sections below are deliberately TEXT-ONLY, no figure.zoom.
-       There is no screenshot of either feature in assets/shots/ yet, and the
-       figure.zoom count on this page is load-bearing: gumroad/make-gumroad-art.sh
-       drives detail.html over `midimirror:5`, one card per figure, by index. Add
-       a figure here and that script silently stops matching the page — the last
-       figure never becomes a card and the captions shift under the cards that
-       do. If shots of the two windows and of JamWare mode land later, add the
-       figures AND bump the count in that script in the same sitting. -->
+  <!-- ⚠ These two sections used to be deliberately TEXT-ONLY (no figure.zoom)
+       because no screenshot of either feature existed. That changed 2026-08-15:
+       both now carry a figure. The figure.zoom count on this page is
+       load-bearing: gumroad/make-gumroad-art.sh drives detail.html over
+       `midimirror:N`, one card per figure, by index — adding a figure here
+       means bumping that count in the same sitting, which was done (5 -> 7). -->
   <section class="section wrap">
     <div class="panel">
       <h2 class="panel-head">Two controllers, two windows</h2>
@@ -291,6 +289,16 @@
             Live to do it.
           </p>
         </div>
+        <figure class="zoom">
+          <div class="screen">
+            <img src="../assets/shots/midimirror-two-windows.png" alt="Two MidiMirror windows on screen together, one mirroring each of two connected controllers" />
+          </div>
+          <figcaption>
+            Two controllers, two windows, both live at once — one MIDI Mix
+            running the mixer, say, and a Launch Control XL running device
+            parameters beside it, each mirrored in its own window.
+          </figcaption>
+        </figure>
       </div>
     </div>
   </section>
@@ -325,6 +333,15 @@
             to Live's own MIDI map; this one hands them to the app.
           </p>
         </div>
+        <figure class="zoom">
+          <div class="screen">
+            <img src="../assets/shots/midimirror-jamware-mode.png" alt="A MidiMirror controller panel in JamWare mode, its knobs and keys labelled with MutationStation or Chordinator parameters" />
+          </div>
+          <figcaption>
+            JamWare mode: the panel becomes the front panel of whichever app
+            you last touched, every control already labelled and already live.
+          </figcaption>
+        </figure>
       </div>
     </div>
   </section>
