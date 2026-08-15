@@ -9,7 +9,67 @@ Developer ID certificate that does not exist yet.
 
 ---
 
-## 2026-08-14 (latest) — Fifth-pass `?scale=N`; Chordinator library/visualiser and history cards re-uploaded
+## 2026-08-15 (latest) — Marketed targeted-area mutation, multi-controller, and JamWare mode harder
+
+User asked (four-bullet request) to market two under-emphasized capabilities
+harder across the site and Gumroad: (1) the per-note-lock + marked-area/range
+restriction combo already in MutationStation and Chordinator, and (2) running
+two-or-more MIDI controllers plus MidiMirror's "JamWare mode" driving
+MutationStation/Chordinator directly. Confirmed via two rounds of
+`AskUserQuestion` that both are largely existing functionality needing
+elevation/cross-linking rather than new copy from scratch, and that the user
+wanted changes in all three places: site pages, `gumroad/GUMROAD-KIT.md`, and
+pushed live into the Gumroad drafts (saved, not published).
+
+**Site pages (`apps/mutationstation.html`, `apps/chordinator.html`,
+`apps/midimirror.html`, commit `1af61c4`):**
+- MutationStation and Chordinator each got a new `<figure class="zoom">` in
+  "Controlled randomness" illustrating the range-mark / box-select-and-Re-Roll
+  feature (`mutationstation-range.png`, `chordinator-rerolled.png` — **not
+  yet rendered**, see below), and a new "Run it from a hardware panel" panel
+  cross-linking to MidiMirror's JamWare mode and two-controller support.
+- MidiMirror's "Two controllers, two windows" and "JamWare mode" sections,
+  previously deliberately TEXT-ONLY (no screenshot existed), each got a
+  `<figure class="zoom">` (`midimirror-two-windows.png`,
+  `midimirror-jamware-mode.png` — **not yet rendered**) and the stale
+  TEXT-ONLY warning comment was rewritten to reflect that.
+- `gumroad/make-gumroad-art.sh`'s figure-count spec line updated in the same
+  sitting per its own warning comment:
+  `mutationstation:5 chordinator:5 spectrl:3 midimirror:5` →
+  `mutationstation:6 chordinator:6 spectrl:3 midimirror:7`.
+
+**`gumroad/GUMROAD-KIT.md`** (gitignored, not committed): added a "Run it from
+a hardware panel" bullet to both MutationStation's and Chordinator's
+description blocks, and two new bullets ("Run two controllers at once",
+"JamWare mode: your controller runs MutationStation or Chordinator") to
+MidiMirror's description block, which previously had neither despite the
+site's own meta tags already mentioning both.
+
+**Pushed live to Gumroad (saved as draft, not published), verified by
+reloading each edit page after save:** added the same "Run it from a hardware
+panel" paragraph (bold lead-in via `cmd+b`) to the live MutationStation
+(`gligmk`) and Chordinator (`ztjqq`) descriptions, in the same spot as the
+site-page panel. **MidiMirror's (`ohhpmz`) live description needed no edit —
+it already carries full "Two controllers, two windows" and "JamWare mode"
+sections**, more detailed than what GUMROAD-KIT.md had; GUMROAD-KIT.md is now
+a shorter version of the same claims, not a source of drift.
+
+**Screenshots are the one open item.** All four new figures reference
+`assets/shots/` files that do not exist yet
+(`mutationstation-range.png`, `chordinator-rerolled.png`,
+`midimirror-two-windows.png`, `midimirror-jamware-mode.png`) — these are
+native Electron app windows, which the available browser-automation tooling
+cannot reach (Chrome-extension tools are strictly scoped to Chrome tabs, no
+desktop/window capture tool exists in this environment). **Next session:**
+once those four files land in `site/assets/shots/`, run
+`gumroad/make-gumroad-art.sh` (regenerates all detail cards using the updated
+per-app figure counts above) and swap the new detail-card PNGs into the three
+live Gumroad drafts using the replace-in-place ProseMirror flow documented in
+the 2026-08-14 entry below.
+
+---
+
+## 2026-08-14 — Fifth-pass `?scale=N`; Chordinator library/visualiser and history cards re-uploaded
 
 Follow-up to the fourth-pass `?cols=N` below. The user flagged two more
 Chordinator (`ztjqq`) cards as "very low resolution AND too big": the chord
