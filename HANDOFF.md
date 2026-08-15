@@ -9,7 +9,35 @@ Developer ID certificate that does not exist yet.
 
 ---
 
-## 2026-08-15 (latest) — About text confirmed already short, second Gumroad em-dash pass, publish.sh not yet run
+## 2026-08-15 (latest) — Cover redesign: dark title + interface shelf, all products
+
+The user asked for two changes to every Gumroad product cover, approved from
+mockups first (`gumroad/cover-mock.html`, now deleted):
+
+1. **Dark product name.** The name now uses the same treatment as the JAMWARE
+   AUDIO rail wordmark — dark warm near-black (`hsl(26,15%,18%)`) with a single
+   white lower lip (`text-shadow: 0 1px 0 rgba(255,255,255,.65)`). This
+   **reverses** the 2026-08-14 "brighter, more like the background white"
+   background-clipped ruling that the old `h1` comment block guarded. That comment
+   in `gumroad/cover.html` has been rewritten to record the reversal and why, so
+   nobody "fixes" it back.
+2. **Interface shelf (layout "A").** Full-size single-app covers now show the
+   app's real interface (`assets/shots/<app>.png`) on a shelf across the bottom,
+   bleeding off the bottom edge, under a compact rail + small-icon + name +
+   tagline block. All four shots are ~1.71:1 so a fixed `1120px` shelf width
+   renders them uniformly — no per-app crop tuning needed. Square (600×600) and
+   bundle covers keep the original centred `.middle` layout (no shelf): a square
+   is too small to read an interface, a bundle has no single interface to show.
+   Both still pick up the dark title.
+
+`gumroad/cover.html` is the only file changed; the shelf/centred split is chosen
+in-script (`shelf = !sq && !bundle`). Re-rendered all 12 cover+square PNGs into
+`gumroad/out/` — ready to re-upload to Gumroad. **`gumroad/` is gitignored and
+not versioned anywhere** (kept private), so there is nothing to commit or push
+for this cover work; the source and art live on disk only. Gumroad listings
+still need the new files uploaded by hand.
+
+## 2026-08-15 — About text confirmed already short, second Gumroad em-dash pass, publish.sh not yet run
 
 Three separate asks from the user this session: shorten the About paragraph
 further, re-sweep site + Gumroad text for em-dashes, and answer "have you
