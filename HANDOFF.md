@@ -9,7 +9,59 @@ Developer ID certificate that does not exist yet.
 
 ---
 
-## 2026-08-15 (latest) — Marketed targeted-area mutation, multi-controller, and JamWare mode harder
+## 2026-08-15 (latest) — Shortened About text, swept "ai-tell" em-dashes from site + Gumroad copy
+
+User asked for two things: shorten the About paragraph on the homepage (drop
+its second half, keep the first), and sweep the website and Gumroad texts for
+"ai-tells", specifically calling out the long em-dash ("—") as the example.
+
+**Site (`index.html`, `apps/chordinator.html`, `apps/mutationstation.html`,
+`apps/midimirror.html`, commit `dfc1a8e`):** shortened the About text per the
+user's exact replacement wording, and replaced every em-dash in visible prose
+(`<p>`, `<figcaption>`) with a colon, comma or period depending on what the
+sentence needed — never with a substitute dash. Dev `<!-- -->` comments were
+deliberately left untouched; the house style wants long-form WHY comments and
+an em-dash there isn't an ai-tell in customer-facing copy. These edits sat
+uncommitted from a prior session; committed this session.
+
+**Live Gumroad drafts, verified by reloading each edit page after save:**
+- MutationStation (`gligmk`) and Chordinator (`ztjqq`): one em-dash each,
+  fixed and confirmed already carried over from the prior session.
+- MidiMirror (`ohhpmz`): the prior session's assumption that this draft needed
+  no changes was wrong — a fresh `get_page_text` pass turned up seven more
+  em-dashes (five in the main description body, two in the sidebar
+  "Additional details" fields: "Works with", "Ready-made profiles"). Fixed all
+  seven, including one at a line-wrap boundary that needed extra care with
+  character-level selection. Re-verified with a full `get_page_text` pull
+  after save + reload: zero em-dashes remain in editable text. (Dashes baked
+  into embedded screenshot graphics inside the description are out of scope —
+  not editable text.)
+
+**Left untouched, deliberately:** `gumroad/GUMROAD-KIT.md` (gitignored) still
+has plenty of em-dashes, but its own header marks the per-product description
+blocks as historical "source of record", already superseded by direct edits
+on the live Gumroad drafts, and most of the rest is internal kit
+documentation (headers, checklist, open decisions) rather than customer-facing
+copy — didn't touch it this pass. If it's ever re-pasted into a fresh Gumroad
+listing, sweep it for dashes first.
+
+**Not done this session, still open:**
+- The four screenshots blocking the "targeted-area mutation / multi-controller
+  / JamWare mode" marketing push (see 2026-08-15 entry below this one) are
+  still missing — confirmed again this session that blind screen-region
+  capture is not reliable for this (overlapping windows, Ableton running), and
+  no desktop-capture tool is available in this environment.
+- Two stray untracked terminal-transcript files sit in the repo root
+  (`2026-08-14-183323-resume.txt`, `2026-08-14-190437-continue.txt`) — look
+  like accidental capture artifacts from a prior session, not project content.
+  Left alone pending a call from the user on whether to delete them.
+- Whether "push to Gumroad" meant clicking **Publish**, not just saving the
+  draft, was never confirmed — everything this session and the prior one is
+  still save-only.
+
+---
+
+## 2026-08-15 — Marketed targeted-area mutation, multi-controller, and JamWare mode harder
 
 User asked (four-bullet request) to market two under-emphasized capabilities
 harder across the site and Gumroad: (1) the per-note-lock + marked-area/range
