@@ -56,6 +56,36 @@
      it either, because they have none. This token is for text that is cut into
      the plate, not text printed on the page.                                  */
   --font-plate: "Century Gothic", Futura, -apple-system, "Segoe UI", Arial, sans-serif;
+
+  /* --- display / graffiti wordmark --------------------------------------
+     The brand wordmark ("JAMWARE AUDIO") is meant to render in a spiky
+     graffiti-tag face (the user's "BELTERBOX" reference). There is no such
+     face on the system, and a convincing one cannot be hand-lettered from a
+     picture — a real font file is required. This token points the wordmark and
+     the hero nameplate at that face, and FALLS BACK to --font-plate so the site
+     renders in the milled Futura/Century-Gothic stack, exactly as before, for
+     as long as no file is present. The @font-face just below wires the file up:
+     drop a graffiti font at site/assets/fonts/jamware-display.{woff2,otf,ttf}
+     (any one of them) and it activates here on every page with no other change.
+     Kept a variable rather than hard-coded so the fallback and the future face
+     are declared in one place. See assets/fonts/README.md. */
+  --font-display: "JamWare Display", var(--font-plate);
+}
+
+/* The graffiti wordmark face. Self-hosted (never a webfont CDN — the site's
+   whole point is to load fast and offline-clean; see --font-plate's note). The
+   src list names every format a hand-off might arrive in; the browser takes the
+   first that loads and SKIPS the 404s, so only one of these files need exist.
+   With none present, every rule using --font-display resolves to --font-plate
+   and the wordmark is unchanged. `swap` so first paint is never blocked on it. */
+@font-face {
+  font-family: "JamWare Display";
+  src: url("assets/fonts/jamware-display.woff2") format("woff2"),
+       url("assets/fonts/jamware-display.woff")  format("woff"),
+       url("assets/fonts/jamware-display.otf")   format("opentype"),
+       url("assets/fonts/jamware-display.ttf")   format("truetype");
+  font-weight: 400 900;
+  font-display: swap;
 }
 
 * { box-sizing: border-box; }
@@ -136,7 +166,10 @@ a:hover { color: var(--accent); }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .brand svg, .brand img { height: 22px; width: auto; display: block; }
 .wordmark {
-  font-family: var(--font-plate);
+  /* graffiti face when a file is present, milled plate stack otherwise (the
+     var falls back to --font-plate). At 16px a spiky face gets muddy, so if it
+     reads poorly small the lever is size/tracking here, not the token. */
+  font-family: var(--font-display);
   font-size: 16px; font-weight: 700; letter-spacing: 0.06em;
   color: var(--text-heading); text-transform: uppercase;
   text-shadow: 0 1px 0 rgba(255,255,255,0.6);
@@ -246,6 +279,10 @@ a:hover { color: var(--accent); }
 /* Uppercase with open tracking because the homepage h1 is a wordmark now, and
    because caps have no descenders to break the single milled baseline. */
 .hero h1.engraved {
+  /* the front-page "JAMWARE AUDIO" mark — graffiti face when a file is present,
+     milled plate stack otherwise. This is the mark's best home: large, so a
+     spiky face reads cleanly here in a way it cannot at 16px in the header. */
+  font-family: var(--font-display);
   font-size: clamp(30px, 6vw, 60px);
   font-weight: 800;
   line-height: 1.06;
