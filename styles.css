@@ -1068,50 +1068,6 @@ a.btn.gumroad-button:active {
   clip-path: inset(0 -100vmax);
 }
 
-/* --- 3. Warm the base: one soft glow behind the hero ---------------------
-
-   The palette tokens are copied from the apps and must not drift, so the warmth
-   is an overlay, not a token edit. A single large, very soft radial anchored to
-   the hero's top-right — which is also the empty half the user pointed at (see
-   §4) — so the top of the page stops being flat grey and the dead space gains a
-   focal wash. z-index:-1 keeps it under the hero text; the hero has no
-   background of its own, so the glow floats over the body faceplate. */
-.hero { position: relative; }
-.hero::before {
-  content: ""; position: absolute; z-index: -1;
-  top: -40px; right: -60px; width: 62%; height: 118%;
-  background:
-    radial-gradient(60% 60% at 70% 30%,
-      color-mix(in srgb, var(--accent) 16%, transparent) 0%,
-      transparent 70%),
-    radial-gradient(70% 70% at 78% 26%,
-      hsla(45, 40%, 96%, 0.55) 0%,
-      transparent 72%);
-  pointer-events: none;
-}
-
-/* --- 4. Give the hero shots a stage --------------------------------------
-
-   The homepage hero + motion screenshots were grey UI chrome on a grey page —
-   the sterile part. A subtle tinted tray behind them (soft warm radial + inset
-   rounded frame) turns the screenshot into something set on a surface instead
-   of dissolving into the background. Padding is small and only on wide screens;
-   the height-cap and horizontal-scroll fixes on `.hero-shot .screen img` above
-   are untouched. */
-.hero-shot .screen, .motion-shot .screen {
-  background:
-    radial-gradient(120% 80% at 50% 0%,
-      hsla(45, 30%, 97%, 0.6) 0%, transparent 60%),
-    linear-gradient(180deg,
-      color-mix(in srgb, var(--accent) 5%, var(--control-bg)) 0%,
-      var(--control-bg) 100%);
-  padding: 22px 22px 18px;
-  border-radius: calc(var(--radius) + 4px);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.5),
-    0 1px 3px rgba(0,0,0,0.10);
-}
-
 /* --- 5. Micro-life: hover lift + accent glow, header underline -----------
 
    Small motions that stop the page reading as a static spec sheet.
