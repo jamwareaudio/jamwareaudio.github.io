@@ -113,6 +113,35 @@
     <p class="legend caption">MutationStation, Chordinator, Spectrl, MidiMirror</p>
   </section>
 
+  <!-- Motion band. The cascade above is a still of four boxes; this is one of
+       them actually working, and it is the site's first and only motion. Its
+       whole job is to answer "do these do something?" before the reader reaches
+       the product cards — the still stack argues range, this argues depth.
+
+       What it shows, and why this clip and not another: MutationStation with
+       Auto-Lock (Structural) on, re-rolling. The red (locked) notes hold their
+       pitch on every roll while the orange (unlocked) ones mutate — which is the
+       lock system the MutationStation copy leads on, demonstrated rather than
+       described. Captured from the built standalone app, not mocked; each rest
+       state is a real frame and only the transitions between rolls are
+       cross-dissolved, because the app re-rolls instantly and there is nothing
+       to film in between (the honest-capture reasoning lived in site/HANDOFF.md).
+
+       <video>, not a GIF: an MP4 loop is ~100KB against the GIF's ~600KB at this
+       clarity. muted + autoplay + loop + playsinline make it behave as a moving
+       image — no controls, no sound, no fullscreen grab, and iOS plays it inline
+       instead of taking over the screen. poster= paints the first real frame
+       before the file streams, so the band never flashes empty on a cold load. -->
+  <section class="wrap motion-shot">
+    <div class="screen">
+      <video src="assets/shots/mutationstation-reroll.mp4"
+             poster="assets/shots/mutationstation-reroll-poster.png"
+             autoplay muted loop playsinline
+             aria-label="MutationStation re-rolling a pattern: locked notes in red hold their pitch while unlocked notes in orange mutate on each roll"></video>
+    </div>
+    <p class="legend caption">Lock the notes that work &middot; re-roll the rest</p>
+  </section>
+
   <section class="section wrap" id="products">
     <div class="products">
 
