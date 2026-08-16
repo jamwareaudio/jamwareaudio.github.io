@@ -88,6 +88,40 @@
   font-display: swap;
 }
 
+/* ============================================================================
+   Dark-faceplate override — 2026-08-16, at the user's request, matched
+   EXACTLY (not eyeballed) to Chordinator's own graphite sequencer skin:
+   Chordinator/src/renderer/skins/duotone.css, the .seq-col rule. Its three
+   gradient stops (hue 45-50, sat 4-5%, lightness 16/11/8) and its
+   hsl(50,4%,7%) border-color are reused verbatim below as flat --face-hi /
+   --face-lo / --control-border replacements — .panel's own gradient still
+   does the shading, this block only swaps the three stops and the text
+   colors it shades between.
+
+   Deliberately its own commit, on top of the cream palette declared in the
+   :root block above, and deliberately just a second :root re-declaration
+   rather than a body class or data-attribute: CSS custom properties declared
+   later at the same specificity win, so this block is a pure additive
+   override that can be lifted out whole. THE USER IS NOT SURE ABOUT THIS
+   PALETTE YET — if it needs to go, `git revert` the commit that introduced
+   this block and the site falls straight back to the cream faceplate above
+   with the rack-screw/bezel/step-grid/stencil-type framing intact, since
+   that work landed in the prior commit untouched by this one. Do not merge
+   this block into the primary :root above, and do not move any of the
+   framing rules in here — this block should contain color tokens only. */
+:root {
+  --ui-bg:          hsl(50, 4%, 9%);
+  --face-hi:        hsl(50, 4%, 16%);
+  --face-lo:        hsl(45, 5%, 8%);
+  --control-bg:     hsl(50, 4%, 11%);
+  --control-border: hsl(50, 4%, 7%);
+  --hairline:       hsl(50, 4%, 20%);
+
+  --text-primary:   hsl(40, 10%, 88%);
+  --text-secondary: hsl(40, 6%, 62%);
+  --text-heading:   hsl(40, 10%, 88%);
+}
+
 * { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; }
