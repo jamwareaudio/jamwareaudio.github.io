@@ -783,6 +783,22 @@ a.btn.gumroad-button:active {
    PNG can do. Adding this one on top gives every window in the stack two. */
 .hero-shot .screen img { filter: none; }
 
+/* mutationstation.png is the one capture in assets/shots without an alpha
+   channel (sips -g hasAlpha: no, vs. yes on every other app's window shot) --
+   it was captured as a flat rectangle instead of a transparent macOS window,
+   so it shows square corners where every other product page's hero shot has
+   the window's real rounded corners baked into the PNG itself (this file has
+   no border-radius of its own; the roundedness everywhere else is the image
+   content, not CSS). Recapturing it is a MutationStation-repo/build-lane job,
+   not a site-repo one, so this is a CSS patch, not the real fix: clip this one
+   image to an approximate macOS window radius. 26px was picked by measuring
+   where chordinator.png's real alpha corner goes fully opaque (~15px at its
+   2000px width) and scaling that ratio up to this image's 3456px width --
+   not an eyeballed number. Remove this rule (and the class in
+   apps/mutationstation.html) once mutationstation.png is recaptured with
+   alpha like the others. */
+.win-round { border-radius: 26px; }
+
 /* ---- Zoomed feature crops -------------------------------------------------
 
    The per-feature shots on the product pages are crops cut out of the
@@ -932,6 +948,43 @@ a.btn.gumroad-button:active {
    per --engrave-line, so if they drift apart the sweep stops lining up with the
    glyphs and the name goes flat. See the .engraved block. */
 .product-hero h1 { margin: 0 0 4px; font-size: 34px; line-height: 1.15; --engrave-line: 1.15em; letter-spacing: -0.015em; color: var(--text-heading); }
+/* Product-page h1s carried the base .engraved recipe (background-clip: text
+   gradient, --font-plate) -- the homepage nameplate's treatment. At the
+   nameplate's ~60px that gradient reads as a milled cut; at a bold 34px in
+   Century Gothic/Futura's round strokes it reads as a puffy 3D emblem
+   instead, nothing like the actual engraving in the corner of every app's own
+   window (small, mono, uppercase, a hard 1px light-lip/dark-lip pair -- see
+   .panel-head::before's comment, which already ported that exact recipe once
+   for the site's section-header band). User flagged the mismatch 2026-08-16
+   and asked for these titles to read as the SAME engraving as the app
+   window's, not a family resemblance -- so this overrides .engraved's
+   gradient-clip approach with .panel-head's hard-shadow lip technique,
+   scaled up, rather than retuning the gradient version. Do not merge this
+   back into the base .engraved rule; the homepage nameplate keeps its own
+   look on purpose (root CLAUDE.md: comments carry the why, and the why here
+   is these are two different surfaces that happened to share a class name). */
+.product-hero h1.engraved {
+  /* font-weight 400, not 700: at 34px/uppercase/mono, a bold stroke is wide
+     enough that the 1px light/dark lip pair reads as two separate strokes --
+     a drop-shadow / emboss illusion -- rather than a thin edge highlight on
+     one groove wall. The in-app corner wordmark this is copying is regular
+     weight at ~10px; a thin stroke is what keeps the lip reading as an edge
+     rather than a second line of type. Tried 700 first, looked embossed, not
+     cut -- do not put the weight back up without re-checking against a
+     screenshot. */
+  font-family: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  -webkit-text-fill-color: currentColor;
+  color: color-mix(in srgb, var(--ui-bg) 66%, black);
+  text-shadow:
+    0  1px 0 hsla(0,0%,100%,0.88),
+    0 -1px 0 hsla(28,12%,14%,0.42);
+}
 .product-hero .tagline { margin: 0; color: var(--text-secondary); font-size: 16px; }
 .product-hero .lede { font-size: 17px; max-width: var(--measure); margin: 0 0 24px; }
 
