@@ -9,7 +9,54 @@ Developer ID certificate that does not exist yet.
 
 ---
 
-## 2026-08-16 (latest) — Bigger/sharper Gumroad detail cards, 2× source re-shoots, MidiMirror held back
+## 2026-08-16 (latest) — Homepage motion band: MutationStation re-roll loop under the hero
+
+The user wanted the honest MutationStation re-roll capture (built earlier this
+session — real app, Auto-Lock/Structural on, red locked notes hold while orange
+unlocked notes mutate) placed on the site, and chose the homepage. Landed as a
+new **motion band directly under the hero cascade** in `index.html`, before
+`#products`: the still stack argues range, this argues depth ("do these *do*
+something?").
+
+What landed (commit `ba8af3e`, pushed to origin/main):
+
+- **`assets/shots/mutationstation-reroll.mp4`** — ~100KB, H.264 High\@L3.1,
+  yuv420p, 1100×802, 12fps, 9.17s, faststart (moov before mdat). Chosen over the
+  613KB GIF: same clarity, a fraction of the weight. `muted autoplay loop
+  playsinline` so it behaves as a moving image, never a player.
+- **`assets/shots/mutationstation-reroll-poster.png`** — first real frame, so the
+  band never flashes empty on a cold load.
+- **`index.html`** — new `<section class="wrap motion-shot">` with the `<video>`
+  + `.legend caption` "Lock the notes that work · re-roll the rest". Long WHY
+  comment above it.
+- **`styles.css`** — `.wrap.motion-shot` / `.motion-shot .screen video`. Framed
+  like the `.zoom` interior crops (square-cornered piano-roll slice), so the
+  two-layer drop-shadow is **repeated on the `<video>`** — the `.screen img`
+  shadow rule targets `img` only and a video would otherwise sit flat. Capped at
+  1100px (native width) / 560px height, `width:auto` to avoid a mobile h-scroll.
+
+Verified: layout renders correctly (band between cascade and product cards,
+shadow + caption right), mp4 fetches with correct `video/mp4` + full bytes, and
+the file is web-safe (profile/level/pixfmt/faststart all confirmed via ffprobe).
+Could **not** watch it animate in-browser here — the CDP automation tab runs
+`document.hidden=true`, and Chrome suspends `<video>` decode on hidden tabs (the
+parked-compositor trap). That is an environment artifact, not a site bug; it will
+autoplay+loop on any real visible tab.
+
+⚠ **Pushed but NOT published.** Per the standing rule I'm following
+(`feedback_push_not_publish.md`: never run `publish.sh` without a fresh explicit
+ask), origin/main has the change but the live GitHub-Pages site does not yet.
+Run `./publish.sh` when the user asks to make it live. (Note: the entry below
+from an earlier pass ran `publish.sh` on its own under a different reading of the
+rule — flagging the discrepancy so it's a deliberate choice, not drift.)
+
+Sources for the loop (capture harness, cross-dissolve pipeline) are in the
+`build`-lane MutationStation session scratch, not in this repo; the delivered
+`~/Downloads/mutationstation-locked.{mp4,gif}` are the same render.
+
+---
+
+## 2026-08-16 — Bigger/sharper Gumroad detail cards, 2× source re-shoots, MidiMirror held back
 
 The user's two asks: (1) make the Gumroad description "detail card" images bigger
 and higher-resolution so a customer can read control detail without reading the
