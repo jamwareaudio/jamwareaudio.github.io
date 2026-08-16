@@ -22,6 +22,18 @@
      contrast without touching the border colour everything else keys off. */
   --screw:          hsl(35, 9%, 48%);
 
+  /* --- the dark graphite plate, from Chordinator's .seq-col --------------
+     Same three-stop gradient and border colour as
+     Chordinator/src/renderer/skins/duotone.css .seq-col, copied verbatim
+     rather than approximated so the top row of a website panel is the same
+     plate as the sequencer panel it's referencing, not a lookalike. Used only
+     on .panel-head (2026-08-16, at the user's request) -- the light
+     --control-bg plate underneath is untouched. */
+  --darkplate-hi:     hsl(50, 4%, 16%);
+  --darkplate:        hsl(50, 4%, 11%);
+  --darkplate-lo:     hsl(45, 5%, 8%);
+  --darkplate-border: hsl(50, 4%, 7%);
+
   --text-primary:   hsl(28, 12%, 14%);
   --text-secondary: hsl(30, 9%, 31%);
   --text-heading:   hsl(26, 15%, 18%);
@@ -378,56 +390,37 @@ a:hover { color: var(--accent); }
   /* Monospace, matching .legend's switch above — same stencil-label reasoning. */
   font-family: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
   font-size: 11px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.09em; color: var(--text-heading);
+  letter-spacing: 0.09em;
   margin: 0; padding: 6px 14px 7px;
   border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--control-bg) 62%, black);
-  background: linear-gradient(180deg,
-    color-mix(in srgb, var(--control-bg) 84%, black) 0%,
-    color-mix(in srgb, var(--control-bg) 90%, black) 100%);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.42);
   display: flex; align-items: center; gap: 8px;
 
-  /* ---- Cut into the band, not printed on it ------------------------------
-     This is the apps' own `.app-topbar-brand-name` recipe — the wordmark
-     engraved at the right-hand end of every app's top row — brought over so a
-     section title on the site is milled the same way a section title is milled
-     in the software. Two hard 1px shadows and a fill below the plate:
+  /* ---- Dark graphite band, not the cream plate's own engraved cut --------
+     2026-08-16, at the user's request: the top row of every .panel now runs
+     the SAME plate as Chordinator's .seq-col (dark-graphite tokens above),
+     not a darkened tint of the panel's own cream. This is a second, separate
+     material on the same rack module — the strip a real unit's own model/
+     status silkscreen sits on, one shade off from the sequencer window next
+     to it in the app — not a deeper cut into the same plate.
 
-       0  1px white   the groove's lower lip, the far wall catching the light
-       0 -1px dark    the upper lip's own shadow, above the letter
-
-     ⚠ NOT the .engraved class. That one clips a vertical gradient into the
-     glyphs and hangs 2-3px drop-shadows off them, which is right for a 34-60px
-     nameplate and wrong here twice over: at an 11px cap height there is no room
-     for a gradient to read as an inner wall, and a 2px lip on a 11px letter is
-     a letter with a white letter under it. An engraving does not get deeper
-     because the type got smaller either, so the app's 1px is the correct depth
-     at this size — which is exactly why the apps use this recipe and not that
-     one for their own small caps.
-
-     ⚠ NO BLUR on either shadow. A groove edge is a hard edge; a blurred halo
-     turns the letter into something LYING ON the surface instead of cut into
-     it. MutationStation's source records that as a rejected pass, and the same
-     mistake is available here.
-
-     The fill follows the apps' own rule — about twelve lightness points below
-     the plate the word sits on — mixed from the band's own token so a palette
-     change carries the cut with it. Our band is control-bg darkened to ~79-85%,
-     so the fill lands around 68%.
-
-     ⚠ This one number was tuned three times in a row, so the range is settled
-     and the endpoints are both wrong: 62% first (readable but plainly dark type
-     on a band, not a cut), then 74% with the site-wide lightening, which the
-     user then called back as too faint HERE SPECIFICALLY while keeping the
-     lighter treatment on the hero nameplate and the card names. 66% is the
-     settled answer. The band is the one engraving that has to stay legible at
-     an 11px cap height while the big ones can afford to be nearly invisible —
-     that asymmetry is deliberate, not an inconsistency to tidy up.            */
-  color: color-mix(in srgb, var(--control-bg) 66%, black);
-  text-shadow:
-    0  1px 0 hsla(0,0%,100%,0.88),
-    0 -1px 0 hsla(28,12%,14%,0.42);
+     Because the label now sits on a near-black plate instead of a light one,
+     it switches recipes: the .panel-head that used to live here (below the
+     .product-hero h1.engraved rule) cut DARKER type into a LIGHT plate — the
+     apps' own .app-topbar-brand-name recipe, still used verbatim by
+     .product-hero h1.engraved. On a plate this dark that recipe inverts to
+     near-black-on-near-black and vanishes. Real dark rack gear doesn't
+     engrave its model strip either — it silkscreens light ink straight onto
+     the anodised plate — so this band is printed, not cut: a light warm-grey
+     fill (screen-text's tone, not full white — a lit LCD's white would fight
+     the accent LED next to it for attention) with a single soft dark
+     drop-shadow standing in for silkscreen sitting a hair proud of a matte
+     surface, not a groove. */
+  background: linear-gradient(180deg,
+    var(--darkplate-hi) 0%, var(--darkplate) 30%, var(--darkplate-lo) 100%);
+  border-bottom: 1px solid var(--darkplate-border);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+  color: hsl(42, 12%, 82%);
+  text-shadow: 0 1px 1px rgba(0,0,0,0.55);
 }
 /* The accent pilot lamp on the header band — the one place each product's
    colour announces itself before you have read anything. */
@@ -525,6 +518,12 @@ a:hover { color: var(--accent); }
 .product h3 {
   font-family: var(--font-plate);
   margin: 0 0 2px; font-size: 21px; letter-spacing: -0.01em;
+  /* All-caps, 2026-08-16 at the user's request: the apps' own top-right
+     wordmark is set in caps (see .product-hero h1.engraved and .panel-head,
+     both already uppercase), so the homepage card name was the one place a
+     product's name still ran mixed-case against every other appearance of
+     that name on the site. */
+  text-transform: uppercase;
 }
 /* ---- The product name, cut into the card ---------------------------------
    Every product page's h1 has been .engraved since the site was built; the
