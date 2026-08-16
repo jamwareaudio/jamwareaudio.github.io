@@ -108,6 +108,34 @@
       from single keys, seeing what you are actually hearing, and deciding what
       a knob does. Built for Ableton Live, compatible with any DAW.
     </p>
+
+    <!-- 2026-08-16: proof-of-concept LCD-style dropdown, requested after the
+         user pointed at MutationStation's in-app preset dropdown ("that LCD
+         calculator style") and asked for it on the site. That control is
+         native Electron UI in a repo `web` doesn't own; there was also no
+         existing functional dropdown anywhere on the site to reskin (checked
+         — no <select>, no <details>, nothing). So this is a genuinely new,
+         small, real control rather than a restyle: a "jump to an app"
+         picker, using the recessed dark screen recipe from .screen.empty
+         (--screen-bg/--screen-edge/--screen-text, same inset shadow) as the
+         bezel, with .lcd's mono/tabular-nums/phosphor-glow language for the
+         readout text. Native <select> underneath (appearance:none, custom
+         chevron drawn in CSS) rather than a div-built menu, so it stays a
+         real form control — keyboard, screen reader, native menu — under a
+         reskinned surface, not a lookalike that has to reimplement all of
+         that by hand. If this reads well, the larger next step discussed
+         with the user is making the hero screenshot cascade itself an
+         LCD-style interactive app picker. -->
+    <label class="lcd-jump">
+      <span class="lcd-jump-label">Jump to</span>
+      <select class="lcd-jump-select" onchange="if (this.value) location.href = this.value;">
+        <option value="" selected disabled>Choose an app&hellip;</option>
+        <option value="apps/mutationstation.html">MutationStation</option>
+        <option value="apps/chordinator.html">Chordinator</option>
+        <option value="apps/spectrl.html">Spectrl</option>
+        <option value="apps/midimirror.html">MidiMirror</option>
+      </select>
+    </label>
   </section>
 
   <!-- The range, cascaded, in the same dark inset screen the product pages use.

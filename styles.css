@@ -182,6 +182,63 @@ body {
   text-shadow: 0 0 6px color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
+/* Jump-to-app LCD dropdown — the 2026-08-16 proof of concept, see the comment
+   above its markup in index.html for why this exists rather than a restyle.
+   Bezel is .screen.empty's own recess (same tokens, same inset shadow) so the
+   control reads as the SAME dark screen already used for the placeholder
+   screenshot slot, not a new material invented for one control. The readout
+   text borrows .lcd's mono/glow rather than a fresh rule, for the same
+   one-vocabulary reason. */
+.lcd-jump {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-top: 22px;
+  padding: 9px 14px;
+  background: var(--screen-bg);
+  border: 1px solid var(--screen-edge);
+  border-radius: var(--radius);
+  box-shadow:
+    inset 0 2px 6px rgba(0,0,0,0.6),
+    inset 0 0 0 1px rgba(255,255,255,0.04),
+    0 1px 0 rgba(255,255,255,0.5);
+}
+.lcd-jump-label {
+  font-family: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--screen-dim);
+  flex: none;
+}
+.lcd-jump-select {
+  appearance: none; -webkit-appearance: none;
+  border: none; background: transparent;
+  font-family: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+  font-size: 14px; font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, var(--accent) 55%, var(--screen-text));
+  text-shadow: 0 0 6px color-mix(in srgb, var(--accent) 45%, transparent);
+  padding: 2px 22px 2px 2px;
+  /* Hand-drawn chevron rather than a webfont glyph, so the "screen" stays a
+     background/shadow recipe with no external dependency. */
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: right 6px top 55%, right 1px top 55%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.lcd-jump-select:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 70%, transparent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.lcd-jump-select option {
+  /* Native popup chrome, can't be recessed/glowed — keep it legible and let
+     the OS render it; the LCD treatment lives on the closed control. */
+  background: var(--screen-bg);
+  color: var(--screen-text);
+}
+
 a { color: var(--ink); text-decoration-color: var(--accent); text-underline-offset: 3px; }
 a:hover { color: var(--accent); }
 
