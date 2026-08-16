@@ -9,7 +9,46 @@ Developer ID certificate that does not exist yet.
 
 ---
 
-## 2026-08-16 (latest) — Homepage motion band: MutationStation re-roll loop under the hero
+## 2026-08-16 (latest) — Hero warmth-pass revert, then a failed/reverted attempt to fold the motion clip into the cascade image
+
+Three things this session, in order:
+
+1. **Reverted two pieces of the "Warmth pass" commit** (`0ec6e1b`): the white
+   tray behind the hero/motion screenshots, and the top-right gradient glow —
+   both flagged by the user from a screenshot. Left the accent spines, tonal
+   section bands, and hover micro-life from that same commit in place (no
+   complaint raised about those). Commit `986e074`, published live.
+
+2. **Tried compositing the MutationStation re-roll video live inside the
+   MutationStation window of `hero-stack.png`** instead of the separate motion
+   band below it (user request, screenshot-referenced). Added
+   `.hero-stack-frame` / `.hero-inset` to `styles.css` and merged the two
+   `index.html` sections into one. Landed as `93bdd28`, published live —
+   **then the user reported it visibly broken**: a duplicated Auto-Lock/
+   Structural toolbar row and the video bleeding past the window's left edge
+   with the app's baseplate margin gone.
+
+3. **Reverted it.** `git revert 93bdd28` → `1c67cd2`, pushed and published —
+   live site is back to the working state from item 1 (static cascade, separate
+   motion band below).
+
+**Why the overlay broke, and why it isn't a CSS fix:** measured with fixed UI
+landmarks (piano-key edge, grid/panel boundary, VEL lane, toolbar row) between
+a frame pulled from the video and `assets/shots/mutationstation.png` — the two
+are separate captures of the app window at different proportions. Vertically
+they map at ≈0.96× scale; applying that same scale horizontally is off by ≈7%
+on the grid width. No single crop/position reconciles two different aspect
+ratios. **Handed off to `build`** — logged in
+`MutationStation/HANDOFF.md` (2026-08-16 entry) — asking for either a re-recorded
+clip at the same window size the hero screenshot was captured at, or a re-shot
+`mutationstation.png` at the video's window size, so `web` can regenerate
+`hero-stack.png` / recompute the `.hero-inset` crop against a consistent source.
+The written CSS/HTML for the overlay is not lost — it's sitting reverted at
+`93bdd28`, ready to redo once a matching capture pair exists.
+
+---
+
+## 2026-08-16 — Homepage motion band: MutationStation re-roll loop under the hero
 
 The user wanted the honest MutationStation re-roll capture (built earlier this
 session — real app, Auto-Lock/Structural on, red locked notes hold while orange

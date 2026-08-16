@@ -383,7 +383,12 @@ a:hover { color: var(--accent); }
 /* The accent pilot lamp on the header band — the one place each product's
    colour announces itself before you have read anything. */
 .panel > .panel-head::before {
-  content: ""; width: 7px; height: 7px; border-radius: 50%;
+  /* Rectangular, not round: a pilot lamp on real rack gear is a slotted LED
+     bezel, not a dot, and round read as a bullet/status-dot rather than a
+     lamp. 3:7 aspect (narrow, tall) keeps it readable at 7px without becoming
+     a bar. Changed 2026-08-16 at the user's request, extended to .status and
+     .features below for one LED vocabulary across the site. */
+  content: ""; width: 5px; height: 8px; border-radius: 1.5px;
   background: var(--accent);
   box-shadow: 0 0 0 1px rgba(0,0,0,0.28) inset, 0 0 6px color-mix(in srgb, var(--accent) 60%, transparent);
   flex: none;
@@ -404,32 +409,53 @@ a:hover { color: var(--accent); }
    height cap drive the size, which on a phone resolved to a ~1000px image in a
    371px viewport and gave the whole page a horizontal scrollbar. */
 .hero-shot .screen img { max-height: 620px; max-width: 100%; width: auto; margin: 0 auto; }
+/* text-align (not the img's own margin:0 auto) is what centers .hero-stack-frame,
+   because the frame has to shrink-wrap the image's browser-computed rendered
+   size for the percentage overlay below to line up -- margin:auto on a
+   display:inline-block element does not center it, only text-align on the
+   ancestor does. */
+.hero-shot .screen { text-align: center; }
 .caption { display: block; margin: 10px 2px 0; }
 
-/* ---- Homepage motion band -------------------------------------------------
-   A short screen-capture loop of MutationStation re-rolling a locked pattern,
-   sitting directly under the hero cascade. It is a piano-roll INTERIOR crop —
-   square corners, the dark screen already in the frame — so it is framed like
-   the .zoom crops further down, not like the full-window cutouts: the same
-   two-layer drop-shadow that lifts those crops off the faceplate is repeated
-   here on the <video>, because .screen's shadow rule targets img only and a
-   video element would otherwise sit flat on the plate.
+/* ---- MutationStation re-roll loop, composited into the cascade -----------
+   The MutationStation window in hero-stack.png is not fully static: the piano
+   roll inside it is a real re-roll loop (Auto-Lock Structural on, red notes
+   holding pitch while orange notes mutate), positioned with .hero-inset to sit
+   exactly where MutationStation's piano roll renders in the front layer of the
+   cascade. This used to be a separate section below the cascade; folding it in
+   reads as "one of the four windows is actually alive" rather than a second,
+   disconnected clip, and is the site's only motion.
 
-   Narrower than the hero cascade (1100px, the clip's native width) on purpose:
-   the cascade is four windows wide and this is one panel, so matching the
-   cascade's 1420px would upscale a 1100px capture into a soft smear. width:auto
-   with a height cap keeps it from forcing a horizontal scrollbar on a phone,
-   the same fix the hero-shot rule above carries and for the same reason. */
-.wrap.motion-shot { max-width: 1100px; padding-bottom: 10px; }
-.motion-shot .screen video {
-  width: auto;
-  max-width: 100%;
-  max-height: 560px;
-  margin: 0 auto;
-  display: block;
-  filter:
-    drop-shadow(0 1px 2px rgba(58, 48, 38, 0.30))
-    drop-shadow(0 14px 28px rgba(58, 48, 38, 0.22));
+   .hero-stack-frame is display:inline-block; line-height:0 so it shrink-wraps
+   exactly to the <img>'s rendered box (the height-capped, width:auto size from
+   the rule above) -- .hero-inset's percentages are relative to THIS box, not
+   the .screen container, which is why the wrapper has to match the image
+   pixel-for-pixel rather than being e.g. width:100%.
+
+   The percentages themselves are not eyeballed. mutationstation.png (the still
+   in the cascade) and mutationstation-reroll.mp4 (this loop) were captured
+   from the same live app window in one CDP session on 2026-08-16 so they would
+   actually line up -- a screenshot and video shot on different days at
+   different window sizes do not overlay cleanly, which is what broke the first
+   attempt at this (site/HANDOFF.md, MutationStation/HANDOFF.md have the
+   postmortem and the revert commit). The window's own
+   .pianoroll-wrap.getBoundingClientRect() at capture time was
+   {x:8, y:174, w:850, h:576} against a 1728x1009 window. Run through
+   make-hero.py's placement math for the frontmost (mutationstation, last in
+   ORDER) layer -- scale to WIN_W=1500, offset by PAD + STEP_X*3 / PAD +
+   STEP_Y*3, against the uncropped (BLEED=0) 1970x1262 canvas -- that rect
+   lands at left 21.88%, top 38.91%, width 37.46%, height 39.62%. Recompute
+   this whole block from scratch (do not nudge these numbers by eye) if either
+   asset is ever re-shot without the other. */
+.hero-stack-frame { position: relative; display: inline-block; line-height: 0; }
+.hero-inset {
+  position: absolute;
+  left: 21.88%;
+  top: 38.91%;
+  width: 37.46%;
+  height: 39.62%;
+  object-fit: cover;
+  pointer-events: none;
 }
 
 /* ========================================================= PRODUCT CARDS */
@@ -638,7 +664,9 @@ a.btn.gumroad-button:active {
   text-shadow: 0 1px 0 rgba(255,255,255,.55);
 }
 .status::before {
-  content: ""; width: 7px; height: 7px; border-radius: 50%;
+  /* Rectangular pilot lamp, matching .panel-head::before -- see that rule for
+     why round became rectangular. */
+  content: ""; width: 5px; height: 8px; border-radius: 1.5px;
   background: var(--accent); opacity: .55;
 }
 
