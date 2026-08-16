@@ -17,6 +17,10 @@
   --control-bg:     hsl(43, 18%, 94%);
   --control-border: hsl(35, 9%, 55%);
   --hairline:       hsl(35, 9%, 72%);
+  /* Corner-screw dots on .panel -- deliberately its own token rather than
+     reusing --control-border, so a future palette pass can retune screw
+     contrast without touching the border colour everything else keys off. */
+  --screw:          hsl(35, 9%, 48%);
 
   --text-primary:   hsl(28, 12%, 14%);
   --text-secondary: hsl(30, 9%, 31%);
@@ -328,32 +332,47 @@ a:hover { color: var(--accent); }
    software. Every product card and content block is one of these.          */
 
 .panel {
-  /* Rack-module framing, added 2026-08-16 at the user's request. Two things,
-     both done as extra `background` layers rather than pseudo-elements:
-     .panel already spends its ::before/::after budget elsewhere in this file
-     (::before on .panel-head for the pilot lamp, ::after further down for the
-     per-card accent spine down the left edge) -- a corner-screw pseudo-element
-     here would silently lose the cascade to whichever of those rules comes
-     later in the file and just not render, which is exactly what happened on
-     the first pass at this. Background-image layers don't have that problem:
-     any number can stack in one property, in front of the plate gradient.
+  /* Rack-module framing, added 2026-08-16 at the user's request. First pass
+     stacked four radial-gradient() corner dots whose colour stops were
+     color-mix() results -- e.g. `color-mix(in srgb, var(--control-border) 40%,
+     white) 0%` -- inside a 3px-radius circle. That combination (color-mix()
+     output used as a stop inside a very small radial-gradient, several such
+     gradients stacked in one `background`) rendered as a solid dark fill
+     covering the whole panel in Chrome, while every CSSOM/DOM inspection
+     still reported the correct cream values -- a paint-time bug, not a
+     cascade or caching problem. Fixed same day by dropping color-mix() from
+     inside the gradient stops entirely: each corner dot now uses --screw, a
+     plain hsl() token with no nesting, and a hard-edged two-stop circle
+     instead of a soft three-stop one. If corner dots go dark/solid again,
+     that nesting is the first thing to suspect -- do not reach for color-mix()
+     inside a radial-gradient() stop on this rule.
 
-     1. An inset ring 4px in from the real border, which is what actually
-        reads as a bezel lip -- a single stroke on a warm cream plate just
-        looks like a heavier outline, not a panel let into a frame.
-     2. Four small radial-gradient dots at the corners, inboard of the bezel
-        ring the same way a real rack screw sits inboard of the U-rail edge,
-        not flush on it. `at left 9px top 9px` etc. is the same <position>
-        syntax background-position uses, so each dot is pinned to its own
-        corner regardless of the panel's size. */
+     Two layers on top of the plate fill:
+     1. Four small solid dots at the corners, inboard of the border the way a
+        real rack screw sits inboard of the U-rail edge, not flush on it.
+        `at left 8px top 8px` etc. is the same <position> syntax
+        background-position uses, so each dot is pinned to its own corner
+        regardless of the panel's size.
+     2. An inset ring 4px in from the real border (as a box-shadow, not a
+        background layer), which is what actually reads as a bezel lip -- a
+        single stroke on a warm cream plate just looks like a heavier
+        outline, not a panel let into a frame. */
   position: relative;
   border: 1px solid var(--control-border);
   border-radius: var(--radius);
-  background: linear-gradient(180deg,
-    var(--face-hi) 0%, var(--control-bg) 20%,
-    var(--control-bg) 78%,
-    color-mix(in srgb, var(--control-bg) 94%, black) 100%);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.6), 0 2px 5px rgba(0,0,0,0.14);
+  background:
+    radial-gradient(circle 2px at left 8px top 8px, var(--screw) 99%, transparent 100%),
+    radial-gradient(circle 2px at right 8px top 8px, var(--screw) 99%, transparent 100%),
+    radial-gradient(circle 2px at left 8px bottom 8px, var(--screw) 99%, transparent 100%),
+    radial-gradient(circle 2px at right 8px bottom 8px, var(--screw) 99%, transparent 100%),
+    linear-gradient(180deg,
+      var(--face-hi) 0%, var(--control-bg) 20%,
+      var(--control-bg) 78%,
+      color-mix(in srgb, var(--control-bg) 94%, black) 100%);
+  background-repeat: no-repeat;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.6), 0 2px 5px rgba(0,0,0,0.14),
+    inset 0 0 0 4px var(--control-bg);
 }
 .panel > .panel-head {
   /* Monospace, matching .legend's switch above — same stencil-label reasoning. */
@@ -1126,19 +1145,11 @@ a.btn.gumroad-button:active {
   clip-path: inset(0 -100vmax);
 }
 
-/* Step-grid texture: thin repeating vertical ticks behind the alternating
-   bands, standing in for a step-sequencer's row of step buttons without being
-   a literal drawing of one. Added 2026-08-16 alongside the rack-screw framing
-   above. A repeating-linear-gradient at 24px steps, at 3% alpha over the warm
-   ink — faint enough that it reads as a texture on the plate rather than a
-   stripe pattern competing with the panels sitting on top of it. Layered onto
-   the SAME element as the tonal-wash box-shadow above rather than a separate
-   rule, since both are "what's behind this band" and belong together. */
-#bundles, #why-standalone {
-  background-image: repeating-linear-gradient(90deg,
-    rgba(42, 38, 33, 0.05) 0px, rgba(42, 38, 33, 0.05) 1px,
-    transparent 1px, transparent 24px);
-}
+/* Step-grid texture (repeating-linear-gradient ticks behind the alternating
+   bands) was tried 2026-08-16 and dropped the same day at the user's request
+   ("weird lines going through the white" -- doesn't look good). Do not
+   reintroduce it; the tonal wash above is the whole treatment for these
+   bands now. */
 
 /* --- 5. Micro-life: hover lift + accent glow, header underline -----------
 
