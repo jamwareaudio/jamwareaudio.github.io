@@ -112,38 +112,44 @@
        wrong first impression of a range of four, and the depth order now does
        the ranking: whatever is in front is what we want looked at first.
        Rebuild it with ./make-hero.py, which is where the ordering lives. -->
-  <!-- The still cascade used to sit above a separate motion band lower on the
-       page (two sections, same MutationStation clip argued twice). Folded into
-       one on 2026-08-16 at the user's request: the video now plays IN PLACE,
-       composited over the piano-roll area of the frontmost (MutationStation)
-       window in the cascade image, so the still stack and the "does it move"
-       answer are the same glance instead of a scroll apart.
-
-       The box below is not eyeballed — it is the piano-roll+velocity-lane crop
-       used for mutationstation-reroll.mp4 (x:0-992,y:201-955 of the 2000x1166
-       source capture), run through make-hero.py's own placement math for the
-       front window (WIN_W 1500, STEP 126/98, PAD 46, index 3 of 4) against the
-       1970x1261 hero-stack.png canvas. Re-derive these four numbers with
-       site/HANDOFF.md's note on this pass if hero-stack.png is ever rebuilt at
-       different constants — they will drift, because they are pixels, not a
-       fraction that self-corrects. -->
   <section class="wrap hero-shot">
     <div class="screen">
-      <div class="hero-stack-frame">
-        <img src="assets/shots/hero-stack.png"
-             alt="The four apps open at once, cascaded: MutationStation in front, then Chordinator, Spectrl and MidiMirror behind it" />
-        <video class="hero-inset"
-               src="assets/shots/mutationstation-reroll.mp4"
-               poster="assets/shots/mutationstation-reroll-poster.png"
-               autoplay muted loop playsinline
-               aria-label="MutationStation re-rolling a pattern: locked notes in red hold their pitch while unlocked notes in orange mutate on each roll"></video>
-      </div>
+      <img src="assets/shots/hero-stack.png"
+           alt="The four apps open at once, cascaded: MutationStation in front, then Chordinator, Spectrl and MidiMirror behind it" />
     </div>
     <!-- The caption used to name the four apps in the cascade
          ("MutationStation, Chordinator, Spectrl, MidiMirror"). Removed
          2026-08-16 at the user's request: it is a hard-coded roster that goes
          stale the moment a fifth app ships, and the alt text already names the
          stack for anyone who needs it. The image carries the point on its own. -->
+  </section>
+
+  <!-- Motion band. The cascade above is a still of four boxes; this is one of
+       them actually working, and it is the site's first and only motion. Its
+       whole job is to answer "do these do something?" before the reader reaches
+       the product cards — the still stack argues range, this argues depth.
+
+       What it shows, and why this clip and not another: MutationStation with
+       Auto-Lock (Structural) on, re-rolling. The red (locked) notes hold their
+       pitch on every roll while the orange (unlocked) ones mutate — which is the
+       lock system the MutationStation copy leads on, demonstrated rather than
+       described. Captured from the built standalone app, not mocked; each rest
+       state is a real frame and only the transitions between rolls are
+       cross-dissolved, because the app re-rolls instantly and there is nothing
+       to film in between (the honest-capture reasoning lived in site/HANDOFF.md).
+
+       <video>, not a GIF: an MP4 loop is ~100KB against the GIF's ~600KB at this
+       clarity. muted + autoplay + loop + playsinline make it behave as a moving
+       image — no controls, no sound, no fullscreen grab, and iOS plays it inline
+       instead of taking over the screen. poster= paints the first real frame
+       before the file streams, so the band never flashes empty on a cold load. -->
+  <section class="wrap motion-shot">
+    <div class="screen">
+      <video src="assets/shots/mutationstation-reroll.mp4"
+             poster="assets/shots/mutationstation-reroll-poster.png"
+             autoplay muted loop playsinline
+             aria-label="MutationStation re-rolling a pattern: locked notes in red hold their pitch while unlocked notes in orange mutate on each roll"></video>
+    </div>
     <p class="legend caption">Lock the notes that work &middot; re-roll the rest</p>
   </section>
 
