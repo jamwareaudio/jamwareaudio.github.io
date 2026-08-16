@@ -95,6 +95,29 @@
          stretch; see the #products rename and the Why-standalone panel). -->
     <h1 class="engraved">JamWare Audio</h1>
     <p class="hero-claim">Apps built for Ableton Live, with the flexibility of plugins, and the depth of hardware.</p>
+    <!-- Decorative peak-meter strip, 2026-08-16 at the user's request: static
+         "lit" segments in each product's own accent colour, one run per app,
+         so the meter previews the four-colour range before the cascade below
+         even loads. Pure decoration -- aria-hidden, no content a screen
+         reader needs, same as the pilot lamps on .panel-head. Segment counts
+         and lit/dark pattern are hand-set, not random: a real peak meter's
+         lit segments cluster toward the low end with a few stragglers higher
+         up, so an even scatter or a solid block would read as a loading bar
+         or an equalizer rather than a meter at rest holding a peak. -->
+    <div class="vu-strip" aria-hidden="true">
+      <div class="vu-row" style="--accent:#D13A2C">
+        <span class="lit"></span><span class="lit"></span><span class="lit"></span><span class="lit"></span><span class="lit"></span><span></span><span></span><span class="lit"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="vu-row" style="--accent:#E0862C">
+        <span class="lit"></span><span class="lit"></span><span class="lit"></span><span class="lit"></span><span class="lit"></span><span class="lit"></span><span class="lit"></span><span></span><span class="lit"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="vu-row" style="--accent:#4A86C5">
+        <span class="lit"></span><span class="lit"></span><span class="lit"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="vu-row" style="--accent:#E05A2C">
+        <span class="lit"></span><span class="lit"></span><span class="lit"></span><span class="lit"></span><span></span><span></span><span class="lit"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
     <p>
       Mac apps built around the parts of a session that software usually leaves
       you to do by hand: mutating a bassline into a hundred, triggering chords

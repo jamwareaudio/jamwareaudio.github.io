@@ -238,6 +238,44 @@ a:hover { color: var(--accent); }
 }
 .hero p { font-size: 17px; color: var(--text-secondary); margin: 0; max-width: var(--measure); }
 
+/* ---- Peak-meter accent strip -----------------------------------------
+   2026-08-16, at the user's request: "VU/peak-meter accent bars... a thin
+   strip of static 'lit' segments in the product's accent colour... ties
+   into the LED vocabulary already in place for badges/pilot lamps." Same
+   rectangular-segment shape as .panel-head::before's pilot lamp (narrow,
+   tall, 1.5px corner radius) rather than round LEDs or a continuous bar --
+   the site's LED language is rectangular everywhere else, so a round dot
+   or gradient bar here would read as a different fixture, not the same
+   vocabulary reused. One row per app, in app order, each in that app's own
+   --accent rather than a single site accent, since the strip's job is to
+   preview the four-colour range before the cascade screenshot below it
+   loads any of the actual UI. */
+.vu-strip {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 22px 0 28px;
+}
+.vu-row { display: flex; gap: 3px; }
+.vu-row span {
+  width: 6px; height: 13px; border-radius: 1.5px; flex: none;
+  background: var(--led-off, hsl(40, 6%, 80%));
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12);
+}
+.vu-row span.lit {
+  background: var(--accent);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.25), 0 0 5px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+/* Each lit run fades toward its own accent's dim end at the high-segment
+   tail, the way a real meter's last couple of lit LEDs read a shade
+   brighter/hotter than the steady block behind them. Applied by position
+   rather than a class per row since the pattern is the same shape
+   (a solid run, then 1-2 trailing survivors) on every row regardless of
+   how many segments that row lights. */
+.vu-row span.lit:last-of-type {
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.25), 0 0 7px color-mix(in srgb, var(--accent) 75%, transparent);
+}
+
 /* ---- The engraved nameplate ----------------------------------------------
 
    The h1 is the brand name cut into the faceplate, not printed on it. Three
