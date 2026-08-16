@@ -349,27 +349,11 @@ a:hover { color: var(--accent); }
   position: relative;
   border: 1px solid var(--control-border);
   border-radius: var(--radius);
-  background:
-    radial-gradient(circle 3px at left 9px top 9px,
-      color-mix(in srgb, var(--control-border) 40%, white) 0%,
-      var(--control-border) 55%, color-mix(in srgb, var(--control-border) 60%, black) 100%),
-    radial-gradient(circle 3px at right 9px top 9px,
-      color-mix(in srgb, var(--control-border) 40%, white) 0%,
-      var(--control-border) 55%, color-mix(in srgb, var(--control-border) 60%, black) 100%),
-    radial-gradient(circle 3px at left 9px bottom 9px,
-      color-mix(in srgb, var(--control-border) 40%, white) 0%,
-      var(--control-border) 55%, color-mix(in srgb, var(--control-border) 60%, black) 100%),
-    radial-gradient(circle 3px at right 9px bottom 9px,
-      color-mix(in srgb, var(--control-border) 40%, white) 0%,
-      var(--control-border) 55%, color-mix(in srgb, var(--control-border) 60%, black) 100%),
-    linear-gradient(180deg,
-      var(--face-hi) 0%, var(--control-bg) 20%,
-      var(--control-bg) 78%,
-      color-mix(in srgb, var(--control-bg) 94%, black) 100%);
-  background-repeat: no-repeat;
-  box-shadow:
-    0 1px 0 rgba(255,255,255,0.6), 0 2px 5px rgba(0,0,0,0.14),
-    inset 0 0 0 4px color-mix(in srgb, var(--control-bg) 88%, black);
+  background: linear-gradient(180deg,
+    var(--face-hi) 0%, var(--control-bg) 20%,
+    var(--control-bg) 78%,
+    color-mix(in srgb, var(--control-bg) 94%, black) 100%);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.6), 0 2px 5px rgba(0,0,0,0.14);
 }
 .panel > .panel-head {
   /* Monospace, matching .legend's switch above — same stencil-label reasoning. */
