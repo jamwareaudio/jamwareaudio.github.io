@@ -26,13 +26,33 @@
      Same three-stop gradient and border colour as
      Chordinator/src/renderer/skins/duotone.css .seq-col, copied verbatim
      rather than approximated so the top row of a website panel is the same
-     plate as the sequencer panel it's referencing, not a lookalike. Used only
-     on .panel-head (2026-08-16, at the user's request) -- the light
-     --control-bg plate underneath is untouched. */
+     plate as the sequencer panel it's referencing, not a lookalike. Briefly
+     used on .panel-head (2026-08-16) before the user called it "not very
+     nice" the same day and asked for silver instead -- kept here, unused,
+     because .status/.features text and any future graphite panel may still
+     want it, and because reverting the palette shouldn't mean re-deriving
+     these numbers from Chordinator's source a second time. */
   --darkplate-hi:     hsl(50, 4%, 16%);
   --darkplate:        hsl(50, 4%, 11%);
   --darkplate-lo:     hsl(45, 5%, 8%);
   --darkplate-border: hsl(50, 4%, 7%);
+
+  /* --- brushed silver, .panel-head's actual plate as of 2026-08-16 -------
+     The dark-graphite band above read heavy sitting on top of every cream
+     panel on the page -- fine for the one sequencer panel it was copied
+     from, wrong repeated eight times down a page that is mostly light
+     aluminium already. This is a brighter, cooler-neutral aluminium strip
+     instead: close enough to --face-hi/--control-bg to belong to the same
+     material family as the rest of the plate, distinct enough (cooler hue,
+     slightly darker) to still read as its own strip rather than a seamless
+     continuation of the panel body under it. Keeps the same scanline/sheen/
+     bloom LAYER STRUCTURE as the graphite recipe below it (brushed metal
+     texture is the point the user asked to keep), just re-lit for a light
+     base instead of a dark one. */
+  --silverplate-hi:     hsl(48, 10%, 94%);
+  --silverplate:        hsl(44, 7%, 85%);
+  --silverplate-lo:     hsl(40, 7%, 74%);
+  --silverplate-border: hsl(36, 8%, 58%);
 
   --text-primary:   hsl(28, 12%, 14%);
   --text-secondary: hsl(30, 9%, 31%);
@@ -395,49 +415,36 @@ a:hover { color: var(--accent); }
   border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
   display: flex; align-items: center; gap: 8px;
 
-  /* ---- Dark graphite band, not the cream plate's own engraved cut --------
-     2026-08-16, at the user's request: the top row of every .panel now runs
-     the SAME plate as Chordinator's .seq-col (dark-graphite tokens above),
-     not a darkened tint of the panel's own cream. This is a second, separate
-     material on the same rack module — the strip a real unit's own model/
-     status silkscreen sits on, one shade off from the sequencer window next
-     to it in the app — not a deeper cut into the same plate.
-
-     Because the label now sits on a near-black plate instead of a light one,
-     it switches recipes: the .panel-head that used to live here (below the
-     .product-hero h1.engraved rule) cut DARKER type into a LIGHT plate — the
-     apps' own .app-topbar-brand-name recipe, still used verbatim by
-     .product-hero h1.engraved. On a plate this dark that recipe inverts to
-     near-black-on-near-black and vanishes. Real dark rack gear doesn't
-     engrave its model strip either — it silkscreens light ink straight onto
-     the anodised plate — so this band is printed, not cut: a light warm-grey
-     fill (screen-text's tone, not full white — a lit LCD's white would fight
-     the accent LED next to it for attention) with a single soft dark
-     drop-shadow standing in for silkscreen sitting a hair proud of a matte
-     surface, not a groove. */
-  /* All four layers copied verbatim from .seq-col, not just its base
-     gradient -- the flat 3-stop version alone read as visibly flatter/greener
-     than the app's own graphite (user's callout, 2026-08-16: "must be EXACTLY
-     the same, look directly at the chordinator code"). The scanline
-     (repeating-linear-gradient), the diagonal specular sheen, and the
-     overhead bloom are what actually make .seq-col read as milled metal
-     rather than a flat dark tint -- without them the plate is the right hue
-     but the wrong material. */
+  /* ---- Brushed silver band, not the cream plate's own engraved cut -------
+     2026-08-16: this started as a straight copy of Chordinator's .seq-col
+     (dark graphite -- see --darkplate-* above), matched to the app pixel for
+     pixel at the user's insistence. Same day, on the live site, the user
+     called that "still not very nice" repeated across eight panels down a
+     mostly-light page and asked for silver instead, explicitly keeping "the
+     subtle grain/noise overlay" -- i.e. keep the layer structure (scanline +
+     diagonal sheen + overhead bloom over a 3-stop vertical gradient), re-tune
+     only the lightness/hue so the band reads as a cooler, slightly darker
+     strip of aluminium sitting on top of the panel's own warmer cream face,
+     the way a milled model-strip insert sits proud of a chassis it's bolted
+     to, rather than the near-black plate a single graphite sequencer panel
+     can get away with but a whole page of them can't. */
   background:
-    repeating-linear-gradient(0deg, rgba(255,255,255,0.022) 0px, rgba(255,255,255,0.022) 1px, rgba(0,0,0,0.14) 1px, rgba(0,0,0,0.14) 2px),
-    linear-gradient(112deg, rgba(255,255,255,0) 24%, rgba(255,255,255,0.075) 34%, rgba(255,255,255,0.015) 43%, rgba(255,255,255,0) 52%, rgba(255,255,255,0.05) 68%, rgba(255,255,255,0) 78%),
-    radial-gradient(120% 60% at 50% -8%, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0) 55%),
-    linear-gradient(180deg, var(--darkplate-hi) 0%, var(--darkplate) 30%, var(--darkplate-lo) 100%);
-  border-bottom: 1px solid var(--darkplate-border);
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, rgba(0,0,0,0.05) 1px, rgba(0,0,0,0.05) 2px),
+    linear-gradient(112deg, rgba(255,255,255,0) 24%, rgba(255,255,255,0.5) 34%, rgba(255,255,255,0.1) 43%, rgba(255,255,255,0) 52%, rgba(255,255,255,0.35) 68%, rgba(255,255,255,0) 78%),
+    radial-gradient(120% 60% at 50% -8%, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 55%),
+    linear-gradient(180deg, var(--silverplate-hi) 0%, var(--silverplate) 30%, var(--silverplate-lo) 100%);
+  border-bottom: 1px solid var(--silverplate-border);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.08),
-    inset 0 -1px 0 rgba(0,0,0,0.8);
-  /* Text colour also copied verbatim, from .seq-col h2 (not h1/h3) -- that's
-     the rule the app itself uses for a label sitting directly on this plate.
-     No text-shadow: the app doesn't put one on this text either (its h2 rule
-     sets `text-shadow: none` explicitly), so a shadow here would be an
-     invention, not a match. */
-  color: hsl(40, 12%, 86%);
+    inset 0 1px 0 rgba(255,255,255,0.7),
+    inset 0 -1px 0 rgba(0,0,0,0.18);
+  /* Dark ink on a light plate again, so the label goes back to the
+     engraved-print pairing the rest of the site's silkscreen text uses: dark
+     warm-grey fill with a single-pixel light drop-shadow standing in for a
+     silkscreen sitting a hair proud of a matte surface (mirrors
+     .product-hero h1.engraved's light/dark shadow pairing, just inverted in
+     which one is the fill and which is the shadow). */
+  color: hsl(30, 10%, 24%);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.55);
 }
 /* The accent pilot lamp on the header band — the one place each product's
    colour announces itself before you have read anything. */
