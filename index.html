@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>JamWare Audio · Standalone Mac apps for music production</title>
-<meta name="description" content="Ableton Live Companion apps with the depth of hardware: MutationStation, Chordinator, Spectrl and MidiMirror. Built for Ableton Live, compatible with any DAW." />
+<meta name="description" content="Apps built for Ableton Live, with the flexibility of plugins and the depth of hardware: MutationStation, Chordinator, Spectrl and MidiMirror. Compatible with any DAW." />
 <!-- The company mark, not an app icon: every tab of this site used to be
      branded MutationStation, which reads as one product rather than five. -->
 <link rel="icon" href="assets/favicon.svg" />
@@ -17,12 +17,12 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="JamWare Audio" />
 <meta property="og:title" content="JamWare Audio · Standalone Mac apps for music production" />
-<meta property="og:description" content="Ableton Live Companion apps with the depth of hardware: MutationStation, Chordinator, Spectrl and MidiMirror. Built for Ableton Live, compatible with any DAW." />
+<meta property="og:description" content="Apps built for Ableton Live, with the flexibility of plugins and the depth of hardware: MutationStation, Chordinator, Spectrl and MidiMirror. Compatible with any DAW." />
 <meta property="og:url" content="https://jamwareaudio.github.io/" />
 <meta property="og:image" content="https://jamwareaudio.github.io/assets/shots/hero-stack.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="JamWare Audio · Standalone Mac apps for music production" />
-<meta name="twitter:description" content="Ableton Live Companion apps with the depth of hardware: MutationStation, Chordinator, Spectrl and MidiMirror. Built for Ableton Live, compatible with any DAW." />
+<meta name="twitter:description" content="Apps built for Ableton Live, with the flexibility of plugins and the depth of hardware: MutationStation, Chordinator, Spectrl and MidiMirror. Compatible with any DAW." />
 <meta name="twitter:image" content="https://jamwareaudio.github.io/assets/shots/hero-stack.png" />
 <link rel="stylesheet" href="styles.css" />
 
@@ -50,7 +50,7 @@
       <span class="wordmark">JamWare Audio</span>
     </a>
     <nav class="site-nav">
-      <a href="#products">Products</a>
+      <a href="#products">Standalones &amp; Plugins</a>
       <a href="#bundles">Bundles</a>
       <a href="#licence">Licence</a>
       <a href="#about">About</a>
@@ -86,8 +86,15 @@
          the whole range and set up the buy-a-box-not-a-plugin argument the
          product pages make at length. No hardware brand is named here, at the
          user's instruction — the comparison is evoked, not claimed. -->
-    <h1 class="engraved">JamWare Audio Companion Apps</h1>
-    <p class="hero-claim">Ableton Live Companion apps with the depth of hardware.</p>
+    <!-- 2026-08-16: the user shortened the nameplate to just "JamWare Audio".
+         The wordmark-not-a-claim reasoning above still holds — it is only
+         tighter now. The claim moved wholesale into .hero-claim below, which
+         the user rewrote the same day to name the plugin comparison the rest of
+         the site now leans on ("flexibility of plugins" — these devices plug
+         into Live over MIDI / a Remote Script, so the framing is literal, not a
+         stretch; see the #products rename and the Why-standalone panel). -->
+    <h1 class="engraved">JamWare Audio</h1>
+    <p class="hero-claim">Apps built for Ableton Live, with the flexibility of plugins, and the depth of hardware.</p>
     <p>
       Mac apps built around the parts of a session that software usually leaves
       you to do by hand: mutating a bassline into a hundred, triggering chords
@@ -221,7 +228,7 @@
 
       <!-- ------------------------------------------------------- MidiMirror -->
       <article class="product panel" style="--accent:#E05A2C">
-        <h2 class="panel-head">MidiMirror · Remote Script + app</h2>
+        <h2 class="panel-head">MidiMirror · macOS app</h2>
         <div class="panel-body">
           <img class="icon" src="assets/icons/midimirror-1024.png" alt="MidiMirror icon" />
           <div>
@@ -341,6 +348,43 @@
             <strong>14 days, no questions asked.</strong> Refunds follow EU
             consumer law: if it is not for you, ask within 14 days of purchase and
             you get your money back. No form to fill in and no reason to give.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why standalone. Added 2026-08-16 alongside the "flexibility of plugins"
+       reframing (hero-claim, the #products -> "Standalones & Plugins" nav). That
+       reframing invites the obvious question — if they behave like plugins, why
+       aren't they plugins? — so the site now answers it in one place instead of
+       leaving it implied. The copy generalises Chordinator's own "Why standalone"
+       panel (apps/chordinator.html) to the whole range: they reach Live the way
+       outboard gear does (a virtual MIDI port, or a Remote Script for MidiMirror),
+       which is what "flexibility of plugins" means literally, while running in
+       their own process so a DAW crash can't take the tool — or your work in it —
+       down with it. Keep this in sync with that panel if either changes. -->
+  <section class="section wrap" id="why-standalone">
+    <span class="legend">Standalone, not a plugin</span>
+    <div class="panel" style="--accent:#4A86C5">
+      <h2 class="panel-head">Why standalone?</h2>
+      <div class="panel-body">
+        <div class="prose">
+          <p>
+            These plug into Ableton Live the way a plugin does — but from the
+            outside. Each one runs as its own Mac app and reaches your set over a
+            virtual MIDI port, the same route any outboard hardware uses (for
+            MidiMirror, through a real Remote Script it writes into Live). You get
+            the immediacy of a plugin — pick it as a MIDI source and play — without
+            living inside the DAW's process.
+          </p>
+          <p>
+            That separation is the point. If Live crashes, the app and whatever you
+            were building in it are untouched; if the app hits a snag, your session
+            keeps playing. Two programs talking over MIDI are a lot harder to kill
+            than one process carrying both jobs — and it is why these have the room
+            to be as deep as they are. Standalone on Mac today; the same apps are
+            the groundwork for plugin builds down the line.
           </p>
         </div>
       </div>
