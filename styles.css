@@ -999,3 +999,153 @@ a.btn.gumroad-button:active {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
+
+/* ==================================================================
+   WARMTH PASS — 2026-08-16
+   ==================================================================
+
+   The faceplate above is deliberately monochrome: one milled panel, one
+   lighting direction, the per-product accent rationed down to a 7px pilot lamp
+   and the buy button. Correct as an *object*, but as a *page* it read as one
+   endless grey sheet — the user's word was "sterile". This block adds colour
+   and rhythm back WITHOUT touching any of the tuned recipes above.
+
+   It is intentionally one appended, self-contained block for two reasons:
+
+     1. Revert is `delete from this banner to EOF` — nothing above changes, so
+        the milled look is recoverable byte-for-byte (git tag
+        `pre-restyle-2026-08-16` is the belt to this braces).
+     2. Everything here is ADDITIVE — new pseudo-elements, new :hover states,
+        new properties the base rules never set (transition, a left spine, a
+        band, a glow). It never re-declares a *value* the tuned rules or the
+        responsive @media blocks above already own (padding, the engraving
+        shadows, the palette tokens), so cascade order can't clobber them.
+
+   The governing rule of the pass: BANDS ARE TONAL, ACCENTS ARE PER-CARD.
+   Section rhythm is done with faint lightness shifts only (no colour cast over
+   the whole page); the per-product colour is what carries the palette, and it
+   only ever appears on that product's own furniture.
+   ------------------------------------------------------------------ */
+
+/* --- 1. Let each product's accent breathe --------------------------------
+
+   (a) An accent spine down the left edge of every panel. Done as ::after, not
+       a fat `border-left`, so the 1px control-border stays symmetric and the
+       spine can carry its own rounded corners matching --radius. Now the four
+       cards read as four colours at a glance instead of four identical greys,
+       and the single content panels (licence green, why-standalone blue, about
+       amber) pick up their accent too — the page has a palette.
+   (b) The icon tile gets a faint ring + drop-glow in the same accent, so the
+       artwork sits in its colour instead of floating on grey-on-grey. Pure
+       box-shadow — the PNG itself is untouched. */
+.panel { position: relative; transition: transform 140ms ease, box-shadow 140ms ease; }
+.panel::after {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--accent);
+  border-radius: var(--radius) 0 0 var(--radius);
+  /* a hair of its own glow so the spine reads as lit, like the pilot lamp */
+  box-shadow: 0 0 6px -1px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+.product .icon, .suite-icons img {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 38%, transparent),
+    0 6px 16px -8px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+
+/* --- 2. Alternate section backgrounds (tonal bands) ----------------------
+
+   A faint full-bleed darken behind every other section, so products / bundles /
+   licence / why / about read as deliberate bands rather than one sheet. The
+   full-bleed is the box-shadow-spread + clip-path trick, NOT `width: 100vw` —
+   100vw is wider than the content box by the scrollbar and re-introduces the
+   exact horizontal-scrollbar bug the responsive rules above went to trouble to
+   kill. `clip-path: inset(0 -100vmax)` lets the huge spread show left/right but
+   clips it vertically to the section so it can't bleed into its neighbours, and
+   a box-shadow never contributes to scroll width. The wash is translucent black
+   so the fixed faceplate grain still shows through the band. */
+#bundles, #why-standalone {
+  box-shadow: 0 0 0 100vmax rgba(31, 26, 21, 0.030);
+  clip-path: inset(0 -100vmax);
+}
+
+/* --- 3. Warm the base: one soft glow behind the hero ---------------------
+
+   The palette tokens are copied from the apps and must not drift, so the warmth
+   is an overlay, not a token edit. A single large, very soft radial anchored to
+   the hero's top-right — which is also the empty half the user pointed at (see
+   §4) — so the top of the page stops being flat grey and the dead space gains a
+   focal wash. z-index:-1 keeps it under the hero text; the hero has no
+   background of its own, so the glow floats over the body faceplate. */
+.hero { position: relative; }
+.hero::before {
+  content: ""; position: absolute; z-index: -1;
+  top: -40px; right: -60px; width: 62%; height: 118%;
+  background:
+    radial-gradient(60% 60% at 70% 30%,
+      color-mix(in srgb, var(--accent) 16%, transparent) 0%,
+      transparent 70%),
+    radial-gradient(70% 70% at 78% 26%,
+      hsla(45, 40%, 96%, 0.55) 0%,
+      transparent 72%);
+  pointer-events: none;
+}
+
+/* --- 4. Give the hero shots a stage --------------------------------------
+
+   The homepage hero + motion screenshots were grey UI chrome on a grey page —
+   the sterile part. A subtle tinted tray behind them (soft warm radial + inset
+   rounded frame) turns the screenshot into something set on a surface instead
+   of dissolving into the background. Padding is small and only on wide screens;
+   the height-cap and horizontal-scroll fixes on `.hero-shot .screen img` above
+   are untouched. */
+.hero-shot .screen, .motion-shot .screen {
+  background:
+    radial-gradient(120% 80% at 50% 0%,
+      hsla(45, 30%, 97%, 0.6) 0%, transparent 60%),
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--accent) 5%, var(--control-bg)) 0%,
+      var(--control-bg) 100%);
+  padding: 22px 22px 18px;
+  border-radius: calc(var(--radius) + 4px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.5),
+    0 1px 3px rgba(0,0,0,0.10);
+}
+
+/* --- 5. Micro-life: hover lift + accent glow, header underline -----------
+
+   Small motions that stop the page reading as a static spec sheet.
+   - Buyable cards (products, bundle suites) lift a touch and gain an
+     accent-tinted shadow on hover. The single content panels do NOT lift —
+     you don't hover a licence block on your way to anything.
+   - The buy button already brightens on hover (rule above); we ADD an accent
+     halo, additively, so the moulded cap glows in its own colour.
+   - A short accent tick under each section legend — the root accent (brand
+     red) since a section header carries no per-card colour — so the eyebrow
+     labels feel struck rather than typed. */
+.product:hover, .suite:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.6),
+    0 10px 24px -10px color-mix(in srgb, var(--accent) 45%, transparent),
+    0 4px 10px rgba(0,0,0,0.12);
+}
+.btn { transition: filter 120ms ease, box-shadow 140ms ease; }
+.btn:hover {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent),
+    0 4px 14px -4px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+.section > .legend { position: relative; padding-bottom: 8px; }
+.section > .legend::after {
+  content: ""; position: absolute; left: 0; bottom: 0;
+  width: 34px; height: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 5px -1px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+/* Honour reduced-motion for everything this pass added. */
+@media (prefers-reduced-motion: reduce) {
+  .panel, .btn { transition: none; }
+  .product:hover, .suite:hover { transform: none; }
+}
