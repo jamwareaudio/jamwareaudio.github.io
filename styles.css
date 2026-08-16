@@ -791,13 +791,20 @@ a.btn.gumroad-button:active {
    no border-radius of its own; the roundedness everywhere else is the image
    content, not CSS). Recapturing it is a MutationStation-repo/build-lane job,
    not a site-repo one, so this is a CSS patch, not the real fix: clip this one
-   image to an approximate macOS window radius. 26px was picked by measuring
-   where chordinator.png's real alpha corner goes fully opaque (~15px at its
-   2000px width) and scaling that ratio up to this image's 3456px width --
-   not an eyeballed number. Remove this rule (and the class in
-   apps/mutationstation.html) once mutationstation.png is recaptured with
-   alpha like the others. */
-.win-round { border-radius: 26px; }
+   image to an approximate macOS window radius. border-radius is a property of
+   the RENDERED box, not the source file's native pixel grid -- it does not
+   care that this PNG is 3456px wide. Both this image and chordinator.png are
+   capped by `.hero-shot .screen img { max-height: 620px }` and land at almost
+   the same *displayed* width (~1063px, since both captures are close to the
+   same aspect ratio), so the number that matters is chordinator's real alpha
+   corner (~15px, measured pixel-by-pixel down its left edge) scaled by that
+   1063/2000 display shrink -- ~8px. (First pass scaled 15px UP by this image's
+   *native* 3456px width instead of down by the *displayed* size, landing on
+   26px -- visibly too round next to the other three genuinely-alpha hero
+   shots. Do not repeat that mistake: always scale from displayed px, never
+   native.) Remove this rule (and the class in apps/mutationstation.html) once
+   mutationstation.png is recaptured with alpha like the others. */
+.win-round { border-radius: 8px; }
 
 /* ---- Zoomed feature crops -------------------------------------------------
 
