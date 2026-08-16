@@ -537,6 +537,27 @@ a:hover { color: var(--accent); }
 
 .products { display: grid; gap: 20px; }
 
+/* Beat-grouped tick divider between product panels -- replaces a plain
+   border/gap with the site's own rectangular-LED vocabulary (see
+   .panel-head::before above) rather than another hairline. Ticks cluster in
+   fours, one per group lit in --accent; each divider carries the accent of
+   the panel that FOLLOWS it, so the rule previews which app is next rather
+   than closing out the one above. Added 2026-08-16, replacing the four-color
+   .vu-strip the user cut the same day -- same impulse (a small rhythmic
+   flourish between sections) without repeating a strip of all four accents
+   at once. */
+.tick-row { display: flex; justify-content: center; margin: 6px 0; }
+.tick-row .beat { display: flex; gap: 5px; margin-right: 18px; }
+.tick-row .beat:last-child { margin-right: 0; }
+.tick-row .tick {
+  width: 4px; height: 10px; border-radius: 1px; flex: none;
+  background: color-mix(in srgb, var(--control-border) 70%, transparent);
+}
+.tick-row .tick.lit {
+  background: var(--accent);
+  box-shadow: 0 0 5px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
 .product { display: grid; }
 .product .panel-body {
   display: grid;
