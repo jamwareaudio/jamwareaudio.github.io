@@ -94,30 +94,14 @@
          into Live over MIDI / a Remote Script, so the framing is literal, not a
          stretch; see the #products rename and the Why-standalone panel). -->
     <h1 class="engraved">JamWare Audio</h1>
-    <p class="hero-claim">Apps built for Ableton Live, with the flexibility of plugins, and the depth of hardware.</p>
-    <!-- Decorative peak-meter strip, 2026-08-16 at the user's request: static
-         "lit" segments in each product's own accent colour, one run per app,
-         so the meter previews the four-colour range before the cascade below
-         even loads. Pure decoration -- aria-hidden, no content a screen
-         reader needs, same as the pilot lamps on .panel-head. Segment counts
-         and lit/dark pattern are hand-set, not random: a real peak meter's
-         lit segments cluster toward the low end with a few stragglers higher
-         up, so an even scatter or a solid block would read as a loading bar
-         or an equalizer rather than a meter at rest holding a peak. -->
-    <div class="vu-strip" aria-hidden="true">
-      <div class="vu-row" style="--accent:#D13A2C">
-        <span class="lit"></span><span class="lit"></span><span class="lit"></span><span class="lit"></span><span class="lit"></span><span></span><span></span><span class="lit"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-      </div>
-      <div class="vu-row" style="--accent:#E0862C">
-        <span class="lit"></span><span class="lit"></span><span class="lit"></span><span class="lit"></span><span class="lit"></span><span class="lit"></span><span class="lit"></span><span></span><span class="lit"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-      </div>
-      <div class="vu-row" style="--accent:#4A86C5">
-        <span class="lit"></span><span class="lit"></span><span class="lit"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-      </div>
-      <div class="vu-row" style="--accent:#E05A2C">
-        <span class="lit"></span><span class="lit"></span><span class="lit"></span><span class="lit"></span><span></span><span></span><span class="lit"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-      </div>
-    </div>
+    <!-- 2026-08-16: replaced per the user's rewrite. Keeps the plugin/hardware
+         framing above but names the format directly ("standalone") and adds
+         the "Let's jam" sign-off the user asked for. -->
+    <p class="hero-claim">Companion apps built for Ableton Live, with the feel of hardware, the format of standalone and the accessibility of plugins. Let's jam.</p>
+    <!-- 2026-08-16: a decorative peak-meter strip was tried here (static "lit"
+         segments per product accent) and shipped, then the user reviewed it
+         live and rejected it outright ("I didnt like the four-color peak
+         meter. remove.") — pulled same day, do not re-add without a fresh ask. -->
     <p>
       Mac apps built around the parts of a session that software usually leaves
       you to do by hand: mutating a bassline into a hundred, triggering chords
@@ -393,20 +377,18 @@
       <div class="panel-body">
         <div class="prose">
           <p>
-            These plug into Ableton Live the way a plugin does — but from the
+            These plug into Ableton Live the way a plugin does, but from the
             outside. Each one runs as its own Mac app and reaches your set over a
             virtual MIDI port, the same route any outboard hardware uses (for
             MidiMirror, through a real Remote Script it writes into Live). You get
-            the immediacy of a plugin — pick it as a MIDI source and play — without
-            living inside the DAW's process.
+            the immediacy of a plugin, picking it as a MIDI source and playing,
+            without living inside the DAW's process.
           </p>
           <p>
             That separation is the point. If Live crashes, the app and whatever you
             were building in it are untouched; if the app hits a snag, your session
-            keeps playing. Two programs talking over MIDI are a lot harder to kill
-            than one process carrying both jobs — and it is why these have the room
-            to be as deep as they are. Standalone on Mac today; the same apps are
-            the groundwork for plugin builds down the line.
+            keeps playing. Standalone on Mac today; the same apps are the
+            groundwork for plugin builds down the line.
           </p>
         </div>
       </div>
