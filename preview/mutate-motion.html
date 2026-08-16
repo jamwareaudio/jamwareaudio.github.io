@@ -1,0 +1,310 @@
+<meta charset="utf-8">
+<title>MutationStation motion</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  /*
+    mutate-motion.html — a focused motion study, NOT a page redesign.
+
+    The one question this answers: can we SHOW a MutationStation pattern mutating,
+    rather than describing it? A static screenshot of MutationStation looks like a
+    piano roll; the whole point of the product — take one idea, get a hundred
+    plausible variations — is invisible until it moves. So this is just the screen:
+    a bass pattern on a grid, a playhead running it, and every few bars a MUTATION
+    sweep crossing the grid that shoves notes to new pitches/steps, spawns a few,
+    drops a few, then settles into the next variation. Loop forever.
+
+    Palette is taken verbatim from styles.css (--screen-bg) and the product accent
+    (#D13A2C from make-gumroad-shots.py). Nothing here is published or committed —
+    it exists so you can judge the FEEL of the motion before deciding whether it's
+    worth wiring a real capture into the site or a GIF into Gumroad.
+  */
+  :root{
+    --screen-bg: hsl(30, 8%, 11%);
+    --accent:    #D13A2C;
+    --ink:       hsl(40, 8%, 78%);
+    --dim:       hsl(40, 6%, 42%);
+    --plate:     "Century Gothic", "Futura", "Avenir Next", system-ui, sans-serif;
+  }
+  html,body{margin:0;height:100%;background:#0d0b0a;color:var(--ink);
+    font-family:var(--plate);}
+  .wrap{min-height:100%;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:18px;padding:32px 16px;box-sizing:border-box;}
+  .panel{width:min(920px,100%);}
+  .bar{display:flex;align-items:baseline;justify-content:space-between;
+    margin-bottom:10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;}
+  .bar .lead{color:var(--ink);font-weight:700;}
+  .bar .lead b{color:var(--accent);}
+  .bar .gen{color:var(--dim);font-variant-numeric:tabular-nums;}
+  .screen{position:relative;border-radius:10px;overflow:hidden;
+    background:var(--screen-bg);
+    box-shadow:0 1px 2px rgba(0,0,0,.5),0 18px 40px rgba(0,0,0,.55),
+      inset 0 0 0 1px rgba(255,255,255,.04);}
+  canvas{display:block;width:100%;height:auto;}
+  .status{position:absolute;top:12px;left:14px;font-size:11px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--dim);transition:color .2s,opacity .2s;
+    pointer-events:none;}
+  .status.hot{color:var(--accent);}
+  .readouts{display:flex;gap:26px;margin-top:12px;font-size:11px;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--dim);flex-wrap:wrap;}
+  .readouts b{color:var(--ink);font-variant-numeric:tabular-nums;}
+  .note-txt{width:min(920px,100%);font-size:12.5px;line-height:1.6;color:var(--dim);
+    border-top:1px solid rgba(255,255,255,.06);padding-top:14px;}
+  .note-txt b{color:var(--accent);}
+  .controls{display:flex;gap:10px;}
+  button{font-family:var(--plate);font-size:11px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink);background:transparent;
+    border:1px solid rgba(255,255,255,.14);border-radius:5px;padding:7px 12px;
+    cursor:pointer;transition:border-color .15s,color .15s;}
+  button:hover{border-color:var(--accent);color:var(--accent);}
+  @media (prefers-reduced-motion: reduce){ /* handled in JS: autoplay off */ }
+</style>
+
+<div class="wrap">
+  <div class="panel">
+    <div class="bar">
+      <span class="lead">MutationStation · <b>live mutation</b></span>
+      <span class="gen">GEN <span id="gen">01</span></span>
+    </div>
+    <div class="screen">
+      <div class="status" id="status">running</div>
+      <canvas id="roll" width="1840" height="720"></canvas>
+    </div>
+    <div class="readouts">
+      <span>Pitch Mutation <b id="ro-pitch">30%</b></span>
+      <span>Turnaround <b>×5.0</b></span>
+      <span>Pitch Drift <b id="ro-drift">20%</b></span>
+      <span>Keep Original <b>15%</b></span>
+    </div>
+    <div class="controls" style="margin-top:14px;">
+      <button id="mutateNow">Mutate now</button>
+      <button id="toggle">Pause</button>
+    </div>
+  </div>
+
+  <p class="note-txt">
+    <b>Motion study — not the live site.</b> One idea, mutated: the playhead runs the
+    pattern, and every few bars a mutation sweep crosses the grid and re-rolls it —
+    notes drift in pitch, slide in time, some spawn, some drop, then it settles into
+    the next variation. Faked in canvas to judge the feel; on the real site this
+    would be a short screen-capture loop of MutationStation actually doing it.
+    Nothing here is published.
+  </p>
+</div>
+
+<script>
+/*
+  All geometry is in the canvas's internal pixel space (1840×720) and the element
+  is scaled to fit by CSS, so it stays crisp on any width without re-layout math.
+
+  Model: a pattern is a list of notes {step,pitch,len} plus animated {x,y} that
+  ease toward the note's target cell. A mutation does NOT teleport — it re-rolls
+  every note's target, then a sweep line travels left→right and each note is only
+  "released" toward its new target once the sweep passes its step. That staggered
+  release is what reads as the pattern reorganising itself, rather than a cut.
+*/
+const cv = document.getElementById('roll');
+const ctx = cv.getContext('2d');
+const W = cv.width, H = cv.height;
+
+const STEPS = 16;             // one bar, 16th-note grid
+const LOW = 0, HIGH = 15;     // 16 pitch rows (two octaves of a bass range-ish)
+const PITCHES = HIGH - LOW + 1;
+
+const PAD_L = 48, PAD_R = 20, PAD_T = 20, PAD_B = 20;
+const gridW = W - PAD_L - PAD_R;
+const gridH = H - PAD_T - PAD_B;
+const cellW = gridW / STEPS;
+const cellH = gridH / PITCHES;
+
+const ACCENT = '#D13A2C';
+const cellX = s => PAD_L + s * cellW;
+const cellY = p => PAD_T + (PITCHES - 1 - p) * cellH;   // higher pitch = higher up
+
+// A small pseudo-random generator we can call freely; visual only, no seeding
+// needed — every reload starting differently is fine and actually desirable.
+const rnd = () => Math.random();
+const pick = arr => arr[(rnd()*arr.length)|0];
+
+// --- initial pattern: a plausible acid-ish bassline, root-heavy with a couple
+// of octave jumps. Not musically exact — it just needs to read as "a bassline". ---
+function seedPattern(){
+  const root = 3;
+  const notes = [];
+  const hits = [0,2,3,4,6,7,8,10,11,12,14,15];
+  for(const s of hits){
+    let p = root;
+    if(rnd()<.25) p = root+7;       // octave-ish leap
+    else if(rnd()<.3) p = root+ pick([2,3,5]);
+    notes.push(makeNote(s,p));
+  }
+  return notes;
+}
+function makeNote(step,pitch){
+  const x = cellX(step), y = cellY(pitch);
+  return {step,pitch, tstep:step,tpitch:pitch, x,y, released:true,
+    born:0, life:1, dying:false};
+}
+
+let pattern = seedPattern();
+let gen = 1;
+
+// --- mutation ------------------------------------------------------------------
+let mutating = false, sweep = 0;      // sweep in [0..STEPS] while a mutation runs
+const PITCH_MUT = 0.30, DRIFT = 0.20; // matches the readouts
+function startMutation(){
+  if(mutating) return;
+  mutating = true; sweep = -1;        // start just left of the grid
+  gen++;
+  document.getElementById('gen').textContent = String(gen).padStart(2,'0');
+  const status = document.getElementById('status');
+  status.textContent = 'mutating'; status.classList.add('hot');
+
+  // Re-roll targets now; notes are RELEASED to them as the sweep passes.
+  for(const n of pattern){
+    n.released = false;
+    n.tstep = n.step; n.tpitch = n.pitch;
+    if(rnd() < PITCH_MUT){                 // pitch mutation: jump
+      n.tpitch = clampP(n.pitch + pick([-5,-3,-2,2,3,5,7]));
+    } else if(rnd() < DRIFT){              // pitch drift: small nudge
+      n.tpitch = clampP(n.pitch + pick([-1,1]));
+    }
+    if(rnd() < 0.28) n.tstep = clampS(n.step + pick([-1,1])); // timing slide
+    if(rnd() < 0.12) n.dying = true;       // occasionally a note is dropped
+  }
+  // Spawn a few new notes for this generation.
+  const adds = 1 + ((rnd()*3)|0);
+  for(let i=0;i<adds;i++){
+    const s = (rnd()*STEPS)|0, p = clampP(3 + pick([0,0,2,3,5,7]));
+    const n = makeNote(s,p);
+    n.released=false; n.life=0; n.born=1;  // fade in
+    pattern.push(n);
+  }
+}
+const clampP = p => Math.max(LOW, Math.min(HIGH, p));
+const clampS = s => Math.max(0, Math.min(STEPS-1, s));
+
+// --- playback / autoplay -------------------------------------------------------
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let playing = !reduce;
+let playhead = 0;                    // in steps, continuous
+let sinceMut = 0;                    // bars since last mutation
+const BARS_BETWEEN = 2;             // mutate every ~2 bars
+let last = null;
+
+function frame(t){
+  if(last==null) last=t;
+  const dt = Math.min(0.05, (t-last)/1000); last=t;
+
+  if(playing){
+    const stepsPerSec = 8;          // ~120bpm-ish feel, 16ths
+    const prev = playhead;
+    playhead = (playhead + dt*stepsPerSec);
+    if(Math.floor(playhead/STEPS) > Math.floor(prev/STEPS)){
+      sinceMut++;
+      if(sinceMut>=BARS_BETWEEN){ sinceMut=0; startMutation(); }
+    }
+  }
+
+  // advance the mutation sweep
+  if(mutating){
+    sweep += dt * 26;               // sweep speed across the 16 steps
+    for(const n of pattern){
+      if(!n.released && sweep >= n.step) n.released = true;
+    }
+    if(sweep > STEPS+1){
+      mutating=false;
+      // commit targets -> step/pitch; retire dead notes
+      pattern = pattern.filter(n=>!(n.dying && n.life<=0.02));
+      for(const n of pattern){ n.step=n.tstep; n.pitch=n.tpitch; }
+      const status=document.getElementById('status');
+      status.textContent='running'; status.classList.remove('hot');
+    }
+  }
+
+  // ease note positions + life toward targets
+  for(const n of pattern){
+    if(n.released){
+      const tx=cellX(n.tstep), ty=cellY(n.tpitch);
+      n.x += (tx-n.x)*Math.min(1, dt*9);
+      n.y += (ty-n.y)*Math.min(1, dt*9);
+    }
+    const lifeTarget = n.dying ? 0 : 1;
+    n.life += (lifeTarget-n.life)*Math.min(1, dt*6);
+  }
+
+  draw();
+  requestAnimationFrame(frame);
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  // grid
+  ctx.lineWidth=1;
+  for(let s=0;s<=STEPS;s++){
+    ctx.strokeStyle = (s%4===0)?'rgba(255,255,255,.10)':'rgba(255,255,255,.04)';
+    ctx.beginPath(); ctx.moveTo(cellX(s),PAD_T); ctx.lineTo(cellX(s),PAD_T+gridH); ctx.stroke();
+  }
+  for(let p=0;p<=PITCHES;p++){
+    const y=PAD_T+p*cellH;
+    ctx.strokeStyle='rgba(255,255,255,.035)';
+    ctx.beginPath(); ctx.moveTo(PAD_L,y); ctx.lineTo(PAD_L+gridW,y); ctx.stroke();
+  }
+
+  // notes
+  const beat = playhead % STEPS;
+  for(const n of pattern){
+    const w=cellW-4, h=cellH-4;
+    const x=n.x+2, y=n.y+2;
+    // is the playhead currently over this note's step? -> light it up
+    const active = playing && Math.floor(beat)===n.tstep;
+    const a = Math.max(0, Math.min(1, n.life));
+    roundRect(x,y,w,h,3);
+    ctx.fillStyle = withA(active?'#ff6b4a':ACCENT, a*(active?1:.9));
+    ctx.fill();
+    if(active){ ctx.strokeStyle=withA('#ffd0c2',a); ctx.lineWidth=1.5; ctx.stroke(); }
+    // notes that haven't been released yet during a mutation get a faint ghost
+    if(mutating && !n.released){
+      const gx=cellX(n.tstep)+2, gy=cellY(n.tpitch)+2;
+      roundRect(gx,gy,w,h,3);
+      ctx.fillStyle=withA(ACCENT,.12*a); ctx.fill();
+    }
+  }
+
+  // playhead
+  if(playing){
+    const px=cellX(beat);
+    ctx.fillStyle='rgba(255,255,255,.10)';
+    ctx.fillRect(px, PAD_T, cellW, gridH);
+    ctx.strokeStyle='rgba(255,255,255,.35)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(px,PAD_T); ctx.lineTo(px,PAD_T+gridH); ctx.stroke();
+  }
+
+  // mutation sweep bar
+  if(mutating && sweep>=0 && sweep<=STEPS){
+    const sx=cellX(sweep);
+    const g=ctx.createLinearGradient(sx-40,0,sx+8,0);
+    g.addColorStop(0,'rgba(209,58,44,0)');
+    g.addColorStop(1,'rgba(209,58,44,.35)');
+    ctx.fillStyle=g; ctx.fillRect(sx-40,PAD_T,48,gridH);
+    ctx.strokeStyle=withA('#ff6b4a',.9); ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(sx,PAD_T-6); ctx.lineTo(sx,PAD_T+gridH+6); ctx.stroke();
+  }
+}
+
+function roundRect(x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
+}
+function withA(hex,a){
+  const n=parseInt(hex.slice(1),16);
+  return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;
+}
+
+document.getElementById('mutateNow').onclick=()=>startMutation();
+document.getElementById('toggle').onclick=(e)=>{
+  playing=!playing; e.target.textContent=playing?'Pause':'Play';
+};
+if(reduce){ document.getElementById('toggle').textContent='Play'; draw(); }
+requestAnimationFrame(frame);
+</script>

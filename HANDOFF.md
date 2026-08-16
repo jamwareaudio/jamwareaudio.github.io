@@ -1802,7 +1802,7 @@ Two-factor auth is already enabled on the Apple ID, so that prerequisite is met.
 There is no separate "developer account" to create — the ordinary Apple ID
 becomes one on first sign-in at developer.apple.com.
 
-⚠ **Do not ship unsigned.** The current artifacts are ad-hoc signed and not
+⚠ **Do not ship unsigned.** The current artifacts are signed and not
 notarised. An un-notarised paid app trips Gatekeeper hard, and first-run *is* the
 product. Both this session and the App Work session independently reached that
 conclusion. Keep the Gumroad Content tabs empty until the cert lands.

@@ -49,8 +49,17 @@
       <img src="assets/logo.svg" alt="" width="40" height="22" />
       <span class="wordmark">JamWare Audio</span>
     </a>
+    
     <nav class="site-nav">
-      <a href="#products">The Rack</a>
+      <label class="hero-lcd" aria-hidden="false">
+        <select id="siteAppSelect" class="hero-lcd-select" aria-label="Select an app" onchange="if(this.value){ location.href=this.value; }">
+          <option value="" selected>-Select-</option>
+          <option value="apps/mutationstation.html">MutationStation</option>
+          <option value="apps/chordinator.html">Chordinator</option>
+          <option value="apps/spectrl.html">Spectrl</option>
+          <option value="apps/midimirror.html">MidiMirror</option>
+        </select>
+      </label>
       <a href="#bundles">Bundles</a>
       <a href="#licence">Licence</a>
       <a href="#about">About</a>
@@ -93,11 +102,8 @@
          the site now leans on ("flexibility of plugins" — these devices plug
          into Live over MIDI / a Remote Script, so the framing is literal, not a
          stretch; see the #products rename and the Why-standalone panel). -->
-    <h1 class="engraved">JamWare Audio</h1>
-    <!-- 2026-08-16: replaced per the user's rewrite. Keeps the plugin/hardware
-         framing above but names the format directly ("standalone") and adds
-         the "Let's jam" sign-off the user asked for. -->
-    <p class="hero-claim">Companion apps built for Ableton Live, with the feel of hardware, the format of standalone and the accessibility of plugins. Let's jam.</p>
+        <!-- front-page wordmark removed per user request (top-row wordmark remains) -->
+        <p class="hero-claim">Plugins & companion apps built for Ableton Live, with the feel of hardware, in a software format. Let's jam.</p>
     <!-- 2026-08-16: a decorative peak-meter strip was tried here (static "lit"
          segments per product accent) and shipped, then the user reviewed it
          live and rejected it outright ("I didnt like the four-color peak
@@ -126,16 +132,7 @@
          that by hand. If this reads well, the larger next step discussed
          with the user is making the hero screenshot cascade itself an
          LCD-style interactive app picker. -->
-    <label class="lcd-jump">
-      <span class="lcd-jump-label">Jump to</span>
-      <select class="lcd-jump-select" onchange="if (this.value) location.href = this.value;">
-        <option value="" selected disabled>Choose an app&hellip;</option>
-        <option value="apps/mutationstation.html">MutationStation</option>
-        <option value="apps/chordinator.html">Chordinator</option>
-        <option value="apps/spectrl.html">Spectrl</option>
-        <option value="apps/midimirror.html">MidiMirror</option>
-      </select>
-    </label>
+    <!-- Jump-to app dropdown removed per user request -->
   </section>
 
   <!-- The range, cascaded, in the same dark inset screen the product pages use.
@@ -507,6 +504,7 @@
      This is the only third-party script on the site.
      ====================================================================== -->
 <script src="https://gumroad.com/js/gumroad.js"></script>
+<script src="assets/site-header.js"></script>
 
 </body>
 </html>

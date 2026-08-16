@@ -17,6 +17,8 @@
   --control-bg:     hsl(43, 18%, 94%);
   --control-border: hsl(35, 9%, 55%);
   --hairline:       hsl(35, 9%, 72%);
+   /* Divider colour used for thin panel/section rules (sampled from UI) */
+   --divider-color:  var(--hairline);
   /* Corner-screw dots on .panel -- deliberately its own token rather than
      reusing --control-border, so a future palette pass can retune screw
      contrast without touching the border colour everything else keys off. */
@@ -71,6 +73,11 @@
   --radius:         4px;
   --measure:        66ch;
 
+   /* MutationStation fader orange tokens (copied exactly) */
+   --ms-slider-accent: hsl(25,95%,54%);
+   --ms-slider-accent-shine: hsl(30,98%,64%);
+   --ms-slider-accent-deep: hsl(19,88%,44%);
+
   /* --- plate type, from the apps ----------------------------------------
      Every app's faceplate typography — the engraved wordmark in the top row,
      the panel headers, the control labels — runs on this exact stack (see
@@ -124,9 +131,27 @@
   font-display: swap;
 }
 
+/* Dot-matrix LCD font used by the apps (DotGothic16). Referencing the
+    standalone app asset so the dropdown matches the in-app look. On deploy
+    consider copying the WOFF2 into site/assets/fonts for GitHub Pages. */
+@font-face {
+   font-family: "DotGothic16";
+   src: url("assets/fonts/DotGothic16-ascii.woff2") format("woff2");
+   font-display: swap;
+}
+
 * { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; }
+
+/* Hide native scrollbars — Juno fader replaces them visually and functionally */
+html, body {
+   scrollbar-width: none; /* Firefox */
+   -ms-overflow-style: none; /* IE 10+ */
+}
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+   width: 0; height: 0; display: none;
+}
 
 body {
   margin: 0;
@@ -143,6 +168,31 @@ body {
   color: var(--text-primary);
   font: 15px/1.62 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle material micro-texture overlay (very low opacity) */
+body::after {
+   content: "";
+   position: fixed; inset: 0; pointer-events: none; z-index: 0;
+   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='1' stitchTiles='stitch' seed='3'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.06' /></svg>");
+   opacity: 0.08; mix-blend-mode: overlay;
+}
+
+/* Layered lighting and specular sheen for panels and header buttons */
+.site-nav a,
+.product-hero .back,
+.section .back {
+   /* add a subtle top specular sheen and a soft bottom vignette */
+   background-image:
+      linear-gradient(180deg, rgba(255,255,255,0.42) 0%, rgba(255,255,255,0) 30%),
+      linear-gradient(180deg, hsl(45,22%,97%) 0%, hsl(43,15%,89%) 45%, hsl(40,10%,76%) 100%);
+}
+
+/* small raised sheen on generic panels to imply layered lighting */
+.panel, .wrap > section, .hero {
+   /* remove the bright inset line so panels end cleanly at their edge */
+   box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+   border-bottom: 1px solid var(--divider-color);
 }
 
 /* Engraved-legend type: the small uppercase labels silkscreened onto hardware.
@@ -182,62 +232,119 @@ body {
   text-shadow: 0 0 6px color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
-/* Jump-to-app LCD dropdown — the 2026-08-16 proof of concept, see the comment
-   above its markup in index.html for why this exists rather than a restyle.
-   Bezel is .screen.empty's own recess (same tokens, same inset shadow) so the
-   control reads as the SAME dark screen already used for the placeholder
-   screenshot slot, not a new material invented for one control. The readout
-   text borrows .lcd's mono/glow rather than a fresh rule, for the same
-   one-vocabulary reason. */
-.lcd-jump {
-  display: inline-flex; align-items: center; gap: 10px;
-  margin-top: 22px;
-  padding: 9px 14px;
-  background: var(--screen-bg);
-  border: 1px solid var(--screen-edge);
-  border-radius: var(--radius);
-  box-shadow:
-    inset 0 2px 6px rgba(0,0,0,0.6),
-    inset 0 0 0 1px rgba(255,255,255,0.04),
-    0 1px 0 rgba(255,255,255,0.5);
+/* App-style LCD dropdown for the header. This copies the app's passive LCD
+   select styling (bezel, dot-matrix font, ghost cells) scoped to
+   `.hero-lcd-select` so it does not affect other selects on the site. The
+   font file is referenced above; copy it into `site/assets/fonts` when ready
+   for production. */
+.hero-lcd { display: inline-flex; align-items: center; gap: 6px; margin-left: 14px; }
+.hero-lcd-select {
+   /* Exact MutationStation passive-LCD recipe, scoped to the header select */
+   font-family: "DotGothic16", "SF Mono", Menlo, Consolas, monospace;
+   letter-spacing: 0; font-size: 13px; font-weight: 400;
+   --cell: 6.5px; --lcd-bezel: 3px; --lcd-radius: 5px;
+   padding: 3px var(--cell);
+   color: hsl(100,5%,28%);
+   border: var(--lcd-bezel, 3px) solid transparent;
+   border-radius: var(--lcd-radius, 5px);
+   --bezel: linear-gradient(180deg,
+      hsl(30,8%,20%) 0%, hsl(30,8%,7%) 40%, hsl(30,8%,5%) 70%, hsl(30,8%,13%) 100%);
+   --lcd-screen:
+      repeating-linear-gradient(90deg,
+         rgba(28,36,22,0.055) 0px, rgba(28,36,22,0.055) calc(var(--cell) - 1px),
+         transparent calc(var(--cell) - 1px), transparent var(--cell)) left center / 100% 62% no-repeat padding-box,
+      linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 45%) padding-box,
+      linear-gradient(180deg, hsl(100,6.5%,74%), hsl(100,6.5%,74%)) padding-box,
+      var(--bezel) border-box;
+   background: var(--lcd-screen);
+   box-shadow: inset 0 3px 5px rgba(0,0,0,0.42), inset 0 0 0 1px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.30);
+   -webkit-appearance: none; appearance: none;
+   min-width: 140px; max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+   /* hand-drawn chevron layers on the right */
+   background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%), var(--lcd-screen);
+   background-repeat: no-repeat, no-repeat, no-repeat;
+   background-position: right 6px center, right 1px center, padding-box;
 }
-.lcd-jump-label {
-  font-family: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
-  font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--screen-dim);
-  flex: none;
+.hero-lcd-select:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent) 70%, transparent); outline-offset: 2px; }
+.hero-lcd-select option { background: transparent; color: inherit; }
+
+/* The open picker (where supported by Chromium-based browsers) mirrors the
+   LCD bezel; fallback is the native menu. */
+/* Open picker for the header LCD (Chromium customizable picker) */
+.hero-lcd-select::picker(select) {
+   appearance: base-select;
+   font-family: "DotGothic16", "SF Mono", Menlo, Consolas, monospace;
+   font-size: inherit; color: hsl(100,5%,28%);
+   border: var(--lcd-bezel, 3px) solid transparent; border-radius: var(--lcd-radius, 5px);
+   background:
+      repeating-linear-gradient(90deg,
+         rgba(28,36,22,0.055) 0px, rgba(28,36,22,0.055) calc(var(--cell, 6.5px) - 1px),
+         transparent calc(var(--cell, 6.5px) - 1px), transparent var(--cell, 6.5px)) padding-box,
+      linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 45%) left top / 100% 25px no-repeat padding-box,
+      linear-gradient(180deg, hsl(100,6.5%,74%), hsl(100,6.5%,74%)) padding-box,
+      var(--bezel) border-box;
+   box-shadow: inset 0 3px 5px rgba(0,0,0,0.42), inset 0 0 0 1px rgba(0,0,0,0.12), 0 4px 10px rgba(0,0,0,0.35);
+   padding: 2px; margin-top: 3px;
 }
-.lcd-jump-select {
-  appearance: none; -webkit-appearance: none;
-  border: none; background: transparent;
-  font-family: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
-  font-size: 14px; font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.06em;
-  color: color-mix(in srgb, var(--accent) 55%, var(--screen-text));
-  text-shadow: 0 0 6px color-mix(in srgb, var(--accent) 45%, transparent);
-  padding: 2px 22px 2px 2px;
-  /* Hand-drawn chevron rather than a webfont glyph, so the "screen" stays a
-     background/shadow recipe with no external dependency. */
-  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
-    linear-gradient(135deg, currentColor 50%, transparent 50%);
-  background-position: right 6px top 55%, right 1px top 55%;
-  background-size: 6px 6px, 6px 6px;
-  background-repeat: no-repeat;
-  cursor: pointer;
+
+/* Custom JS-driven popup to reproduce the app's open list in all browsers */
+.hero-lcd-popup {
+   position: fixed; z-index: 9999; display: none; min-width: 160px; max-width: 420px;
+   border-radius: var(--lcd-radius,5px); border: var(--lcd-bezel,3px) solid transparent;
+   /* Match MutationStation's open picker stack exactly so every row gets the
+      same ghost-cell texture and the sheen is clamped to the closed-box height. */
+   background:
+     repeating-linear-gradient(90deg,
+       rgba(28,36,22,0.055) 0px, rgba(28,36,22,0.055) calc(var(--cell,6.5px) - 1px),
+       transparent calc(var(--cell,6.5px) - 1px), transparent var(--cell,6.5px)) padding-box,
+   linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 45%) left top / 100% 25px no-repeat padding-box,
+     linear-gradient(180deg, hsl(100,6.5%,74%), hsl(100,6.5%,74%)) padding-box,
+     var(--bezel) border-box;
+   box-shadow: inset 0 3px 5px rgba(0,0,0,0.42), inset 0 0 0 1px rgba(0,0,0,0.12), 0 8px 18px rgba(0,0,0,0.35);
+   padding: 4px 2px; max-height: 440px; overflow: auto;
 }
-.lcd-jump-select:focus-visible {
-  outline: 2px solid color-mix(in srgb, var(--accent) 70%, transparent);
-  outline-offset: 2px;
-  border-radius: 2px;
+.hero-lcd-popup.open { display: block; }
+.hero-lcd-popup .opt { padding: 4px var(--cell,6.5px); border-radius: 2px; cursor: pointer; color: hsl(100,5%,28%); font-family: "DotGothic16", "SF Mono", Menlo, Consolas, monospace; font-size: 13px; line-height: 1.6; position: relative; }
+.hero-lcd-popup .opt:hover, .hero-lcd-popup .opt[aria-selected="true"] { background: hsl(100,10%,64%); }
+/* Selected row shows a tick at the left; uses a pseudo-element so no markup change */
+.hero-lcd-popup .opt[aria-selected="true"]::before { content: "✓"; position: absolute; left: 6px; top: 50%; transform: translateY(-50%); color: hsl(100,5%,28%); }
+
+/* Scrollbar styling to match the app: narrow track, white thumb with subtle inset */
+.hero-lcd-popup::-webkit-scrollbar { width: 12px; }
+.hero-lcd-popup::-webkit-scrollbar-track { background: transparent; }
+.hero-lcd-popup::-webkit-scrollbar-thumb { background: #ffffff; border-left: 1px solid rgba(0,0,0,0.08); border-radius: 6px; }
+
+/* Popup fader: Juno106-style miniature fader on the right edge of tall lists */
+.hero-lcd-popup .popup-fader {
+   position: absolute; right: 6px; top: 6px; bottom: 6px; width: 28px; display: block; pointer-events: auto;
 }
-.lcd-jump-select option {
-  /* Native popup chrome, can't be recessed/glowed — keep it legible and let
-     the OS render it; the LCD treatment lives on the closed control. */
-  background: var(--screen-bg);
-  color: var(--screen-text);
+.hero-lcd-popup .popup-fader .fader-slot {
+   position: absolute; right: 7px; top: 8px; bottom: 8px; width: 8px; margin-left: 0; border-radius: 4px;
+   background: var(--screen-bg); box-shadow: inset 0 2px 4px rgba(0,0,0,0.9), 0 1px 0 rgba(255,255,255,0.14);
+   overflow: hidden;
 }
+.hero-lcd-popup .popup-fader .fader-fill {
+   position: absolute; left: 0; right: 0; bottom: 0; height: 0;
+   background: linear-gradient(180deg, var(--value-fill, hsl(12,88%,51%)) 0%, hsl(18,88%,40%) 100%);
+   box-shadow: 0 0 6px var(--value-glow, rgba(255,100,60,0.25));
+}
+.hero-lcd-popup .popup-fader .fader-cap {
+   position: absolute; right: -8px; left: auto; width: 24px; height: 14px; top: 0; border-radius: 2.5px;
+   background: linear-gradient(180deg, hsl(220,7%,32%) 0%, hsl(220,11%,9%) 100%);
+   border: 1px solid hsl(220,14%,5%);
+   box-shadow: 0 2px 4px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.16);
+   cursor: ns-resize;
+}
+.hero-lcd-popup .popup-fader .fader-cap::after {
+   content: ""; position: absolute; left: 3px; right: 3px; top: 50%; height: 2px; margin-top: -1px; background: hsl(0,0%,90%); box-shadow: 0 0 2px rgba(255,255,255,0.4);
+}
+
+
+/* The JS injects a non-interactive <button><selectedcontent> into each
+    select so the closed label can ellipsise reliably across browsers. These
+    rules style that injected element; they are present in the app's CSS. */
+select > button { all: unset; box-sizing: border-box; display: block; width: 100%; min-width: 0; overflow: hidden; }
+select selectedcontent { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 a { color: var(--ink); text-decoration-color: var(--accent); text-underline-offset: 3px; }
 a:hover { color: var(--accent); }
@@ -270,7 +377,7 @@ a:hover { color: var(--accent); }
 /* ============================================================ SITE HEADER */
 
 .site-header {
-  border-bottom: 1px solid var(--hairline);
+   border-bottom: 1px solid var(--divider-color);
   box-shadow: 0 1px 0 rgba(255,255,255,0.55);
   position: sticky; top: 0; z-index: 20;
   backdrop-filter: blur(8px);
@@ -290,21 +397,81 @@ a:hover { color: var(--accent); }
      a's lighter, smaller-scale fill/lip pairing instead of the heavier one).
      Fill sits close to the header's own plate colour and reads as a groove,
      not printed ink — "more white, like the background" per the request. */
-  font-family: var(--font-display);
-  font-size: 16px; font-weight: 700; letter-spacing: 0.06em;
+   font-family: var(--font-display);
+   font-size: 22px; font-weight: 800; letter-spacing: 0.06em;
   text-transform: uppercase;
   color: color-mix(in srgb, var(--control-bg) 92%, black);
   text-shadow:
     0  1px 0 hsla(0,0%,100%,0.95),
     0 -1px 0 hsla(28,12%,14%,0.4);
 }
-.site-nav { margin-left: auto; display: flex; gap: 22px; align-items: center; }
-.site-nav a { text-decoration: none; }
-.site-nav a:hover { text-decoration: underline; }
+.site-nav { margin-left: auto; display: flex; gap: 16px; align-items: center; }
+.site-nav a { text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+   padding: 5px 8px; border-radius: 4px; font-weight: 700; font-size: 13px; color: var(--text-primary);
+   border: 1px solid hsl(38,10%,42%);
+   background: linear-gradient(180deg, hsl(45,22%,97%) 0%, hsl(43,15%,89%) 45%, hsl(40,10%,76%) 100%);
+   box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), inset 0 -1px 1px rgba(0,0,0,0.22), 0 1px 2px rgba(0,0,0,0.12);
+   text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}
+.site-nav a[href^="mailto:"] {
+   /* Revert Support button to the standard header button style (grey) */
+   color: var(--text-primary) !important;
+   border: 1px solid hsl(38,10%,42%);
+   background: linear-gradient(180deg, hsl(45,22%,97%) 0%, hsl(43,15%,89%) 45%, hsl(40,10%,76%) 100%);
+   box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), inset 0 -1px 1px rgba(0,0,0,0.22), 0 1px 2px rgba(0,0,0,0.12);
+   text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}
+.site-nav a[href^="mailto:"]:hover { filter: brightness(1.06); }
+.site-nav a:hover { filter: brightness(1.06); }
+.site-nav a:active { transform: translateY(1px); box-shadow: inset 0 2px 4px rgba(0,0,0,0.36); }
+
+/* Product page back-link: same raised button look as header, slightly smaller */
+.product-hero .back, .section .back {
+   text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+   padding: 4px 6px; border-radius: 4px; font-weight: 700; font-size: 12px; color: var(--text-primary);
+   border: 1px solid hsl(38,10%,42%);
+   background: linear-gradient(180deg, hsl(45,22%,98%) 0%, hsl(43,15%,91%) 45%, hsl(40,10%,78%) 100%);
+   box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 1px rgba(0,0,0,0.18), 0 1px 1px rgba(0,0,0,0.08);
+   text-shadow: 0 1px 0 rgba(255,255,255,0.45);
+}
+.product-hero .back:hover, .section .back:hover { filter: brightness(1.04); }
+.product-hero .back:active, .section .back:active { transform: translateY(1px); box-shadow: inset 0 2px 4px rgba(0,0,0,0.28); }
+
+/* Ensure back-links never get a text-underline on hover */
+.product-hero .back, .section .back { text-decoration: none !important; text-decoration-color: transparent !important; }
+.product-hero .back:hover, .section .back:hover { text-decoration: none !important; text-decoration-color: transparent !important; }
+
+/* Page fader: fixed Juno-style fader on the right edge of the site */
+.page-fader {
+   position: fixed; right: 10px; top: 66px; bottom: 20px; width: 34px; z-index: 60; pointer-events: auto; display: block;
+}
+.page-fader .fader-slot {
+   position: absolute; right: 6px; top: 6px; bottom: 6px; width: 8px; border-radius: 4px;
+   background: var(--screen-bg); box-shadow: inset 0 2px 4px rgba(0,0,0,0.9), 0 1px 0 rgba(255,255,255,0.14);
+   overflow: hidden;
+}
+.page-fader .fader-fill {
+   position: absolute; left: 0; right: 0; top: 0; height: 0;
+   background: linear-gradient(180deg, var(--value-fill, hsl(12,88%,51%)) 0%, hsl(18,88%,40%) 100%);
+   box-shadow: 0 0 6px var(--value-glow, rgba(255,100,60,0.25));
+}
+.page-fader .fader-cap {
+   position: absolute; left: 10px; right: auto; width: 28px; height: 16px; top: 0; border-radius: 2.5px;
+   background: linear-gradient(180deg, hsl(220,7%,32%) 0%, hsl(220,11%,9%) 100%);
+   border: 1px solid hsl(220,14%,5%);
+   box-shadow: 0 2px 4px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.16);
+   cursor: ns-resize;
+}
+.page-fader .fader-cap::after {
+   content: ""; position: absolute; left: 3px; right: 3px; top: 50%; height: 2px; margin-top: -1px; background: hsl(0,0%,90%); box-shadow: 0 0 2px rgba(255,255,255,0.4);
+}
+
+/* Hide on small screens where it would interfere with touch scrolling */
+@media (max-width: 900px) { .page-fader { display: none; } }
 
 /* ================================================================== HERO */
 
-.hero { padding-block: 72px 56px; }
+.hero { padding-block: 40px 24px; }
 .hero .eyebrow { margin: 0 0 18px; }
 .hero h1 {
   font-size: clamp(30px, 5vw, 46px);
@@ -346,7 +513,7 @@ a:hover { color: var(--accent); }
    a proportion of the type size — an engraving does not get deeper because the
    letters got bigger, which is exactly why fixed pixels are right here.       */
 .engraved {
-  font-family: var(--font-plate);
+   font-family: var(--font-plate);
   /* ⚠ THESE STOPS USED TO BE SHARED WITH gumroad/cover.html. THEY ARE NOT ANY
      MORE, BY THE USER'S RULING OF 2026-08-14: the product name on the cover art
      was to be "brighter, more like the background white", this nameplate was
@@ -368,29 +535,11 @@ a:hover { color: var(--accent); }
      Keep the stops in this order if you retune. Dark at the top is the far wall
      of the groove; inverting it turns the letter into a ridge standing proud,
      which is the one thing this site never does.                              */
-  color: color-mix(in srgb, var(--ui-bg) 48%, black);
-  background: linear-gradient(180deg,
-    color-mix(in srgb, var(--ui-bg) 39%, black) 0%,
-    color-mix(in srgb, var(--ui-bg) 52%, black) 45%,
-    color-mix(in srgb, var(--ui-bg) 75%, black) 100%);
-  /* Tile the gradient once per LINE, not once per element. Without this the
-     single gradient stretches over the whole h1 box, so on a two-line headline
-     the first line gets the dark end and the second the light end — two
-     different-coloured lines, which is exactly what it looked like, and no
-     glyph gets the top-to-bottom cut at all. --engrave-line is the line box in
-     ems; keep it equal to whatever line-height the user of the class sets. */
-  --engrave-line: 1.06em;
-  background-size: 100% var(--engrave-line);
-  background-repeat: repeat-y;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: none;
-  filter:
-    drop-shadow(0 2px 0 rgba(255,255,255,0.95))
-    /* Matches cover.html's upper lip. */
-    drop-shadow(0 -1px 0 rgba(0,0,0,0.42))
-    drop-shadow(0 3px 5px rgba(0,0,0,0.10));
+   /* Match the header wordmark's lighter, near-background engraved fill */
+   color: color-mix(in srgb, var(--control-bg) 92%, black);
+   text-shadow:
+      0 1px 0 hsla(0,0%,100%,0.95),
+      0 -1px 0 hsla(28,12%,14%,0.40);
 }
 
 /* ---- No .raised rule here, and that is on purpose -------------------------
@@ -538,7 +687,7 @@ a:hover { color: var(--accent); }
     linear-gradient(112deg, rgba(255,255,255,0) 24%, rgba(255,255,255,0.5) 34%, rgba(255,255,255,0.1) 43%, rgba(255,255,255,0) 52%, rgba(255,255,255,0.35) 68%, rgba(255,255,255,0) 78%),
     radial-gradient(120% 60% at 50% -8%, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 55%),
     linear-gradient(180deg, var(--silverplate-hi) 0%, var(--silverplate) 30%, var(--silverplate-lo) 100%);
-  border-bottom: 1px solid var(--silverplate-border);
+   border-bottom: 1px solid var(--divider-color);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.7),
     inset 0 -1px 0 rgba(0,0,0,0.18);
@@ -671,6 +820,16 @@ a:hover { color: var(--accent); }
   align-items: start;
 }
 .product .icon { width: 96px; height: 96px; display: block; border-radius: 18px; }
+
+/* Remove any decorative lines/frames around app icons — prefer the raw artwork */
+.product .icon,
+.product-hero .icon,
+.suite-icons img {
+   border: none !important;
+   box-shadow: none !important;
+   background: transparent !important;
+   outline: none !important;
+}
 .product h3 {
   font-family: var(--font-plate);
   margin: 0 0 2px; font-size: 21px; letter-spacing: -0.01em;
@@ -705,13 +864,12 @@ a:hover { color: var(--accent); }
    rather than swapping to flat accent-coloured text — the name should not pop
    out of the plate on the way to being clicked. */
 .product h3 a {
-  text-decoration: none;
-  color: color-mix(in srgb, var(--control-bg) 87%, black);
-  text-shadow:
-    0  1px 0 hsla(0,0%,100%,0.92),
-    0 -1px 0 hsla(28,12%,14%,0.42);   /* a touch above the app's 0.35: the fill is
-                                         lighter here than on the app's plate, so
-                                         the upper lip is doing more of the work */
+   text-decoration: none;
+   /* Match the header wordmark's lighter, near-background engraved fill */
+   color: color-mix(in srgb, var(--control-bg) 92%, black);
+   text-shadow:
+      0 1px 0 hsla(0,0%,100%,0.95),
+      0 -1px 0 hsla(28,12%,14%,0.40);
 }
 .product h3 a:hover {
   color: color-mix(in srgb, var(--accent) 48%, var(--control-bg));
@@ -765,12 +923,19 @@ a:hover { color: var(--accent); }
    owns the actual "pressed" state below. */
 .btn:hover {
   color: #fff;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 2px 5px rgba(0,0,0,0.3);
+   box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), inset 0 -1px 1px rgba(0,0,0,0.22), 0 1px 2px rgba(0,0,0,0.12);
 }
 .btn:active {
-  box-shadow: inset 0 2px 5px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(0,0,0,0.15);
-  filter: brightness(0.9);
-  transform: translateY(1px);
+   box-shadow: inset 0 2px 5px rgba(0,0,0,0.36), inset 0 0 0 1px rgba(0,0,0,0.12);
+   filter: brightness(0.96);
+   transform: translateY(1px);
+}
+
+/* Make `.btn` share the same raised/beveled treatment as header nav buttons */
+.btn {
+   box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), inset 0 -1px 1px rgba(0,0,0,0.22), 0 1px 2px rgba(0,0,0,0.12);
+   text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+   border: 1px solid color-mix(in srgb, var(--accent) 55%, black);
 }
 
 /* --------------------------------------------------------------------------
@@ -1231,14 +1396,14 @@ a.btn.gumroad-button:active {
 .prose code {
   font: 12.5px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
   background: color-mix(in srgb, var(--face-hi) 80%, transparent);
-  border: 1px solid var(--hairline); border-radius: 3px; padding: 1px 5px;
+   border: 1px solid var(--divider-color); border-radius: 3px; padding: 1px 5px;
 }
 
 /* ================================================================ FOOTER */
 
 .site-footer {
-  margin-top: 56px;
-  border-top: 1px solid var(--hairline);
+   margin-top: 56px;
+   border-top: 1px solid var(--divider-color);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.55);
   padding: 28px 0 44px;
   color: var(--text-secondary); font-size: 13px;

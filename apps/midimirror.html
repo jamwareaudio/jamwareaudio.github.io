@@ -34,7 +34,15 @@
       <span class="wordmark">JamWare Audio</span>
     </a>
     <nav class="site-nav">
-      <a href="../index.html#products">The Rack</a>
+      <label class="hero-lcd" aria-hidden="false">
+        <select id="siteAppSelect" class="hero-lcd-select" aria-label="Select an app" onchange="if(this.value){ location.href=this.value; }">
+          <option value="" selected>-Select-</option>
+          <option value="/apps/mutationstation.html">MutationStation</option>
+          <option value="/apps/chordinator.html">Chordinator</option>
+          <option value="/apps/spectrl.html">Spectrl</option>
+          <option value="/apps/midimirror.html">MidiMirror</option>
+        </select>
+      </label>
       <a href="../index.html#bundles">Bundles</a>
       <a href="../index.html#about">About</a>
       <a href="mailto:toastonjam12345@gmail.com">Support</a>
@@ -469,5 +477,6 @@
      if the script does not load. -->
 <script src="https://gumroad.com/js/gumroad.js"></script>
 
+<script src="../assets/site-header.js"></script>
 </body>
 </html>

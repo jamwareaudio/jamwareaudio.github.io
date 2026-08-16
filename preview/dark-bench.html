@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JamWare Audio — dark-bench prototype</title>
+
+<!-- ============================================================================
+     dark-bench.html — a NON-LIVE prototype. It does not touch index.html or
+     styles.css; it is here to show three directions at once before any of them
+     is committed to the real site:
+
+       1. DARK BENCH  — the cream faceplates now sit on a dark workshop surface
+          instead of on more cream. Same palette tokens as the live site
+          (--face-hi/--ui-bg/--face-lo for the plate, --screen-bg for the
+          bench), just re-staged. Contrast, not more beige, is what kills the
+          "dentist" feeling.
+       2. MOTION      — a live analyser trace animates in the hero (canvas), the
+          per-product accent lamps breathe, and the unit cascade parallaxes on
+          scroll. A moving instrument reads as alive AND demonstrates the product.
+       3. CHARACTER   — "UNIT-01", the JamWare box as a mascot: a milled unit
+          with a single lamp eye and a VU-needle mouth, drawn in the same
+          ink/cream/accent palette so it is family, not a sticker.
+
+     Everything is self-contained except the four real app cutouts pulled from
+     ../assets/shots/. Fonts are the site's own plate stack (system Futura /
+     Century Gothic) — no webfont download.
+     ========================================================================= -->
+
+<style>
+  :root {
+    /* --- the faceplate, copied verbatim from the live site's :root --------- */
+    --face-hi: hsl(45, 10%, 95%);
+    --ui-bg:   hsl(44, 8%, 88%);
+    --face-lo: hsl(40, 6%, 76%);
+
+    --text-primary:   hsl(28, 12%, 14%);
+    --text-secondary: hsl(30, 9%, 31%);
+    --text-heading:   hsl(26, 15%, 18%);
+
+    /* --- the dark bench: Spectrl's analyser screen, promoted to the stage --- */
+    --bench-bg:   hsl(30, 8%, 9%);
+    --bench-lo:   hsl(30, 10%, 5%);
+    --bench-hi:   hsl(32, 9%, 14%);
+    --screen-bg:  hsl(30, 8%, 11%);
+    --screen-text:hsl(42, 14%, 86%);
+    --screen-dim: hsl(38, 8%, 58%);
+
+    --ink: #2A2621;
+
+    /* one accent per product, exactly as the live site sets --accent per card */
+    --a-mutation: #D13A2C;
+    --a-chord:    #E0862C;
+    --a-spectrl:  #4A86C5;
+    --a-midi:     #E05A2C;
+
+    --font-plate: "Century Gothic", Futura, -apple-system, "Segoe UI", Arial, sans-serif;
+    --measure: 60ch;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    color: var(--screen-text);
+    font: 15px/1.62 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+
+    /* THE BENCH. A dark milled workshop surface: a soft overhead pool of light
+       falling on the desk, a fine grain, and a deep vignette at the edges so the
+       cream units have somewhere dark to sit and cast into. This is the single
+       biggest lever away from "clinical". */
+    background:
+      radial-gradient(120% 80% at 50% -10%,
+        var(--bench-hi) 0%, var(--bench-bg) 45%, var(--bench-lo) 100%),
+      repeating-linear-gradient(0deg,
+        rgba(255,255,255,0.018) 0 1px,
+        rgba(0,0,0,0.06) 1px 3px);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
+
+  /* engraved silkscreen labels, same idea as the live site's .legend ------- */
+  .legend {
+    font-family: var(--font-plate);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--screen-dim);
+  }
+
+  /* ---- header --------------------------------------------------------------*/
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(8px);
+    background: linear-gradient(180deg, rgba(20,18,16,0.85), rgba(20,18,16,0.35));
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .site-header .wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+  .brand .mark {
+    width: 30px; height: 30px; border-radius: 6px;
+    background: linear-gradient(160deg, var(--face-hi), var(--face-lo));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 1px 3px rgba(0,0,0,0.5);
+    display: grid; place-items: center;
+  }
+  .brand .mark span {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--a-mutation);
+    box-shadow: 0 0 8px var(--a-mutation);
+  }
+  .brand .wordmark {
+    font-family: var(--font-plate); font-weight: 700;
+    letter-spacing: 0.06em; color: var(--screen-text); font-size: 15px;
+  }
+  .site-nav { display: flex; gap: 22px; }
+  .site-nav a {
+    font-family: var(--font-plate); font-size: 12px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--screen-dim); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .site-nav a:hover { color: var(--screen-text); }
+
+  /* ---- ticker (the tasteful marquee-equivalent, in our voice) --------------*/
+  .ticker {
+    overflow: hidden; white-space: nowrap;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(0,0,0,0.25);
+    padding: 8px 0;
+  }
+  .ticker__row {
+    display: inline-block; padding-left: 100%;
+    animation: ticker 26s linear infinite;
+  }
+  .ticker__row span {
+    font-family: var(--font-plate); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--screen-dim);
+  }
+  .ticker__row span b { color: var(--a-chord); font-weight: 700; }
+  .ticker__dot { color: rgba(255,255,255,0.2); margin: 0 22px; }
+  @keyframes ticker { to { transform: translateX(-100%); } }
+
+  /* ---- hero ----------------------------------------------------------------*/
+  .hero { padding: 72px 0 40px; text-align: center; }
+  .hero .eyebrow { display: inline-block; margin-bottom: 22px; }
+  .engraved {
+    font-family: var(--font-plate);
+    font-weight: 700; letter-spacing: 0.02em;
+    font-size: clamp(30px, 5.2vw, 58px);
+    line-height: 1.05; margin: 0 auto 18px; max-width: 16ch;
+    /* milled-metal nameplate: light catches the top bevel, shadow under it,
+       but now cut into a DARK plate instead of cream */
+    color: hsl(42, 14%, 90%);
+    text-shadow: 0 1px 0 rgba(255,255,255,0.12), 0 -1px 0 rgba(0,0,0,0.6);
+  }
+  .hero-claim {
+    font-family: var(--font-plate); font-weight: 700;
+    font-size: clamp(15px, 2vw, 19px); letter-spacing: 0.03em;
+    color: var(--a-spectrl); margin: 0 auto 20px;
+  }
+  .hero p.lede {
+    max-width: var(--measure); margin: 0 auto; color: var(--screen-dim);
+    font-size: 16px;
+  }
+  .cta-row { margin-top: 28px; display: flex; gap: 14px; justify-content: center; }
+  .btn {
+    font-family: var(--font-plate); font-size: 13px; letter-spacing: 0.06em;
+    text-transform: uppercase; text-decoration: none;
+    padding: 12px 22px; border-radius: 5px; transition: transform 0.15s, box-shadow 0.2s;
+  }
+  .btn--primary {
+    background: linear-gradient(180deg, var(--face-hi), var(--face-lo));
+    color: var(--ink); font-weight: 700;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 6px 18px rgba(0,0,0,0.5);
+  }
+  .btn--primary:hover { transform: translateY(-2px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 10px 26px rgba(0,0,0,0.6); }
+  .btn--ghost { color: var(--screen-text); border: 1px solid rgba(255,255,255,0.18); }
+  .btn--ghost:hover { border-color: rgba(255,255,255,0.4); }
+
+  /* ---- the live analyser (MOTION #1) --------------------------------------*/
+  .analyser {
+    margin: 44px auto 0; max-width: 900px;
+    border-radius: 10px; overflow: hidden;
+    background: linear-gradient(180deg, #14120f, var(--screen-bg));
+    box-shadow: inset 0 2px 12px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.04),
+                0 30px 60px rgba(0,0,0,0.6);
+    position: relative;
+  }
+  .analyser canvas { display: block; width: 100%; height: 220px; }
+  .analyser .readout {
+    position: absolute; top: 12px; left: 16px;
+    font-family: var(--font-plate); font-size: 10px; letter-spacing: 0.14em;
+    color: var(--screen-dim); text-transform: uppercase;
+  }
+  .analyser .readout b { color: var(--a-spectrl); }
+  .analyser .tag {
+    position: absolute; bottom: 12px; right: 16px;
+    font-family: var(--font-plate); font-size: 10px; letter-spacing: 0.14em;
+    color: var(--screen-dim); text-transform: uppercase;
+  }
+
+  /* ---- the unit cascade (MOTION #2, parallax on scroll) --------------------*/
+  .bench-stage {
+    position: relative; height: 560px; margin: 60px 0 20px;
+  }
+  .unit {
+    position: absolute; border-radius: 12px;
+    filter: drop-shadow(0 40px 50px rgba(0,0,0,0.55));
+    transition: transform 0.1s linear;
+    will-change: transform;
+  }
+  .unit img { display: block; width: 100%; border-radius: 12px; }
+  .unit--back  { width: 46%; left: 4%;   top: 10px;  z-index: 1; opacity: 0.9; }
+  .unit--mid   { width: 50%; right: 3%;  top: 90px;  z-index: 2; }
+  .unit--front { width: 62%; left: 16%;  top: 210px; z-index: 3; }
+  .unit--float { width: 40%; right: 6%;  top: 300px; z-index: 4; }
+
+  /* ---- product row: cream on dark, pulsing lamp, flip on hover ------------ */
+  .section { padding: 56px 0; }
+  .section h2 {
+    font-family: var(--font-plate); font-weight: 700; letter-spacing: 0.02em;
+    color: hsl(42,14%,90%); font-size: 26px; margin: 0 0 6px;
+  }
+  .section .sub { color: var(--screen-dim); margin: 0 0 32px; max-width: var(--measure); }
+
+  .products { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .product {
+    border-radius: 12px; padding: 22px;
+    background: linear-gradient(180deg, var(--face-hi), var(--face-lo));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 20px 40px rgba(0,0,0,0.45);
+    color: var(--text-primary);
+    position: relative;
+  }
+  .product__head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .lamp {
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 var(--accent);
+    animation: breathe 2.8s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    0%, 100% { box-shadow: 0 0 3px 0 var(--accent); opacity: 0.75; }
+    50%      { box-shadow: 0 0 12px 3px var(--accent); opacity: 1; }
+  }
+  .product__name {
+    font-family: var(--font-plate); font-weight: 700; letter-spacing: 0.03em;
+    color: var(--text-heading); font-size: 17px;
+  }
+  .product__desc { color: var(--text-secondary); font-size: 14px; margin: 0 0 16px; }
+  .product__shot {
+    border-radius: 8px; overflow: hidden; background: var(--screen-bg);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+  }
+  .product__shot img { display: block; width: 100%; }
+  .product .voice {
+    font-family: var(--font-plate); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--accent); margin-top: 14px;
+  }
+
+  /* ---- CHARACTER: UNIT-01 --------------------------------------------------*/
+  .character { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
+  .character .copy { flex: 1 1 320px; }
+  .character h2 { margin-bottom: 12px; }
+  .character p { color: var(--screen-dim); max-width: 46ch; }
+  .character .voice-line {
+    font-family: var(--font-plate); font-size: 13px; letter-spacing: 0.04em;
+    color: var(--a-chord); margin-top: 16px;
+  }
+  .mascot { flex: 0 0 300px; display: grid; place-items: center; }
+  .mascot svg { width: 260px; height: auto; filter: drop-shadow(0 30px 40px rgba(0,0,0,0.6)); }
+  /* the eye blinks + glows; the needle sweeps like a VU meter */
+  .m-eye { animation: blink 5.5s infinite; transform-origin: center; }
+  @keyframes blink { 0%, 92%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.1); } }
+  .m-glow { animation: eyeglow 2.8s ease-in-out infinite; }
+  @keyframes eyeglow { 0%,100% { opacity: 0.35; } 50% { opacity: 0.9; } }
+  .m-needle { transform-origin: 130px 176px; animation: vu 3.4s ease-in-out infinite; }
+  @keyframes vu { 0%,100% { transform: rotate(-22deg); } 50% { transform: rotate(20deg); } }
+
+  footer { padding: 50px 0 70px; border-top: 1px solid rgba(255,255,255,0.06); margin-top: 40px; }
+  footer .legend { color: rgba(255,255,255,0.35); }
+
+  .note {
+    margin: 0 auto; max-width: 760px; padding: 14px 18px; border-radius: 8px;
+    background: rgba(74,134,197,0.10); border: 1px solid rgba(74,134,197,0.3);
+    color: var(--screen-text); font-size: 13px;
+  }
+  .note b { color: var(--a-spectrl); }
+
+  @media (max-width: 720px) {
+    .products { grid-template-columns: 1fr; }
+    .bench-stage { height: 720px; }
+    .unit--front { width: 80%; left: 8%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ticker__row, .lamp, .m-eye, .m-glow, .m-needle { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#">
+      <span class="mark"><span></span></span>
+      <span class="wordmark">JamWare Audio</span>
+    </a>
+    <nav class="site-nav">
+      <a href="#products">Units</a>
+      <a href="#character">Shop</a>
+      <a href="#">Licence</a>
+      <a href="#">Support</a>
+    </nav>
+  </div>
+</header>
+
+<!-- the ticker: a marquee, but deadpan instrument-shop voice, not rave -->
+<div class="ticker">
+  <div class="ticker__row">
+    <span>
+      <b>Now on the bench</b> — MutationStation v-next
+      <em class="ticker__dot">■</em>
+      Ad-hoc signed, notarisation pending — you'll live
+      <em class="ticker__dot">■</em>
+      Five boxes, one voice. No subscriptions, no phone-home
+      <em class="ticker__dot">■</em>
+      <b>Made on a Mac, for a Mac</b>
+      <em class="ticker__dot">■</em>
+      Read the manual. Or don't — the lamps tell you enough
+      <em class="ticker__dot">■</em>
+    </span>
+  </div>
+</div>
+
+<main>
+
+  <section class="hero wrap">
+    <span class="eyebrow legend">JamWare Audio · Standalone units</span>
+    <h1 class="engraved">Boxes, not plugins.</h1>
+    <p class="hero-claim">Companion apps with the depth of hardware.</p>
+    <p class="lede">
+      Mac units built around the parts of a session software leaves you to do by
+      hand — mutating a bassline into a hundred, triggering chords from single
+      keys, seeing what you're actually hearing. Plug one in. Watch a lamp move.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn--primary" href="#products">See the range</a>
+      <a class="btn btn--ghost" href="#">Power one on</a>
+    </div>
+
+    <!-- MOTION #1: a live analyser trace. This is the "the instrument is alive"
+         moment — and it doubles as a demo of Spectrl. -->
+    <div class="analyser">
+      <div class="readout">SYSTEM AUDIO · <b>LIVE</b> · 48.0 kHz</div>
+      <canvas id="scope" width="1800" height="440"></canvas>
+      <div class="tag">TARGET · ACID HOUSE · RES 4K</div>
+    </div>
+  </section>
+
+  <!-- MOTION #2: the four real units cascaded on the bench, parallaxing -->
+  <section class="wrap">
+    <p class="legend" style="text-align:center; margin-bottom: 8px;">The range, on the bench</p>
+    <div class="bench-stage" id="stage">
+      <div class="unit unit--back"  data-depth="0.18"><img src="../assets/shots/midimirror.png" alt="MidiMirror" /></div>
+      <div class="unit unit--mid"   data-depth="0.34"><img src="../assets/shots/spectrl.png" alt="Spectrl" /></div>
+      <div class="unit unit--float" data-depth="0.55"><img src="../assets/shots/chordinator.png" alt="Chordinator" /></div>
+      <div class="unit unit--front" data-depth="0.72"><img src="../assets/shots/mutationstation.png" alt="MutationStation" /></div>
+    </div>
+  </section>
+
+  <section class="section wrap" id="products">
+    <h2>Four units, one voice.</h2>
+    <p class="sub">Each does one deep thing and lights up while it does it. Cream faceplate, dark screen, one lamp — the family resemblance is the point.</p>
+    <div class="products">
+
+      <article class="product" style="--accent: var(--a-mutation)">
+        <div class="product__head"><span class="lamp"></span><span class="product__name">MutationStation</span></div>
+        <p class="product__desc">Feed it one bassline. Get a hundred back, each a plausible mutation of the last. Lock the notes you like; re-roll the rest.</p>
+        <div class="product__shot"><img src="../assets/shots/mutationstation-acid.png" alt="" /></div>
+        <p class="voice">// turns one idea into a problem of choice</p>
+      </article>
+
+      <article class="product" style="--accent: var(--a-chord)">
+        <div class="product__head"><span class="lamp"></span><span class="product__name">Chordinator</span></div>
+        <p class="product__desc">Triggers full chords from single keys, in a scale you set — quartal, 6/9, whatever. A chord library with a memory.</p>
+        <div class="product__shot"><img src="../assets/shots/chordinator-library.png" alt="" /></div>
+        <p class="voice">// one finger, the whole harmony</p>
+      </article>
+
+      <article class="product" style="--accent: var(--a-spectrl)">
+        <div class="product__head"><span class="lamp"></span><span class="product__name">Spectrl</span></div>
+        <p class="product__desc">Shows you what you're actually hearing against a target curve for the genre. The corridor is where the mix wants to be.</p>
+        <div class="product__shot"><img src="../assets/shots/spectrl-balance.png" alt="" /></div>
+        <p class="voice">// stop mixing with your eyes closed</p>
+      </article>
+
+      <article class="product" style="--accent: var(--a-midi)">
+        <div class="product__head"><span class="lamp"></span><span class="product__name">MidiMirror</span></div>
+        <p class="product__desc">Decide what a knob does. Map, mirror and reshape MIDI between anything and Live, with the wiring visible.</p>
+        <div class="product__shot"><img src="../assets/shots/midimirror-knobs.png" alt="" /></div>
+        <p class="voice">// the patch bay software forgot to give you</p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- CHARACTER: UNIT-01, the mascot -->
+  <section class="section wrap character" id="character">
+    <div class="copy">
+      <p class="legend">Meet the shop</p>
+      <h2>UNIT-01 runs the bench.</h2>
+      <p>
+        A recurring face costs almost nothing and makes the whole brand feel
+        inhabited. Ours isn't a cartoon animal — it's one of the boxes, with a
+        lamp for an eye and a VU needle for a mouth. Same ink, same cream, same
+        accent. It shows up on the 404, the empty states, the about page, the
+        order receipt. Family, not a sticker.
+      </p>
+      <p class="voice-line">"You break it, I log it. That's the deal."</p>
+    </div>
+    <div class="mascot">
+      <!-- drawn in the palette: cream milled body, ink details, accent lamp -->
+      <svg viewBox="0 0 260 240" role="img" aria-label="UNIT-01 mascot">
+        <defs>
+          <linearGradient id="face" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#F2EFE9"/>
+            <stop offset="1" stop-color="#C3BCAF"/>
+          </linearGradient>
+          <radialGradient id="lampG" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#ffd9c0"/>
+            <stop offset="0.4" stop-color="#E0862C"/>
+            <stop offset="1" stop-color="#8a4d12"/>
+          </radialGradient>
+        </defs>
+        <!-- little legs -->
+        <rect x="78" y="196" width="14" height="20" rx="4" fill="#2A2621"/>
+        <rect x="168" y="196" width="14" height="20" rx="4" fill="#2A2621"/>
+        <!-- body / faceplate -->
+        <rect x="40" y="44" width="180" height="160" rx="22" fill="url(#face)"
+              stroke="#2A2621" stroke-width="3"/>
+        <!-- top rail with wordmark dots -->
+        <rect x="40" y="44" width="180" height="30" rx="22" fill="#E7E2D9"/>
+        <rect x="40" y="60" width="180" height="14" fill="#E7E2D9"/>
+        <circle cx="60" cy="59" r="3" fill="#B9B1A2"/>
+        <circle cx="72" cy="59" r="3" fill="#B9B1A2"/>
+        <text x="130" y="63" text-anchor="middle" font-family="Futura, sans-serif"
+              font-size="9" letter-spacing="2" fill="#6b6357">UNIT-01</text>
+        <!-- the screen -->
+        <rect x="62" y="88" width="136" height="86" rx="10" fill="#14120f"/>
+        <!-- eye: glow ring + lamp + blink lid -->
+        <circle class="m-glow" cx="130" cy="122" r="30" fill="url(#lampG)" opacity="0.4"/>
+        <g class="m-eye">
+          <circle cx="130" cy="122" r="18" fill="url(#lampG)"/>
+          <circle cx="123" cy="115" r="5" fill="#fff3e6" opacity="0.9"/>
+        </g>
+        <!-- VU-needle mouth -->
+        <g class="m-needle">
+          <line x1="130" y1="176" x2="130" y2="150" stroke="#D13A2C" stroke-width="3" stroke-linecap="round"/>
+        </g>
+        <circle cx="130" cy="176" r="4" fill="#2A2621"/>
+        <!-- side knobs -->
+        <circle cx="52" cy="132" r="7" fill="#D9D2C6" stroke="#2A2621" stroke-width="2"/>
+        <circle cx="208" cy="132" r="7" fill="#D9D2C6" stroke="#2A2621" stroke-width="2"/>
+      </svg>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-bottom: 40px;">
+    <div class="note">
+      <b>This is a prototype, not the live site.</b> It reuses the exact faceplate
+      palette from styles.css, re-staged on a dark bench. Motion here is faked with
+      canvas + CSS; on the real site the hero analyser would be a short loop of an
+      actual Spectrl capture. Nothing here is published or committed.
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p class="legend">JamWare Audio · dark-bench prototype · for review only</p>
+</footer>
+
+<script>
+  /* ---- MOTION #1: the live analyser -------------------------------------
+     A Spectrl-flavoured spectrum trace that actually moves. Pink-tilted noise
+     floor with a couple of drifting resonant humps and a filled area under the
+     curve, plus a target "corridor" band behind it — the same visual grammar
+     as the real app, so it reads as a demo, not decoration. */
+  (function () {
+    const c = document.getElementById('scope');
+    if (!c) return;
+    const ctx = c.getContext('2d');
+    const W = c.width, H = c.height;
+    const N = 220;
+    let t = 0;
+
+    // static-ish target corridor (where the mix "should" sit)
+    function corridor(x) {
+      const f = x / N;
+      return H * (0.34 + 0.30 * f);      // gently descending band
+    }
+
+    function frame() {
+      ctx.clearRect(0, 0, W, H);
+
+      // corridor band
+      ctx.beginPath();
+      ctx.moveTo(0, corridor(0) - 26);
+      for (let i = 0; i <= N; i++) ctx.lineTo(i / N * W, corridor(i) - 26);
+      for (let i = N; i >= 0; i--) ctx.lineTo(i / N * W, corridor(i) + 26);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(74,134,197,0.16)';
+      ctx.fill();
+
+      // the live trace
+      ctx.beginPath();
+      ctx.moveTo(0, H);
+      const pts = [];
+      for (let i = 0; i <= N; i++) {
+        const f = i / N;
+        // descending pink tilt
+        let y = H * (0.30 + 0.55 * f);
+        // two drifting resonant humps
+        y -= 70 * Math.exp(-Math.pow((f - (0.12 + 0.02*Math.sin(t*0.7))) * 9, 2));
+        y -= 46 * Math.exp(-Math.pow((f - (0.30 + 0.015*Math.sin(t*1.1))) * 12, 2));
+        // fizzing high-mid texture
+        y -= (f > 0.45 ? 1 : 0) * (8 + 8*Math.sin(i*0.7 + t*6)) * (1 - f);
+        // fine noise
+        y += Math.sin(i * 2.3 + t * 5) * 2.2;
+        pts.push([i / N * W, y]);
+      }
+      pts.forEach(([x, y], i) => ctx.lineTo(x, y));
+      ctx.lineTo(W, H);
+      ctx.closePath();
+      const g = ctx.createLinearGradient(0, 0, 0, H);
+      g.addColorStop(0, 'rgba(224,134,44,0.55)');
+      g.addColorStop(1, 'rgba(224,134,44,0.04)');
+      ctx.fillStyle = g;
+      ctx.fill();
+
+      // trace stroke
+      ctx.beginPath();
+      pts.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y));
+      ctx.strokeStyle = '#F0A050';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+
+      t += 0.016;
+      requestAnimationFrame(frame);
+    }
+    frame();
+  })();
+
+  /* ---- MOTION #2: parallax cascade --------------------------------------
+     Each unit drifts at a rate set by its data-depth as the bench scrolls
+     through the viewport — closer units move more, so the stack reads as real
+     objects sitting at different depths on a desk. */
+  (function () {
+    const stage = document.getElementById('stage');
+    if (!stage) return;
+    const units = [...stage.querySelectorAll('.unit')];
+    let ticking = false;
+    function apply() {
+      const rect = stage.getBoundingClientRect();
+      const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+      units.forEach(u => {
+        const d = parseFloat(u.dataset.depth || '0.3');
+        const shift = (progress - 0.5) * 120 * d;
+        u.style.transform = `translateY(${shift}px)`;
+      });
+      ticking = false;
+    }
+    window.addEventListener('scroll', () => {
+      if (!ticking) { requestAnimationFrame(apply); ticking = true; }
+    }, { passive: true });
+    apply();
+  })();
+</script>
+</body>
+</html>

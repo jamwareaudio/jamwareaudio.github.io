@@ -34,7 +34,15 @@
       <span class="wordmark">JamWare Audio</span>
     </a>
     <nav class="site-nav">
-      <a href="../index.html#products">The Rack</a>
+      <label class="hero-lcd" aria-hidden="false">
+        <select id="siteAppSelect" class="hero-lcd-select" aria-label="Select an app" onchange="if(this.value){ location.href=this.value; }">
+          <option value="" selected>-Select-</option>
+          <option value="/apps/mutationstation.html">MutationStation</option>
+          <option value="/apps/chordinator.html">Chordinator</option>
+          <option value="/apps/spectrl.html">Spectrl</option>
+          <option value="/apps/midimirror.html">MidiMirror</option>
+        </select>
+      </label>
       <a href="../index.html#bundles">Bundles</a>
       <a href="../index.html#about">About</a>
       <a href="mailto:toastonjam12345@gmail.com">Support</a>
@@ -63,6 +71,7 @@
     <div class="btn-row">
       <a class="btn gumroad-button" href="https://jamwareaudio.gumroad.com/l/mutationstation">Get it on</a>
     </div>
+<script src="../assets/site-header.js"></script>
   </section>
 
   <section class="section wrap">
@@ -364,11 +373,7 @@
                 macOS on Apple Silicon (M1 or later), and any DAW that takes MIDI.
                 Built and tested with Ableton Live.
               </p>
-              <p>
-                MutationStation is ad-hoc signed, so the first time you open it
-                macOS Gatekeeper will block it: right-click the app →
-                <strong>Open</strong> → <strong>Open</strong> again. Once only.
-              </p>
+              <!-- Removed mention of 'ad-hoc signed' per site-wide update. -->
               <p class="legend">Version 1.0.0</p>
               <p><a href="../index.html#licence">Licence, updates and refunds</a></p>
             </div>

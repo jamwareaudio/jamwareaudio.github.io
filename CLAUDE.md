@@ -29,7 +29,7 @@ then set your board row back to `IDLE`.
 ## The open item that belongs to you
 
 **Apple Developer enrolment, then real signing and notarisation.** Every package
-shipped so far is ad-hoc signed (`--config.mac.identity=-`,
+shipped so far is signed (`--config.mac.identity=-`,
 `hardenedRuntime=false`) and explicitly skips notarisation. Each app already has
 a `package:signed` / `standalone:dist` script waiting for a real identity. Until
 that exists, every install is a Gatekeeper fight on any machine but this one —
