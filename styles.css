@@ -437,14 +437,20 @@ a:hover { color: var(--accent); }
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.7),
     inset 0 -1px 0 rgba(0,0,0,0.18);
-  /* Dark ink on a light plate again, so the label goes back to the
-     engraved-print pairing the rest of the site's silkscreen text uses: dark
-     warm-grey fill with a single-pixel light drop-shadow standing in for a
-     silkscreen sitting a hair proud of a matte surface (mirrors
-     .product-hero h1.engraved's light/dark shadow pairing, just inverted in
-     which one is the fill and which is the shadow). */
-  color: hsl(30, 10%, 24%);
-  text-shadow: 0 1px 0 rgba(255,255,255,0.55);
+  /* Switched from printed to CUT 2026-08-16, at the user's request: "the text
+     in the top row of each panel should be engraved" -- not silkscreened ink
+     sitting proud of the plate, but the same milled-groove pairing every
+     other headline on the site now uses (.product-hero h1.engraved,
+     .product h3 a): a fill close to the plate's own colour, with a dark
+     upper lip standing in for the far wall of the cut and a light lower lip
+     for the near one. Fill is a mid-point of the silver plate darkened
+     toward black rather than a flat grey, so the letters still read as this
+     PLATE'S material, not a universal ink colour dropped onto whichever
+     plate happens to be under it. */
+  color: color-mix(in srgb, var(--silverplate) 55%, black);
+  text-shadow:
+    0  1px 0 hsla(0,0%,100%,0.7),
+    0 -1px 0 hsla(28,12%,14%,0.45);
 }
 /* The accent pilot lamp on the header band — the one place each product's
    colour announces itself before you have read anything. */
@@ -1007,7 +1013,14 @@ a.btn.gumroad-button:active {
   -webkit-background-clip: initial;
   background-clip: initial;
   -webkit-text-fill-color: currentColor;
-  color: color-mix(in srgb, var(--ui-bg) 66%, black);
+  /* Fill lightened 2026-08-16 to match .product h3 a's card-name recipe --
+     the user pointed at the homepage card title (light, near the plate) and
+     this page's h1 (darker, --ui-bg at 66% black) side by side and asked for
+     the SAME fill, not just the same lip-shadow technique. Same ~87%-toward-
+     white mix as the card name; the two now differ only in what surface
+     they're read against (--ui-bg here vs --control-bg on the card), not in
+     how dark the cut runs. */
+  color: color-mix(in srgb, var(--ui-bg) 87%, black);
   text-shadow:
     0  1px 0 hsla(0,0%,100%,0.88),
     0 -1px 0 hsla(28,12%,14%,0.42);
