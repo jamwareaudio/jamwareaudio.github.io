@@ -406,30 +406,45 @@ a:hover { color: var(--accent); }
 .hero-shot .screen img { max-height: 620px; max-width: 100%; width: auto; margin: 0 auto; }
 .caption { display: block; margin: 10px 2px 0; }
 
-/* ---- Homepage motion band -------------------------------------------------
-   A short screen-capture loop of MutationStation re-rolling a locked pattern,
-   sitting directly under the hero cascade. It is a piano-roll INTERIOR crop —
-   square corners, the dark screen already in the frame — so it is framed like
-   the .zoom crops further down, not like the full-window cutouts: the same
-   two-layer drop-shadow that lifts those crops off the faceplate is repeated
-   here on the <video>, because .screen's shadow rule targets img only and a
-   video element would otherwise sit flat on the plate.
+/* ---- MutationStation clip composited into the hero cascade ----------------
+   Used to be its own "motion band" section below the still cascade — one
+   MutationStation re-roll clip, argued twice a scroll apart. Folded into the
+   cascade itself on 2026-08-16 at the user's request: the video now plays
+   directly over the piano-roll area of the frontmost (MutationStation) window
+   in hero-stack.png, so the "range" shot and the "does it move" answer are the
+   same glance.
 
-   Narrower than the hero cascade (1100px, the clip's native width) on purpose:
-   the cascade is four windows wide and this is one panel, so matching the
-   cascade's 1420px would upscale a 1100px capture into a soft smear. width:auto
-   with a height cap keeps it from forcing a horizontal scrollbar on a phone,
-   the same fix the hero-shot rule above carries and for the same reason. */
-.wrap.motion-shot { max-width: 1100px; padding-bottom: 10px; }
-.motion-shot .screen video {
-  width: auto;
-  max-width: 100%;
-  max-height: 560px;
-  margin: 0 auto;
-  display: block;
-  filter:
-    drop-shadow(0 1px 2px rgba(58, 48, 38, 0.30))
-    drop-shadow(0 14px 28px rgba(58, 48, 38, 0.22));
+   `.hero-stack-frame` exists only so the video has something sized exactly
+   like the <img> to be absolutely positioned against. `.hero-shot .screen img`
+   above sizes the image via the browser's native replaced-element algorithm
+   (max-height + width:auto), which a plain <div> cannot reproduce — so instead
+   of trying to re-derive that sizing on a wrapper, the wrapper is `inline-block`
+   and shrink-wraps to the image's own computed box (the video is `position:
+   absolute` and takes no part in that sizing), and `.hero-shot .screen`
+   centers the shrink-wrapped box with `text-align`, replacing the `margin: 0
+   auto` centering the image did on its own before. `line-height: 0` on the
+   frame kills the inline-block whitespace gap that would otherwise show as a
+   sliver under the image. */
+.hero-shot .screen { text-align: center; }
+.hero-stack-frame { position: relative; display: inline-block; line-height: 0; }
+
+/* The overlay box is four numbers computed once, not eyeballed and not
+   recomputed at runtime: the piano-roll+velocity-lane crop used for
+   mutationstation-reroll.mp4 is x:0-992, y:201-955 of the 2000x1166
+   mutationstation.png capture. Run through make-hero.py's placement math for
+   the front (last-drawn, index 3 of 4) window against its 1970x1261
+   hero-stack.png canvas: window origin (424, 340) at WIN_W 1500 (x-scale
+   0.75) and a rounded scaled height of 874 (y-scale 874/1166). Percentages so
+   the overlay tracks the image at any viewport width, since both are children
+   of the same shrink-wrapped, non-fixed-size frame. Re-derive by hand if
+   hero-stack.png is ever rebuilt with different WIN_W/STEP/PAD constants —
+   these are baked pixels, not a formula that keeps itself in sync. */
+.hero-inset {
+  position: absolute;
+  left: 21.52%; top: 38.91%;
+  width: 37.77%; height: 44.84%;
+  object-fit: cover;
+  pointer-events: none;
 }
 
 /* ========================================================= PRODUCT CARDS */
