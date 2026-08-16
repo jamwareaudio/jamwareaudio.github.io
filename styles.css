@@ -21,13 +21,6 @@
      reusing --control-border, so a future palette pass can retune screw
      contrast without touching the border colour everything else keys off. */
   --screw:          hsl(35, 9%, 48%);
-  /* Warm-only accent for chrome that isn't scoped to one product's own
-     --accent — the step-strip motif in the header/nav, which sits outside
-     any .product card. Amber, not any one app's colour, so the "always on"
-     idle animation doesn't read as favouring MutationStation/Chordinator/
-     MidiMirror over Spectrl (whose own accent is blue and is deliberately
-     excluded from this red/orange/amber family per the 2026-08-16 request). */
-  --accent-warm:    #D9A028;
 
   /* --- the dark graphite plate, from Chordinator's .seq-col --------------
      Same three-stop gradient and border colour as
@@ -249,48 +242,8 @@ a:hover { color: var(--accent); }
     0 -1px 0 hsla(28,12%,14%,0.4);
 }
 .site-nav { margin-left: auto; display: flex; gap: 22px; align-items: center; }
-.site-nav a { text-decoration: none; display: inline-flex; align-items: center; gap: 7px; }
+.site-nav a { text-decoration: none; }
 .site-nav a:hover { text-decoration: underline; }
-
-/* ---- Step-strip: the tick-divider's LED language, reused as a recurring
-   nav/brand motif rather than a one-off between product panels. Four ticks,
-   one lit at a time, cycling like a playhead — idle-animated in the brand
-   mark (always "running"), and driven to full brightness + faster cycle on
-   nav-link hover so a lit step visibly "plays" across the row, the same idea
-   the request asked for ("a lit step that plays on scroll/hover"). Scroll-
-   triggering would need a JS observer for four lines of decoration; hover +
-   an ambient idle loop gets the same read for near-zero cost and degrades to
-   a static row under prefers-reduced-motion. */
-.step-strip { display: inline-flex; gap: 3px; flex: none; }
-.step-strip .tick {
-  width: 3px; height: 8px; border-radius: 1px;
-  background: color-mix(in srgb, var(--control-border) 65%, transparent);
-  animation: step-cycle 2.4s steps(1) infinite;
-}
-.step-strip .tick:nth-child(1) { animation-delay: 0s; }
-.step-strip .tick:nth-child(2) { animation-delay: 0.6s; }
-.step-strip .tick:nth-child(3) { animation-delay: 1.2s; }
-.step-strip .tick:nth-child(4) { animation-delay: 1.8s; }
-.site-nav a:hover .step-strip .tick {
-  animation-duration: 0.9s;
-  background: color-mix(in srgb, var(--control-border) 65%, transparent);
-}
-.site-nav a:hover .step-strip .tick:nth-child(1) { animation-delay: 0s; }
-.site-nav a:hover .step-strip .tick:nth-child(2) { animation-delay: 0.225s; }
-.site-nav a:hover .step-strip .tick:nth-child(3) { animation-delay: 0.45s; }
-.site-nav a:hover .step-strip .tick:nth-child(4) { animation-delay: 0.675s; }
-@keyframes step-cycle {
-  0%, 20%   { background: var(--accent-warm, #E0862C);
-              box-shadow: 0 0 5px color-mix(in srgb, var(--accent-warm, #E0862C) 55%, transparent); }
-  21%, 100% { background: color-mix(in srgb, var(--control-border) 65%, transparent); box-shadow: none; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .step-strip .tick { animation: none; }
-  .step-strip .tick:first-child {
-    background: var(--accent-warm, #E0862C);
-    box-shadow: 0 0 5px color-mix(in srgb, var(--accent-warm, #E0862C) 55%, transparent);
-  }
-}
 
 /* ================================================================== HERO */
 
