@@ -21,6 +21,13 @@
      reusing --control-border, so a future palette pass can retune screw
      contrast without touching the border colour everything else keys off. */
   --screw:          hsl(35, 9%, 48%);
+  /* Warm-only accent for chrome that isn't scoped to one product's own
+     --accent — the step-strip motif in the header/nav, which sits outside
+     any .product card. Amber, not any one app's colour, so the "always on"
+     idle animation doesn't read as favouring MutationStation/Chordinator/
+     MidiMirror over Spectrl (whose own accent is blue and is deliberately
+     excluded from this red/orange/amber family per the 2026-08-16 request). */
+  --accent-warm:    #D9A028;
 
   /* --- the dark graphite plate, from Chordinator's .seq-col --------------
      Same three-stop gradient and border colour as
@@ -166,6 +173,21 @@ body {
   color: var(--text-secondary);
   text-shadow: 0 1px 0 rgba(255,255,255,0.6);
 }
+/* .legend and .panel-head are already the site's "readout" typography —
+   the mono/LCD accent face the 2026-08-16 request asked for doesn't need a
+   second font stack bolted on top of them, it needs THIS pairing (existing
+   monospace + a hair more tracking + a faint warm glow standing in for
+   phosphor) applied where a value/label reads like a rack display: numbers,
+   short category words, spec strings. `.lcd` is that treatment as a
+   reusable class, for the odd inline bit (a tagline's category word, a
+   "130 BPM"-style detail) that isn't already inside .legend/.panel-head. */
+.lcd {
+  font-family: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--accent) 70%, var(--text-heading));
+  text-shadow: 0 0 6px color-mix(in srgb, var(--accent) 35%, transparent);
+}
 
 a { color: var(--ink); text-decoration-color: var(--accent); text-underline-offset: 3px; }
 a:hover { color: var(--accent); }
@@ -212,17 +234,63 @@ a:hover { color: var(--accent); }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .brand svg, .brand img { height: 22px; width: auto; display: block; }
 .wordmark {
-  /* graffiti face when a file is present, milled plate stack otherwise (the
-     var falls back to --font-plate). At 16px a spiky face gets muddy, so if it
-     reads poorly small the lever is size/tracking here, not the token. */
+  /* Cut into the header band 2026-08-16, the same treatment as .product h3 a
+     rather than the app-title-only .engraved recipe (that one is tuned for
+     34-60px nameplates; the header sits at 16px, so it borrows .product h3
+     a's lighter, smaller-scale fill/lip pairing instead of the heavier one).
+     Fill sits close to the header's own plate colour and reads as a groove,
+     not printed ink — "more white, like the background" per the request. */
   font-family: var(--font-display);
   font-size: 16px; font-weight: 700; letter-spacing: 0.06em;
-  color: var(--text-heading); text-transform: uppercase;
-  text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--control-bg) 92%, black);
+  text-shadow:
+    0  1px 0 hsla(0,0%,100%,0.95),
+    0 -1px 0 hsla(28,12%,14%,0.4);
 }
 .site-nav { margin-left: auto; display: flex; gap: 22px; align-items: center; }
-.site-nav a { text-decoration: none; }
+.site-nav a { text-decoration: none; display: inline-flex; align-items: center; gap: 7px; }
 .site-nav a:hover { text-decoration: underline; }
+
+/* ---- Step-strip: the tick-divider's LED language, reused as a recurring
+   nav/brand motif rather than a one-off between product panels. Four ticks,
+   one lit at a time, cycling like a playhead — idle-animated in the brand
+   mark (always "running"), and driven to full brightness + faster cycle on
+   nav-link hover so a lit step visibly "plays" across the row, the same idea
+   the request asked for ("a lit step that plays on scroll/hover"). Scroll-
+   triggering would need a JS observer for four lines of decoration; hover +
+   an ambient idle loop gets the same read for near-zero cost and degrades to
+   a static row under prefers-reduced-motion. */
+.step-strip { display: inline-flex; gap: 3px; flex: none; }
+.step-strip .tick {
+  width: 3px; height: 8px; border-radius: 1px;
+  background: color-mix(in srgb, var(--control-border) 65%, transparent);
+  animation: step-cycle 2.4s steps(1) infinite;
+}
+.step-strip .tick:nth-child(1) { animation-delay: 0s; }
+.step-strip .tick:nth-child(2) { animation-delay: 0.6s; }
+.step-strip .tick:nth-child(3) { animation-delay: 1.2s; }
+.step-strip .tick:nth-child(4) { animation-delay: 1.8s; }
+.site-nav a:hover .step-strip .tick {
+  animation-duration: 0.9s;
+  background: color-mix(in srgb, var(--control-border) 65%, transparent);
+}
+.site-nav a:hover .step-strip .tick:nth-child(1) { animation-delay: 0s; }
+.site-nav a:hover .step-strip .tick:nth-child(2) { animation-delay: 0.225s; }
+.site-nav a:hover .step-strip .tick:nth-child(3) { animation-delay: 0.45s; }
+.site-nav a:hover .step-strip .tick:nth-child(4) { animation-delay: 0.675s; }
+@keyframes step-cycle {
+  0%, 20%   { background: var(--accent-warm, #E0862C);
+              box-shadow: 0 0 5px color-mix(in srgb, var(--accent-warm, #E0862C) 55%, transparent); }
+  21%, 100% { background: color-mix(in srgb, var(--control-border) 65%, transparent); box-shadow: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .step-strip .tick { animation: none; }
+  .step-strip .tick:first-child {
+    background: var(--accent-warm, #E0862C);
+    box-shadow: 0 0 5px color-mix(in srgb, var(--accent-warm, #E0862C) 55%, transparent);
+  }
+}
 
 /* ================================================================== HERO */
 
@@ -393,10 +461,37 @@ a:hover { color: var(--accent); }
   border: 1px solid var(--control-border);
   border-radius: var(--radius);
   background:
+    /* Each corner dot is now three flat-stop circles, not one, faking a
+       beveled screw head instead of a flat rivet: a bright highlight offset
+       to the upper-left (where the panel's own overhead light already
+       lands, per .panel-head's radial bloom above), the plain --screw body,
+       and a thin dark ring at the true edge for the recessed lip. Still hard
+       two-stop edges within each circle (see the color-mix()-in-gradient-
+       stop trap documented below) — the bevel comes from THREE circles at
+       slightly different centres/radii, not from soft stops inside one. */
+    radial-gradient(circle 2.6px at left 7.3px top 7.3px, var(--face-hi) 99%, transparent 100%),
     radial-gradient(circle 2px at left 8px top 8px, var(--screw) 99%, transparent 100%),
+    radial-gradient(circle 1px at left 8.7px top 8.7px, var(--darkplate) 99%, transparent 100%),
+    radial-gradient(circle 2.6px at right 8.7px top 7.3px, var(--face-hi) 99%, transparent 100%),
     radial-gradient(circle 2px at right 8px top 8px, var(--screw) 99%, transparent 100%),
+    radial-gradient(circle 1px at right 7.3px top 8.7px, var(--darkplate) 99%, transparent 100%),
+    radial-gradient(circle 2.6px at left 7.3px bottom 8.7px, var(--face-hi) 99%, transparent 100%),
     radial-gradient(circle 2px at left 8px bottom 8px, var(--screw) 99%, transparent 100%),
+    radial-gradient(circle 1px at left 8.7px bottom 7.3px, var(--darkplate) 99%, transparent 100%),
+    radial-gradient(circle 2.6px at right 8.7px bottom 8.7px, var(--face-hi) 99%, transparent 100%),
     radial-gradient(circle 2px at right 8px bottom 8px, var(--screw) 99%, transparent 100%),
+    radial-gradient(circle 1px at right 7.3px bottom 7.3px, var(--darkplate) 99%, transparent 100%),
+    /* Brushed-metal noise + a faint radial vignette, both restricted to the
+       panel plate rather than the page — "read as physical rather than flat
+       CSS gradients" per the 2026-08-16 request. The noise is the same 1px
+       repeating-linear-gradient scanline trick .panel-head already uses
+       (kept consistent rather than inventing a second texture language), at
+       a much lower opacity since it is now covering a whole card instead of
+       an 11px label band. The vignette darkens the four corners only —
+       radial-gradient with a transparent centre — so the plate reads as
+       lit from above-centre instead of flat. */
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, rgba(0,0,0,0.025) 1px, rgba(0,0,0,0.025) 2px),
+    radial-gradient(140% 100% at 50% 8%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.05) 100%),
     linear-gradient(180deg,
       var(--face-hi) 0%, var(--control-bg) 20%,
       var(--control-bg) 78%,
@@ -653,8 +748,20 @@ a:hover { color: var(--accent); }
   text-shadow: 0 1px 1px rgba(0,0,0,0.32);
   cursor: pointer;
 }
-.btn:hover { color: #fff; filter: brightness(1.06); }
-.btn:active { box-shadow: inset 0 2px 4px rgba(0,0,0,0.34); filter: brightness(0.96); }
+/* Hover reads as a switch about to be pressed, not a link fading brighter:
+   a slight lift (a touch more contact shadow) rather than the flat
+   brightness(1.06) wash this used to be — that wash is exactly the "web
+   hover fade" the 2026-08-16 request asked to move away from. :active still
+   owns the actual "pressed" state below. */
+.btn:hover {
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 2px 5px rgba(0,0,0,0.3);
+}
+.btn:active {
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(0,0,0,0.15);
+  filter: brightness(0.9);
+  transform: translateY(1px);
+}
 
 /* --------------------------------------------------------------------------
    GUMROAD OVERLAY GUARD
