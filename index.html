@@ -24,7 +24,7 @@
 <meta name="twitter:title" content="JamWare Audio · Standalone Mac apps for music production" />
 <meta name="twitter:description" content="Apps built for Ableton Live, with the flexibility of plugins and the depth of hardware: MutationStation, Chordinator, Spectrl and MidiMirror. Compatible with any DAW." />
 <meta name="twitter:image" content="https://jamwareaudio.github.io/assets/shots/hero-stack.png" />
-<link rel="stylesheet" href="styles.css?v=1786974231" />
+<link rel="stylesheet" href="styles.css?v=1786974636" />
 
 <!-- ==========================================================================
      STORE LINKS — every "Get it" button on this site points at Gumroad, and
@@ -162,6 +162,9 @@
       <div class="hero-stack-frame">
         <img src="assets/shots/hero-stack.png"
              alt="The four apps open at once, cascaded: MutationStation in front, then Chordinator, Spectrl and MidiMirror behind it" />
+        <img class="hero-inset hero-inset-poster"
+             src="assets/shots/mutationstation-reroll-poster.png"
+             alt="" aria-hidden="true" />
         <video class="hero-inset"
                src="assets/shots/mutationstation-reroll.mp4"
                poster="assets/shots/mutationstation-reroll-poster.png"
@@ -175,10 +178,25 @@
            the video, which is the "play button over the hero animation on
            mobile" this fixes. Belt-and-braces retry of .play() covers that
            case; the attribute above is left in place for browsers that do
-           honour it (avoids a flash of the play button before this runs). */
+           honour it (avoids a flash of the play button before this runs).
+
+           The video itself starts at opacity:0 (see .hero-inset in
+           styles.css) with this poster <img> sitting in the exact same spot
+           underneath -- hiding the ::-webkit-media-controls-start-playback-
+           button pseudo-element only covers Safari's specific paused-video
+           icon, but every engine draws SOME kind of native loading/play
+           affordance for the brief window between navigation and the first
+           decoded frame, and that gap was showing up as a quick flash on
+           every page load, not just blocked-autoplay ones. Keeping the whole
+           video box invisible until 'playing' actually fires means whatever
+           chrome the browser draws during that gap is invisible too; the
+           poster underneath (identical crop to the video's own first frame)
+           reads as the still image the whole time, then the video fades in
+           the instant real playback starts. */
         (function () {
           var v = document.currentScript.previousElementSibling;
           if (!v || v.tagName !== 'VIDEO') return;
+          v.addEventListener('playing', function () { v.classList.add('is-playing'); });
           v.muted = true;
           var p = v.play();
           if (p && p.catch) p.catch(function () {
@@ -561,7 +579,7 @@
 })();
 </script>
 <script src="https://gumroad.com/js/gumroad.js"></script>
-<script src="assets/site-header.js?v=1786974231"></script>
+<script src="assets/site-header.js?v=1786974636"></script>
 
 </body>
 </html>

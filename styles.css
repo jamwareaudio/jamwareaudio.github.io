@@ -581,6 +581,17 @@ a:hover { color: var(--accent); }
   .page-fader .fader-slot { right: 4px; width: 6px; }
   .page-fader .fader-cap { width: 22px; }
   .wrap { padding-right: 46px; }
+  /* The fader sits below the header (site-header.js positions its top at
+     the header's own measured bottom), not beside it -- but `.wrap` above
+     is the generic selector every wrap uses, so the header's row was
+     silently losing the same 26px extra margin the fader actually needs
+     for body copy. That's 26px the brand+select-fits-on-one-row math never
+     accounted for, and was the real reason the header kept measuring as
+     fitting in isolated tests but still wrapped to a 3rd row on the live
+     page. Put the header back to its ordinary symmetric padding (matches
+     the base .wrap rule's 32px right side; the 720px breakpoint below
+     narrows both sides to 20px together for phones). */
+  .site-header .wrap { padding-right: 32px; }
 }
 
 /* ================================================================== HERO */
@@ -908,6 +919,17 @@ a:hover { color: var(--accent); }
    above) so a paused frame with no play button reads as a still image, which
    is the correct fallback when autoplay genuinely can't run. */
 .hero-inset::-webkit-media-controls-start-playback-button { display: none !important; }
+/* The pseudo-element hide above only covers Safari's specific icon and only
+   once autoplay is confirmed blocked -- every engine still draws some native
+   loading/play affordance for the brief gap between the page appearing and
+   the video's first decoded frame, which read as a quick flash on every
+   visit. video.hero-inset starts invisible and only fades in once the
+   'playing' event actually fires (see the inline script in index.html);
+   .hero-inset-poster is a plain <img> of the video's own first frame sitting
+   in the identical spot underneath, so there is never a gap with nothing (or
+   worse, a native play icon) showing through. */
+video.hero-inset { opacity: 0; transition: opacity 0.25s ease-out; }
+video.hero-inset.is-playing { opacity: 1; }
 
 /* ========================================================= PRODUCT CARDS */
 
@@ -1621,6 +1643,7 @@ a.btn.gumroad-button:active {
      width and comes later in the cascade. That let body copy run under the
      fader on real phones even though the reservation looked correct on paper. */
   .wrap { padding-left: 20px; }
+  .site-header .wrap { padding-right: 20px; }
   .section { padding-block: 28px; }
 
   .site-header .wrap {
@@ -1653,22 +1676,30 @@ a.btn.gumroad-button:active {
      one row (top offset identical across all four). */
   .site-nav { margin-left: auto; width: 100%; justify-content: flex-end; gap: 4px; font-size: 11px; flex-wrap: wrap; }
   .site-nav a { padding: 5px 6px; gap: 4px; }
-  .wordmark { font-size: 16px; }
+  .wordmark { font-size: 14px; }
   /* The 2026-08-17 desktop bump (24px wordmark / 34px logo) read oversized
      once the header wraps to two rows on a phone-width viewport -- it and
      the LCD select were eating close to a third of the screen height before
      any page content showed. Scaled both back down for this breakpoint only;
      desktop keeps the bigger mark. */
-  .brand svg, .brand img { height: 22px; }
-  .brand { gap: 8px; }
+  .brand svg, .brand img { height: 19px; }
+  .brand { gap: 6px; }
   /* Brand + select still measured as fitting one row against a wider test
      viewport than a real phone actually renders at -- against a genuine
      ~390px-wide device the two wrapped onto separate lines (3 rows total,
      not the intended 2). The select already ellipsis-truncates long app
      names (text-overflow: ellipsis, set unconditionally above), so shrinking
      its min-width here costs nothing but a few characters of the closed
-     label -- it buys the margin that made brand+select unreliable. */
-  .hero-lcd-select { font-size: 11px; min-width: 100px; max-width: 150px; padding-right: 16px; }
+     label -- it buys the margin that made brand+select unreliable.
+
+     A second, separate bug (the generic `.wrap` padding-right:46px reserved
+     for the page-fader was also landing on `.site-header .wrap`, which
+     doesn't need it -- see the 900px/720px breakpoints above) was actually
+     the main cause of that failure, and is fixed at the source now. These
+     sizes are shrunk a further notch on top of that fix, not instead of it,
+     as real margin against font-metric differences between browsers rather
+     than a break-even fit. */
+  .hero-lcd-select { font-size: 10px; min-width: 88px; max-width: 130px; padding-right: 14px; }
 
   .btn { padding: 8px 12px; font-size: 13px; }
   .btn-row .btn { flex: 1 1 100%; justify-content: center; }
