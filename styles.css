@@ -1600,8 +1600,15 @@ a.btn.gumroad-button:active {
   }
   .site-nav { margin-left: 0; width: 100%; gap: 16px; font-size: 13px; flex-wrap: wrap; }
   .wordmark { font-size: 18px; }
+  /* The 2026-08-17 desktop bump (24px wordmark / 34px logo) read oversized
+     once the header wraps to two rows on a phone-width viewport -- it and
+     the LCD select were eating close to a third of the screen height before
+     any page content showed. Scaled both back down for this breakpoint only;
+     desktop keeps the bigger mark. */
+  .brand svg, .brand img { height: 24px; }
+  .hero-lcd-select { font-size: 12px; }
 
-  .btn { padding: 11px 16px; }
+  .btn { padding: 8px 12px; font-size: 13px; }
   .btn-row .btn { flex: 1 1 100%; justify-content: center; }
   .btn-row .price, .btn-row .status { flex: 1 1 100%; }
 

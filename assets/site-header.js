@@ -316,7 +316,16 @@ new MutationObserver(function (recs) {
     updateFromScroll();
   }).observe(document.body, { attributes: true, attributeFilter: ['style'] });
 
+  // styles.css hides .page-fader below 900px via a stylesheet media query,
+  // but the inline `pf.style.display` this function sets below has higher
+  // specificity than any stylesheet rule and silently overrode it, so the
+  // fader kept showing (and overlapping the header/content) on mobile.
+  // Bail out before touching inline display at all on narrow viewports, and
+  // clear any inline display so the stylesheet rule is back in control.
+  var narrowViewport = window.matchMedia('(max-width: 900px)');
+
   function updateFromScroll() {
+    if (narrowViewport.matches) { pf.style.display = ''; return; }
     var target = overlayEl();
     var scrollTop, scrollable;
     if (target) {
