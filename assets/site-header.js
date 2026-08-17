@@ -276,7 +276,17 @@ new MutationObserver(function (recs) {
   // dragging behaviour
   var dragging = false; var startY = 0; var startRatio = 0;
   cap.addEventListener('pointerdown', function(ev){ ev.preventDefault(); cap.setPointerCapture(ev.pointerId); dragging=true; startY = ev.clientY; var scrollable = Math.max(0, document.documentElement.scrollHeight - window.innerHeight); startRatio = scrollable>0 ? window.scrollY/scrollable : 0; });
-  cap.addEventListener('pointermove', function(ev){ if(!dragging) return; var dy = startY - ev.clientY; var slotH = slot.clientHeight; var frac = dy / slotH; var newRatio = Math.min(1, Math.max(0, startRatio + frac)); var scrollable = Math.max(0, document.documentElement.scrollHeight - window.innerHeight); window.scrollTo({ top: Math.round(newRatio * scrollable), behavior: 'auto' }); });
+  // `dy` used to be `startY - ev.clientY` (positive when the pointer moves
+  // UP), which matched a `bottomPx = ratio * range` cap mapping -- ratio and
+  // scroll both rose as the cap rose. `updateFromScroll` above now inverts
+  // that mapping (`bottomPx = (1 - ratio) * range`) so the cap sits at the
+  // TOP on load and descends as the page scrolls, but this drag math was
+  // never flipped to match: dragging the handle down still increased `dy`
+  // the old (now backwards) way, so a downward drag decreased scroll instead
+  // of increasing it. Flipping the sign here (`ev.clientY - startY`) makes a
+  // downward drag increase `ratio`/scroll, back in step with the cap's own
+  // now-inverted on-screen direction.
+  cap.addEventListener('pointermove', function(ev){ if(!dragging) return; var dy = ev.clientY - startY; var slotH = slot.clientHeight; var frac = dy / slotH; var newRatio = Math.min(1, Math.max(0, startRatio + frac)); var scrollable = Math.max(0, document.documentElement.scrollHeight - window.innerHeight); window.scrollTo({ top: Math.round(newRatio * scrollable), behavior: 'auto' }); });
   cap.addEventListener('pointerup', function(ev){ dragging=false; try{ cap.releasePointerCapture(ev.pointerId); }catch(e){} });
   cap.addEventListener('pointercancel', function(){ dragging=false; });
   cap.addEventListener('keydown', function(ev){ var scrollable = Math.max(0, document.documentElement.scrollHeight - window.innerHeight); if (scrollable<=0) return; var step = Math.max(40, Math.round(window.innerHeight/10)); if (ev.key==='ArrowUp'){ window.scrollBy({ top: -step, behavior:'smooth' }); ev.preventDefault(); } if (ev.key==='ArrowDown'){ window.scrollBy({ top: step, behavior:'smooth' }); ev.preventDefault(); } if (ev.key==='PageUp'){ window.scrollBy({ top: -window.innerHeight, behavior:'smooth' }); ev.preventDefault(); } if (ev.key==='PageDown'){ window.scrollBy({ top: window.innerHeight, behavior:'smooth' }); ev.preventDefault(); } });

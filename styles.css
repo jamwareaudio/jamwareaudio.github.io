@@ -287,7 +287,13 @@ body::before {
    still the thing that carries the actual form value and is still reachable
    for assistive tech that inspects the DOM), while this sits on top for
    both mouse and keyboard. */
-.hero-lcd-overlay { position: absolute; background: transparent; border: 0; padding: 0; margin: 0; cursor: pointer; z-index: 5; }
+/* z-index 21, not the old 5: the overlay is appended to <body>, a sibling of
+   .site-header (z-index 20, its own stacking context) rather than a child of
+   it, even though it sits visually right on top of the header's own LCD
+   select. At z-index 5 the header's stacking context painted above it, so
+   every click landed on the header (which does nothing at that point) instead
+   of the overlay -- the dropdown looked dead. 21 clears the header by one. */
+.hero-lcd-overlay { position: absolute; background: transparent; border: 0; padding: 0; margin: 0; cursor: pointer; z-index: 21; }
 .hero-lcd-overlay:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent) 70%, transparent); outline-offset: 2px; }
 .hero-lcd-select:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent) 70%, transparent); outline-offset: 2px; }
 .hero-lcd-select option { background: transparent; color: inherit; }
@@ -397,16 +403,20 @@ a:hover { color: var(--accent); }
   height: 58px;
 }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.brand svg, .brand img { height: 22px; width: auto; display: block; }
+.brand svg, .brand img { height: 27px; width: auto; display: block; }
 .wordmark {
   /* Cut into the header band 2026-08-16, the same treatment as .product h3 a
      rather than the app-title-only .engraved recipe (that one is tuned for
      34-60px nameplates; the header sits at 16px, so it borrows .product h3
      a's lighter, smaller-scale fill/lip pairing instead of the heavier one).
      Fill sits close to the header's own plate colour and reads as a groove,
-     not printed ink — "more white, like the background" per the request. */
+     not printed ink — "more white, like the background" per the request.
+
+     2026-08-17: bumped 16px -> 20px, user asked for the wordmark bigger. The
+     logo mark beside it (.brand svg/img) grew from 22px to 27px in step so
+     the lockup stays proportioned rather than the text alone dwarfing it. */
   font-family: var(--font-display);
-  font-size: 16px; font-weight: 700; letter-spacing: 0.06em;
+  font-size: 20px; font-weight: 700; letter-spacing: 0.06em;
   text-transform: uppercase;
   color: color-mix(in srgb, var(--control-bg) 92%, black);
   text-shadow:
@@ -1543,7 +1553,7 @@ a.btn.gumroad-button:active {
     flex-wrap: wrap; gap: 8px 16px; padding-top: 10px; padding-bottom: 10px;
   }
   .site-nav { margin-left: 0; width: 100%; gap: 16px; font-size: 13px; flex-wrap: wrap; }
-  .wordmark { font-size: 15px; }
+  .wordmark { font-size: 18px; }
 
   .btn { padding: 11px 16px; }
   .btn-row .btn { flex: 1 1 100%; justify-content: center; }
