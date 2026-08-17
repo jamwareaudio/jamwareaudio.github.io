@@ -1622,7 +1622,23 @@ a.btn.gumroad-button:active {
     height: auto; min-height: 58px;
     flex-wrap: wrap; gap: 8px 16px; padding-top: 10px; padding-bottom: 10px;
   }
-  .site-nav { margin-left: 0; width: 100%; gap: 16px; font-size: 13px; flex-wrap: wrap; }
+  /* Was 3 rows on a phone: brand, then site-nav wrapping ITSELF into two
+     lines (select+Bundles / Licence+About+Support) because the select's
+     140px min-width left no room for the four links on one line below the
+     brand. Moving .hero-lcd out of .site-nav in the markup (it's a sibling
+     of .site-nav now, not a child) lets it sit on the brand's row instead --
+     .brand's own width plus the select's ~140-150px comfortably fits a
+     phone-width row -- leaving .site-nav's four short links, which do fit
+     on one line, as the second and last row. */
+  .hero-lcd { margin-left: 0; }
+  /* The four links' own width (padding + LED + gap, all sized for desktop)
+     ran ~380px against ~353px of usable row width at 393px viewports, so
+     `flex-wrap: wrap` here was still firing -- nav split into its own two
+     lines, undoing the two-row goal above. Tightened padding/gap/font enough
+     to clear a 360px-wide phone on one line; flex-wrap stays as a safety net
+     for anything narrower rather than the primary layout mechanism. */
+  .site-nav { margin-left: auto; width: 100%; justify-content: flex-end; gap: 8px; font-size: 12px; flex-wrap: wrap; }
+  .site-nav a { padding: 6px 8px; gap: 5px; }
   .wordmark { font-size: 18px; }
   /* The 2026-08-17 desktop bump (24px wordmark / 34px logo) read oversized
      once the header wraps to two rows on a phone-width viewport -- it and

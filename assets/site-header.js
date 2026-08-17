@@ -1,3 +1,12 @@
+// iOS Safari only evaluates :active on an element (and thus only paints the
+// LED-lighting `.site-nav a:active`, `.btn:active`, etc. across the site)
+// when the page has at least one touch listener somewhere in the document --
+// with none registered, tapping a hardware button on a phone gave no
+// feedback at all, since :hover doesn't fire on touch and :active was never
+// being evaluated to begin with. An empty, passive, document-level listener
+// is the standard fix: it costs nothing and turns :active back on everywhere.
+document.addEventListener('touchstart', function () {}, { passive: true });
+
 // Mark the LCD's own app as selected so the closed label (and the checkmark
 // in the open list) reflect where we actually are, not just "-Select-".
 // Matched on filename rather than the full option value because index.html's
