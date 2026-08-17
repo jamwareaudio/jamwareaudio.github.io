@@ -1484,6 +1484,16 @@ a.btn.gumroad-button:active {
 /* ========================================================== PRODUCT PAGES */
 
 .product-hero { padding-block: 48px 28px; }
+/* The screenshot section right after the hero was stacking its own top
+   padding on top of the hero's bottom padding (28px + 40px desktop, 22px +
+   28px mobile) with nothing visible in between -- the buy button that lives
+   at the bottom of the hero is `visibility: hidden` until Gumroad's script
+   tags it `.gr-ready` (see the GUMROAD OVERLAY GUARD comment below), so that
+   gap read as one big blank strip of dead space before the first screenshot.
+   Zeroing the section's top padding here leaves the hero's own bottom
+   padding as the only space between them -- flagged by the user 2026-08-17
+   on the Chordinator app page, mobile Safari. */
+.product-hero + .section { padding-top: 0; }
 .product-hero .row { display: flex; align-items: center; gap: 22px; margin-bottom: 22px; }
 .product-hero .icon { width: 88px; height: 88px; border-radius: 17px; flex: none; }
 /* line-height and --engrave-line must stay equal: the cut gradient tiles once

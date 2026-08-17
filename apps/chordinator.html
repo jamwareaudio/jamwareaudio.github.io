@@ -44,7 +44,7 @@
       </label>
     <nav class="site-nav">
       <a href="../index.html#bundles">Bundles</a>
-      <a href="../index.html#licence">Licence</a>
+      <a href="../index.html#licence">Try it for free</a>
       <a href="../index.html#about">About</a>
       <a href="mailto:toastonjam12345@gmail.com">Support</a>
     </nav>
@@ -514,6 +514,39 @@
      The full reasoning, and the launch-day check it still needs, are in the
      matching comment at the foot of ../index.html. Falls back to a plain link
      if the script does not load. -->
+<!-- Buttons start `visibility: hidden` in styles.css (see the GUMROAD OVERLAY
+     GUARD comment there) so the "GET IT ON" text can't paint before
+     gumroad-bundle.js appends its .logo-full wordmark span a beat later. This
+     watches for that append and reveals the button in one paint once it's
+     there -- or after a fixed timeout if gumroad.js is blocked/slow, so an
+     ad-blocked visitor still gets a working (if logo-less) button rather than
+     a permanently invisible one. Must run before the gumroad.js tag below so
+     the observer is attached before gumroad-bundle.js has a chance to mutate
+     anything. Ported from ../index.html 2026-08-17 after this page's own buy
+     button was found stuck invisible forever -- this script only ever lived
+     on the homepage, so app pages had no path to .gr-ready at all. -->
+<noscript><style>a.btn.gumroad-button { visibility: visible !important; }</style></noscript>
+<script>
+(function () {
+  var btns = Array.prototype.slice.call(document.querySelectorAll('a.btn.gumroad-button'));
+  if (!btns.length) return;
+  var revealed = false;
+  function reveal() {
+    if (revealed) return;
+    revealed = true;
+    observers.forEach(function (o) { o.disconnect(); });
+    btns.forEach(function (b) { b.classList.add('gr-ready'); });
+  }
+  var observers = btns.map(function (b) {
+    var o = new MutationObserver(function () {
+      if (b.querySelector('.logo-full')) reveal();
+    });
+    o.observe(b, { childList: true });
+    return o;
+  });
+  setTimeout(reveal, 1500);
+})();
+</script>
 <script src="https://gumroad.com/js/gumroad.js"></script>
 
 <script src="../assets/site-header.js?v=1786974636"></script>
