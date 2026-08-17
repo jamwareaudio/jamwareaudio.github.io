@@ -564,8 +564,24 @@ a:hover { color: var(--accent); }
    content: ""; position: absolute; left: 3px; right: 3px; top: 50%; height: 2px; margin-top: -1px; background: hsl(0,0%,90%); box-shadow: 0 0 2px rgba(255,255,255,0.4);
 }
 
-/* Hide on small screens where it would interfere with touch scrolling */
-@media (max-width: 900px) { .page-fader { display: none; } }
+/* Was fully hidden below 900px, on the theory it would interfere with touch
+   scrolling -- but the drag target is only the 28x16px cap, so in practice
+   it never did, and the user asked for it back on mobile rather than
+   dropped. The actual mobile bug was the fixed `top: 74px` above: that
+   clears the DESKTOP header's single row, but the mobile header wraps to
+   two (see `.site-header .wrap` in the 720px breakpoint below) and is
+   taller, so the fader's top edge landed inside the header/body copy.
+   site-header.js now sets `top` from the header's own measured height
+   instead of this fixed value, so it always starts just under it; this
+   query only narrows the track and gives it a bit more right-edge margin
+   so it clears text at phone widths, plus reserves matching space in
+   `.wrap` so body copy doesn't run under it in the first place. */
+@media (max-width: 900px) {
+  .page-fader { width: 26px; right: 6px; }
+  .page-fader .fader-slot { right: 4px; width: 6px; }
+  .page-fader .fader-cap { width: 22px; }
+  .wrap { padding-right: 46px; }
+}
 
 /* ================================================================== HERO */
 

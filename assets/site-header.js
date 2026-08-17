@@ -260,6 +260,19 @@ new MutationObserver(function (recs) {
   var fill = pf.querySelector('.fader-fill');
   var cap = pf.querySelector('.fader-cap');
 
+  // styles.css's `top: 74px` clears the desktop header's single row, but
+  // the mobile header wraps to two rows (see the 720px breakpoint) and is
+  // taller, so a fixed top landed the fader's track inside the header/body
+  // copy. Measure the real header instead, with the same ~15px gap the CSS
+  // value already used, and re-measure on resize/orientation change.
+  var header = document.querySelector('.site-header');
+  function positionFader() {
+    if (!header) return;
+    pf.style.top = (header.getBoundingClientRect().bottom + 15) + 'px';
+  }
+  positionFader();
+  window.addEventListener('resize', positionFader);
+
   // Gumroad's overlay (assets.gumroad.com/js/gumroad-bundle.js) builds its
   // checkout popup as a shadow-DOM host appended to document.body with
   // style.zIndex = "999999", and only ever sets document.body.style.overflow
@@ -316,16 +329,8 @@ new MutationObserver(function (recs) {
     updateFromScroll();
   }).observe(document.body, { attributes: true, attributeFilter: ['style'] });
 
-  // styles.css hides .page-fader below 900px via a stylesheet media query,
-  // but the inline `pf.style.display` this function sets below has higher
-  // specificity than any stylesheet rule and silently overrode it, so the
-  // fader kept showing (and overlapping the header/content) on mobile.
-  // Bail out before touching inline display at all on narrow viewports, and
-  // clear any inline display so the stylesheet rule is back in control.
-  var narrowViewport = window.matchMedia('(max-width: 900px)');
-
   function updateFromScroll() {
-    if (narrowViewport.matches) { pf.style.display = ''; return; }
+    positionFader();
     var target = overlayEl();
     var scrollTop, scrollable;
     if (target) {
