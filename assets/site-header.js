@@ -260,10 +260,74 @@ new MutationObserver(function (recs) {
   var fill = pf.querySelector('.fader-fill');
   var cap = pf.querySelector('.fader-cap');
 
+  // Gumroad's overlay (assets.gumroad.com/js/gumroad-bundle.js) builds its
+  // checkout popup as a shadow-DOM host appended to document.body with
+  // style.zIndex = "999999", and only ever sets document.body.style.overflow
+  // to "hidden" while that popup is open/visible -- there's no other public
+  // signal. Reading the bundle source directly confirmed the checkout
+  // <iframe> auto-sizes to its own content height via a `{type:"height"}`
+  // postMessage (h.style.height = ...), so the iframe itself never scrolls;
+  // the actual scrolling happens on the *wrapper* div around it
+  // (className "fixed inset-0 overflow-scroll bg-backdrop", inside the open
+  // shadow root). That wrapper is a normal element reachable via
+  // shadowHost.shadowRoot.querySelector(...), so the fader can drive it
+  // exactly like it drives window scroll -- the cross-origin iframe boundary
+  // never has to be crossed.
+  function getOverlayScroller() {
+    var kids = document.body.children;
+    for (var i = kids.length - 1; i >= 0; i--) {
+      var sr = kids[i].shadowRoot;
+      if (sr) {
+        var scroller = sr.querySelector('.overflow-scroll');
+        if (scroller) return scroller;
+      }
+    }
+    return null;
+  }
+
+  function overlayEl() {
+    return document.body.style.overflow === 'hidden' ? getOverlayScroller() : null;
+  }
+
+  var overlayScrollWired = null;
+  var overlayResizeObserver = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(function(){ updateFromScroll(); }) : null;
+  function ensureOverlayScrollListener() {
+    var el = overlayEl();
+    if (el && el !== overlayScrollWired) {
+      el.addEventListener('scroll', updateFromScroll, { passive: true });
+      // The checkout iframe reports its real content height to the overlay
+      // asynchronously (a postMessage after the popup is already open), so
+      // the wrapper's scrollHeight -- and therefore whether the fader has
+      // anything to show -- keeps changing for a moment after open. A
+      // ResizeObserver on the wrapper catches that instead of leaving the
+      // fader hidden/stale until the visitor happens to scroll first.
+      if (overlayResizeObserver) overlayResizeObserver.observe(el);
+      overlayScrollWired = el;
+    }
+  }
+
+  // The fader (z-index 60) would otherwise sit visually beneath the
+  // overlay's shadow host (z-index 999999). Bump it above the overlay only
+  // while the overlay is open, so it stays reachable as the popup's scroll
+  // control instead of disappearing under it.
+  new MutationObserver(function(){
+    pf.classList.toggle('on-overlay', document.body.style.overflow === 'hidden');
+    ensureOverlayScrollListener();
+    updateFromScroll();
+  }).observe(document.body, { attributes: true, attributeFilter: ['style'] });
+
   function updateFromScroll() {
-    var doc = document.documentElement;
-    var scrollTop = window.scrollY || doc.scrollTop;
-    var scrollable = Math.max(0, doc.scrollHeight - window.innerHeight);
+    var target = overlayEl();
+    var scrollTop, scrollable;
+    if (target) {
+      ensureOverlayScrollListener();
+      scrollTop = target.scrollTop;
+      scrollable = Math.max(0, target.scrollHeight - target.clientHeight);
+    } else {
+      var doc = document.documentElement;
+      scrollTop = window.scrollY || doc.scrollTop;
+      scrollable = Math.max(0, doc.scrollHeight - window.innerHeight);
+    }
     if (scrollable <= 0) { pf.style.display = 'none'; return; }
     pf.style.display = 'block';
     var ratio = scrollTop / scrollable;
@@ -291,8 +355,29 @@ new MutationObserver(function (recs) {
   setTimeout(updateFromScroll, 50);
 
   // dragging behaviour
+  function scrollTarget() {
+    var el = overlayEl();
+    if (el) {
+      return {
+        scrollable: Math.max(0, el.scrollHeight - el.clientHeight),
+        current: el.scrollTop,
+        to: function(top){ el.scrollTop = top; }
+      };
+    }
+    return {
+      scrollable: Math.max(0, document.documentElement.scrollHeight - window.innerHeight),
+      current: window.scrollY,
+      to: function(top){ window.scrollTo({ top: top, behavior: 'auto' }); }
+    };
+  }
+  function scrollByTarget(delta, smooth) {
+    var el = overlayEl();
+    if (el) { el.scrollTop += delta; return; }
+    window.scrollBy({ top: delta, behavior: smooth ? 'smooth' : 'auto' });
+  }
+
   var dragging = false; var startY = 0; var startRatio = 0;
-  cap.addEventListener('pointerdown', function(ev){ ev.preventDefault(); cap.setPointerCapture(ev.pointerId); dragging=true; startY = ev.clientY; var scrollable = Math.max(0, document.documentElement.scrollHeight - window.innerHeight); startRatio = scrollable>0 ? window.scrollY/scrollable : 0; });
+  cap.addEventListener('pointerdown', function(ev){ ev.preventDefault(); cap.setPointerCapture(ev.pointerId); dragging=true; startY = ev.clientY; var t = scrollTarget(); startRatio = t.scrollable>0 ? t.current/t.scrollable : 0; });
   // `dy` used to be `startY - ev.clientY` (positive when the pointer moves
   // UP), which matched a `bottomPx = ratio * range` cap mapping -- ratio and
   // scroll both rose as the cap rose. `updateFromScroll` above now inverts
@@ -303,8 +388,8 @@ new MutationObserver(function (recs) {
   // of increasing it. Flipping the sign here (`ev.clientY - startY`) makes a
   // downward drag increase `ratio`/scroll, back in step with the cap's own
   // now-inverted on-screen direction.
-  cap.addEventListener('pointermove', function(ev){ if(!dragging) return; var dy = ev.clientY - startY; var slotH = slot.clientHeight; var frac = dy / slotH; var newRatio = Math.min(1, Math.max(0, startRatio + frac)); var scrollable = Math.max(0, document.documentElement.scrollHeight - window.innerHeight); window.scrollTo({ top: Math.round(newRatio * scrollable), behavior: 'auto' }); });
+  cap.addEventListener('pointermove', function(ev){ if(!dragging) return; var dy = ev.clientY - startY; var slotH = slot.clientHeight; var frac = dy / slotH; var newRatio = Math.min(1, Math.max(0, startRatio + frac)); var t = scrollTarget(); t.to(Math.round(newRatio * t.scrollable)); });
   cap.addEventListener('pointerup', function(ev){ dragging=false; try{ cap.releasePointerCapture(ev.pointerId); }catch(e){} });
   cap.addEventListener('pointercancel', function(){ dragging=false; });
-  cap.addEventListener('keydown', function(ev){ var scrollable = Math.max(0, document.documentElement.scrollHeight - window.innerHeight); if (scrollable<=0) return; var step = Math.max(40, Math.round(window.innerHeight/10)); if (ev.key==='ArrowUp'){ window.scrollBy({ top: -step, behavior:'smooth' }); ev.preventDefault(); } if (ev.key==='ArrowDown'){ window.scrollBy({ top: step, behavior:'smooth' }); ev.preventDefault(); } if (ev.key==='PageUp'){ window.scrollBy({ top: -window.innerHeight, behavior:'smooth' }); ev.preventDefault(); } if (ev.key==='PageDown'){ window.scrollBy({ top: window.innerHeight, behavior:'smooth' }); ev.preventDefault(); } });
+  cap.addEventListener('keydown', function(ev){ var t = scrollTarget(); if (t.scrollable<=0) return; var step = Math.max(40, Math.round(window.innerHeight/10)); if (ev.key==='ArrowUp'){ scrollByTarget(-step, true); ev.preventDefault(); } if (ev.key==='ArrowDown'){ scrollByTarget(step, true); ev.preventDefault(); } if (ev.key==='PageUp'){ scrollByTarget(-window.innerHeight, true); ev.preventDefault(); } if (ev.key==='PageDown'){ scrollByTarget(window.innerHeight, true); ev.preventDefault(); } });
 })();

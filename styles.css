@@ -531,6 +531,14 @@ a:hover { color: var(--accent); }
       the 20px gap already used at the bottom. */
    position: fixed; right: 10px; top: 74px; bottom: 20px; width: 34px; z-index: 60; pointer-events: auto; display: block;
 }
+/* Gumroad's checkout overlay is a shadow-DOM host appended to <body> with
+   inline style.zIndex = "999999" (its own script, not ours -- see
+   site-header.js's getOverlayScroller() comment), which would otherwise
+   bury the fader at z-index 60 the moment the popup opens. site-header.js
+   toggles this class exactly while the overlay is open, so the fader stays
+   on top and keeps working as the popup's scroll control instead of
+   vanishing under it. */
+.page-fader.on-overlay { z-index: 1000000; }
 .page-fader .fader-slot {
    position: absolute; right: 6px; top: 6px; bottom: 6px; width: 8px; border-radius: 4px;
    background: var(--screen-bg); box-shadow: inset 0 2px 4px rgba(0,0,0,0.9), 0 1px 0 rgba(255,255,255,0.14);
