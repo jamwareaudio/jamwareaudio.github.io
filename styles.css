@@ -17,8 +17,17 @@
   --control-bg:     hsl(43, 18%, 94%);
   --control-border: hsl(35, 9%, 55%);
   --hairline:       hsl(35, 9%, 72%);
-   /* Divider colour used for thin panel/section rules (sampled from UI) */
-   --divider-color:  var(--hairline);
+  /* Shared LCD-picker bezel gradient, hoisted here so both the closed
+     `.hero-lcd-select` control and the `.hero-lcd-popup` (appended to
+     <body>, a sibling rather than a descendant of `.hero-lcd`) can read it.
+     `--bezel` was previously declared only inside `.hero-lcd-select`; the
+     popup's `background: ... var(--bezel) border-box` referenced an unset
+     custom property with no fallback, which makes the whole `background`
+     shorthand invalid at computed-value time -- the popup rendered as a
+     plain unstyled white list instead of the LCD bezel. */
+  --bezel: linear-gradient(180deg,
+     hsl(30,8%,20%) 0%, hsl(30,8%,7%) 40%, hsl(30,8%,5%) 70%, hsl(30,8%,13%) 100%);
+  --cell: 6.5px;
   /* Corner-screw dots on .panel -- deliberately its own token rather than
      reusing --control-border, so a future palette pass can retune screw
      contrast without touching the border colour everything else keys off. */
@@ -72,11 +81,6 @@
 
   --radius:         4px;
   --measure:        66ch;
-
-   /* MutationStation fader orange tokens (copied exactly) */
-   --ms-slider-accent: hsl(25,95%,54%);
-   --ms-slider-accent-shine: hsl(30,98%,64%);
-   --ms-slider-accent-deep: hsl(19,88%,44%);
 
   /* --- plate type, from the apps ----------------------------------------
      Every app's faceplate typography — the engraved wordmark in the top row,
@@ -170,27 +174,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Micro-texture removed 2026-08-17 — visible tile seams conflicted with smooth
-   background design. The brushed grain and vertical light-fall gradients on
-   body provide sufficient depth without additional texture overlay. */
-
-/* Layered lighting and specular sheen for panels and header buttons */
-.site-nav a,
-.product-hero .back,
-.section .back {
-   /* add a subtle top specular sheen and a soft bottom vignette */
-   background-image:
-      linear-gradient(180deg, rgba(255,255,255,0.42) 0%, rgba(255,255,255,0) 30%),
-      linear-gradient(180deg, hsl(45,22%,97%) 0%, hsl(43,15%,89%) 45%, hsl(40,10%,76%) 100%);
-}
-
-/* small raised sheen on generic panels to imply layered lighting */
-.panel, .wrap > section, .hero {
-   /* remove the bright inset line so panels end cleanly at their edge */
-   box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-   border-bottom: 1px solid var(--divider-color);
-}
-
 /* Engraved-legend type: the small uppercase labels silkscreened onto hardware.
    Used for every eyebrow, panel header and legend on the site.
 
@@ -238,13 +221,11 @@ body {
    /* Exact MutationStation passive-LCD recipe, scoped to the header select */
    font-family: "DotGothic16", "SF Mono", Menlo, Consolas, monospace;
    letter-spacing: 0; font-size: 13px; font-weight: 400;
-   --cell: 6.5px; --lcd-bezel: 3px; --lcd-radius: 5px;
+   --lcd-bezel: 3px; --lcd-radius: 5px;
    padding: 3px var(--cell);
    color: hsl(100,5%,28%);
    border: var(--lcd-bezel, 3px) solid transparent;
    border-radius: var(--lcd-radius, 5px);
-   --bezel: linear-gradient(180deg,
-      hsl(30,8%,20%) 0%, hsl(30,8%,7%) 40%, hsl(30,8%,5%) 70%, hsl(30,8%,13%) 100%);
    --lcd-screen:
       repeating-linear-gradient(90deg,
          rgba(28,36,22,0.055) 0px, rgba(28,36,22,0.055) calc(var(--cell) - 1px),
@@ -252,14 +233,26 @@ body {
       linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 45%) padding-box,
       linear-gradient(180deg, hsl(100,6.5%,74%), hsl(100,6.5%,74%)) padding-box,
       var(--bezel) border-box;
-   background: var(--lcd-screen);
+   /* One shorthand `background:` carrying every layer -- chevrons first,
+      then --lcd-screen's own four layers. `--lcd-screen` bundles per-layer
+      position/repeat/box tokens (e.g. `left center / 100% 62% no-repeat
+      padding-box`), which are only legal inside the `background` shorthand.
+      This used to be split into a `background: var(--lcd-screen)` shorthand
+      followed by a `background-image: ..., var(--lcd-screen)` LONGHAND
+      override -- but `background-image` cannot accept position/repeat/box
+      tokens, so substituting --lcd-screen into it made that whole
+      declaration invalid at computed-value time, and CSS drops the entire
+      property to its initial value ("none") rather than just that layer.
+      The later (invalid) declaration still wins the cascade over the
+      earlier valid `background:` shorthand, which is why the control
+      rendered with no background at all. */
+   background:
+      linear-gradient(45deg, transparent 50%, currentColor 50%) right 6px center / auto no-repeat,
+      linear-gradient(135deg, currentColor 50%, transparent 50%) right 1px center / auto no-repeat,
+      var(--lcd-screen);
    box-shadow: inset 0 3px 5px rgba(0,0,0,0.42), inset 0 0 0 1px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.30);
    -webkit-appearance: none; appearance: none;
    min-width: 140px; max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-   /* hand-drawn chevron layers on the right */
-   background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%), var(--lcd-screen);
-   background-repeat: no-repeat, no-repeat, no-repeat;
-   background-position: right 6px center, right 1px center, padding-box;
 }
 .hero-lcd-select:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent) 70%, transparent); outline-offset: 2px; }
 .hero-lcd-select option { background: transparent; color: inherit; }
@@ -325,7 +318,7 @@ body {
    box-shadow: 0 0 6px var(--value-glow, rgba(255,100,60,0.25));
 }
 .hero-lcd-popup .popup-fader .fader-cap {
-   position: absolute; right: -8px; left: auto; width: 24px; height: 14px; top: 0; border-radius: 2.5px;
+   position: absolute; right: -8px; left: auto; width: 24px; height: 14px; bottom: 0; border-radius: 2.5px;
    background: linear-gradient(180deg, hsl(220,7%,32%) 0%, hsl(220,11%,9%) 100%);
    border: 1px solid hsl(220,14%,5%);
    box-shadow: 0 2px 4px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.16);
@@ -373,7 +366,7 @@ a:hover { color: var(--accent); }
 /* ============================================================ SITE HEADER */
 
 .site-header {
-   border-bottom: 1px solid var(--divider-color);
+  border-bottom: 1px solid var(--hairline);
   box-shadow: 0 1px 0 rgba(255,255,255,0.55);
   position: sticky; top: 0; z-index: 20;
   backdrop-filter: blur(8px);
@@ -393,8 +386,8 @@ a:hover { color: var(--accent); }
      a's lighter, smaller-scale fill/lip pairing instead of the heavier one).
      Fill sits close to the header's own plate colour and reads as a groove,
      not printed ink — "more white, like the background" per the request. */
-   font-family: var(--font-display);
-   font-size: 22px; font-weight: 800; letter-spacing: 0.06em;
+  font-family: var(--font-display);
+  font-size: 16px; font-weight: 700; letter-spacing: 0.06em;
   text-transform: uppercase;
   color: color-mix(in srgb, var(--control-bg) 92%, black);
   text-shadow:
@@ -409,15 +402,6 @@ a:hover { color: var(--accent); }
    box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), inset 0 -1px 1px rgba(0,0,0,0.22), 0 1px 2px rgba(0,0,0,0.12);
    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
 }
-.site-nav a[href^="mailto:"] {
-   /* Revert Support button to the standard header button style (grey) */
-   color: var(--text-primary) !important;
-   border: 1px solid hsl(38,10%,42%);
-   background: linear-gradient(180deg, hsl(45,22%,97%) 0%, hsl(43,15%,89%) 45%, hsl(40,10%,76%) 100%);
-   box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), inset 0 -1px 1px rgba(0,0,0,0.22), 0 1px 2px rgba(0,0,0,0.12);
-   text-shadow: 0 1px 0 rgba(255,255,255,0.5);
-}
-.site-nav a[href^="mailto:"]:hover { filter: brightness(1.06); }
 .site-nav a:hover { filter: brightness(1.06); }
 .site-nav a:active { transform: translateY(1px); box-shadow: inset 0 2px 4px rgba(0,0,0,0.36); }
 
@@ -439,7 +423,7 @@ a:hover { color: var(--accent); }
 
 /* Page fader: fixed Juno-style fader on the right edge of the site */
 .page-fader {
-   position: fixed; right: 10px; top: 66px; bottom: 20px; width: 34px; z-index: 60; pointer-events: auto; display: block;
+   position: fixed; right: 10px; top: 20px; bottom: 20px; width: 34px; z-index: 60; pointer-events: auto; display: block;
 }
 .page-fader .fader-slot {
    position: absolute; right: 6px; top: 6px; bottom: 6px; width: 8px; border-radius: 4px;
@@ -447,12 +431,12 @@ a:hover { color: var(--accent); }
    overflow: hidden;
 }
 .page-fader .fader-fill {
-   position: absolute; left: 0; right: 0; top: 0; height: 0;
+   position: absolute; left: 0; right: 0; bottom: 0; height: 0;
    background: linear-gradient(180deg, var(--value-fill, hsl(12,88%,51%)) 0%, hsl(18,88%,40%) 100%);
    box-shadow: 0 0 6px var(--value-glow, rgba(255,100,60,0.25));
 }
 .page-fader .fader-cap {
-   position: absolute; left: 10px; right: auto; width: 28px; height: 16px; top: 0; border-radius: 2.5px;
+   position: absolute; right: -8px; left: auto; width: 28px; height: 16px; bottom: 0; border-radius: 2.5px;
    background: linear-gradient(180deg, hsl(220,7%,32%) 0%, hsl(220,11%,9%) 100%);
    border: 1px solid hsl(220,14%,5%);
    box-shadow: 0 2px 4px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.16);
@@ -683,7 +667,7 @@ a:hover { color: var(--accent); }
     linear-gradient(112deg, rgba(255,255,255,0) 24%, rgba(255,255,255,0.5) 34%, rgba(255,255,255,0.1) 43%, rgba(255,255,255,0) 52%, rgba(255,255,255,0.35) 68%, rgba(255,255,255,0) 78%),
     radial-gradient(120% 60% at 50% -8%, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 55%),
     linear-gradient(180deg, var(--silverplate-hi) 0%, var(--silverplate) 30%, var(--silverplate-lo) 100%);
-   border-bottom: 1px solid var(--divider-color);
+  border-bottom: 1px solid var(--silverplate-border);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.7),
     inset 0 -1px 0 rgba(0,0,0,0.18);
@@ -1392,14 +1376,14 @@ a.btn.gumroad-button:active {
 .prose code {
   font: 12.5px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
   background: color-mix(in srgb, var(--face-hi) 80%, transparent);
-   border: 1px solid var(--divider-color); border-radius: 3px; padding: 1px 5px;
+  border: 1px solid var(--hairline); border-radius: 3px; padding: 1px 5px;
 }
 
 /* ================================================================ FOOTER */
 
 .site-footer {
-   margin-top: 56px;
-   border-top: 1px solid var(--divider-color);
+  margin-top: 56px;
+  border-top: 1px solid var(--hairline);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.55);
   padding: 28px 0 44px;
   color: var(--text-secondary); font-size: 13px;

@@ -90,16 +90,12 @@ new MutationObserver(function (recs) {
         if (scrollable <= 0) { pf.style.display = 'none'; return; }
         pf.style.display = 'block';
         var ratio = popup.scrollTop / scrollable;
-        // compute pixel positions so fill aligns exactly under cap
+        // fill height as percentage
+        fill.style.height = Math.max(2, Math.round(ratio * 100)) + '%';
         var slotH = slot.clientHeight;
-        var capH = (cap.offsetHeight || cap.clientHeight || 16);
-        var topPx = Math.round(ratio * Math.max(0, slotH - capH));
-        var slotOffset = slot.offsetTop || 0;
-        cap.style.top = (slotOffset + topPx) + 'px';
-        // set fill to reach the bottom edge of the cap (fill is inside slot)
-        var fillH = Math.max(2, topPx + capH);
-        fill.style.top = '0';
-        fill.style.height = fillH + 'px';
+        var capH = cap.clientHeight || 16;
+        var bottomPx = Math.round(ratio * Math.max(0, slotH - capH));
+        cap.style.bottom = bottomPx + 'px';
       }
 
       popup.addEventListener('scroll', updateFaderFromScroll);
@@ -118,13 +114,10 @@ new MutationObserver(function (recs) {
       cap.addEventListener('pointermove', function (ev) {
         if (!dragging) return;
         var slotRect = slot.getBoundingClientRect();
-        var localY = ev.clientY - slotRect.top; // pointer relative to slot
+        var dy = startY - ev.clientY;
         var slotH = slot.clientHeight;
-        var capH = (cap.offsetHeight || cap.clientHeight || 16);
-        // clamp localY so the cap's center remains inside slot bounds
-        var maxTop = slotH - capH;
-        var desiredTop = Math.min(maxTop, Math.max(0, localY - (capH/2)));
-        var newRatio = maxTop > 0 ? desiredTop / maxTop : 0;
+        var frac = dy / slotH;
+        var newRatio = Math.min(1, Math.max(0, startRatio + frac));
         var scrollable = popup.scrollHeight - popup.clientHeight;
         popup.scrollTop = Math.round(newRatio * scrollable);
       });
@@ -146,7 +139,11 @@ new MutationObserver(function (recs) {
   function openFor(selectEl, triggerEl) {
     currentTrigger = triggerEl || selectEl;
     buildOptionsFromSelect(selectEl);
-    var rect = (triggerEl || selectEl).getBoundingClientRect();
+    // The injected <button> lives inside a <select>, which browsers without
+    // the customizable-select API never lay out (its rect is always
+    // 0,0,0,0) -- anchor off the <select> itself instead, which is always
+    // rendered and sized.
+    var rect = selectEl.getBoundingClientRect();
     popup.style.left = (rect.left) + 'px';
     popup.style.top = (rect.bottom + 6) + 'px';
     popup.style.minWidth = Math.max(140, rect.width) + 'px';
@@ -261,21 +258,18 @@ new MutationObserver(function (recs) {
   var fill = pf.querySelector('.fader-fill');
   var cap = pf.querySelector('.fader-cap');
 
-    function updateFromScroll() {
+  function updateFromScroll() {
     var doc = document.documentElement;
     var scrollTop = window.scrollY || doc.scrollTop;
     var scrollable = Math.max(0, doc.scrollHeight - window.innerHeight);
     if (scrollable <= 0) { pf.style.display = 'none'; return; }
     pf.style.display = 'block';
     var ratio = scrollTop / scrollable;
-      var slotH = slot.clientHeight;
-      var capH = cap.clientHeight || 16;
-      var topPx = Math.round(ratio * Math.max(0, slotH - capH));
-      var slotOffset = slot.offsetTop || 0;
-      cap.style.top = (slotOffset + topPx) + 'px';
-      var fillH = Math.max(2, topPx + capH);
-      fill.style.top = '0';
-      fill.style.height = fillH + 'px';
+    fill.style.height = Math.max(2, Math.round(ratio * 100)) + '%';
+    var slotH = slot.clientHeight;
+    var capH = cap.clientHeight || 16;
+    var bottomPx = Math.round(ratio * Math.max(0, slotH - capH));
+    cap.style.bottom = bottomPx + 'px';
   }
 
   window.addEventListener('scroll', updateFromScroll, { passive: true });
@@ -285,7 +279,7 @@ new MutationObserver(function (recs) {
   // dragging behaviour
   var dragging = false; var startY = 0; var startRatio = 0;
   cap.addEventListener('pointerdown', function(ev){ ev.preventDefault(); cap.setPointerCapture(ev.pointerId); dragging=true; startY = ev.clientY; var scrollable = Math.max(0, document.documentElement.scrollHeight - window.innerHeight); startRatio = scrollable>0 ? window.scrollY/scrollable : 0; });
-  cap.addEventListener('pointermove', function(ev){ if(!dragging) return; var slotRect = slot.getBoundingClientRect(); var localY = ev.clientY - slotRect.top; var slotH = slot.clientHeight; var capH = cap.clientHeight || 16; var maxTop = Math.max(0, slotH - capH); var desiredTop = Math.min(maxTop, Math.max(0, localY - (capH/2))); var newRatio = maxTop>0 ? desiredTop / maxTop : 0; var scrollable = Math.max(0, document.documentElement.scrollHeight - window.innerHeight); window.scrollTo({ top: Math.round(newRatio * scrollable), behavior: 'auto' }); });
+  cap.addEventListener('pointermove', function(ev){ if(!dragging) return; var dy = startY - ev.clientY; var slotH = slot.clientHeight; var frac = dy / slotH; var newRatio = Math.min(1, Math.max(0, startRatio + frac)); var scrollable = Math.max(0, document.documentElement.scrollHeight - window.innerHeight); window.scrollTo({ top: Math.round(newRatio * scrollable), behavior: 'auto' }); });
   cap.addEventListener('pointerup', function(ev){ dragging=false; try{ cap.releasePointerCapture(ev.pointerId); }catch(e){} });
   cap.addEventListener('pointercancel', function(){ dragging=false; });
   cap.addEventListener('keydown', function(ev){ var scrollable = Math.max(0, document.documentElement.scrollHeight - window.innerHeight); if (scrollable<=0) return; var step = Math.max(40, Math.round(window.innerHeight/10)); if (ev.key==='ArrowUp'){ window.scrollBy({ top: -step, behavior:'smooth' }); ev.preventDefault(); } if (ev.key==='ArrowDown'){ window.scrollBy({ top: step, behavior:'smooth' }); ev.preventDefault(); } if (ev.key==='PageUp'){ window.scrollBy({ top: -window.innerHeight, behavior:'smooth' }); ev.preventDefault(); } if (ev.key==='PageDown'){ window.scrollBy({ top: window.innerHeight, behavior:'smooth' }); ev.preventDefault(); } });
