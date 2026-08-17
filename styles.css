@@ -159,19 +159,31 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 
 body {
   margin: 0;
-  /* The brushed-metal faceplate: a 1px horizontal grain over a vertical
-     light-fall. Fixed attachment so the whole page reads as ONE milled panel
-     you are scrolling across, not a stack of separate cards. */
+  background: var(--ui-bg);
+  color: var(--text-primary);
+  font: 15px/1.62 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+/* The brushed-metal faceplate: a 1px horizontal grain over a vertical
+   light-fall, so the whole page reads as ONE milled panel you are scrolling
+   across, not a stack of separate cards. Was `background-attachment: fixed`
+   directly on body; Chrome/Safari repaint a fixed background per GPU
+   compositing tile as the page scrolls, and at this page's length that
+   showed up as faint rectangular seams ("squares") tiled down the page. A
+   `position: fixed` pseudo-element behind everything paints the same
+   viewport-pinned gradient without going through that per-tile repaint path,
+   so it stays one continuous surface. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
   background:
     repeating-linear-gradient(0deg,
       rgba(255,255,255,0.04) 0 1px,
       rgba(0,0,0,0.015) 1px 2px),
     linear-gradient(180deg,
       var(--face-hi) 0%, var(--ui-bg) 42%, var(--face-lo) 100%);
-  background-attachment: fixed;
-  color: var(--text-primary);
-  font: 15px/1.62 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
 }
 
 /* Engraved-legend type: the small uppercase labels silkscreened onto hardware.
@@ -233,27 +245,21 @@ body {
       linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 45%) padding-box,
       linear-gradient(180deg, hsl(100,6.5%,74%), hsl(100,6.5%,74%)) padding-box,
       var(--bezel) border-box;
-   /* One shorthand `background:` carrying every layer -- chevrons first,
-      then --lcd-screen's own four layers. `--lcd-screen` bundles per-layer
-      position/repeat/box tokens (e.g. `left center / 100% 62% no-repeat
-      padding-box`), which are only legal inside the `background` shorthand.
-      This used to be split into a `background: var(--lcd-screen)` shorthand
-      followed by a `background-image: ..., var(--lcd-screen)` LONGHAND
-      override -- but `background-image` cannot accept position/repeat/box
-      tokens, so substituting --lcd-screen into it made that whole
-      declaration invalid at computed-value time, and CSS drops the entire
-      property to its initial value ("none") rather than just that layer.
-      The later (invalid) declaration still wins the cascade over the
-      earlier valid `background:` shorthand, which is why the control
-      rendered with no background at all. */
+   /* Exact chevron from MutationStation's `select` rule -- a single small
+      hand-drawn SVG triangle, NOT a CSS gradient pair. A gradient pair sized
+      `auto` (the previous version here) has no intrinsic size, so its
+      "auto" background-size defaults to the full padding-box -- it drew a
+      giant diagonal split across the whole control instead of an 8x5px
+      arrow. Copied verbatim rather than re-derived so this can't recur. */
+   padding-right: 18px;
    background:
-      linear-gradient(45deg, transparent 50%, currentColor 50%) right 6px center / auto no-repeat,
-      linear-gradient(135deg, currentColor 50%, transparent 50%) right 1px center / auto no-repeat,
+      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="5"><path d="M0 0h8L4 5z" fill="%23555046"/></svg>') right 6px center / 8px 5px no-repeat padding-box,
       var(--lcd-screen);
-   box-shadow: inset 0 3px 5px rgba(0,0,0,0.42), inset 0 0 0 1px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.30);
-   -webkit-appearance: none; appearance: none;
+   box-shadow: inset 0 3px 5px rgba(0,0,0,0.42), inset 0 0 0 1px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.30), 0 1px 0 rgba(255,255,255,0.5);
+   appearance: base-select;
    min-width: 140px; max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
+.hero-lcd-select::picker-icon { display: none; }
 .hero-lcd-select:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent) 70%, transparent); outline-offset: 2px; }
 .hero-lcd-select option { background: transparent; color: inherit; }
 
@@ -275,6 +281,10 @@ body {
    box-shadow: inset 0 3px 5px rgba(0,0,0,0.42), inset 0 0 0 1px rgba(0,0,0,0.12), 0 4px 10px rgba(0,0,0,0.35);
    padding: 2px; margin-top: 3px;
 }
+/* Same reddish hover as the .hero-lcd-popup JS fallback above, applied to the
+   native customizable-select option rows so both pickers give matching
+   feedback. */
+.hero-lcd-select option:hover { background: color-mix(in srgb, var(--accent, hsl(8,80%,55%)) 22%, hsl(100,6.5%,74%)); color: hsl(0,0%,12%); }
 
 /* Custom JS-driven popup to reproduce the app's open list in all browsers */
 .hero-lcd-popup {
@@ -294,7 +304,13 @@ body {
 }
 .hero-lcd-popup.open { display: block; }
 .hero-lcd-popup .opt { padding: 4px var(--cell,6.5px); border-radius: 2px; cursor: pointer; color: hsl(100,5%,28%); font-family: "DotGothic16", "SF Mono", Menlo, Consolas, monospace; font-size: 13px; line-height: 1.6; position: relative; }
-.hero-lcd-popup .opt:hover, .hero-lcd-popup .opt[aria-selected="true"] { background: hsl(100,10%,64%); }
+/* Hover is the same reddish accent feedback as the header buttons' pressed
+   LED (.site-nav a:active::before), not the sage tone that was here before --
+   the selected row keeps its own quieter background so the two states stay
+   visually distinct. */
+.hero-lcd-popup .opt:hover { background: color-mix(in srgb, var(--accent, hsl(8,80%,55%)) 22%, hsl(100,6.5%,74%)); color: hsl(0,0%,12%); }
+.hero-lcd-popup .opt[aria-selected="true"] { background: hsl(100,10%,64%); }
+.hero-lcd-popup .opt[aria-selected="true"]:hover { background: color-mix(in srgb, var(--accent, hsl(8,80%,55%)) 22%, hsl(100,10%,64%)); }
 /* Selected row shows a tick at the left; uses a pseudo-element so no markup change */
 .hero-lcd-popup .opt[aria-selected="true"]::before { content: "✓"; position: absolute; left: 6px; top: 50%; transform: translateY(-50%); color: hsl(100,5%,28%); }
 
@@ -302,32 +318,6 @@ body {
 .hero-lcd-popup::-webkit-scrollbar { width: 12px; }
 .hero-lcd-popup::-webkit-scrollbar-track { background: transparent; }
 .hero-lcd-popup::-webkit-scrollbar-thumb { background: #ffffff; border-left: 1px solid rgba(0,0,0,0.08); border-radius: 6px; }
-
-/* Popup fader: Juno106-style miniature fader on the right edge of tall lists */
-.hero-lcd-popup .popup-fader {
-   position: absolute; right: 6px; top: 6px; bottom: 6px; width: 28px; display: block; pointer-events: auto;
-}
-.hero-lcd-popup .popup-fader .fader-slot {
-   position: absolute; right: 7px; top: 8px; bottom: 8px; width: 8px; margin-left: 0; border-radius: 4px;
-   background: var(--screen-bg); box-shadow: inset 0 2px 4px rgba(0,0,0,0.9), 0 1px 0 rgba(255,255,255,0.14);
-   overflow: hidden;
-}
-.hero-lcd-popup .popup-fader .fader-fill {
-   position: absolute; left: 0; right: 0; bottom: 0; height: 0;
-   background: linear-gradient(180deg, var(--value-fill, hsl(12,88%,51%)) 0%, hsl(18,88%,40%) 100%);
-   box-shadow: 0 0 6px var(--value-glow, rgba(255,100,60,0.25));
-}
-.hero-lcd-popup .popup-fader .fader-cap {
-   position: absolute; right: -8px; left: auto; width: 24px; height: 14px; bottom: 0; border-radius: 2.5px;
-   background: linear-gradient(180deg, hsl(220,7%,32%) 0%, hsl(220,11%,9%) 100%);
-   border: 1px solid hsl(220,14%,5%);
-   box-shadow: 0 2px 4px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.16);
-   cursor: ns-resize;
-}
-.hero-lcd-popup .popup-fader .fader-cap::after {
-   content: ""; position: absolute; left: 3px; right: 3px; top: 50%; height: 2px; margin-top: -1px; background: hsl(0,0%,90%); box-shadow: 0 0 2px rgba(255,255,255,0.4);
-}
-
 
 /* The JS injects a non-interactive <button><selectedcontent> into each
     select so the closed label can ellipsise reliably across browsers. These
@@ -395,27 +385,75 @@ a:hover { color: var(--accent); }
     0 -1px 0 hsla(28,12%,14%,0.4);
 }
 .site-nav { margin-left: auto; display: flex; gap: 16px; align-items: center; }
-.site-nav a { text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
-   padding: 5px 8px; border-radius: 4px; font-weight: 700; font-size: 13px; color: var(--text-primary);
-   border: 1px solid hsl(38,10%,42%);
-   background: linear-gradient(180deg, hsl(45,22%,97%) 0%, hsl(43,15%,89%) 45%, hsl(40,10%,76%) 100%);
-   box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), inset 0 -1px 1px rgba(0,0,0,0.22), 0 1px 2px rgba(0,0,0,0.12);
+/* Raised hardware button: taller wall (padding + thicker bottom edge) and a
+   two-tone border (light top-left / dark bottom-right lip) so the face reads
+   as sitting proud of the plate rather than flush with it, plus a real
+   bottom "skirt" shadow standing in for the button's own drop shadow. A
+   small rectangular LED sits left of the label and only lights on
+   press/active, per the reference hardware-button photo. Lift reduced and
+   flex-shrink disabled 2026-08-17 -- these sit in a fixed-height flex row and
+   must never compress before wrapping. */
+.site-nav a { text-decoration: none; display: inline-flex; align-items: center; gap: 7px;
+   padding: 7px 10px; border-radius: 5px; font-weight: 700; font-size: 13px; color: var(--text-primary);
+   flex: none; white-space: nowrap;
+   border: 1px solid hsl(38,10%,40%);
+   border-bottom-color: hsl(38,12%,28%);
+   background: linear-gradient(180deg, hsl(45,24%,98%) 0%, hsl(43,16%,90%) 45%, hsl(40,11%,75%) 100%);
+   box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 1px rgba(0,0,0,0.16),
+      0 1px 0 rgba(255,255,255,0.5), 0 1px 0 hsl(40,10%,60%), 0 2px 3px rgba(0,0,0,0.18);
    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+   transform: translateY(0);
 }
-.site-nav a:hover { filter: brightness(1.06); }
-.site-nav a:active { transform: translateY(1px); box-shadow: inset 0 2px 4px rgba(0,0,0,0.36); }
+.site-nav a::before {
+   content: ""; width: 8px; height: 5px; border-radius: 1px; flex: none;
+   background: hsl(40,8%,58%);
+   box-shadow: inset 0 1px 1px rgba(0,0,0,0.35), inset 0 -1px 0 rgba(255,255,255,0.15);
+}
+.site-nav a:hover { filter: brightness(1.05); }
+.site-nav a:active {
+   transform: translateY(1px);
+   box-shadow: inset 0 2px 4px rgba(0,0,0,0.4), 0 1px 0 rgba(0,0,0,0.1);
+}
+.site-nav a:active::before {
+   background: var(--accent, hsl(8,80%,55%));
+   box-shadow: 0 0 5px color-mix(in srgb, var(--accent, hsl(8,80%,55%)) 70%, transparent), inset 0 1px 1px rgba(0,0,0,0.25);
+}
+/* Current-page LED: same lit treatment as :active, held steady rather than
+   only flashing on press, driven by site-header.js adding .current to the
+   nav link matching location.pathname. */
+.site-nav a.current::before {
+   background: var(--accent, hsl(8,80%,55%));
+   box-shadow: 0 0 5px color-mix(in srgb, var(--accent, hsl(8,80%,55%)) 70%, transparent), inset 0 1px 1px rgba(0,0,0,0.25);
+}
 
 /* Product page back-link: same raised button look as header, slightly smaller */
 .product-hero .back, .section .back {
-   text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
-   padding: 4px 6px; border-radius: 4px; font-weight: 700; font-size: 12px; color: var(--text-primary);
-   border: 1px solid hsl(38,10%,42%);
-   background: linear-gradient(180deg, hsl(45,22%,98%) 0%, hsl(43,15%,91%) 45%, hsl(40,10%,78%) 100%);
-   box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 1px rgba(0,0,0,0.18), 0 1px 1px rgba(0,0,0,0.08);
+   text-decoration: none; display: inline-flex; align-items: center; gap: 7px;
+   padding: 6px 9px; border-radius: 5px; font-weight: 700; font-size: 12px; color: var(--text-primary);
+   border: 1px solid hsl(38,10%,40%);
+   border-bottom-color: hsl(38,12%,28%);
+   background: linear-gradient(180deg, hsl(45,24%,99%) 0%, hsl(43,16%,92%) 45%, hsl(40,11%,77%) 100%);
+   box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 1px rgba(0,0,0,0.14),
+      0 1px 0 rgba(255,255,255,0.5), 0 1px 0 hsl(40,10%,62%), 0 2px 3px rgba(0,0,0,0.14);
    text-shadow: 0 1px 0 rgba(255,255,255,0.45);
+   transform: translateY(0);
+}
+.product-hero .back::before, .section .back::before {
+   content: ""; width: 7px; height: 5px; border-radius: 1px; flex: none;
+   background: hsl(40,8%,58%);
+   box-shadow: inset 0 1px 1px rgba(0,0,0,0.35), inset 0 -1px 0 rgba(255,255,255,0.15);
 }
 .product-hero .back:hover, .section .back:hover { filter: brightness(1.04); }
-.product-hero .back:active, .section .back:active { transform: translateY(1px); box-shadow: inset 0 2px 4px rgba(0,0,0,0.28); }
+.product-hero .back:active, .section .back:active {
+   transform: translateY(1px);
+   box-shadow: inset 0 2px 4px rgba(0,0,0,0.32), 0 1px 0 rgba(0,0,0,0.1);
+}
+.product-hero .back:active::before, .section .back:active::before {
+   background: var(--accent, hsl(8,80%,55%));
+   box-shadow: 0 0 5px color-mix(in srgb, var(--accent, hsl(8,80%,55%)) 70%, transparent), inset 0 1px 1px rgba(0,0,0,0.25);
+}
 
 /* Ensure back-links never get a text-underline on hover */
 .product-hero .back, .section .back { text-decoration: none !important; text-decoration-color: transparent !important; }
@@ -436,7 +474,11 @@ a:hover { color: var(--accent); }
    box-shadow: 0 0 6px var(--value-glow, rgba(255,100,60,0.25));
 }
 .page-fader .fader-cap {
-   position: absolute; right: -8px; left: auto; width: 28px; height: 16px; bottom: 0; border-radius: 2.5px;
+   /* Centered on the 8px-wide slot (slot: right:6px width:8px -> center at
+      container-right - 10). A 28px-wide cap centered there needs its own
+      right offset at -4px, not -8px -- -8px put its center 4px past the
+      slot's, which is what "not centered on the bar line" meant. */
+   position: absolute; right: -4px; left: auto; width: 28px; height: 16px; bottom: 0; border-radius: 2.5px;
    background: linear-gradient(180deg, hsl(220,7%,32%) 0%, hsl(220,11%,9%) 100%);
    border: 1px solid hsl(220,14%,5%);
    box-shadow: 0 2px 4px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.16);
@@ -1414,7 +1456,6 @@ a.btn.gumroad-button:active {
   .two-col { grid-template-columns: 1fr; }
   .hero { padding-block: 48px 36px; }
 
-  body { background-attachment: scroll; }
   .wrap { padding: 0 20px; }
   .section { padding-block: 28px; }
 

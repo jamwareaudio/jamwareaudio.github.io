@@ -1,3 +1,21 @@
+// Mark the LCD's own app as selected so the closed label (and the checkmark
+// in the open list) reflect where we actually are, not just "-Select-".
+// Matched on filename rather than the full option value because index.html's
+// options are relative ("apps/x.html") while every app page's options are
+// root-relative ("/apps/x.html") -- both resolve fine as hrefs, but neither
+// string equals location.pathname on its own.
+(function () {
+  var here = location.pathname.split('/').pop() || 'index.html';
+  var sels = document.querySelectorAll('#siteAppSelect');
+  for (var i = 0; i < sels.length; i++) {
+    var opts = sels[i].querySelectorAll('option');
+    for (var j = 0; j < opts.length; j++) {
+      var file = (opts[j].getAttribute('value') || '').split('/').pop();
+      if (file && file === here) opts[j].selected = true;
+    }
+  }
+})();
+
 // Inject the non-interactive <button><selectedcontent> child into selects
 // so the closed label can ellipsise the long text exactly like the app.
 function wireSelectEllipsis(root) {
@@ -71,68 +89,6 @@ new MutationObserver(function (recs) {
         });
         popup.appendChild(row);
       })(opts[i]);
-    }
-    // append the popup fader UI so tall lists get a Juno106-style fader
-    var existing = popup.querySelector('.popup-fader');
-    if (!existing) {
-      var pf = document.createElement('div');
-      pf.className = 'popup-fader';
-      pf.innerHTML = '<div class="fader-slot"><div class="fader-fill"></div></div><div class="fader-cap" tabindex="0" role="slider" aria-orientation="vertical"></div>';
-      popup.appendChild(pf);
-
-      // wire scroll <-> fader sync and drag behaviour
-      var slot = pf.querySelector('.fader-slot');
-      var fill = pf.querySelector('.fader-fill');
-      var cap = pf.querySelector('.fader-cap');
-
-      function updateFaderFromScroll() {
-        var scrollable = popup.scrollHeight - popup.clientHeight;
-        if (scrollable <= 0) { pf.style.display = 'none'; return; }
-        pf.style.display = 'block';
-        var ratio = popup.scrollTop / scrollable;
-        // fill height as percentage
-        fill.style.height = Math.max(2, Math.round(ratio * 100)) + '%';
-        var slotH = slot.clientHeight;
-        var capH = cap.clientHeight || 16;
-        var bottomPx = Math.round(ratio * Math.max(0, slotH - capH));
-        cap.style.bottom = bottomPx + 'px';
-      }
-
-      popup.addEventListener('scroll', updateFaderFromScroll);
-      // initial
-      setTimeout(updateFaderFromScroll, 0);
-
-      // drag handling
-      var dragging = false;
-      var startY = 0, startRatio = 0;
-      cap.addEventListener('pointerdown', function (ev) {
-        ev.preventDefault(); cap.setPointerCapture(ev.pointerId);
-        dragging = true; startY = ev.clientY;
-        var scrollable = popup.scrollHeight - popup.clientHeight;
-        startRatio = scrollable > 0 ? popup.scrollTop / scrollable : 0;
-      });
-      cap.addEventListener('pointermove', function (ev) {
-        if (!dragging) return;
-        var slotRect = slot.getBoundingClientRect();
-        var dy = startY - ev.clientY;
-        var slotH = slot.clientHeight;
-        var frac = dy / slotH;
-        var newRatio = Math.min(1, Math.max(0, startRatio + frac));
-        var scrollable = popup.scrollHeight - popup.clientHeight;
-        popup.scrollTop = Math.round(newRatio * scrollable);
-      });
-      cap.addEventListener('pointerup', function (ev) { dragging = false; try { cap.releasePointerCapture(ev.pointerId); } catch (e) {} });
-      cap.addEventListener('pointercancel', function () { dragging = false; });
-      // make keyboard accessible: up/down/page
-      cap.addEventListener('keydown', function (ev) {
-        var scrollable = popup.scrollHeight - popup.clientHeight;
-        if (scrollable <= 0) return;
-        var step = Math.max(10, Math.round(popup.clientHeight / 10));
-        if (ev.key === 'ArrowUp') { popup.scrollTop = Math.max(0, popup.scrollTop - step); ev.preventDefault(); }
-        if (ev.key === 'ArrowDown') { popup.scrollTop = Math.min(scrollable, popup.scrollTop + step); ev.preventDefault(); }
-        if (ev.key === 'PageUp') { popup.scrollTop = Math.max(0, popup.scrollTop - popup.clientHeight); ev.preventDefault(); }
-        if (ev.key === 'PageDown') { popup.scrollTop = Math.min(scrollable, popup.scrollTop + popup.clientHeight); ev.preventDefault(); }
-      });
     }
   }
 
@@ -265,11 +221,17 @@ new MutationObserver(function (recs) {
     if (scrollable <= 0) { pf.style.display = 'none'; return; }
     pf.style.display = 'block';
     var ratio = scrollTop / scrollable;
-    fill.style.height = Math.max(2, Math.round(ratio * 100)) + '%';
     var slotH = slot.clientHeight;
     var capH = cap.clientHeight || 16;
     var bottomPx = Math.round(ratio * Math.max(0, slotH - capH));
     cap.style.bottom = bottomPx + 'px';
+    // Fill height must track the cap's own center, in the same px space as
+    // bottomPx above -- deriving this from `ratio * 100%` independently (the
+    // previous approach) only agreed with the cap at the very top/bottom of
+    // the scroll range, so the LED fill visibly led or lagged the handle
+    // everywhere in between.
+    var fillPx = Math.min(slotH, Math.max(2, bottomPx + capH / 2));
+    fill.style.height = fillPx + 'px';
   }
 
   window.addEventListener('scroll', updateFromScroll, { passive: true });
