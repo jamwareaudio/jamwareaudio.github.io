@@ -177,6 +177,20 @@ new MutationObserver(function (recs) {
   function shouldIgnoreEvent(e){
     // allow shortcuts (zoom / platform gestures)
     if (e.ctrlKey || e.metaKey || e.altKey) return true;
+    // The Gumroad checkout overlay (gumroad-bundle.js) lives inside a shadow
+    // root appended to <body> -- from this outer listener, e.target for any
+    // wheel event over it is retargeted to the shadow HOST, never the actual
+    // ".fixed.inset-0.overflow-scroll" scroller or the checkout <iframe>
+    // inside the shadow tree. The scrollHeight/clientHeight walk-up below
+    // can't see into the shadow root at all, so without this check every
+    // wheel tick over an open overlay fell through to `window.scrollBy` on
+    // the OUTER page -- reported as "scrolling with the Juno fader/wheel
+    // moves the background instead of the Gumroad popup". Gumroad's own code
+    // sets `document.body.style.overflow = "hidden"` for exactly as long as
+    // the overlay is visible (see gumroad-bundle.js's postMessage "loaded"
+    // handler), so that's used here as the open/closed signal instead of
+    // trying to pierce the shadow boundary ourselves.
+    if (document.body.style.overflow === 'hidden') return true;
     // if a form control has focus, do not hijack
     var af = document.activeElement;
     if (!af) return false;
@@ -208,23 +222,26 @@ new MutationObserver(function (recs) {
     window.scrollBy({ top: delta, left: 0, behavior: 'auto' });
   }
 
-  var lastTouchY = null;
-  function touchStart(e){ if (e.touches && e.touches[0]) lastTouchY = e.touches[0].clientY; }
-  function touchMove(e){
-    if (!enabled) return; if (!lastTouchY) { if (e.touches && e.touches[0]) lastTouchY = e.touches[0].clientY; return; }
-    if (shouldIgnoreEvent(e)) return;
-    var y = e.touches[0].clientY; var dy = lastTouchY - y; lastTouchY = y;
-    e.preventDefault();
-    window.scrollBy({ top: Math.round(dy), left: 0, behavior: 'auto' });
-  }
-  function touchEnd(){ lastTouchY = null; }
+  // Touch was previously hijacked the same way as wheel: a per-touchmove
+  // `preventDefault()` + manual `window.scrollBy(dy)`, one call per event.
+  // That looked fine on the trackpad this was built and tested on (a
+  // trackpad fires wheel events, not touch), but on an actual touchscreen it
+  // replaces the OS's native touch-scroll -- which batches input and drives
+  // scrolling with real momentum/inertia off the compositor thread -- with a
+  // synchronous JS scrollBy on every single touchmove. That reads as
+  // "extremely extremely slow" scrolling on mobile: no momentum, no
+  // deceleration, one janky jump per finger movement. Removed 2026-08-17.
+  // The Juno-fader "primary scroll control" framing only needed wheel
+  // (mouse/trackpad) rerouted in the first place -- touch already has its
+  // own direct-manipulation equivalent (drag the page), so leaving native
+  // touch scrolling alone is the correct behaviour, not a fallback. The
+  // fader cap still tracks scroll position fine via `updateFromScroll`
+  // below, which listens for the native `scroll` event regardless of what
+  // produced it.
 
   // Keyboard focus on the fader already handles keys; we don't capture keys globally.
 
   window.addEventListener('wheel', wheelHandler, { passive: false });
-  window.addEventListener('touchstart', touchStart, { passive: false });
-  window.addEventListener('touchmove', touchMove, { passive: false });
-  window.addEventListener('touchend', touchEnd, { passive: true });
 
   // Expose a toggle for debugging or temporary disable via window
   window.__junoGlobalFader = {

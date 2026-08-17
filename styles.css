@@ -12,8 +12,13 @@
 :root {
   /* --- the faceplate, from the apps ------------------------------------- */
   --ui-bg:          hsl(44, 8%, 88%);
-  --face-hi:        hsl(45, 10%, 95%);
-  --face-lo:        hsl(40, 6%, 76%);
+  /* --face-hi/--face-lo were near-neutral greys (10%/6% sat) top-to-bottom --
+     2026-08-17: nudged toward the same warm-top/grey-bottom split the app
+     panel gradients already use (see the hsl(45,24%..) / hsl(40,11%..) pairs
+     below), just at lower saturation since this pair paints the whole page
+     baseplate rather than one card and needs to stay in the background. */
+  --face-hi:        hsl(45, 16%, 96%);
+  --face-lo:        hsl(38, 10%, 74%);
   --control-bg:     hsl(43, 18%, 94%);
   --control-border: hsl(35, 9%, 55%);
   --hairline:       hsl(35, 9%, 72%);
@@ -173,15 +178,25 @@ body {
    `position: fixed` pseudo-element behind everything paints the same
    viewport-pinned gradient without going through that per-tile repaint path,
    so it stays one continuous surface. */
+/* 2026-08-17: the 1px repeating-linear-gradient grain (still present as of
+   the comment above this rule) turned out to be a second source of the same
+   rectangular-seam bug that position:fixed was meant to have already fixed.
+   A live repeating-gradient is recomputed per GPU raster tile; at this page's
+   height Chrome still splits a `fixed` layer into multiple tiles well before
+   it reaches the bottom, and a 1px-period pattern is exactly fine-grained
+   enough for adjacent tiles to phase-mismatch by a pixel at the seam --
+   visible as a hard rectangular edge in the lower half of the page. Swapping
+   the live gradient for a tiny (1x2px) rasterized tile repeated via
+   background-repeat sidesteps this: the browser rasterizes that bitmap once
+   and repeats the exact same pixels everywhere, so there is no live
+   computation left to fall out of phase at a tile boundary. */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   background:
-    repeating-linear-gradient(0deg,
-      rgba(255,255,255,0.04) 0 1px,
-      rgba(0,0,0,0.015) 1px 2px),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='2'><rect width='1' height='1' fill='white' fill-opacity='0.04'/><rect y='1' width='1' height='1' fill='black' fill-opacity='0.015'/></svg>") repeat,
     linear-gradient(180deg,
       var(--face-hi) 0%, var(--ui-bg) 42%, var(--face-lo) 100%);
 }
@@ -338,7 +353,14 @@ body::before {
    padding: 4px 2px; max-height: 440px; overflow: auto;
 }
 .hero-lcd-popup.open { display: block; }
-.hero-lcd-popup .opt { padding: 4px var(--cell,6.5px); border-radius: 2px; cursor: pointer; color: hsl(100,5%,28%); font-family: "DotGothic16", "SF Mono", Menlo, Consolas, monospace; font-size: 13px; line-height: 1.6; position: relative; }
+/* padding-left reserves a fixed gutter (var(--cell) base indent + 14px) on
+   EVERY row, selected or not, for the checkmark ::before below. It used to
+   match the plain var(--cell) padding every other side uses, which put the
+   selected row's "✓" at left:6px directly on top of the label's first glyph
+   (e.g. "Chordinator" read as "✓hordinator") since no space was reserved for
+   it. Reserving the gutter on all rows keeps every row's text left-edge
+   aligned instead of only the selected row shifting right. */
+.hero-lcd-popup .opt { padding: 4px var(--cell,6.5px) 4px calc(var(--cell,6.5px) + 14px); border-radius: 2px; cursor: pointer; color: hsl(100,5%,28%); font-family: "DotGothic16", "SF Mono", Menlo, Consolas, monospace; font-size: 13px; line-height: 1.6; position: relative; }
 /* Hover is the same reddish accent feedback as the header buttons' pressed
    LED (.site-nav a:active::before), not the sage tone that was here before --
    the selected row keeps its own quieter background so the two states stay
@@ -403,7 +425,7 @@ a:hover { color: var(--accent); }
   height: 58px;
 }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.brand svg, .brand img { height: 27px; width: auto; display: block; }
+.brand svg, .brand img { height: 34px; width: auto; display: block; }
 .wordmark {
   /* Cut into the header band 2026-08-16, the same treatment as .product h3 a
      rather than the app-title-only .engraved recipe (that one is tuned for
@@ -414,9 +436,12 @@ a:hover { color: var(--accent); }
 
      2026-08-17: bumped 16px -> 20px, user asked for the wordmark bigger. The
      logo mark beside it (.brand svg/img) grew from 22px to 27px in step so
-     the lockup stays proportioned rather than the text alone dwarfing it. */
+     the lockup stays proportioned rather than the text alone dwarfing it.
+     Same day, second ask: bumped again 20px -> 24px / 27px -> 34px logo, still
+     in step. .site-header .wrap height (58px) has enough headroom already so
+     this didn't need a matching bump. */
   font-family: var(--font-display);
-  font-size: 20px; font-weight: 700; letter-spacing: 0.06em;
+  font-size: 24px; font-weight: 700; letter-spacing: 0.06em;
   text-transform: uppercase;
   color: color-mix(in srgb, var(--control-bg) 92%, black);
   text-shadow:
@@ -1075,6 +1100,19 @@ a:hover { color: var(--accent); }
    that stylesheet with a property not named here, that property gets through —
    the fix is to add it, not to drop the overlay.
    -------------------------------------------------------------------------- */
+/* 2026-08-17: gumroad.js doesn't only inject the overlay stylesheet above --
+   gumroad-bundle.js (which it loads) also mutates each `.gumroad-button`
+   anchor, appending a `.logo-full` child (a CSS-masked "gumroad" wordmark,
+   ~7em wide) once it has run. Until that happens the button is just our own
+   plain "GET IT ON" text at its base width; the wordmark landing a beat later
+   pops the button wider mid-page-load, which read as cheap. Buttons start
+   `visibility: hidden` (NOT display:none/opacity, which wouldn't reserve the
+   box) and the inline script at the foot of index.html adds `.gr-ready` the
+   moment it sees `.logo-full` land (with a fallback timeout for a blocked or
+   slow gumroad.js) -- so the button always appears already at final size. */
+a.btn.gumroad-button { visibility: hidden; }
+a.btn.gumroad-button.gr-ready { visibility: visible; }
+
 a.btn.gumroad-button {
   display: inline-flex !important;
   align-items: center !important;

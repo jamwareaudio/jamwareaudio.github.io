@@ -165,8 +165,25 @@
         <video class="hero-inset"
                src="assets/shots/mutationstation-reroll.mp4"
                poster="assets/shots/mutationstation-reroll-poster.png"
-               autoplay muted loop playsinline
+               autoplay muted loop playsinline webkit-playsinline disablePictureInPicture disableRemotePlayback preload="auto"
                aria-label="MutationStation re-rolling a pattern: locked notes in red hold their pitch while unlocked notes in orange mutate on each roll"></video>
+        <script>
+        /* Some mobile browsers only honour "muted" as a JS property set
+           before play(), not the HTML attribute alone -- if autoplay is
+           rejected because the browser doesn't yet consider the video muted,
+           it falls back to showing its native paused-state play button over
+           the video, which is the "play button over the hero animation on
+           mobile" this fixes. Belt-and-braces retry of .play() covers that
+           case; the attribute above is left in place for browsers that do
+           honour it (avoids a flash of the play button before this runs). */
+        (function () {
+          var v = document.currentScript.previousElementSibling;
+          if (!v || v.tagName !== 'VIDEO') return;
+          v.muted = true;
+          var p = v.play();
+          if (p && p.catch) p.catch(function () {});
+        })();
+        </script>
       </div>
     </div>
     <!-- The "Lock the notes that work · re-roll the rest" caption that used to
@@ -503,6 +520,36 @@
 
      This is the only third-party script on the site.
      ====================================================================== -->
+<noscript><style>a.btn.gumroad-button { visibility: visible !important; }</style></noscript>
+<script>
+/* Buttons start `visibility: hidden` in styles.css (see the comment on
+   a.btn.gumroad-button.gr-ready) so the "GET IT ON" text can't paint before
+   gumroad-bundle.js appends its .logo-full wordmark span a beat later. This
+   watches for that append and reveals every button in one paint once it's
+   there -- or after a fixed timeout if gumroad.js is blocked/slow, so an
+   ad-blocked visitor still gets a working (if logo-less) button rather than
+   nothing. Must run before the gumroad.js tag below so the observers are
+   attached before gumroad-bundle.js has a chance to mutate anything. */
+(function () {
+  var btns = Array.prototype.slice.call(document.querySelectorAll('a.btn.gumroad-button'));
+  if (!btns.length) return;
+  var revealed = false;
+  function reveal() {
+    if (revealed) return;
+    revealed = true;
+    observers.forEach(function (o) { o.disconnect(); });
+    btns.forEach(function (b) { b.classList.add('gr-ready'); });
+  }
+  var observers = btns.map(function (b) {
+    var o = new MutationObserver(function () {
+      if (b.querySelector('.logo-full')) reveal();
+    });
+    o.observe(b, { childList: true });
+    return o;
+  });
+  setTimeout(reveal, 1500);
+})();
+</script>
 <script src="https://gumroad.com/js/gumroad.js"></script>
 <script src="assets/site-header.js"></script>
 
