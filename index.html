@@ -181,7 +181,17 @@
           if (!v || v.tagName !== 'VIDEO') return;
           v.muted = true;
           var p = v.play();
-          if (p && p.catch) p.catch(function () {});
+          if (p && p.catch) p.catch(function () {
+            /* Low Power Mode / Data Saver reject autoplay outright, and no
+               amount of retrying without a user gesture changes that -- the
+               overlay is hidden via CSS so it doesn't look broken, but retry
+               once on the first touch/click on the page in case that gesture
+               is enough to unblock it (iOS treats a touch anywhere on the
+               page, not just on the video, as sufficient). */
+            var retry = function () { v.play().catch(function () {}); };
+            document.addEventListener('touchstart', retry, { once: true, passive: true });
+            document.addEventListener('click', retry, { once: true });
+          });
         })();
         </script>
       </div>

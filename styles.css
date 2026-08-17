@@ -900,6 +900,14 @@ a:hover { color: var(--accent); }
   object-fit: cover;
   pointer-events: none;
 }
+/* iOS/Safari draws its own paused-state play button over a <video> whenever
+   autoplay is blocked (Low Power Mode, Data Saver) -- independent of the
+   `controls` attribute, so removing that attribute doesn't stop it, and the
+   JS play() retry next to the element can't force playback without a user
+   gesture. Hidden outright: the element is decorative (pointer-events: none
+   above) so a paused frame with no play button reads as a still image, which
+   is the correct fallback when autoplay genuinely can't run. */
+.hero-inset::-webkit-media-controls-start-playback-button { display: none !important; }
 
 /* ========================================================= PRODUCT CARDS */
 
