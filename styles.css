@@ -1615,7 +1615,12 @@ a.btn.gumroad-button:active {
   .two-col { grid-template-columns: 1fr; }
   .hero { padding-block: 48px 36px; }
 
-  .wrap { padding: 0 20px; }
+  /* padding-left only -- a `padding: 0 20px` shorthand here was clobbering
+     the 46px padding-right the 900px breakpoint above reserves for the fixed
+     page-fader, since this block (max-width:720px) also matches every phone
+     width and comes later in the cascade. That let body copy run under the
+     fader on real phones even though the reservation looked correct on paper. */
+  .wrap { padding-left: 20px; }
   .section { padding-block: 28px; }
 
   .site-header .wrap {
@@ -1630,23 +1635,40 @@ a.btn.gumroad-button:active {
      .brand's own width plus the select's ~140-150px comfortably fits a
      phone-width row -- leaving .site-nav's four short links, which do fit
      on one line, as the second and last row. */
-  .hero-lcd { margin-left: 0; }
+  .hero-lcd { margin-left: 0; gap: 4px; }
   /* The four links' own width (padding + LED + gap, all sized for desktop)
      ran ~380px against ~353px of usable row width at 393px viewports, so
      `flex-wrap: wrap` here was still firing -- nav split into its own two
      lines, undoing the two-row goal above. Tightened padding/gap/font enough
      to clear a 360px-wide phone on one line; flex-wrap stays as a safety net
      for anything narrower rather than the primary layout mechanism. */
-  .site-nav { margin-left: auto; width: 100%; justify-content: flex-end; gap: 8px; font-size: 12px; flex-wrap: wrap; }
-  .site-nav a { padding: 6px 8px; gap: 5px; }
-  .wordmark { font-size: 18px; }
+  /* Measured directly (a same-origin iframe pinned to 375px, not the
+     browser-tool's resize_window -- that reports a stubborn 478px in this
+     environment regardless of the width requested, which is why an earlier
+     "fixed" pass didn't survive a real 390px phone). At font-size:12px /
+     padding:6px 8px / gap:8px, the four links summed to ~341px against
+     ~331px of row width -- Support alone cleared onto its own third row.
+     Cut padding and gap further and dropped to 11px; re-measured in the
+     same harness at 371px effective width with all four links landing on
+     one row (top offset identical across all four). */
+  .site-nav { margin-left: auto; width: 100%; justify-content: flex-end; gap: 4px; font-size: 11px; flex-wrap: wrap; }
+  .site-nav a { padding: 5px 6px; gap: 4px; }
+  .wordmark { font-size: 16px; }
   /* The 2026-08-17 desktop bump (24px wordmark / 34px logo) read oversized
      once the header wraps to two rows on a phone-width viewport -- it and
      the LCD select were eating close to a third of the screen height before
      any page content showed. Scaled both back down for this breakpoint only;
      desktop keeps the bigger mark. */
-  .brand svg, .brand img { height: 24px; }
-  .hero-lcd-select { font-size: 12px; }
+  .brand svg, .brand img { height: 22px; }
+  .brand { gap: 8px; }
+  /* Brand + select still measured as fitting one row against a wider test
+     viewport than a real phone actually renders at -- against a genuine
+     ~390px-wide device the two wrapped onto separate lines (3 rows total,
+     not the intended 2). The select already ellipsis-truncates long app
+     names (text-overflow: ellipsis, set unconditionally above), so shrinking
+     its min-width here costs nothing but a few characters of the closed
+     label -- it buys the margin that made brand+select unreliable. */
+  .hero-lcd-select { font-size: 11px; min-width: 100px; max-width: 150px; padding-right: 16px; }
 
   .btn { padding: 8px 12px; font-size: 13px; }
   .btn-row .btn { flex: 1 1 100%; justify-content: center; }
@@ -1664,7 +1686,14 @@ a.btn.gumroad-button:active {
   .product-hero { padding-block: 32px 22px; }
   .product-hero .row { gap: 16px; }
   .product-hero .icon { width: 64px; height: 64px; border-radius: 13px; }
-  .product-hero h1 { font-size: clamp(24px, 7.2vw, 34px); }
+  /* Re-tuned after the .wrap padding-right fix above: reserving the fader's
+     46px (vs. the flat 20px this was originally measured against) leaves
+     only ~225px for the h1 itself once the 64px icon and 16px gap are taken
+     out of a 305px row -- the old 7.2vw put "MutationStation" at ~274px
+     scrollWidth, well past that, and the fader fix re-exposed the overlap
+     rather than causing a new one. Lowered until it clears in the same
+     375px-iframe harness. */
+  .product-hero h1 { font-size: clamp(20px, 6vw, 34px); }
 }
 
 /* The faceplate is a physical object with one lighting direction; there is no
