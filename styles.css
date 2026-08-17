@@ -256,10 +256,39 @@ body::before {
       url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="5"><path d="M0 0h8L4 5z" fill="%23555046"/></svg>') right 6px center / 8px 5px no-repeat padding-box,
       var(--lcd-screen);
    box-shadow: inset 0 3px 5px rgba(0,0,0,0.42), inset 0 0 0 1px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.30), 0 1px 0 rgba(255,255,255,0.5);
-   appearance: base-select;
+   /* `appearance: base-select` only exists in Chromium 131+. On every other
+      engine (Safari, Firefox, older Chrome) an unsupported value is dropped
+      by the parser -- NOT treated as invalid-and-ignored-per-property, but
+      the whole declaration is skipped, leaving `appearance` at its default
+      `auto`. That kept the native OS chevron/popup active *alongside* our
+      hand-drawn SVG chevron above (the "double symbol" bug) and, worse,
+      meant clicking the control opened the real native list instead of the
+      .hero-lcd-popup below (the "boring macOS dropdown" bug) -- the JS click
+      handler in site-header.js is bound to a <button> child of the <select>,
+      which non-supporting browsers never lay out/hit-test, so the click fell
+      straight through to the native control. Base is `none` (single custom
+      chevron, no native popup machinery anywhere); base-select is opted back
+      in only where the engine actually understands it, and even there the
+      native popup stays fully overridden by the JS popup via the always-on
+      overlay button (see .hero-lcd-overlay + site-header.js). */
+   appearance: none;
    min-width: 140px; max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+   pointer-events: none;
+}
+@supports (appearance: base-select) {
+   .hero-lcd-select { appearance: base-select; }
 }
 .hero-lcd-select::picker-icon { display: none; }
+/* Invisible full-cover control, positioned over the <select> in JS, that
+   owns every click/keyboard interaction so opening always goes through the
+   .hero-lcd-popup below -- see the "appearance: none" comment above for why
+   the <select> itself can no longer be trusted to do this consistently
+   across engines. The <select> keeps pointer-events:none (mouse only; it is
+   still the thing that carries the actual form value and is still reachable
+   for assistive tech that inspects the DOM), while this sits on top for
+   both mouse and keyboard. */
+.hero-lcd-overlay { position: absolute; background: transparent; border: 0; padding: 0; margin: 0; cursor: pointer; z-index: 5; }
+.hero-lcd-overlay:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent) 70%, transparent); outline-offset: 2px; }
 .hero-lcd-select:focus-visible { outline: 2px solid color-mix(in srgb, var(--accent) 70%, transparent); outline-offset: 2px; }
 .hero-lcd-select option { background: transparent; color: inherit; }
 
@@ -461,7 +490,11 @@ a:hover { color: var(--accent); }
 
 /* Page fader: fixed Juno-style fader on the right edge of the site */
 .page-fader {
-   position: fixed; right: 10px; top: 20px; bottom: 20px; width: 34px; z-index: 60; pointer-events: auto; display: block;
+   /* top was 20px, which sat the track under the sticky 58px-tall
+      .site-header (plus its 1px hairline) -- the cap could then land in the
+      header band itself. 74px clears the header with an ~15px gap, same as
+      the 20px gap already used at the bottom. */
+   position: fixed; right: 10px; top: 74px; bottom: 20px; width: 34px; z-index: 60; pointer-events: auto; display: block;
 }
 .page-fader .fader-slot {
    position: absolute; right: 6px; top: 6px; bottom: 6px; width: 8px; border-radius: 4px;
@@ -678,9 +711,12 @@ a:hover { color: var(--accent); }
       var(--control-bg) 78%,
       color-mix(in srgb, var(--control-bg) 94%, black) 100%);
   background-repeat: no-repeat;
+  /* Used to also carry `inset 0 0 0 4px var(--control-bg)` here, meant to
+     read as a recessed bezel lip 4px in from the real border. In practice,
+     against most panel/page background combinations it read as a stray pale
+     ring traced around every panel instead -- removed 2026-08-17. */
   box-shadow:
-    0 1px 0 rgba(255,255,255,0.6), 0 2px 5px rgba(0,0,0,0.14),
-    inset 0 0 0 4px var(--control-bg);
+    0 1px 0 rgba(255,255,255,0.6), 0 2px 5px rgba(0,0,0,0.14);
 }
 .panel > .panel-head {
   /* Monospace, matching .legend's switch above — same stencil-label reasoning. */
@@ -960,6 +996,37 @@ a:hover { color: var(--accent); }
    border: 1px solid color-mix(in srgb, var(--accent) 55%, black);
 }
 
+/* 2026-08-17: unify every `.btn`/`.btn-ghost` (buy + details, on every panel
+   and app page) with the header's `.site-nav a` hardware-button family --
+   same two-tone bevel border (darker along the bottom edge, like a cap seen
+   from slightly above) and the same small LED indicator chip ahead of the
+   label. `.btn`'s own per-product accent gradient is kept -- that IS the
+   button's "colour" (Gumroad red, an app's accent, etc.) -- this only
+   touches the border/shadow/LED, which were flat and inconsistent with the
+   header before. */
+.btn::before, .btn-ghost::before {
+   content: ""; width: 8px; height: 5px; border-radius: 1px; flex: none;
+   background: hsl(40,8%,58%);
+   box-shadow: inset 0 1px 1px rgba(0,0,0,0.35), inset 0 -1px 0 rgba(255,255,255,0.15);
+}
+/* The ghost (neutral cream) button sits on the same pale surface as the
+   header, so its LED lights the same way -- accent-coloured, like
+   `.site-nav a.current::before`. A `.btn` is already sitting ON its own
+   accent-coloured gradient, where a same-hue LED would vanish, so it lights
+   plain white/bright instead -- the same "something just switched on"
+   read, tuned for a coloured face rather than a cream one. */
+.btn-ghost:active::before {
+   background: var(--accent, hsl(8,80%,55%));
+   box-shadow: 0 0 5px color-mix(in srgb, var(--accent, hsl(8,80%,55%)) 70%, transparent), inset 0 1px 1px rgba(0,0,0,0.25);
+}
+.btn:active::before {
+   background: #fff;
+   box-shadow: 0 0 5px rgba(255,255,255,0.7), inset 0 1px 1px rgba(0,0,0,0.25);
+}
+.btn {
+   border-bottom-color: color-mix(in srgb, var(--accent) 30%, black);
+}
+
 /* --------------------------------------------------------------------------
    GUMROAD OVERLAY GUARD
    Every buy button carries `class="btn gumroad-button"`. The second class is
@@ -1016,6 +1083,7 @@ a.btn.gumroad-button {
   min-width: 0 !important;
   border-radius: var(--radius) !important;
   border: 1px solid color-mix(in srgb, var(--btn-accent) 55%, black) !important;
+  border-bottom-color: color-mix(in srgb, var(--btn-accent) 30%, black) !important;
   color: #fff !important;
   background-color: transparent !important;
   background-image: linear-gradient(180deg,
@@ -1043,13 +1111,24 @@ a.btn.gumroad-button:active {
 }
 
 .btn-ghost {
-  background: linear-gradient(180deg, var(--face-hi), var(--control-bg));
+  /* Same warm-cream moulded cap as `.site-nav a` (the header's own buttons),
+     not the flatter --face-hi/--control-bg wash this used to be -- 2026-08-17,
+     part of unifying every "Details"-style button on panels/apps with the
+     header's button family. */
+  background: linear-gradient(180deg, hsl(45,24%,98%) 0%, hsl(43,16%,90%) 45%, hsl(40,11%,75%) 100%);
   color: var(--text-primary);
-  border-color: var(--control-border);
+  border: 1px solid hsl(38,10%,40%);
+  border-bottom-color: hsl(38,12%,28%);
   text-shadow: 0 1px 0 rgba(255,255,255,0.5);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 1px 2px rgba(0,0,0,0.16);
+  box-shadow:
+     inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 1px rgba(0,0,0,0.16),
+     0 1px 0 rgba(255,255,255,0.5), 0 1px 0 hsl(40,10%,60%), 0 2px 3px rgba(0,0,0,0.18);
 }
-.btn-ghost:hover { color: var(--text-primary); filter: brightness(1.02); }
+.btn-ghost:hover { color: var(--text-primary); filter: brightness(1.05); }
+.btn-ghost:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4), 0 1px 0 rgba(0,0,0,0.1);
+}
 
 .price { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
 

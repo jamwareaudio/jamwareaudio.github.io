@@ -110,30 +110,59 @@ new MutationObserver(function (recs) {
     }, 0);
   }
 
-  // Attach to hero-lcd-select controls when they have their injected button
+  // The <select> itself has pointer-events:none (styles.css) so that engines
+  // without `appearance: base-select` support (Safari, Firefox, older
+  // Chrome) can never fall through to their own native popup -- instead an
+  // invisible overlay button, sized/positioned to match the select exactly,
+  // owns every click and keypress and always opens .hero-lcd-popup. This
+  // replaces an earlier approach that hooked the injected <button> child
+  // (from wireSelectEllipsis) directly: that button is only hit-testable in
+  // engines that support customizable <select>, so on Safari the click went
+  // straight through to the real native control instead.
   function attachToHeroSelects(root) {
     var sels = (root || document).querySelectorAll('select.hero-lcd-select');
     for (var i = 0; i < sels.length; i++) {
       (function(sel){
-        var btn = sel.querySelector(':scope > button');
-        if (!btn) return; // wireSelectEllipsis will inject later
-        if (btn._heroHooked) return; btn._heroHooked = true;
-        btn.style.cursor = 'pointer';
-        btn.addEventListener('click', function (e) {
+        if (sel._heroHooked) { positionOverlay(sel); return; }
+        sel._heroHooked = true;
+        var ov = document.createElement('button');
+        ov.type = 'button';
+        ov.className = 'hero-lcd-overlay';
+        ov.setAttribute('aria-hidden', 'true');
+        sel._heroOverlay = ov;
+        document.body.appendChild(ov);
+        positionOverlay(sel);
+        ov.addEventListener('click', function (e) {
           e.preventDefault(); e.stopPropagation();
           if (popup.classList.contains('open')) { closePopup(); return; }
-          openFor(sel, btn);
+          openFor(sel, ov);
         });
-        // keyboard: Enter/Space opens
-        btn.addEventListener('keydown', function (ev) {
-          if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); openFor(sel, btn); }
+        ov.addEventListener('keydown', function (ev) {
+          if (ev.key === 'Enter' || ev.key === ' ' || ev.key === 'ArrowDown') { ev.preventDefault(); openFor(sel, ov); }
         });
       })(sels[i]);
     }
   }
 
+  function positionOverlay(sel) {
+    var ov = sel._heroOverlay; if (!ov) return;
+    var r = sel.getBoundingClientRect();
+    ov.style.left = (r.left + window.scrollX) + 'px';
+    ov.style.top = (r.top + window.scrollY) + 'px';
+    ov.style.width = r.width + 'px';
+    ov.style.height = r.height + 'px';
+  }
+
+  function positionAllOverlays() {
+    var sels = document.querySelectorAll('select.hero-lcd-select');
+    for (var i = 0; i < sels.length; i++) positionOverlay(sels[i]);
+  }
+
   attachToHeroSelects(document);
-  // re-attach when wireSelectEllipsis inserts buttons
+  window.addEventListener('resize', positionAllOverlays);
+  window.addEventListener('scroll', positionAllOverlays, true);
+  // re-run when the DOM changes (e.g. wireSelectEllipsis inserting buttons,
+  // or a select being added later) so new/moved selects get an overlay too
   var mo = new MutationObserver(function(recs){ attachToHeroSelects(document); });
   mo.observe(document.body, { childList: true, subtree: true });
 })();
@@ -223,7 +252,13 @@ new MutationObserver(function (recs) {
     var ratio = scrollTop / scrollable;
     var slotH = slot.clientHeight;
     var capH = cap.clientHeight || 16;
-    var bottomPx = Math.round(ratio * Math.max(0, slotH - capH));
+    // `bottom` is a distance from the track's BOTTOM edge, so driving it
+    // directly from `ratio` put the cap at the bottom of the track at
+    // scrollTop 0 and walked it upward while scrolling down -- backwards
+    // from the expected top-to-bottom scrollbar-style motion. Inverting the
+    // ratio here (1 - ratio) puts the cap at the top of the track on load
+    // and lets it descend as the page scrolls down.
+    var bottomPx = Math.round((1 - ratio) * Math.max(0, slotH - capH));
     cap.style.bottom = bottomPx + 'px';
     // Fill height must track the cap's own center, in the same px space as
     // bottomPx above -- deriving this from `ratio * 100%` independently (the
