@@ -11,30 +11,38 @@
 
 :root {
   /* --- the faceplate, from the apps ------------------------------------- */
-  --ui-bg:          hsl(42, 26%, 87%);
+  --ui-bg:          hsl(44, 8%, 88%);
   /* --face-hi/--face-lo were near-neutral greys (10%/6% sat) top-to-bottom --
      2026-08-17: nudged toward the same warm-top/grey-bottom split the app
      panel gradients already use (see the hsl(45,24%..) / hsl(40,11%..) pairs
      below), just at lower saturation since this pair paints the whole page
      baseplate rather than one card and needs to stay in the background.
 
-     2026-08-19, CREAM PASS: saturation roughly doubled across this whole
-     group (8→26, 16→40, 10→24, 18→34). The user's read of the live page was
-     that the plate had drifted grey next to the warm beige chassis of the
-     hardware it references. That drift was real and it was structural, not
-     one bad token: every value here had been held down deliberately (see the
-     note above) on the theory that a full-page baseplate must stay quiet, and
-     the cumulative effect of four quiet tokens is a grey page. The correction
-     is saturation only — hues stay in the 38-45 band they were tuned into,
-     and lightness moves at most 3 points, so every contrast pair and every
-     recipe layered on top of these (the panel gradient, the screws, the
-     engraving lips) keeps its relationships. If this ever reads too yellow,
-     drop saturation here; do NOT re-hue toward orange. */
-  --face-hi:        hsl(44, 40%, 96%);
-  --face-lo:        hsl(38, 24%, 75%);
-  --control-bg:     hsl(42, 34%, 92%);
-  --control-border: hsl(34, 14%, 54%);
-  --hairline:       hsl(35, 14%, 73%);
+     2026-08-19, CREAM PASS — TRIED AND REVERTED THE SAME DAY. Saturation was
+     roughly doubled across this whole group (8→26, 16→40, 10→24, 18→34) to
+     chase the warm beige chassis of the hardware the site references. On the
+     live page the user's verdict was immediate: "the warmer orange/reddish
+     ground — lets revert that, i want the cream / grey instead". These are
+     the original values, restored.
+
+     Why it failed, so nobody re-derives it: saturation on a full-page
+     baseplate does not behave like saturation on a card. Four tokens at
+     ~2x sat each are individually subtle and cumulatively a colour cast, and
+     because the hue band here is 38-45 that cast lands as orange rather than
+     as cream. Cream on real hardware is a LIGHT warm grey — it reads warm
+     because of what surrounds it, not because the plate itself is saturated.
+     The dark panel heads, screws and lit accents added the same day are what
+     actually supply that surround, and they work against exactly this cooler
+     ground.
+
+     So: if the plate ever reads too grey again, the fix is contrast and
+     surround (darker heads, warmer shadow ink, more accent), NOT saturation
+     in this block. Do not re-run the cream pass. */
+  --face-hi:        hsl(45, 16%, 96%);
+  --face-lo:        hsl(38, 10%, 74%);
+  --control-bg:     hsl(43, 18%, 94%);
+  --control-border: hsl(35, 9%, 55%);
+  --hairline:       hsl(35, 9%, 72%);
   /* Shared LCD-picker bezel gradient, hoisted here so both the closed
      `.hero-lcd-select` control and the `.hero-lcd-popup` (appended to
      <body>, a sibling rather than a descendant of `.hero-lcd`) can read it.
@@ -49,7 +57,7 @@
   /* Corner-screw dots on .panel -- deliberately its own token rather than
      reusing --control-border, so a future palette pass can retune screw
      contrast without touching the border colour everything else keys off. */
-  --screw:          hsl(35, 12%, 48%);
+  --screw:          hsl(35, 9%, 48%);
 
   /* --- the dark graphite plate, from Chordinator's .seq-col --------------
      Same three-stop gradient and border colour as
