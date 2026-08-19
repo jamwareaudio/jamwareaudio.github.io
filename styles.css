@@ -11,7 +11,7 @@
 
 :root {
   /* --- the faceplate, from the apps ------------------------------------- */
-  --ui-bg:          hsl(44, 8%, 88%);
+  --ui-bg:          hsl(48, 3%, 89%);
   /* --face-hi/--face-lo were near-neutral greys (10%/6% sat) top-to-bottom --
      2026-08-17: nudged toward the same warm-top/grey-bottom split the app
      panel gradients already use (see the hsl(45,24%..) / hsl(40,11%..) pairs
@@ -36,13 +36,46 @@
      ground.
 
      So: if the plate ever reads too grey again, the fix is contrast and
-     surround (darker heads, warmer shadow ink, more accent), NOT saturation
-     in this block. Do not re-run the cream pass. */
-  --face-hi:        hsl(45, 16%, 96%);
-  --face-lo:        hsl(38, 10%, 74%);
-  --control-bg:     hsl(43, 18%, 94%);
-  --control-border: hsl(35, 9%, 55%);
-  --hairline:       hsl(35, 9%, 72%);
+     surround (darker heads, more accent), NOT saturation in this block. Do
+     not re-run the cream pass.
+
+     2026-08-19, DE-ORANGE PASS — the round after the revert above. Restoring
+     the pre-cream values was NOT enough: "It is still too orange/red, the
+     faceplate. [...] No orange/red tone at all." The revert had put the
+     saturations back but left the HUE where it had always been, in the 26-45
+     band — and that band is the problem, not the amount. Hue 26-45 is the
+     orange/red side of yellow, so every warm neutral on the page, however
+     lightly saturated, was tinted toward terracotta rather than toward
+     paper. That is why halving saturation alone reads as "slightly less
+     orange" instead of "not orange".
+
+     The fix is therefore a hue move, applied across the whole page and not
+     just this block: every low-saturation warm neutral in the sheet (any
+     hsl() with hue 20-48 and saturation <= 26%) was moved to hue 48 and had
+     its saturation roughly halved. Hue 48 is on the yellow side, where a
+     small amount of saturation reads as ivory/cream; the halving then keeps
+     it a whisper rather than a tint. The plate tokens in this block were
+     hand-set a little lower still (3-5%) because they paint the largest
+     areas, where cast accumulates fastest.
+
+     Deliberately NOT touched by that sweep, so they are not "missed" and
+     re-swept later: the product accents (`--accent` and the hsl(8,80%,55%)
+     fallback), the amber LCD faces on the demo transport (hsl(38,45%,68%),
+     hsl(38,30%,84%) and their glow) — those are lit displays and are
+     supposed to be orange — and anything at saturation > 26%. The warm
+     shadow ink rgba(28,22,14,...) WAS neutralised to rgba(22,22,20,...) —
+     nine call sites — because a red-skewed shadow under every button and
+     panel edge is the same cast arriving by a different route.
+
+     Rule of thumb after two failed rounds: on this page, warmth is a HUE
+     decision before it is a saturation one. Keep warm neutrals at hue ~48;
+     if something must be warmer, raise saturation there, do not rotate the
+     hue back down toward 40. */
+  --face-hi:        hsl(48, 5%, 96%);
+  --face-lo:        hsl(48, 3%, 76%);
+  --control-bg:     hsl(48, 5%, 95%);
+  --control-border: hsl(48, 3%, 56%);
+  --hairline:       hsl(48, 3%, 73%);
   /* Shared LCD-picker bezel gradient, hoisted here so both the closed
      `.hero-lcd-select` control and the `.hero-lcd-popup` (appended to
      <body>, a sibling rather than a descendant of `.hero-lcd`) can read it.
@@ -52,12 +85,12 @@
      shorthand invalid at computed-value time -- the popup rendered as a
      plain unstyled white list instead of the LCD bezel. */
   --bezel: linear-gradient(180deg,
-     hsl(30,8%,20%) 0%, hsl(30,8%,7%) 40%, hsl(30,8%,5%) 70%, hsl(30,8%,13%) 100%);
+     hsl(48,4%,20%) 0%, hsl(48,4%,7%) 40%, hsl(48,4%,5%) 70%, hsl(48,4%,13%) 100%);
   --cell: 6.5px;
   /* Corner-screw dots on .panel -- deliberately its own token rather than
      reusing --control-border, so a future palette pass can retune screw
      contrast without touching the border colour everything else keys off. */
-  --screw:          hsl(35, 9%, 48%);
+  --screw:          hsl(48, 3%, 49%);
 
   /* --- the dark graphite plate, from Chordinator's .seq-col --------------
      Same three-stop gradient and border colour as
@@ -71,7 +104,7 @@
      these numbers from Chordinator's source a second time. */
   --darkplate-hi:     hsl(50, 4%, 16%);
   --darkplate:        hsl(50, 4%, 11%);
-  --darkplate-lo:     hsl(45, 5%, 8%);
+  --darkplate-lo:     hsl(48, 3%, 8%);
   --darkplate-border: hsl(50, 4%, 7%);
 
   /* --- brushed silver, .panel-head's actual plate as of 2026-08-16 -------
@@ -86,20 +119,20 @@
      bloom LAYER STRUCTURE as the graphite recipe below it (brushed metal
      texture is the point the user asked to keep), just re-lit for a light
      base instead of a dark one. */
-  --silverplate-hi:     hsl(48, 10%, 94%);
-  --silverplate:        hsl(44, 7%, 85%);
-  --silverplate-lo:     hsl(40, 7%, 74%);
-  --silverplate-border: hsl(36, 8%, 58%);
+  --silverplate-hi:     hsl(48, 4%, 94%);
+  --silverplate:        hsl(48, 3%, 85%);
+  --silverplate-lo:     hsl(48, 3%, 75%);
+  --silverplate-border: hsl(48, 3%, 58%);
 
-  --text-primary:   hsl(28, 12%, 14%);
-  --text-secondary: hsl(30, 9%, 31%);
-  --text-heading:   hsl(26, 15%, 18%);
+  --text-primary:   hsl(48, 6%, 14%);
+  --text-secondary: hsl(48, 4%, 31%);
+  --text-heading:   hsl(48, 8%, 18%);
 
   /* --- the dark inset screen, from Spectrl's analyser panel -------------- */
-  --screen-bg:      hsl(30, 8%, 11%);
-  --screen-edge:    hsl(30, 10%, 6%);
-  --screen-text:    hsl(42, 14%, 86%);
-  --screen-dim:     hsl(38, 8%, 58%);
+  --screen-bg:      hsl(48, 4%, 11%);
+  --screen-edge:    hsl(48, 5%, 6%);
+  --screen-text:    hsl(48, 7%, 86%);
+  --screen-dim:     hsl(48, 4%, 58%);
 
   /* --- brand.json ------------------------------------------------------- */
   --ink:            #2A2621;
@@ -439,11 +472,23 @@ a:hover { color: var(--accent); }
   position: sticky; top: 0; z-index: 20;
   backdrop-filter: blur(8px);
   background: linear-gradient(180deg,
-    hsl(45 10% 95% / 0.92), hsl(44 8% 88% / 0.88));
+    hsl(48 5% 95% / 0.92), hsl(48 4% 88% / 0.88));
 }
+/* 2026-08-19: 58px -> 50px, user asked for a slightly thinner top row (the nav
+   buttons were tightened in the same pass, see .site-nav a below). 50 is the
+   floor, not a round number: .brand svg/img is 34px and the user has twice
+   asked for the wordmark and mark BIGGER, so shrinking the lockup to buy header
+   height is the wrong trade. 50px leaves 8px of clearance above and below a
+   34px mark, which is the least that still reads as a band the logo sits IN
+   rather than a band the logo is jammed into. Going lower means shrinking the
+   lockup first, and that needs a fresh ask.
+
+   Nothing hardcodes this number. site-header.js measures the header's own
+   height to place the page-fader (see the .page-fader comment), so the fader
+   follows automatically -- do not add a matching constant anywhere. */
 .site-header .wrap {
   display: flex; align-items: center; gap: 20px;
-  height: 58px;
+  height: 50px;
 }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .brand svg, .brand img { height: 34px; width: auto; display: block; }
@@ -477,22 +522,31 @@ a:hover { color: var(--accent); }
    small rectangular LED sits left of the label and only lights on
    press/active, per the reference hardware-button photo. Lift reduced and
    flex-shrink disabled 2026-08-17 -- these sit in a fixed-height flex row and
-   must never compress before wrapping. */
+   must never compress before wrapping.
+
+   2026-08-19: vertical padding 7px -> 4px, in step with the header band going
+   58px -> 50px. Only the vertical axis moved. The horizontal 10px is holding
+   the four links to one line on a 360px phone (see the 720px block near the
+   bottom of this file, which already tightens it further) and the LED, gap and
+   font-size are all load-bearing for that fit -- squeezing this axis to make
+   the button "thinner" would trade a 3px height saving for a second nav row on
+   every phone. The button still reads as raised: the wall is made by the
+   two-tone border and the skirt shadow, not by the padding. */
 .site-nav a { text-decoration: none; display: inline-flex; align-items: center; gap: 7px;
-   padding: 7px 10px; border-radius: 5px; font-weight: 700; font-size: 13px; color: var(--text-primary);
+   padding: 4px 10px; border-radius: 5px; font-weight: 700; font-size: 13px; color: var(--text-primary);
    flex: none; white-space: nowrap;
-   border: 1px solid hsl(38,10%,40%);
-   border-bottom-color: hsl(38,12%,28%);
-   background: linear-gradient(180deg, hsl(45,24%,98%) 0%, hsl(43,16%,90%) 45%, hsl(40,11%,75%) 100%);
+   border: 1px solid hsl(48,5%,40%);
+   border-bottom-color: hsl(48,6%,28%);
+   background: linear-gradient(180deg, hsl(48,12%,98%) 0%, hsl(48,8%,90%) 45%, hsl(48,6%,75%) 100%);
    box-shadow:
       inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 1px rgba(0,0,0,0.16),
-      0 1px 0 rgba(255,255,255,0.5), 0 1px 0 hsl(40,10%,60%), 0 2px 3px rgba(0,0,0,0.18);
+      0 1px 0 rgba(255,255,255,0.5), 0 1px 0 hsl(48,5%,60%), 0 2px 3px rgba(0,0,0,0.18);
    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
    transform: translateY(0);
 }
 .site-nav a::before {
    content: ""; width: 8px; height: 5px; border-radius: 1px; flex: none;
-   background: hsl(40,8%,58%);
+   background: hsl(48,4%,58%);
    box-shadow: inset 0 1px 1px rgba(0,0,0,0.35), inset 0 -1px 0 rgba(255,255,255,0.15);
 }
 .site-nav a:hover { filter: brightness(1.05); }
@@ -516,18 +570,18 @@ a:hover { color: var(--accent); }
 .product-hero .back, .section .back {
    text-decoration: none; display: inline-flex; align-items: center; gap: 7px;
    padding: 6px 9px; border-radius: 5px; font-weight: 700; font-size: 12px; color: var(--text-primary);
-   border: 1px solid hsl(38,10%,40%);
-   border-bottom-color: hsl(38,12%,28%);
-   background: linear-gradient(180deg, hsl(45,24%,99%) 0%, hsl(43,16%,92%) 45%, hsl(40,11%,77%) 100%);
+   border: 1px solid hsl(48,5%,40%);
+   border-bottom-color: hsl(48,6%,28%);
+   background: linear-gradient(180deg, hsl(48,12%,99%) 0%, hsl(48,8%,92%) 45%, hsl(48,6%,77%) 100%);
    box-shadow:
       inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 1px rgba(0,0,0,0.14),
-      0 1px 0 rgba(255,255,255,0.5), 0 1px 0 hsl(40,10%,62%), 0 2px 3px rgba(0,0,0,0.14);
+      0 1px 0 rgba(255,255,255,0.5), 0 1px 0 hsl(48,5%,62%), 0 2px 3px rgba(0,0,0,0.14);
    text-shadow: 0 1px 0 rgba(255,255,255,0.45);
    transform: translateY(0);
 }
 .product-hero .back::before, .section .back::before {
    content: ""; width: 7px; height: 5px; border-radius: 1px; flex: none;
-   background: hsl(40,8%,58%);
+   background: hsl(48,4%,58%);
    box-shadow: inset 0 1px 1px rgba(0,0,0,0.35), inset 0 -1px 0 rgba(255,255,255,0.15);
 }
 .product-hero .back:hover, .section .back:hover { filter: brightness(1.04); }
@@ -793,10 +847,10 @@ a:hover { color: var(--accent); }
        solid dark colour in Chrome while CSSOM still reports cream — see the
        long note above. Do not reintroduce it here. */
     radial-gradient(circle 2.6px at left 8px bottom 8px,
-      rgba(255,255,255,0.60) 0%, hsl(40,7%,58%) 46%, hsl(38,8%,34%) 97%, transparent 100%),
+      rgba(255,255,255,0.60) 0%, hsl(48,4%,58%) 46%, hsl(48,4%,34%) 97%, transparent 100%),
     radial-gradient(circle 3.1px at left 8px bottom 8.9px, rgba(255,255,255,0.5) 99%, transparent 100%),
     radial-gradient(circle 2.6px at right 8px bottom 8px,
-      rgba(255,255,255,0.60) 0%, hsl(40,7%,58%) 46%, hsl(38,8%,34%) 97%, transparent 100%),
+      rgba(255,255,255,0.60) 0%, hsl(48,4%,58%) 46%, hsl(48,4%,34%) 97%, transparent 100%),
     radial-gradient(circle 3.1px at right 8px bottom 8.9px, rgba(255,255,255,0.5) 99%, transparent 100%),
     /* Brushed-metal noise + a faint radial vignette, both restricted to the
        panel plate rather than the page — "read as physical rather than flat
@@ -845,10 +899,10 @@ a:hover { color: var(--accent); }
   border-radius: inherit;
   background:
     radial-gradient(circle 2.6px at left 8px top 8px,
-      rgba(255,255,255,0.60) 0%, hsl(40,7%,58%) 46%, hsl(38,8%,34%) 97%, transparent 100%),
+      rgba(255,255,255,0.60) 0%, hsl(48,4%,58%) 46%, hsl(48,4%,34%) 97%, transparent 100%),
     radial-gradient(circle 3.1px at left 8px top 8.9px, rgba(255,255,255,0.5) 99%, transparent 100%),
     radial-gradient(circle 2.6px at right 8px top 8px,
-      rgba(255,255,255,0.60) 0%, hsl(40,7%,58%) 46%, hsl(38,8%,34%) 97%, transparent 100%),
+      rgba(255,255,255,0.60) 0%, hsl(48,4%,58%) 46%, hsl(48,4%,34%) 97%, transparent 100%),
     radial-gradient(circle 3.1px at right 8px top 8.9px, rgba(255,255,255,0.5) 99%, transparent 100%);
   background-repeat: no-repeat;
 }
@@ -1006,13 +1060,40 @@ video.hero-inset.is-playing { opacity: 1; }
 /* Beat-grouped tick divider between product panels -- replaces a plain
    border/gap with the site's own rectangular-LED vocabulary (see
    .panel-head::before above) rather than another hairline. Ticks cluster in
-   fours, one per group lit in --accent; each divider carries the accent of
-   the panel that FOLLOWS it, so the rule previews which app is next rather
-   than closing out the one above. Added 2026-08-16, replacing the four-color
-   .vu-strip the user cut the same day -- same impulse (a small rhythmic
-   flourish between sections) without repeating a strip of all four accents
-   at once. */
-.tick-row { display: flex; justify-content: center; margin: 6px 0; }
+   fours. Added 2026-08-16, replacing the four-color .vu-strip the user cut the
+   same day -- same impulse (a small rhythmic flourish between sections)
+   without repeating a strip of all four accents at once.
+
+   2026-08-19, TWO CHANGES, both at the user's request:
+
+   1. ONE COLOUR, NOT FOUR. Each divider used to inherit the accent of the
+      panel that FOLLOWED it (an inline --accent on the .tick-row), so the rule
+      previewed which app came next. That is gone: every divider is now the
+      site red, --tick-lit below, and the inline overrides were stripped from
+      index.html. The preview idea was cute and it cost more than it paid --
+      three dividers in three different oranges, sitting between panels that
+      each carry their own accent already, read as colour noise rather than as
+      a repeated element. One red across all three makes them the same object
+      appearing three times, which is what a divider should be. If the preview
+      behaviour is ever wanted back, it is one inline style per row.
+
+   2. A DIFFERENT SEQUENCE ON EACH. All three used to run the same walking
+      pattern -- lit tick = beat index, so 1/6/11/16 -- which made the three
+      rows literally identical and gave away that they were decoration rather
+      than a readout. Each row now carries a distinct 16-step pattern, written
+      out in a comment above it in index.html: four-on-the-floor with a pickup,
+      a 3-2 son clave, then a broken 16th figure. They get denser and more
+      syncopated down the page. The patterns live in the MARKUP, not here,
+      because they are content -- which steps are lit is a rhythm, and putting
+      it in :nth-child() rules would hide it from anyone reading the page.
+
+   --tick-lit is deliberately NOT var(--accent). The .tick-row sits between two
+   .product panels, each of which sets its own --accent on itself; a bare
+   var(--accent) here would resolve to :root's default, which happens to be the
+   same red today and would silently follow along if that default is ever
+   retuned for another reason. Naming it separately is what keeps the divider
+   red pinned to the divider. */
+.tick-row { display: flex; justify-content: center; margin: 6px 0; --tick-lit: #D13A2C; }
 .tick-row .beat { display: flex; gap: 5px; margin-right: 18px; }
 .tick-row .beat:last-child { margin-right: 0; }
 .tick-row .tick {
@@ -1020,8 +1101,8 @@ video.hero-inset.is-playing { opacity: 1; }
   background: color-mix(in srgb, var(--control-border) 70%, transparent);
 }
 .tick-row .tick.lit {
-  background: var(--accent);
-  box-shadow: 0 0 5px color-mix(in srgb, var(--accent) 55%, transparent);
+  background: var(--tick-lit);
+  box-shadow: 0 0 5px color-mix(in srgb, var(--tick-lit) 55%, transparent);
 }
 
 .product { display: grid; }
@@ -1160,7 +1241,7 @@ video.hero-inset.is-playing { opacity: 1; }
    header before. */
 .btn::before, .btn-ghost::before {
    content: ""; width: 8px; height: 5px; border-radius: 1px; flex: none;
-   background: hsl(40,8%,58%);
+   background: hsl(48,4%,58%);
    box-shadow: inset 0 1px 1px rgba(0,0,0,0.35), inset 0 -1px 0 rgba(255,255,255,0.15);
 }
 /* The ghost (neutral cream) button sits on the same pale surface as the
@@ -1282,14 +1363,14 @@ a.btn.gumroad-button:active {
      not the flatter --face-hi/--control-bg wash this used to be -- 2026-08-17,
      part of unifying every "Details"-style button on panels/apps with the
      header's button family. */
-  background: linear-gradient(180deg, hsl(45,24%,98%) 0%, hsl(43,16%,90%) 45%, hsl(40,11%,75%) 100%);
+  background: linear-gradient(180deg, hsl(48,12%,98%) 0%, hsl(48,8%,90%) 45%, hsl(48,6%,75%) 100%);
   color: var(--text-primary);
-  border: 1px solid hsl(38,10%,40%);
-  border-bottom-color: hsl(38,12%,28%);
+  border: 1px solid hsl(48,5%,40%);
+  border-bottom-color: hsl(48,6%,28%);
   text-shadow: 0 1px 0 rgba(255,255,255,0.5);
   box-shadow:
      inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 1px rgba(0,0,0,0.16),
-     0 1px 0 rgba(255,255,255,0.5), 0 1px 0 hsl(40,10%,60%), 0 2px 3px rgba(0,0,0,0.18);
+     0 1px 0 rgba(255,255,255,0.5), 0 1px 0 hsl(48,5%,60%), 0 2px 3px rgba(0,0,0,0.18);
 }
 .btn-ghost:hover { color: var(--text-primary); filter: brightness(1.05); }
 .btn-ghost:active {
@@ -1372,8 +1453,8 @@ a.btn.gumroad-button:active {
   width: 100%;
   display: block;
   filter:
-    drop-shadow(0 1px 2px rgba(58, 48, 38, 0.30))
-    drop-shadow(0 14px 28px rgba(58, 48, 38, 0.22));
+    drop-shadow(0 1px 2px rgba(46, 46, 42, 0.30))
+    drop-shadow(0 14px 28px rgba(46, 46, 42, 0.22));
 }
 
 /* The hero composite is the one image that must NOT get the filter: make-hero.py
@@ -1722,7 +1803,7 @@ a.btn.gumroad-button:active {
   .section { padding-block: 28px; }
 
   .site-header .wrap {
-    height: auto; min-height: 58px;
+    height: auto; min-height: 50px;
     flex-wrap: wrap; gap: 8px 16px; padding-top: 10px; padding-bottom: 10px;
   }
   /* Was 3 rows on a phone: brand, then site-nav wrapping ITSELF into two
@@ -1991,15 +2072,48 @@ a.btn.gumroad-button:active {
    (scanline + diagonal sheen + overhead bloom over a 3-stop vertical
    gradient); only the base gradient and the lighting weights change, since
    sheen tuned for a light plate blows out on a dark one. */
+/* 2026-08-19 -- "more of the SHINE of Chordinator's sequencer panel".
+   The colour was already right (the user said so); what was missing was
+   specular behaviour, and the fix is not "raise every white to taste". Four
+   distinct things separate a shiny anodised strip from a dark gradient, and
+   the old recipe only had weak versions of two of them:
+
+   1. A HARD top edge. Real anodised metal catches a bright, nearly 1px line
+      where the top face turns over -- not a soft ramp. The inset highlight
+      goes 0.10 -> 0.22 and a second, dimmer 2px line sits under it so the
+      turn-over has depth instead of being a single stroke.
+   2. A TIGHT overhead bloom. The old radial was 120% x 60% at 0.13, so broad
+      and so faint it just lifted the whole band a little. Narrowed to
+      90% x 46% and taken to 0.20: a smaller, brighter pool reads as a light
+      SOURCE reflected in the surface; a wide faint one reads as grey paint.
+   3. A DOUBLE diagonal sweep. The single 112deg band is the giveaway --
+      brushed metal under a room light shows a bright leading edge and a
+      weaker trailing one. The first sweep goes 0.10 -> 0.19 with a hard
+      shoulder (34% to 38% instead of 34% to 43%), and the second 0.07 ->
+      0.13, which is what actually reads as "the same sheen as the app".
+   4. A FLOOR bounce. New, and the cheapest of the four: a wide, very faint
+      (0.05) radial at the bottom edge standing in for light bouncing off the
+      cream plate below into the underside of the strip. Without it the band
+      goes dead flat toward the bottom and the whole thing reads as a
+      rectangle rather than a surface.
+
+   The scanline stays where it was. Raising it alongside the highlights was
+   tried and it is what tips the band from "shiny" into "textured plastic" --
+   the scanline is machining marks, and machining marks do not get brighter
+   when the light does. The base 3-stop gradient and every colour token are
+   untouched, so the colour the user approved is exactly as it was; only the
+   lighting on top of it changed. */
 .panel > .panel-head {
   background:
     repeating-linear-gradient(0deg, rgba(255,255,255,0.035) 0px, rgba(255,255,255,0.035) 1px, rgba(0,0,0,0.05) 1px, rgba(0,0,0,0.05) 2px),
-    linear-gradient(112deg, rgba(255,255,255,0) 24%, rgba(255,255,255,0.10) 34%, rgba(255,255,255,0.03) 43%, rgba(255,255,255,0) 52%, rgba(255,255,255,0.07) 68%, rgba(255,255,255,0) 78%),
-    radial-gradient(120% 60% at 50% -8%, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0) 55%),
+    linear-gradient(112deg, rgba(255,255,255,0) 24%, rgba(255,255,255,0.19) 34%, rgba(255,255,255,0.05) 38%, rgba(255,255,255,0) 52%, rgba(255,255,255,0.13) 68%, rgba(255,255,255,0) 78%),
+    radial-gradient(90% 46% at 50% -6%, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0) 62%),
+    radial-gradient(140% 40% at 50% 108%, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 70%),
     linear-gradient(180deg, var(--darkplate-hi) 0%, var(--darkplate) 30%, var(--darkplate-lo) 100%);
   border-bottom: 1px solid var(--darkplate-border);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.10),
+    inset 0 1px 0 rgba(255,255,255,0.22),
+    inset 0 2px 0 rgba(255,255,255,0.07),
     inset 0 -1px 0 rgba(0,0,0,0.45);
   /* The engraving INVERTS on a dark plate. Cut into pale metal, the far
      (upper) wall of the groove is in shadow and the near (lower) one catches
@@ -2008,7 +2122,7 @@ a.btn.gumroad-button:active {
      than the plate and the lips swap: dark above, faint light below. Getting
      this backwards is what makes engraved text on a dark panel look like
      ordinary grey type with a drop shadow. */
-  color: hsl(44, 14%, 74%);
+  color: hsl(48, 7%, 74%);
   text-shadow:
     0 -1px 0 rgba(0,0,0,0.80),
     0  1px 0 hsla(44,20%,100%,0.10);
@@ -2023,10 +2137,10 @@ a.btn.gumroad-button:active {
 .panel::before {
   background:
     radial-gradient(circle 2.6px at left 8px top 8px,
-      rgba(255,255,255,0.30) 0%, hsl(40,6%,34%) 46%, hsl(38,7%,13%) 97%, transparent 100%),
+      rgba(255,255,255,0.30) 0%, hsl(48,3%,34%) 46%, hsl(48,4%,13%) 97%, transparent 100%),
     radial-gradient(circle 3.1px at left 8px top 8.9px, rgba(255,255,255,0.20) 99%, transparent 100%),
     radial-gradient(circle 2.6px at right 8px top 8px,
-      rgba(255,255,255,0.30) 0%, hsl(40,6%,34%) 46%, hsl(38,7%,13%) 97%, transparent 100%),
+      rgba(255,255,255,0.30) 0%, hsl(48,3%,34%) 46%, hsl(48,4%,13%) 97%, transparent 100%),
     radial-gradient(circle 3.1px at right 8px top 8.9px, rgba(255,255,255,0.20) 99%, transparent 100%);
 }
 
@@ -2054,20 +2168,22 @@ a.btn.gumroad-button:active {
    The single cheapest change in this pass. Photographed metal casts a
    shadow that picks up the warmth of the surface it lands on; a neutral
    rgba(0,0,0,…) shadow under a cream plate is the clearest tell that the
-   panel was drawn in CSS rather than lit. hsl-equivalent rgb(28,22,14) is
-   this page's black. Geometry is identical to the rules above — only the
+   panel was drawn in CSS rather than lit. hsl-equivalent rgb(22,22,20) is
+   this page's black (it was rgb(28,22,14) until the de-orange pass -- see
+   the :root comment; a red-skewed shadow under every edge is a colour cast
+   arriving by a second route). Geometry is identical to the rules above — only the
    ink changes — so nothing reflows. */
 .panel {
   box-shadow:
     0 1px 0 rgba(255,255,255,0.62),
-    0 2px 5px rgba(28,22,14,0.16),
-    0 10px 28px -18px rgba(28,22,14,0.45);
+    0 2px 5px rgba(22,22,20,0.16),
+    0 10px 28px -18px rgba(22,22,20,0.45);
 }
 .product:hover, .suite:hover {
   box-shadow:
     0 1px 0 rgba(255,255,255,0.62),
     0 10px 24px -10px color-mix(in srgb, var(--accent) 45%, transparent),
-    0 4px 10px rgba(28,22,14,0.16);
+    0 4px 10px rgba(22,22,20,0.16);
 }
 
 /* --- 5. Control hierarchy -----------------------------------------------
@@ -2087,7 +2203,7 @@ a.btn.gumroad-button:active {
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.85),
     0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent),
-    0 3px 6px rgba(28,22,14,0.22),
+    0 3px 6px rgba(22,22,20,0.22),
     0 10px 26px -8px color-mix(in srgb, var(--accent) 70%, transparent);
 }
 /* Cut into the plate instead of sitting proud of it. The bevel inverts:
@@ -2096,24 +2212,24 @@ a.btn.gumroad-button:active {
    bottom. Ink drops to --text-secondary so it reads as the quieter of the
    two before you have parsed either label. */
 .btn-ghost {
-  background: linear-gradient(180deg, hsl(40,16%,84%) 0%, hsl(42,22%,90%) 60%, hsl(44,26%,93%) 100%);
+  background: linear-gradient(180deg, hsl(48,8%,84%) 0%, hsl(48,11%,90%) 60%, hsl(48,13%,93%) 100%);
   color: var(--text-secondary);
-  border-color: hsl(38,12%,52%);
-  border-bottom-color: hsl(38,14%,62%);
+  border-color: hsl(48,6%,52%);
+  border-bottom-color: hsl(48,7%,62%);
   box-shadow:
-    inset 0 2px 3px rgba(28,22,14,0.22),
+    inset 0 2px 3px rgba(22,22,20,0.22),
     inset 0 -1px 0 rgba(255,255,255,0.70),
     0 1px 0 rgba(255,255,255,0.55);
 }
 .btn-ghost:hover {
   color: var(--text-primary);
   box-shadow:
-    inset 0 2px 3px rgba(28,22,14,0.18),
+    inset 0 2px 3px rgba(22,22,20,0.18),
     inset 0 -1px 0 rgba(255,255,255,0.80),
     0 1px 0 rgba(255,255,255,0.60);
 }
 .btn-ghost:active {
-  box-shadow: inset 0 3px 6px rgba(28,22,14,0.34);
+  box-shadow: inset 0 3px 6px rgba(22,22,20,0.34);
   transform: translateY(1px);
 }
 
@@ -2176,8 +2292,8 @@ a.btn.gumroad-button:active {
   display: inline-flex; align-items: center; justify-content: center;
   font-size: 24px; line-height: 1; padding-left: 5px;
   color: hsl(38, 30%, 84%);
-  border: 1px solid hsl(30, 8%, 34%);
-  background: radial-gradient(120% 120% at 50% 0%, hsl(32,7%,30%) 0%, hsl(30,8%,17%) 60%, hsl(30,9%,12%) 100%);
+  border: 1px solid hsl(48, 4%, 34%);
+  background: radial-gradient(120% 120% at 50% 0%, hsl(48,4%,30%) 0%, hsl(48,4%,17%) 60%, hsl(48,4%,12%) 100%);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.16),
     inset 0 -2px 5px rgba(0,0,0,0.55),
@@ -2199,7 +2315,7 @@ a.btn.gumroad-button:active {
 .video-caption {
   font-family: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
   font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
-  color: hsl(38, 10%, 52%);
+  color: hsl(48, 5%, 52%);
 }
 
 /* Transport strip. ◀◀ / ▶▶ rather than undo/redo: undo and redo are editor
@@ -2212,21 +2328,21 @@ a.btn.gumroad-button:active {
   display: inline-flex; align-items: center; justify-content: center;
   font: inherit; font-size: 12px;
   border-radius: var(--radius);
-  border: 1px solid hsl(38,10%,40%);
-  border-bottom-color: hsl(38,12%,28%);
+  border: 1px solid hsl(48,5%,40%);
+  border-bottom-color: hsl(48,6%,28%);
   color: var(--text-primary);
-  background: linear-gradient(180deg, hsl(45,30%,98%) 0%, hsl(43,22%,90%) 45%, hsl(40,16%,75%) 100%);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 1px rgba(28,22,14,0.16), 0 1px 2px rgba(28,22,14,0.14);
+  background: linear-gradient(180deg, hsl(45,30%,98%) 0%, hsl(48,11%,90%) 45%, hsl(48,8%,75%) 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 1px rgba(22,22,20,0.16), 0 1px 2px rgba(22,22,20,0.14);
   cursor: pointer;
 }
-.video-transport button:active { transform: translateY(1px); box-shadow: inset 0 2px 4px rgba(28,22,14,0.34); }
+.video-transport button:active { transform: translateY(1px); box-shadow: inset 0 2px 4px rgba(22,22,20,0.34); }
 /* The play cap carries the LED, exactly as Chordinator's #seq-play::after
    does — unlit at rest, accent with a halo while running. */
 .video-transport .video-play-cap { position: relative; width: 46px; }
 .video-transport .video-play-cap::after {
   content: ""; position: absolute; top: 4px; right: 4px;
   width: 4px; height: 4px; border-radius: 50%;
-  background: hsl(38, 8%, 58%);
+  background: hsl(48, 4%, 58%);
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.3);
 }
 
@@ -2240,7 +2356,7 @@ a.btn.gumroad-button:active {
   box-shadow: inset 0 2px 6px rgba(0,0,0,0.75), inset 0 0 0 1px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.55);
   font-family: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
 }
-.video-read .video-read-label { color: hsl(38,10%,48%); letter-spacing: 0.12em; text-transform: uppercase; font-size: 10px; flex: none; }
+.video-read .video-read-label { color: hsl(48,5%,48%); letter-spacing: 0.12em; text-transform: uppercase; font-size: 10px; flex: none; }
 .video-read .video-read-value {
   flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   color: hsl(38, 45%, 68%);
@@ -2257,7 +2373,7 @@ a.btn.gumroad-button:active {
 .video-panel.is-idle .video-play:active { transform: none; }
 .video-panel.is-idle .video-play:hover {
   color: hsl(38, 30%, 84%);
-  border-color: hsl(30, 8%, 34%);
+  border-color: hsl(48, 4%, 34%);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.16),
     inset 0 -2px 5px rgba(0,0,0,0.55),
@@ -2270,66 +2386,36 @@ a.btn.gumroad-button:active {
 }
 
 /* ---------------------------------------------------------------------------
-   §7  SCREENSHOT MICRO-INTERACTIONS — 2026-08-19
+   §7  SCREENSHOT MICRO-INTERACTIONS — 2026-08-19, ADDED AND REVERTED THE SAME
+       DAY. NO RULES BELOW; THIS BANNER IS THE WHOLE SECTION.
 
-   The last outstanding item from the "less sterile" request: the buttons got
-   press states in §5, the screenshots had none at all. They are the biggest
-   objects on every product page and they sat completely dead under the cursor.
+   What was here: `.screen:not(.empty) img` lifted 3px on hover with its
+   `drop-shadow()` deepening and spreading to match, and settled flat with a
+   tight shadow on `:active`. It was deliberately the smallest possible
+   interaction — no scale, no tilt, no overlay — on the reasoning that a
+   screenshot is a picture of a real window and anything that transforms it
+   reads as a web flourish stuck onto a photograph.
 
-   What this does is deliberately small. A screenshot is a picture of a real
-   window, not a card — anything that scales it, tilts it or floats it reads
-   immediately as a web-design flourish stuck onto a photograph, which is the
-   exact "it just looks like ai" note the user gave about extruded screenshots
-   earlier in this file's history (see the .zoom notes around line 1510). So
-   the interaction is the one thing a real object on a desk actually does: it
-   lifts a couple of pixels and its shadow deepens and spreads to match. No
-   scale, no rotation, no border, no overlay.
+   Why it went: the user's verdict on the live page was that the motion is
+   "messy and buggy", and asked for every image on the site to be static under
+   the cursor. Two things the original reasoning got wrong, worth keeping so
+   this is not re-derived:
 
-   The shadow is authored as `filter: drop-shadow()` rather than box-shadow
-   because these PNGs have alpha corners — box-shadow would draw a rectangle
-   around the transparent region. drop-shadow follows the alpha, and it
-   interpolates, so the hover shadow animates rather than snapping.
+   - Restraint did not help. The problem was never the SIZE of the movement,
+     it was that these images sit inside panels that already have their own
+     hover treatment, so a cursor crossing a card set two different things
+     moving at two different speeds. That reads as a glitch no matter how
+     small the second one is.
+   - `drop-shadow()` on a large PNG with alpha is re-rasterised per frame.
+     On the long product pages, where several shots are near the viewport at
+     once, the transition can visibly stutter — which is exactly what "buggy"
+     describes, and it is a cost the lift never earned back.
 
-   Two exclusions, both load-bearing:
+   So: screenshots are static. If a future pass wants feedback on them, put it
+   on the CONTAINER (a cursor change, or the panel it already lives in), not on
+   the image, and do not reach for animated `drop-shadow()` on these PNGs.
 
-   - `.hero-shot` composites its own shadows in make-hero.py so that they fall
-     BETWEEN the stacked windows. The base rule above already sets
-     `filter: none` there; without :not() here, hover would hand it a CSS
-     shadow anyway and every window in the stack would suddenly have two.
-   - `.screen.empty` is the CSS placeholder for a product with no capture yet.
-     It is not a photograph of anything, so lifting it on hover promises an
-     object that isn't there.
-
-   :active is a press, not a lift — it settles back to flat with the tight
-   shadow only, so clicking through to a full-size shot feels like pushing
-   the thing down rather than releasing it upward.
+   The base `.screen img` drop-shadow (the resting shadow, in the .screen rules
+   further up this file) is untouched — that is the images' normal appearance,
+   not an interaction.
    --------------------------------------------------------------------------- */
-
-.screen:not(.empty) img {
-  transition: transform 160ms ease, filter 160ms ease;
-  will-change: transform;
-}
-
-.hero-shot .screen img,
-.screen.empty img { transition: none; }
-
-.screen:not(.empty):hover img {
-  transform: translateY(-3px);
-  filter:
-    drop-shadow(0 2px 3px rgba(28, 22, 14, 0.32))
-    drop-shadow(0 22px 40px rgba(28, 22, 14, 0.26));
-}
-
-.hero-shot .screen:hover img { transform: translateY(-3px); filter: none; }
-
-.screen:not(.empty):active img {
-  transform: translateY(0);
-  filter: drop-shadow(0 1px 2px rgba(28, 22, 14, 0.34));
-}
-
-.hero-shot .screen:active img { filter: none; }
-
-@media (prefers-reduced-motion: reduce) {
-  .screen img { transition: none; }
-  .screen:hover img, .screen:active img { transform: none; }
-}

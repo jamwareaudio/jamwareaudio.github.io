@@ -103,7 +103,19 @@
          into Live over MIDI / a Remote Script, so the framing is literal, not a
          stretch; see the #products rename and the Why-standalone panel). -->
         <!-- front-page wordmark removed per user request (top-row wordmark remains) -->
-        <p class="hero-claim">Plugins & companion apps built for Ableton Live, with the feel of hardware, in a software format. Let's jam.</p>
+    <!-- 2026-08-19: the user rewrote this line again, dropping "Plugins &
+         companion apps" for the flatter "Music tools". Two things changed and
+         both are deliberate. "Plugins" was always the weaker half of the
+         earlier framing — these are not VST/AU plugins, they are apps that
+         talk to Live over MIDI and a Remote Script, and leading with the word
+         invites the reader to look for something in their plugin folder.
+         "Music tools" makes no claim about the format at all, which is the
+         point: the format argument is the NEXT sentence's job, and the
+         Why-standalone panel's after that. Keep the three-beat shape (what it
+         is / what it feels like / the invitation) and keep "Let's jam" — it is
+         the only informal line on the page and it is doing the work of a sign-
+         off. -->
+        <p class="hero-claim">Music tools built for Ableton Live. The feel of hardware in a software format. Let's jam.</p>
     <!-- 2026-08-16: a decorative peak-meter strip was tried here (static "lit"
          segments per product accent) and shipped, then the user reviewed it
          live and rejected it outright ("I didnt like the four-color peak
@@ -160,11 +172,17 @@
   <section class="wrap hero-shot">
     <div class="screen">
       <div class="hero-stack-frame">
-        <img src="assets/shots/hero-stack.png"
-             alt="The four apps open at once, cascaded: MutationStation in front, then Chordinator, Spectrl and MidiMirror behind it" />
-        <img class="hero-inset hero-inset-poster"
-             src="assets/shots/mutationstation-reroll-poster.png"
-             alt="" aria-hidden="true" />
+        <picture>
+          <source srcset="assets/shots/hero-stack.webp" type="image/webp" />
+          <img src="assets/shots/hero-stack.png"
+               alt="The four apps open at once, cascaded: MutationStation in front, then Chordinator, Spectrl and MidiMirror behind it" />
+        </picture>
+        <picture>
+          <source srcset="assets/shots/mutationstation-reroll-poster.webp" type="image/webp" />
+          <img class="hero-inset hero-inset-poster"
+               src="assets/shots/mutationstation-reroll-poster.png"
+               alt="" aria-hidden="true" />
+        </picture>
         <video class="hero-inset"
                src="assets/shots/mutationstation-reroll.mp4"
                poster="assets/shots/mutationstation-reroll-poster.png"
@@ -254,11 +272,12 @@
         </div>
       </article>
 
-      <div class="tick-row" style="--accent:#E0862C">
+      <!-- Step sequence: four-on-the-floor with a pickup -- 1/5/9/13 plus the last 16th leaning into the next bar. The plainest of the three on purpose: it is the first divider on the page and sets the grid the other two syncopate against. -->
+      <div class="tick-row">
         <div class="beat"><div class="tick lit"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div></div>
-        <div class="beat"><div class="tick"></div><div class="tick lit"></div><div class="tick"></div><div class="tick"></div></div>
-        <div class="beat"><div class="tick"></div><div class="tick"></div><div class="tick lit"></div><div class="tick"></div></div>
-        <div class="beat"><div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick lit"></div></div>
+        <div class="beat"><div class="tick lit"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div></div>
+        <div class="beat"><div class="tick lit"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div></div>
+        <div class="beat"><div class="tick lit"></div><div class="tick"></div><div class="tick"></div><div class="tick lit"></div></div>
       </div>
 
       <!-- ------------------------------------------------------ Chordinator -->
@@ -285,11 +304,12 @@
         </div>
       </article>
 
-      <div class="tick-row" style="--accent:#D9A028">
-        <div class="beat"><div class="tick lit"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div></div>
-        <div class="beat"><div class="tick"></div><div class="tick lit"></div><div class="tick"></div><div class="tick"></div></div>
+      <!-- Step sequence: 3-2 son clave -- 1/4/7/11/13. The classic 3+3+4+2+4 subdivision, which is why it reads as a rhythm rather than as a pattern: the ear already knows this one even when it is drawn instead of played. -->
+      <div class="tick-row">
+        <div class="beat"><div class="tick lit"></div><div class="tick"></div><div class="tick"></div><div class="tick lit"></div></div>
         <div class="beat"><div class="tick"></div><div class="tick"></div><div class="tick lit"></div><div class="tick"></div></div>
-        <div class="beat"><div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick lit"></div></div>
+        <div class="beat"><div class="tick"></div><div class="tick"></div><div class="tick lit"></div><div class="tick"></div></div>
+        <div class="beat"><div class="tick lit"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div></div>
       </div>
 
       <!-- ---------------------------------------------------------- Spectrl -->
@@ -316,11 +336,12 @@
         </div>
       </article>
 
-      <div class="tick-row" style="--accent:#E05A2C">
-        <div class="beat"><div class="tick lit"></div><div class="tick"></div><div class="tick"></div><div class="tick"></div></div>
-        <div class="beat"><div class="tick"></div><div class="tick lit"></div><div class="tick"></div><div class="tick"></div></div>
-        <div class="beat"><div class="tick"></div><div class="tick"></div><div class="tick lit"></div><div class="tick"></div></div>
+      <!-- Step sequence: a broken 16th figure -- 1/3/4/8/10/11/14/16. Denser and deliberately off-grid, closest to what MutationStation actually produces after a re-roll, and it sits directly above the section that talks about that. -->
+      <div class="tick-row">
+        <div class="beat"><div class="tick lit"></div><div class="tick"></div><div class="tick lit"></div><div class="tick lit"></div></div>
         <div class="beat"><div class="tick"></div><div class="tick"></div><div class="tick"></div><div class="tick lit"></div></div>
+        <div class="beat"><div class="tick"></div><div class="tick lit"></div><div class="tick lit"></div><div class="tick"></div></div>
+        <div class="beat"><div class="tick"></div><div class="tick lit"></div><div class="tick"></div><div class="tick lit"></div></div>
       </div>
 
       <!-- ------------------------------------------------------- MidiMirror -->
