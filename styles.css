@@ -700,6 +700,22 @@ a:hover { color: var(--accent); }
      the base .wrap rule's 32px right side; the 720px breakpoint below
      narrows both sides to 20px together for phones). */
   .site-header .wrap { padding-right: 32px; }
+
+  /* 2026-08-19: the phone-width two-row treatment below (720px) left this
+     900-720px band on flex-nowrap with everything at full desktop size --
+     brand (~200px) + hero-lcd select (~154px) + four nav buttons (~408px)
+     sums to over 750px before any gap, so a "halved" laptop window (a
+     common width squarely in this band, e.g. a 1512px display split in
+     two) had no room and the row crammed/overflowed instead of wrapping.
+     Turning on the same wrap here, at full desktop type size since there's
+     enough width for it to read fine on two rows without shrinking fonts
+     (that shrink is phone-specific and stays in the 720px block below). */
+  .site-header .wrap {
+    height: auto; min-height: 50px;
+    flex-wrap: wrap; gap: 8px 16px; padding-top: 10px; padding-bottom: 10px;
+  }
+  .hero-lcd { margin-left: 0; }
+  .site-nav { margin-left: auto; width: 100%; justify-content: flex-end; }
 }
 
 /* ================================================================== HERO */
@@ -1750,13 +1766,34 @@ a.btn.gumroad-button:active {
    `grid-template-columns: repeat(3, 1fr)`. The panels have wildly different
    heights (Requirements is four paragraphs, Why standalone is one), so a grid
    gives you a short row, a tall row, and a final row holding one panel beside
-   two-thirds of nothing — the same dead space in a new arrangement. Columns
-   balance total height across the tracks instead, so the group ends flat.
+   two-thirds of nothing — the same dead space in a new arrangement.
 
-   `columns: 3 320px` caps it at three tracks but drops to two, then one, as the
-   viewport narrows, which is why there is no separate mobile rule for it. */
-.panel-grid { columns: 3 320px; column-gap: 24px; margin-top: 24px; }
-.panel-grid > .panel { break-inside: avoid; width: 100%; margin: 0 0 24px; }
+   2026-08-19: `columns: 3 320px` itself turned out to be the wrong tool for
+   "balance total height across the tracks." CSS column-balancing only ever
+   estimates one candidate column height and then fills columns in SOURCE
+   ORDER, breaking to the next column the moment a block would overflow that
+   estimate -- it never moves a block once placed. That works while the blocks
+   are all a similar size, but MutationStation grew a fifth panel
+   ("Particular integration with Live", ~500px, break-inside:avoid so it can't
+   be split) and the estimate that lets it fit without overflowing anywhere
+   left the *next* column mostly empty -- the exact dead-space bug this
+   section was written to avoid, just relocated. Chordinator has the same
+   imbalance, smaller and less visible only because its tall panel is first.
+
+   Flex-wrap + a JS masonry pass (panel-grid.js) replaces the column-balance
+   guess with an actual greedy shortest-column placement, which cannot strand
+   a whole column behind one oversized block -- worst case it's off by one
+   panel's height, not a whole column. Flex-wrap alone (i.e. with JS disabled)
+   is the fallback: panels wrap into even rows instead of true masonry, uneven
+   row bottoms but never a stranded empty column. Track width and dropping to
+   two tracks, then one, as the viewport narrows falls out of flex-wrap's own
+   basis/grow math, so there is still no separate mobile rule for it. */
+.panel-grid { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px; align-items: flex-start; }
+.panel-grid > .panel { flex: 1 1 320px; min-width: 0; margin: 0; }
+/* panel-grid.js reparents the flat .panel children above into these once it
+   has measured them -- one per masonry column, laid out as its own vertical
+   flex stack so the 24px rhythm matches the un-enhanced fallback exactly. */
+.panel-grid-col { display: flex; flex-direction: column; gap: 24px; flex: 1 1 320px; min-width: 0; }
 
 /* The long "What it does" / "What else is in it" list that opens the closing
    section is deliberately NOT one of the .panel-grid children. It runs to eight
