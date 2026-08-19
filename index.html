@@ -351,6 +351,63 @@
     </div>
   </section>
 
+  <!-- ======================================================================
+       DEMO REEL — added 2026-08-19.
+
+       Placed between the apps and the bundles on purpose: by here a visitor
+       knows what the four apps are and has not yet been asked to buy two at
+       once, which is the moment a demo is worth most.
+
+       ⚠ SHIPPED EMPTY, DELIBERATELY. The recordings do not exist yet. The
+       furniture goes in now because it was designed and signed off now, and
+       because dropping footage in later should be a src attribute rather
+       than a layout job. The section is therefore in its IDLE state:
+
+         · the panel carries `is-idle`, which greys the controls (styles.css,
+           PHOSCYON PASS §6)
+         · every control is a real <button disabled>, not a div that looks
+           disabled — a visitor tabbing through must not land on a control
+           that does nothing
+         · the LCD says what it is waiting for
+
+       TO SWITCH IT ON: drop the .mp4/.webm files into assets/demos/, replace
+       the .video-stage-inner block with a <video controls poster=…>, remove
+       `is-idle` from the panel and `disabled` from the three buttons, and
+       wire them to the video element. Nothing else in this section changes.
+
+       The accent is Chordinator's amber (--p-live-slider-accent), not the
+       brand red: red is the commit/buy colour everywhere else on this page
+       and a transport is not a purchase.
+       ====================================================================== -->
+  <section class="section wrap" id="demos">
+    <span class="legend">Demos</span>
+    <div class="panel video-panel is-idle" style="--accent:#FA8A17">
+      <h2 class="panel-head">See them running</h2>
+      <div class="panel-body">
+
+        <div class="video-stage">
+          <div class="video-stage-inner">
+            <button class="video-play" type="button" disabled aria-label="Play demo">▶</button>
+            <span class="video-caption">Demo footage in production</span>
+          </div>
+        </div>
+
+        <div class="video-bar">
+          <div class="video-transport">
+            <button type="button" disabled aria-label="Previous demo">◀◀</button>
+            <button type="button" class="video-play-cap" disabled aria-label="Play or stop">▶</button>
+            <button type="button" disabled aria-label="Next demo">▶▶</button>
+          </div>
+          <div class="video-read">
+            <span class="video-read-label">Up next</span>
+            <span class="video-read-value">Short walkthroughs of all four apps — coming shortly</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- Two bundles, not one set. The Companion Suite (all four apps, one price)
        was removed on 2026-08-13 at the user's instruction: a single "buy
        everything" tier asks a first-time visitor to commit to four apps at

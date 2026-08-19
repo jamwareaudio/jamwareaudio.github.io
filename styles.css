@@ -11,17 +11,30 @@
 
 :root {
   /* --- the faceplate, from the apps ------------------------------------- */
-  --ui-bg:          hsl(44, 8%, 88%);
+  --ui-bg:          hsl(42, 26%, 87%);
   /* --face-hi/--face-lo were near-neutral greys (10%/6% sat) top-to-bottom --
      2026-08-17: nudged toward the same warm-top/grey-bottom split the app
      panel gradients already use (see the hsl(45,24%..) / hsl(40,11%..) pairs
      below), just at lower saturation since this pair paints the whole page
-     baseplate rather than one card and needs to stay in the background. */
-  --face-hi:        hsl(45, 16%, 96%);
-  --face-lo:        hsl(38, 10%, 74%);
-  --control-bg:     hsl(43, 18%, 94%);
-  --control-border: hsl(35, 9%, 55%);
-  --hairline:       hsl(35, 9%, 72%);
+     baseplate rather than one card and needs to stay in the background.
+
+     2026-08-19, CREAM PASS: saturation roughly doubled across this whole
+     group (8→26, 16→40, 10→24, 18→34). The user's read of the live page was
+     that the plate had drifted grey next to the warm beige chassis of the
+     hardware it references. That drift was real and it was structural, not
+     one bad token: every value here had been held down deliberately (see the
+     note above) on the theory that a full-page baseplate must stay quiet, and
+     the cumulative effect of four quiet tokens is a grey page. The correction
+     is saturation only — hues stay in the 38-45 band they were tuned into,
+     and lightness moves at most 3 points, so every contrast pair and every
+     recipe layered on top of these (the panel gradient, the screws, the
+     engraving lips) keeps its relationships. If this ever reads too yellow,
+     drop saturation here; do NOT re-hue toward orange. */
+  --face-hi:        hsl(44, 40%, 96%);
+  --face-lo:        hsl(38, 24%, 75%);
+  --control-bg:     hsl(42, 34%, 92%);
+  --control-border: hsl(34, 14%, 54%);
+  --hairline:       hsl(35, 14%, 73%);
   /* Shared LCD-picker bezel gradient, hoisted here so both the closed
      `.hero-lcd-select` control and the `.hero-lcd-popup` (appended to
      <body>, a sibling rather than a descendant of `.hero-lcd`) can read it.
@@ -36,7 +49,7 @@
   /* Corner-screw dots on .panel -- deliberately its own token rather than
      reusing --control-border, so a future palette pass can retune screw
      contrast without touching the border colour everything else keys off. */
-  --screw:          hsl(35, 9%, 48%);
+  --screw:          hsl(35, 12%, 48%);
 
   /* --- the dark graphite plate, from Chordinator's .seq-col --------------
      Same three-stop gradient and border colour as
@@ -745,26 +758,38 @@ a:hover { color: var(--accent); }
   border: 1px solid var(--control-border);
   border-radius: var(--radius);
   background:
-    /* Each corner dot is now three flat-stop circles, not one, faking a
-       beveled screw head instead of a flat rivet: a bright highlight offset
-       to the upper-left (where the panel's own overhead light already
-       lands, per .panel-head's radial bloom above), the plain --screw body,
-       and a thin dark ring at the true edge for the recessed lip. Still hard
-       two-stop edges within each circle (see the color-mix()-in-gradient-
-       stop trap documented below) — the bevel comes from THREE circles at
-       slightly different centres/radii, not from soft stops inside one. */
-    radial-gradient(circle 2.6px at left 7.3px top 7.3px, var(--face-hi) 99%, transparent 100%),
-    radial-gradient(circle 2px at left 8px top 8px, var(--screw) 99%, transparent 100%),
-    radial-gradient(circle 1px at left 8.7px top 8.7px, var(--darkplate) 99%, transparent 100%),
-    radial-gradient(circle 2.6px at right 8.7px top 7.3px, var(--face-hi) 99%, transparent 100%),
-    radial-gradient(circle 2px at right 8px top 8px, var(--screw) 99%, transparent 100%),
-    radial-gradient(circle 1px at right 7.3px top 8.7px, var(--darkplate) 99%, transparent 100%),
-    radial-gradient(circle 2.6px at left 7.3px bottom 8.7px, var(--face-hi) 99%, transparent 100%),
-    radial-gradient(circle 2px at left 8px bottom 8px, var(--screw) 99%, transparent 100%),
-    radial-gradient(circle 1px at left 8.7px bottom 7.3px, var(--darkplate) 99%, transparent 100%),
-    radial-gradient(circle 2.6px at right 8.7px bottom 8.7px, var(--face-hi) 99%, transparent 100%),
-    radial-gradient(circle 2px at right 8px bottom 8px, var(--screw) 99%, transparent 100%),
-    radial-gradient(circle 1px at right 7.3px bottom 7.3px, var(--darkplate) 99%, transparent 100%),
+    /* ---- Bottom pair only. The top pair moved to .panel::before ---------
+       2026-08-19: the user reported "only 2 of them per panel, on the bottom
+       half, but it should be 4 on each". All four WERE here — the two top
+       ones were simply painted over by .panel-head, which is an opaque
+       brushed-silver band starting at y=0 and running ~26px down, i.e.
+       straight across the `top 8px` dots. Adding more gradients here would
+       have changed nothing; the top pair has to be drawn by something that
+       paints ABOVE the band, which is .panel::before below. That is also
+       what a real rack module does — the screws go through the visible
+       nameplate strip, not under it.
+
+       Recipe changed at the same time. The old one was three hard-edged
+       flat circles at slightly offset centres, faking a DOMED rivet sitting
+       proud of the plate; at 5px it read as a sticker. The apps already had
+       a better one (Chordinator src/renderer/styles.css .screw): a recessed
+       DIMPLE lit from top-middle, so the far (lower) inner wall catches the
+       light and the near (upper) rim shadows into the hole. Ported here as
+       two circles rather than the app's gradient+inset-box-shadow, because a
+       background layer cannot carry an inset shadow: a lower rim-catch disc
+       behind, and the dimple itself in front, its stops soft on the inside
+       and hard at the outer edge.
+
+       ⚠ The stops are plain hsl()/rgba() on purpose. color-mix() as a stop
+       inside a small radial-gradient on THIS rule paints the whole panel a
+       solid dark colour in Chrome while CSSOM still reports cream — see the
+       long note above. Do not reintroduce it here. */
+    radial-gradient(circle 2.6px at left 8px bottom 8px,
+      rgba(255,255,255,0.60) 0%, hsl(40,7%,58%) 46%, hsl(38,8%,34%) 97%, transparent 100%),
+    radial-gradient(circle 3.1px at left 8px bottom 8.9px, rgba(255,255,255,0.5) 99%, transparent 100%),
+    radial-gradient(circle 2.6px at right 8px bottom 8px,
+      rgba(255,255,255,0.60) 0%, hsl(40,7%,58%) 46%, hsl(38,8%,34%) 97%, transparent 100%),
+    radial-gradient(circle 3.1px at right 8px bottom 8.9px, rgba(255,255,255,0.5) 99%, transparent 100%),
     /* Brushed-metal noise + a faint radial vignette, both restricted to the
        panel plate rather than the page — "read as physical rather than flat
        CSS gradients" per the 2026-08-16 request. The noise is the same 1px
@@ -788,6 +813,38 @@ a:hover { color: var(--accent); }
   box-shadow:
     0 1px 0 rgba(255,255,255,0.6), 0 2px 5px rgba(0,0,0,0.14);
 }
+/* The TOP pair of screws, drawn as an overlay so they land ON the header
+   band instead of under it. See the long note in .panel's background above
+   for why they cannot live in that background layer.
+
+   Deliberately a single pseudo-element carrying both screws as background
+   layers, not two elements: .panel::after is already the accent spine and
+   .panel-head::before is already the pilot lamp, so ::before here is the
+   last free slot on the pair and has to do both corners. z-index 2 clears
+   the band (auto) and the spine; pointer-events:none keeps it out of the
+   way of the panel's own links.
+
+   Same two-circle dimple recipe as the bottom pair, unchanged — a screw
+   through a silver nameplate strip and a screw through the cream plate are
+   the same hole, and giving the band its own lighter/darker variant made
+   the four read as two different fasteners. If .panel-head ever goes dark
+   (the graphite/gunmetal proposal), this is the rule that needs a darker
+   variant, not the one above. */
+.panel::before {
+  content: "";
+  position: absolute; inset: 0; z-index: 2;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle 2.6px at left 8px top 8px,
+      rgba(255,255,255,0.60) 0%, hsl(40,7%,58%) 46%, hsl(38,8%,34%) 97%, transparent 100%),
+    radial-gradient(circle 3.1px at left 8px top 8.9px, rgba(255,255,255,0.5) 99%, transparent 100%),
+    radial-gradient(circle 2.6px at right 8px top 8px,
+      rgba(255,255,255,0.60) 0%, hsl(40,7%,58%) 46%, hsl(38,8%,34%) 97%, transparent 100%),
+    radial-gradient(circle 3.1px at right 8px top 8.9px, rgba(255,255,255,0.5) 99%, transparent 100%);
+  background-repeat: no-repeat;
+}
+
 .panel > .panel-head {
   /* Monospace, matching .legend's switch above — same stencil-label reasoning. */
   font-family: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
@@ -1798,21 +1855,53 @@ a.btn.gumroad-button:active {
     0 6px 16px -8px color-mix(in srgb, var(--accent) 60%, transparent);
 }
 
-/* --- 2. Alternate section backgrounds (tonal bands) ----------------------
+/* --- 2. Alternate section backgrounds (tonal bands) — REMOVED 2026-08-19 ---
 
-   A faint full-bleed darken behind every other section, so products / bundles /
-   licence / why / about read as deliberate bands rather than one sheet. The
-   full-bleed is the box-shadow-spread + clip-path trick, NOT `width: 100vw` —
-   100vw is wider than the content box by the scrollbar and re-introduces the
-   exact horizontal-scrollbar bug the responsive rules above went to trouble to
-   kill. `clip-path: inset(0 -100vmax)` lets the huge spread show left/right but
-   clips it vertically to the section so it can't bleed into its neighbours, and
-   a box-shadow never contributes to scroll width. The wash is translucent black
-   so the fixed faceplate grain still shows through the band. */
-#bundles, #why-standalone {
-  box-shadow: 0 0 0 100vmax rgba(31, 26, 21, 0.030);
-  clip-path: inset(0 -100vmax);
-}
+   There used to be a faint full-bleed darken behind #bundles and
+   #why-standalone, so products / bundles / licence / why / about read as
+   deliberate bands rather than one sheet:
+
+       #bundles, #why-standalone {
+         box-shadow: 0 0 0 100vmax rgba(31, 26, 21, 0.030);
+         clip-path: inset(0 -100vmax);
+       }
+
+   THIS IS THE "RECTANGULAR ARTIFACTS IN THE BACKGROUND" BUG, and it was
+   misdiagnosed twice before being found. Read this before adding any
+   full-bleed section wash back.
+
+   The user reported, repeatedly, four faint rectangles in the lower half of
+   the page — two on the left edge, two on the right. Both earlier attempts
+   assumed a GPU compositing-tile seam and rewrote `body::before` accordingly
+   (first `background-attachment: fixed` -> a fixed pseudo-element, then a live
+   1px repeating-linear-gradient -> a rasterised 1x2 SVG tile; both of those
+   comments are still up at the body rule, and both changes were harmless but
+   beside the point). Neither touched the actual cause, so the artifacts
+   survived both.
+
+   The cause is this rule, and the mechanism is not a rendering bug at all —
+   the wash renders exactly as designed. It is full-bleed and continuous across
+   the whole viewport width. The problem is what is drawn ON TOP of it: each of
+   these two sections holds a .panel that covers the middle of the band with an
+   opaque cream plate. So the only places the 3%-black wash is ever visible are
+   the empty left and right margins beside that panel — two disconnected
+   slivers per section, with hard vertical edges where the panel starts and
+   hard horizontal edges where the section box ends. Two sections carrying the
+   rule x two visible margins each = the four rectangles, in the lower half of
+   the page, exactly as reported.
+
+   Note the trap: this is invisible at narrow viewports, because the panel
+   spans the full width and leaves no margin for the wash to show in. It only
+   appears once the viewport is wide enough for the section to hit its
+   max-width and gutters to open up — which is why it reads as intermittent and
+   is easy to "confirm fixed" on the wrong window size. Reproduce it at ~1900px
+   of layout width, not at 1000px.
+
+   If a tonal band is wanted again, it has to be a treatment that reads as a
+   band across the FULL width, not one that is only visible where nothing
+   covers it: put the wash on a wrapper that sits behind the panel as well
+   (so the eye sees one continuous stripe), or drop the panel's opaque plate
+   over that section. Do not restore the rule above as-is. */
 
 /* Step-grid texture (repeating-linear-gradient ticks behind the alternating
    bands) was tried 2026-08-16 and dropped the same day at the user's request
@@ -1856,4 +1945,383 @@ a.btn.gumroad-button:active {
 @media (prefers-reduced-motion: reduce) {
   .panel, .btn { transition: none; }
   .product:hover, .suite:hover { transform: none; }
+}
+
+
+/* ==================================================================
+   PHOSCYON PASS — 2026-08-19
+   ==================================================================
+
+   Six changes signed off from the mockup at
+   claude.ai/code/artifact/6433d25c-6d78-471b-a35c-ee83527cfe2b, after a
+   round asking what would make the page read less sterile. Same appended-
+   block discipline as the WARMTH PASS above and for the same reasons:
+   revert is "delete from this banner to EOF", and everything here either
+   adds a rule or re-declares one whole property on an existing selector at
+   equal specificity, so nothing above needs editing to be overridden.
+
+   The exception, deliberately, is the :root cream pass — that one had to be
+   edited in place, because tokens are read by ~40 rules and shadowing them
+   from down here would leave two competing palettes in one file.
+
+   ⚠ ONE HISTORY NOTE, so this does not read as an unlearned lesson: the
+   graphite panel head below was already tried on 2026-08-16 and rejected
+   the same day ("still not very nice" across eight panels). It is back at
+   the user's explicit request after seeing it in the mockup, and the thing
+   that changed in between is context, not taste — the band now carries two
+   screws through it and a lit pilot lamp, the plate under it is warmer, and
+   the page has an accent spine and a dark video screen elsewhere, so a dark
+   strip reads as one member of a family rather than the only dark thing on
+   a pale page. If it is rejected a third time, the silver recipe is intact
+   above; deleting this one rule restores it.
+   ------------------------------------------------------------------ */
+
+/* --- 1. The panel head goes graphite ------------------------------------
+   Straight to --darkplate-*, i.e. Chordinator's actual .seq-col plate, not
+   one of the intermediate greys — the user picked the reference sample off
+   the mockup over pewter/graphite/gunmetal. Layer structure is untouched
+   (scanline + diagonal sheen + overhead bloom over a 3-stop vertical
+   gradient); only the base gradient and the lighting weights change, since
+   sheen tuned for a light plate blows out on a dark one. */
+.panel > .panel-head {
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.035) 0px, rgba(255,255,255,0.035) 1px, rgba(0,0,0,0.05) 1px, rgba(0,0,0,0.05) 2px),
+    linear-gradient(112deg, rgba(255,255,255,0) 24%, rgba(255,255,255,0.10) 34%, rgba(255,255,255,0.03) 43%, rgba(255,255,255,0) 52%, rgba(255,255,255,0.07) 68%, rgba(255,255,255,0) 78%),
+    radial-gradient(120% 60% at 50% -8%, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0) 55%),
+    linear-gradient(180deg, var(--darkplate-hi) 0%, var(--darkplate) 30%, var(--darkplate-lo) 100%);
+  border-bottom: 1px solid var(--darkplate-border);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.10),
+    inset 0 -1px 0 rgba(0,0,0,0.45);
+  /* The engraving INVERTS on a dark plate. Cut into pale metal, the far
+     (upper) wall of the groove is in shadow and the near (lower) one catches
+     light — which is the recipe above. Cut into near-black, the letters are
+     the only thing the overhead light can reach, so the fill goes lighter
+     than the plate and the lips swap: dark above, faint light below. Getting
+     this backwards is what makes engraved text on a dark panel look like
+     ordinary grey type with a drop shadow. */
+  color: hsl(44, 14%, 74%);
+  text-shadow:
+    0 -1px 0 rgba(0,0,0,0.80),
+    0  1px 0 hsla(44,20%,100%,0.10);
+}
+
+/* --- 2. Screws, dark variant for the top pair ---------------------------
+   Same two-circle dimple as the cream pair (see .panel::before above), lit
+   for near-black metal: the highlight drops from 0.60 to 0.30 and the body
+   from 58% to 34% lightness, because a dimple keeps its cream lighting on a
+   graphite band and stops being a hole — it becomes a bright dot stuck on
+   the plate. The bottom pair is untouched; it is still on cream. */
+.panel::before {
+  background:
+    radial-gradient(circle 2.6px at left 8px top 8px,
+      rgba(255,255,255,0.30) 0%, hsl(40,6%,34%) 46%, hsl(38,7%,13%) 97%, transparent 100%),
+    radial-gradient(circle 3.1px at left 8px top 8.9px, rgba(255,255,255,0.20) 99%, transparent 100%),
+    radial-gradient(circle 2.6px at right 8px top 8px,
+      rgba(255,255,255,0.30) 0%, hsl(40,6%,34%) 46%, hsl(38,7%,13%) 97%, transparent 100%),
+    radial-gradient(circle 3.1px at right 8px top 8.9px, rgba(255,255,255,0.20) 99%, transparent 100%);
+}
+
+/* --- 3. Things that are actually lit ------------------------------------
+   The pilot lamp already existed but glowed 6px onto a silver band that was
+   nearly as bright as the lamp, so there was nothing for the bloom to land
+   on. On graphite it can finally read: a two-stage halo (tight bright core,
+   wide soft falloff) plus a hairline of the accent bled onto the plate
+   around it, which is what a real LED does to the metal it is set into. */
+.panel > .panel-head::before {
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.45) inset,
+    0 0 5px 0 color-mix(in srgb, var(--accent) 85%, transparent),
+    0 0 13px 1px color-mix(in srgb, var(--accent) 42%, transparent);
+}
+/* The section eyebrow tick gets the same treatment — a struck mark with a
+   little light on it rather than a flat 2px rule. */
+.section > .legend::after {
+  box-shadow:
+    0 0 5px -1px color-mix(in srgb, var(--accent) 70%, transparent),
+    0 0 12px 0 color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* --- 4. Warm shadow ink -------------------------------------------------
+   The single cheapest change in this pass. Photographed metal casts a
+   shadow that picks up the warmth of the surface it lands on; a neutral
+   rgba(0,0,0,…) shadow under a cream plate is the clearest tell that the
+   panel was drawn in CSS rather than lit. hsl-equivalent rgb(28,22,14) is
+   this page's black. Geometry is identical to the rules above — only the
+   ink changes — so nothing reflows. */
+.panel {
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.62),
+    0 2px 5px rgba(28,22,14,0.16),
+    0 10px 28px -18px rgba(28,22,14,0.45);
+}
+.product:hover, .suite:hover {
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.62),
+    0 10px 24px -10px color-mix(in srgb, var(--accent) 45%, transparent),
+    0 4px 10px rgba(28,22,14,0.16);
+}
+
+/* --- 5. Control hierarchy -----------------------------------------------
+   In the apps you never hunt for the important button: "Send to Live" is
+   saturated and raised, undo/redo sit recessed and grey. On the site the buy
+   button and the Details button weighed about the same, so this pushes them
+   apart from both ends rather than just enlarging one.
+
+   ⚠ The buy button cannot be enlarged here. It carries `.gumroad-button`,
+   whose overlay guard above pins padding/font-size with !important for
+   reasons documented at length at that rule — changing size would mean
+   changing both copies and re-checking them against a stylesheet Gumroad can
+   reissue at any time. So the primary gains WEIGHT (a stronger halo and a
+   deeper contact shadow) and the secondary LOSES it, which reads the same
+   and touches nothing the guard owns. */
+.btn:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.85),
+    0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent),
+    0 3px 6px rgba(28,22,14,0.22),
+    0 10px 26px -8px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+/* Cut into the plate instead of sitting proud of it. The bevel inverts:
+   the old cap had a bright top lip and a dark bottom one; a recess has the
+   shadow at the top (light blocked by the near rim) and the catch at the
+   bottom. Ink drops to --text-secondary so it reads as the quieter of the
+   two before you have parsed either label. */
+.btn-ghost {
+  background: linear-gradient(180deg, hsl(40,16%,84%) 0%, hsl(42,22%,90%) 60%, hsl(44,26%,93%) 100%);
+  color: var(--text-secondary);
+  border-color: hsl(38,12%,52%);
+  border-bottom-color: hsl(38,14%,62%);
+  box-shadow:
+    inset 0 2px 3px rgba(28,22,14,0.22),
+    inset 0 -1px 0 rgba(255,255,255,0.70),
+    0 1px 0 rgba(255,255,255,0.55);
+}
+.btn-ghost:hover {
+  color: var(--text-primary);
+  box-shadow:
+    inset 0 2px 3px rgba(28,22,14,0.18),
+    inset 0 -1px 0 rgba(255,255,255,0.80),
+    0 1px 0 rgba(255,255,255,0.60);
+}
+.btn-ghost:active {
+  box-shadow: inset 0 3px 6px rgba(28,22,14,0.34);
+  transform: translateY(1px);
+}
+
+/* --- 6. The demo reel ---------------------------------------------------
+
+   THREE DEPTH LEVELS, which is the whole point of the section: the page is
+   the chassis, .panel is a plate bolted to it, and .video-stage is a screen
+   let INTO that plate. The site had the first two and stopped; every dark
+   area on it was a band, never a recess. A screen is what an instrument
+   panel does with the one region that is not metal, and it is the strongest
+   available cue that the plate around it is solid.
+
+   Shipped with no footage on purpose. The demos are being recorded; the
+   furniture goes in now so dropping a file in later is a src attribute and
+   nothing else. The transport is therefore rendered inert (aria-disabled +
+   .is-idle) rather than omitted — a section that looks operable and does
+   nothing is worse than one that says what it is waiting for. See the HTML
+   comment on the section for exactly what to change when the files land. */
+.video-panel .panel-body { padding: 16px 16px 18px; }
+
+.video-stage {
+  position: relative;
+  /* Capped and centred rather than filling the panel. At the 936px content
+     width a full-bleed 16:9 screen is ~526px tall — taller than any other
+     element on the page and, while there is no footage in it, a very large
+     empty black rectangle. 720px keeps it clearly the biggest thing in its
+     own section without owning the whole scroll. */
+  max-width: 720px; margin: 0 auto;
+  aspect-ratio: 16 / 9;
+  display: grid; place-items: center;
+  overflow: hidden;
+  border-radius: 4px;
+  background: linear-gradient(180deg, var(--screen-edge), var(--screen-bg) 42%);
+  /* The recess, in one shadow: a deep inner drop from the near rim, a
+     hairline of true black at the cut edge, and a single bright line on the
+     plate just below the opening — the lip catching the overhead light. */
+  box-shadow:
+    inset 0 3px 8px rgba(0,0,0,0.78),
+    inset 0 0 0 1px rgba(0,0,0,0.62),
+    0 1px 0 rgba(255,255,255,0.55);
+}
+/* Scanline + vignette so an empty screen reads as powered rather than as a
+   hole in the page. Same scanline vocabulary as every other surface here. */
+.video-stage::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.020) 0px, rgba(255,255,255,0.020) 1px, rgba(0,0,0,0) 1px, rgba(0,0,0,0) 3px),
+    radial-gradient(120% 90% at 50% 45%, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.45) 100%);
+}
+.video-stage-inner {
+  position: relative; z-index: 2;
+  display: grid; gap: 14px; justify-items: center; text-align: center;
+  padding: 12px;
+}
+
+/* The big centred play control: a milled ring, dark like the screen it sits
+   in, going accent-coloured only under the cursor. */
+.video-play {
+  width: 74px; height: 74px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 24px; line-height: 1; padding-left: 5px;
+  color: hsl(38, 30%, 84%);
+  border: 1px solid hsl(30, 8%, 34%);
+  background: radial-gradient(120% 120% at 50% 0%, hsl(32,7%,30%) 0%, hsl(30,8%,17%) 60%, hsl(30,9%,12%) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.16),
+    inset 0 -2px 5px rgba(0,0,0,0.55),
+    0 5px 16px rgba(0,0,0,0.5);
+  cursor: pointer;
+  transition: transform 130ms ease, box-shadow 140ms ease, color 130ms ease, border-color 130ms ease;
+}
+.video-play:hover {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 60%, black);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.20),
+    inset 0 -2px 5px rgba(0,0,0,0.55),
+    0 6px 20px rgba(0,0,0,0.55),
+    0 0 24px -2px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+.video-play:active { transform: translateY(1px) scale(0.985); }
+
+.video-caption {
+  font-family: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+  font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: hsl(38, 10%, 52%);
+}
+
+/* Transport strip. ◀◀ / ▶▶ rather than undo/redo: undo and redo are editor
+   verbs and mean nothing on a page, where the only thing there is to step
+   through is the reel itself. Same moulded cap as .btn-ghost's family. */
+.video-bar { display: flex; align-items: center; gap: 12px; margin: 14px auto 0; max-width: 720px; flex-wrap: wrap; }
+.video-transport { display: inline-flex; align-items: center; gap: 6px; }
+.video-transport button {
+  width: 40px; height: 32px; padding: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  font: inherit; font-size: 12px;
+  border-radius: var(--radius);
+  border: 1px solid hsl(38,10%,40%);
+  border-bottom-color: hsl(38,12%,28%);
+  color: var(--text-primary);
+  background: linear-gradient(180deg, hsl(45,30%,98%) 0%, hsl(43,22%,90%) 45%, hsl(40,16%,75%) 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 1px rgba(28,22,14,0.16), 0 1px 2px rgba(28,22,14,0.14);
+  cursor: pointer;
+}
+.video-transport button:active { transform: translateY(1px); box-shadow: inset 0 2px 4px rgba(28,22,14,0.34); }
+/* The play cap carries the LED, exactly as Chordinator's #seq-play::after
+   does — unlit at rest, accent with a halo while running. */
+.video-transport .video-play-cap { position: relative; width: 46px; }
+.video-transport .video-play-cap::after {
+  content: ""; position: absolute; top: 4px; right: 4px;
+  width: 4px; height: 4px; border-radius: 50%;
+  background: hsl(38, 8%, 58%);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.3);
+}
+
+/* The LCD readout, same bezel family as the header's app picker. */
+.video-read {
+  flex: 1 1 220px; min-width: 0;
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 12px; border-radius: 4px;
+  font-size: 11px;
+  background: linear-gradient(180deg, var(--screen-edge), var(--screen-bg) 40%);
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.75), inset 0 0 0 1px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.55);
+  font-family: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+}
+.video-read .video-read-label { color: hsl(38,10%,48%); letter-spacing: 0.12em; text-transform: uppercase; font-size: 10px; flex: none; }
+.video-read .video-read-value {
+  flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  color: hsl(38, 45%, 68%);
+  text-shadow: 0 0 7px hsl(30 70% 45% / 0.5);
+  letter-spacing: 0.06em;
+}
+
+/* Idle state — no footage yet. Everything stays visible at reduced contrast
+   so the section reads as "not loaded" rather than "broken", and the
+   controls are genuinely inert, not just styled that way (see the HTML). */
+.video-panel.is-idle .video-transport button,
+.video-panel.is-idle .video-play { cursor: default; opacity: 0.55; }
+.video-panel.is-idle .video-transport button:active,
+.video-panel.is-idle .video-play:active { transform: none; }
+.video-panel.is-idle .video-play:hover {
+  color: hsl(38, 30%, 84%);
+  border-color: hsl(30, 8%, 34%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.16),
+    inset 0 -2px 5px rgba(0,0,0,0.55),
+    0 5px 16px rgba(0,0,0,0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video-play { transition: none; }
+  .video-play:active, .video-transport button:active, .btn-ghost:active { transform: none; }
+}
+
+/* ---------------------------------------------------------------------------
+   §7  SCREENSHOT MICRO-INTERACTIONS — 2026-08-19
+
+   The last outstanding item from the "less sterile" request: the buttons got
+   press states in §5, the screenshots had none at all. They are the biggest
+   objects on every product page and they sat completely dead under the cursor.
+
+   What this does is deliberately small. A screenshot is a picture of a real
+   window, not a card — anything that scales it, tilts it or floats it reads
+   immediately as a web-design flourish stuck onto a photograph, which is the
+   exact "it just looks like ai" note the user gave about extruded screenshots
+   earlier in this file's history (see the .zoom notes around line 1510). So
+   the interaction is the one thing a real object on a desk actually does: it
+   lifts a couple of pixels and its shadow deepens and spreads to match. No
+   scale, no rotation, no border, no overlay.
+
+   The shadow is authored as `filter: drop-shadow()` rather than box-shadow
+   because these PNGs have alpha corners — box-shadow would draw a rectangle
+   around the transparent region. drop-shadow follows the alpha, and it
+   interpolates, so the hover shadow animates rather than snapping.
+
+   Two exclusions, both load-bearing:
+
+   - `.hero-shot` composites its own shadows in make-hero.py so that they fall
+     BETWEEN the stacked windows. The base rule above already sets
+     `filter: none` there; without :not() here, hover would hand it a CSS
+     shadow anyway and every window in the stack would suddenly have two.
+   - `.screen.empty` is the CSS placeholder for a product with no capture yet.
+     It is not a photograph of anything, so lifting it on hover promises an
+     object that isn't there.
+
+   :active is a press, not a lift — it settles back to flat with the tight
+   shadow only, so clicking through to a full-size shot feels like pushing
+   the thing down rather than releasing it upward.
+   --------------------------------------------------------------------------- */
+
+.screen:not(.empty) img {
+  transition: transform 160ms ease, filter 160ms ease;
+  will-change: transform;
+}
+
+.hero-shot .screen img,
+.screen.empty img { transition: none; }
+
+.screen:not(.empty):hover img {
+  transform: translateY(-3px);
+  filter:
+    drop-shadow(0 2px 3px rgba(28, 22, 14, 0.32))
+    drop-shadow(0 22px 40px rgba(28, 22, 14, 0.26));
+}
+
+.hero-shot .screen:hover img { transform: translateY(-3px); filter: none; }
+
+.screen:not(.empty):active img {
+  transform: translateY(0);
+  filter: drop-shadow(0 1px 2px rgba(28, 22, 14, 0.34));
+}
+
+.hero-shot .screen:active img { filter: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .screen img { transition: none; }
+  .screen:hover img, .screen:active img { transform: none; }
 }
