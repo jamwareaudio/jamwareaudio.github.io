@@ -1,9 +1,0 @@
-# The storefront kit is internal. GUMROAD-KIT.md carries pricing strategy, an
-# unresolved-decisions list and the "this address undercuts everything" note
-# about the support email - none of which should be a public URL on the site it
-# is describing. GitHub Pages serves every file in the repo, so keeping this
-# folder out of the repo is the only thing keeping it off the web.
-gumroad/
-
-.DS_Store
-.public-mirror/
