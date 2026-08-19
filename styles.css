@@ -523,7 +523,16 @@ a:hover { color: var(--accent); }
   display: flex; align-items: center; gap: 20px;
   height: 50px;
 }
-.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+/* flex-shrink: 0 -- 2026-08-20: the 900px halved-window fix below turned this
+   row into flex-wrap, but a flex item shrinks before it wraps unless told
+   not to, and nothing here said not to. .brand was the one item with no
+   fixed width (the mark is a fixed 34px, but the wordmark's box is just
+   "however wide the text needs"), so the flex algorithm shrank *it* instead
+   of wrapping the row -- squeezing the wordmark's box narrower than its own
+   text, which forced "JAMWARE AUDIO" to wrap onto two lines and blow up the
+   row height into the nav row below it. flex-shrink: 0 keeps .brand at its
+   natural width so the row wraps as a whole instead. */
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
 .brand svg, .brand img { height: 34px; width: auto; display: block; }
 .wordmark {
   /* Cut into the header band 2026-08-16, the same treatment as .product h3 a
@@ -542,6 +551,9 @@ a:hover { color: var(--accent); }
   font-family: var(--font-display);
   font-size: 24px; font-weight: 700; letter-spacing: 0.06em;
   text-transform: uppercase;
+  white-space: nowrap; /* belt-and-suspenders with .brand's flex-shrink: 0
+    above -- the two together mean this text can never wrap, regardless of
+    what a future edit does to either rule in isolation. */
   color: color-mix(in srgb, var(--control-bg) 92%, black);
   text-shadow:
     0  1px 0 hsla(0,0%,100%,0.95),
