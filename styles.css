@@ -464,6 +464,39 @@ a:hover { color: var(--accent); }
    the shorthand. */
 .wrap { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
 
+/* ============================================================ PROMO BANNER */
+/* 2026-08-19: time-boxed "free for two weeks" notice, added at the user's
+   instruction after the pricing-strategy discussion landed on disclosed
+   urgency over a silent donation model (site/HANDOFF.md has the reasoning).
+   Sits in normal flow ABOVE .site-header, which is itself position:sticky —
+   so it scrolls away first and the header takes over the top of the
+   viewport, rather than the banner permanently eating header height.
+
+   Styled as the dark inset screen language (--screen-bg/--screen-edge) the
+   product panels use for readouts, with the accent as the lit digits, so it
+   reads as another LCD on the same instrument rather than a bolted-on
+   marketing strip. The end date is hardcoded text, not computed — there is
+   no build step on this static site to derive "2 weeks from deploy", and a
+   wrong countdown is worse than a plain date. If the window changes, edit
+   the date in every page's .promo-banner text (index.html + the four
+   apps/*.html) together with this comment. */
+.promo-banner {
+  background: linear-gradient(180deg, var(--screen-bg), var(--screen-edge));
+  border-bottom: 1px solid var(--screen-edge);
+  text-align: center;
+  padding: 8px 32px;
+}
+.promo-banner p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
+  color: var(--screen-text);
+}
+.promo-banner strong {
+  color: var(--accent, hsl(8,80%,55%));
+  text-shadow: 0 0 6px color-mix(in srgb, var(--accent, hsl(8,80%,55%)) 55%, transparent);
+}
+
 /* ============================================================ SITE HEADER */
 
 .site-header {
