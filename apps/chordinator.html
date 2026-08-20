@@ -64,14 +64,7 @@
       </div>
     </div>
     <p class="lede">
-      Good chord parts stall on knowing the voicings and playing them in time.
-      Chordinator puts a whole chord under one key, laid out so the white keys
-      are the seven degrees of your scale and the black keys are inversions
-      of their neighbours, so there is no wrong note anywhere on the keybed. Play a
-      progression with one finger, then build it out with a poly piano roll,
-      a rhythm generator measured from real dub house and dub techno records,
-      groove and humanize passes, and eight modulation lanes that land in
-      Live as clip envelopes.
+      Just like MutationStation, Chordinator was built on the creative concept of "controlled randomness." Chordinator brings that philosophy to chords, with a whole chord under one key. The keybed is laid out so the white keys are the seven degrees of your scale and the black keys are inversions of their neighbours. Combined with the possibility of algorithmically or live-shifting inversions (with a knob on your MIDI controller), it lets you jam across 128 chords without being an expert on harmony. That opens the door to happy accidents you wouldn't usually come by, instead of being limited to the chords and chord voicings you'd usually reach for. It's a workflow especially suited to dub house and dub techno, where inverted chord stabs often carry both the harmony and the melodic phrase, but it fits any genre.
     </p>
     <div class="btn-row">
       <a class="btn gumroad-button" href="https://jamwareaudio.gumroad.com/l/chordinator">Get it on</a>
@@ -135,8 +128,8 @@
             <strong>The algorithms are not stored progressions.</strong> Each one
             is a table of legal moves: one row per scale degree, listing the two
             or three degrees that degree is allowed to go to, best first. Chord
-            Gen takes the rhythm already on the roll, starts somewhere, and walks
-            that map. So two rolls of the same algorithm are two different
+            Gen takes the rhythm already on the piano roll and generates chords
+            to fit it. So two rolls of the same algorithm are two different
             sentences in the same language rather than the same loop twice.
           </p>
           <p>
@@ -145,21 +138,20 @@
             upper structures, neo-soul 9ths, quartal drift, Dorian), dub and
             minimal, house, trance, plus a top-line group of nine that hand their
             chords to a voicing pass so the bottom notes hold still and the
-            highest note carries a melody. Five of them were measured from
-            chroma analysis of a reference record rather than written from
+            highest note carries a melody. 20 of them were measured from
+            analysis of reference tracks rather than written from
             memory.
           </p>
           <p>
             <strong>Hold</strong> decides where a chord change is allowed to
             land and <strong>Loop</strong> decides when the progression comes
-            back round, which between them is what makes a roll a progression
-            instead of a chord per hit. <strong>Follow Bass</strong> hands the
-            root motion to the bassline already on the roll and leaves the
-            algorithm to choose only which chord of that root. The tonic comes
+            back round. <strong>Follow Bass</strong> makes the
+            algorithm only choose a chord of that root. The tonic comes
             from your bass line, the harmony from the engine. And
-            <strong>Suggest</strong> reads the same tables with no dice at all:
-            it lights the recommended keys on the keybed so you can play the
-            progression by hand.
+            <strong>Suggest</strong> reads the same algorithm with no dice at all:
+            it lights recommended chords (based on the chosen algorithm) on
+            the keybed as a suggestion, to help you explore different chord
+            progressions by hand.
           </p>
         </div>
         <figure class="zoom">
@@ -193,13 +185,14 @@
           <p>
             <strong>The library, the visualiser and the chord editor</strong> are
             the way in when the keybed does not already have what you want.
-            Search every chord type by name, drag one onto the roll and it stamps
-            rooted on the row you dropped it on, or drop it on a trigger key to
-            assign it. The visualiser names and shows whatever you just played,
-            and its Edit mode lets you play in a chord the library does not have
-            and put it on a key. Beside them sit Invert, Octave and Humanize,
-            the voicing mode and the smoothing switch, which apply to one key or
-            to the whole block at once.
+            Search every chord type by name, and drag it either to the keybed
+            or directly into the piano roll. The visualiser names and shows
+            whatever chord or note you just played, and its Edit mode lets you
+            play in a chord the library does not have and put it on a key.
+            Beside them sit Invert, Octave and Humanize, the voicing mode and
+            the smoothing switch, which apply to one key or to the whole block
+            at once. <strong>The smoothing switch</strong> tells the keybed to
+            voice all the chords as close as possible to the tonic chord.
           </p>
         </div>
         <div class="zoom-pair">
