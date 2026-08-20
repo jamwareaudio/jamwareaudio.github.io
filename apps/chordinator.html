@@ -316,10 +316,11 @@
         <div class="panel-body">
           <ul class="features">
             <li>
-              <strong>One key per chord, across all 128 notes.</strong> One
-              keyboard row picks the trigger key, the other builds the chord that
-              key fires. Or pull a voicing from the chord library and let the
-              trigger's own pitch be the root.
+              <strong>One key per chord, across all 128 notes.</strong> If you
+              don't have that big of a keyboard, you can connect several MIDI
+              sources to Chordinator, letting you set different MIDI
+              keyboards at different octaves so that all 128 chords are
+              reachable without switching octaves.
             </li>
             <li>
               <strong>Unmapped keys pass through.</strong> Where you have not
@@ -333,8 +334,8 @@
               leaves a note stuck on.
             </li>
             <li>
-              <strong>Humanize.</strong> Stagger a chord's note-ons so a stab does
-              not land in perfect machine-gun unison.
+              <strong>Humanize.</strong> Humanize a chord's timing and/or
+              velocity so a stab does not land in perfect machine-gun unison.
             </li>
             <li>
               <strong>Velocity that follows your hand.</strong> Pass-through by
@@ -343,9 +344,8 @@
             </li>
             <li>
               <strong>Suggestions for where to go next.</strong> After a chord
-              plays, it recommends two or three to follow it, walking weighted
-              diatonic transitions, including tension swaps, where the harmony
-              stays put and only the colour changes.
+              plays, it recommends two or three to follow it by lighting up
+              those keybed chords, based on the chosen algorithm.
             </li>
           </ul>
         </div>
@@ -356,32 +356,29 @@
         <div class="panel-body">
           <ul class="features">
             <li>
-              <strong>A poly piano roll.</strong> A chord stamped from a trigger
-              key moves, resizes, transposes and carries its chord-name label as
-              one unit, while lock, mute and velocity stay per note.
+              <strong>A poly piano roll.</strong> Full editable piano roll.
+              <strong>Draw, marquee-select, halve, duplicate, invert, zoom.</strong>
+              The roll is a real editor, not a preview. Each chord also has
+              its name visible both in the visualiser and right above it in
+              the piano roll.
             </li>
             <li>
-              <strong>A rhythm generator with a point of view.</strong> Three
+              <strong>A rhythm generator.</strong> Three
               families: <em>dub house</em> (offbeat and bouncy, measured from
-              onset analysis of five reference tracks), <em>dub techno</em>
+              five reference tracks), <em>dub techno</em>
               (Basic Channel school, where the space is the point) and
               <em>piano house</em> (offbeat 8ths, dotted 8ths, Charleston and
               tresillo figures).
             </li>
             <li>
-              <strong>Groove, which is not humanize.</strong> Jitter says "played
-              by a human"; groove says "played with this feel". 16-step templates
-              carry timing and velocity per step, scaled from straight to full.
+              <strong>Groove, which is not humanize.</strong> 16 groove
+              algorithms that determine timing and velocity per step.
             </li>
             <li>
               <strong>Fit stabs to a bassline.</strong> Point it at a bass pattern,
               either a Live clip or an audio file you drop on it, and it places stabs
               either <em>on</em> the strongest hits to reinforce them, or
               <em>around</em> them so the stab answers the bass.
-            </li>
-            <li>
-              <strong>Draw, marquee-select, halve, duplicate, invert, zoom.</strong>
-              The roll is a real editor, not a preview.
             </li>
             <li>
               <strong>A library of saved takes.</strong> Save whatever is in the
@@ -392,7 +389,7 @@
             </li>
             <li>
               <strong>Layouts save as JSON.</strong> A whole keybed, every
-              trigger and every voicing, kept per song, per set or per gig.
+              trigger and every voicing setting, saved.
             </li>
           </ul>
         </div>
@@ -419,7 +416,8 @@
             with no CC stream and nothing left running.
           </li>
           <li>
-            <strong>A bundled Remote Script</strong> installs itself into Live's
+            <strong>A bundled Remote Script</strong> (one for MutationStation
+            and Chordinator combined) installs itself into Live's
             User Library on first launch, with no Max for Live or AppleScript
             involved.
           </li>
@@ -439,7 +437,7 @@
                 MIDI port, the same route any outboard MIDI gear uses. That
                 separation is deliberate. If your DAW crashes, Chordinator and the
                 sequence you were building are untouched, and if Chordinator
-                hits a snag, your session keeps playing. Two programs talking
+                dies, your session keeps playing. Two programs talking
                 over MIDI is a lot harder to kill than one process holding
                 both jobs.
               </p>
@@ -476,9 +474,7 @@
                 <strong>Chordinator</strong> is live.<br />
                 2. Pick your controller under <strong>Trigger keyboard</strong>.<br />
                 3. In Live, add a MIDI track, set its input to
-                <strong>Chordinator</strong>, and arm it.<br />
-                4. Click a key in the <strong>Triggers</strong> row, then click
-                notes in the <strong>Chord</strong> row to build it.
+                <strong>Chordinator</strong>, and arm it.
               </p>
               <p>
                 Play the trigger key on your controller and the whole chord fires
@@ -502,8 +498,7 @@
                 map you built by hand. And because MidiMirror can run
                 <strong>two controllers at once</strong>, one can stay in
                 JamWare mode driving this app while the other stays free for
-                Live itself, splitting duty across two pieces of hardware
-                instead of switching one back and forth.
+                Live itself.
               </p>
             </div>
           </div>
