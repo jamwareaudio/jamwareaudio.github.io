@@ -64,12 +64,26 @@
       </div>
     </div>
     <p class="lede">
-      Writing a bassline note by note is slow, and the tenth variation sounds
-      like the first. MutationStation takes a line you already have (drawn
-      in, dropped in as a MIDI clip, or pulled live from Ableton) and rolls
-      new versions of it: how far the pitch moves, how the rhythm shifts,
-      where accents and slides land. Audition until one is right, then drag
-      it onto a track.
+      "Controlled randomness" is the creative philosophy behind both MutationStation and
+      Chordinator. When the workflow of writing music note-for-note runs dry, it helps to
+      reach for tools that pull you out of structured patterns of composing. Happy accidents
+      are among the most satisfying part of making electronic music, and this sequencer was
+      built with exactly that in mind. MutationStation is an acid-style mutating step-sequencer,
+      able to create entirely new sequences and to mutate your existing MIDI ideas — such as
+      pulling variations from an existing bassline or melody.
+    </p>
+    <p class="lede">
+      At the core of the workflow is the Elektron-style ability to lock certain notes and
+      let only the rest be mutated. You control how random the mutation is, with sliders and
+      parameters as well as preconfigured algorithms that decide the style of mutation.
+      MutationStation also lets you set a probability per pitch, opening up forever-evolving
+      generative sequences.
+    </p>
+    <p class="lede">
+      MutationStation takes a line you already have — drawn in, dropped in as a MIDI clip,
+      or pulled live from Ableton — and rolls new versions of it. You set how far the pitch
+      moves, how the rhythm shifts, and where accents and slides land. Audition takes until
+      one is right, then drag it onto a track.
     </p>
     <div class="btn-row">
       <a class="btn gumroad-button" href="https://jamwareaudio.gumroad.com/l/mutationstation">Get it on</a>
@@ -114,14 +128,10 @@
           </p>
           <p>
             <strong>Or mutate one stretch and leave the rest alone.</strong>
-            Drag along the bar/beat ruler above the roll to mark a range. The
-            marked bars shade, a <strong>Range</strong> chip names them in the
-            tool row, and from that moment every mutation device only reshapes
-            what is inside it. Move any slider and the bars outside come
-            through exactly as they were. Click the chip or press Esc to
-            unmark. Membership is by where a note starts, so a note that begins
-            before the mark and rings into it belongs to the part you did not
-            mark.
+            Drag anywhere in the piano roll to mark a range, and from that moment
+            every mutation device only reshapes what is inside it. Move any slider
+            and the notes outside your selected area come through unaffected.
+            Press Esc to unmark.
           </p>
           <p>
             Every roll runs on seeded dice, so the take you liked is the take
@@ -139,7 +149,7 @@
           <figcaption>
             Red notes are locked and no generator will touch them; orange notes
             are the ones still in play. Auto-Lock, on the same row, picks a set
-            for you and Structural is the seven-signal one.
+            for you.
           </figcaption>
         </figure>
       </div>
@@ -157,8 +167,8 @@
             Trip, Hypno Root, Seventh Anchor, Lead Line and Offbeat Anchor. Many
             are measured from real bass and synth loops, so they move the way
             basslines actually move rather than like a random-note generator.
-            One amount decides how much of the line they are allowed to rewrite,
-            and a scale, root and range decide where the new notes may land.
+            Amount decides how much of the line they are allowed to rewrite,
+            and scale, root and range set the boundaries of where the new notes may land.
           </p>
         </div>
         <div class="zoom-pair">
@@ -242,29 +252,19 @@
         <div class="prose story">
           <p>
             <strong>↓ Rhythm Import</strong> takes the timing of whatever clip
-            Ableton is showing and lands it in the roll as a monophonic line on
-            the root note: a rhythm nobody typed in, sitting there ready for
-            every mutation panel to write a line onto. Click a clip in Live,
-            press the button, and the groove of your drums is now the groove of
-            your bassline.
+            is currently selected in Ableton and lands it in the roll as a
+            monophonic line on the root note. This is very useful for mutating
+            an existing pattern you already have in Ableton. Click a
+            clip in Live, press the button, and the rhythm of your MIDI or audio clip
+            is now the rhythm of your MutationStation sequence.
           </p>
           <p>
-            <strong>It works on audio clips, not only MIDI ones.</strong> Live's
+            <strong>This also works on audio clips, not only MIDI ones.</strong> Live's
             scripting cannot hand an app the audio, so MutationStation reads the
             sample off disk, decodes it, and finds the attacks itself, by
             spectral flux: how much the spectrum <em>grew</em> from one frame to
-            the next, which is what an attack actually is. That is why
-            it finds a kick sitting under a held pad, where plain loudness
-            barely moves but the spectrum does. Hit strength becomes velocity,
-            so the accents survive the trip.
-          </p>
-          <p>
-            A warped clip is read through its own warp map, so the hits land on
-            the grid you are looking at rather than where they fell in the raw
-            file, and only the region Live actually plays is analysed. Hits snap
-            to the roll's current grid. WAV, AIFF, MP3, FLAC and M4A. On a MIDI
-            clip a chord counts as one hit, at the velocity of its loudest note,
-            and deactivated notes are ignored.
+            the next, which is what an attack is. Hit strength becomes velocity,
+            so velocity is baked into the sequence too.
           </p>
         </div>
       </div>
@@ -284,9 +284,8 @@
           <li>
             <strong>A note pool you can weight.</strong> Twelve keys decide
             which notes mutation may reach for, and a % panel behind them
-            decides how often each one comes up. Lean on the root, thin out
-            the leading tone, and the same algorithm settles into the key
-            without you removing a single note.
+            decides how often each one comes up, setting a probability value
+            for each pitch individually.
           </li>
           <li>
             <strong>40+ rhythm patterns.</strong> Four-on-the-floor, rolling
@@ -296,23 +295,21 @@
           </li>
           <li>
             <strong>Extend Loop.</strong> Double or quadruple the loop and let
-            each extra bar drift, with pitch, octave, duration, accent and
-            slide each on their own amount. Hold the riff and vary only the
-            groove, or the reverse.
+            each extra bar drift away from your first bar, with pitch, octave, duration, accent and
+            slide each on their own amount.
           </li>
           <li>
             <strong>Turnaround Emphasis.</strong> Every one, two or four bars,
-            the last notes of the group get boosted odds, so the phrase
-            announces its own repeat instead of looping flat. You choose the
-            multiplier, which of the last two notes it lands on, and which
-            amounts it is allowed to boost.
+            the last notes of the group get boosted odds of being mutated, giving
+            the last two notes of your sequence a stronger chance of changing.
+            A useful melodic writing tool in house/techno music, where variation
+            usually lands at the end of a phrase.
           </li>
           <li>
             <strong>Keep Original.</strong> The last link in the chain: after
             every other panel has had its say, each unlocked note gets a
             chance to snap back to how it started. A way to let some of the
-            take survive heavy mutation without locking anything, and you tick
-            which aspects may revert.
+            take survive heavy mutation without locking anything.
           </li>
           <li>
             <strong>A real piano roll.</strong> Draw, drag, resize, set
@@ -327,9 +324,8 @@
             the one on screen.
           </li>
           <li>
-            <strong>303 factory sequences</strong> ship with the app, kept
-            separate from your own library so an update can revise them and a
-            reset cannot lose them.
+            <strong>50 factory 303-style sequences</strong> ship with the app, kept
+            separate from your own library.
           </li>
           <li>
             <strong>Modulation lanes for Live.</strong> Draw up to eight
@@ -344,23 +340,22 @@
             <strong>Play and record straight in,</strong> from a MIDI
             keyboard or a DAW track: arm <strong>Record</strong> and notes
             land on the grid as you play, <strong>Overdub</strong> decides
-            whether a new pass replaces or builds on the last one, and
+            whether a new note replaces or builds on the last sequence, and
             <strong>Recapture</strong> rescues the loop you just played
             without ever having armed anything. <strong>Chord In</strong>
             and <strong>Root In</strong> read the same port to transpose
-            the pool from a played chord or a played note.
+            the pool from a played chord or a played note, letting you
+            transpose the sequence live.
           </li>
           <li>
             <strong>Follow your DAW's clock, or run on your own.</strong> Pick
             the port your DAW sends MIDI clock on and the app follows its
             tempo and its relocations; pick Internal and it plays by itself.
-            Dragged-out clips carry a tempo only if you ask them to, so a clip
-            dropped into Live adopts the project's tempo instead of yanking it.
           </li>
           <li>
             <strong>Hints and a manual in the window.</strong> Every panel
-            explains itself where you are standing, and the full manual opens
-            inside the app, so there is no PDF to go hunting for.
+            explains itself where you are standing, and the full manual is available
+            from the app.
           </li>
         </ul>
       </div>
@@ -376,11 +371,10 @@
                 MutationStation runs as its own app, not a plugin, and reaches
                 your DAW the way a hardware groovebox would: as a MIDI device
                 you record from or drag takes out of, the same route any
-                outboard sequencer uses. That separation is deliberate. If your DAW
-                crashes, MutationStation and every take in its History strip
-                are untouched, and if MutationStation hits a snag, your
-                session keeps playing. One process holding both jobs would
-                lose you both at once.
+                outboard sequencer uses. That separation is deliberate. If your
+                DAW crashes, MutationStation and every take in its History strip
+                are untouched, and if MutationStation goes down, your
+                DAW stays alive.
               </p>
             </div>
           </div>
@@ -392,7 +386,6 @@
             <div class="prose">
               <p>
                 macOS on Apple Silicon (M1 or later), and any DAW that takes MIDI.
-                Built and tested with Ableton Live.
               </p>
               <p class="legend">Version 1.0.0</p>
               <p><a href="../index.html#licence">Licence, updates and refunds</a></p>
@@ -411,15 +404,6 @@
                 <strong>drag a take out</strong> onto a track as a <code>.mid</code>
                 clip, which needs no setup at all.
               </p>
-              <h3>Two golden rules if you hear nothing</h3>
-              <p>
-                The track must be record-armed or input-monitoring, because most
-                DAWs are silent otherwise, and its input must be set to
-                <strong>MutationStation</strong> or All Inputs.
-              </p>
-              <p>
-                Per-DAW steps for Live, Logic, Bitwig, FL, Reaper, Studio One and
-                GarageBand are in the manual, which is bundled with the app.
               </p>
             </div>
           </div>
@@ -444,12 +428,6 @@
                 automation. A plain MIDI drag remains the notes-only route for
                 any DAW.
               </p>
-              <p>
-                Other DAWs get the same transport control over
-                <strong>MMC</strong> on the same port, if they are set to receive
-                it, plus a DAW-neutral capture that anchors to the first note it
-                hears.
-              </p>
             </div>
           </div>
         </div>
@@ -467,8 +445,8 @@
                 a MIDI map you built by hand. And because MidiMirror can run
                 <strong>two controllers at once</strong>, one can stay in
                 JamWare mode driving this app while the other stays free for
-                Live itself, splitting duty across two pieces of hardware
-                instead of switching one back and forth.
+                Live itself, allowing you to have a dedicated MIDI controller for
+                MutationStation and a dedicated MIDI controller for Ableton.
               </p>
             </div>
           </div>

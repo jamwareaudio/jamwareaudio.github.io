@@ -551,10 +551,14 @@
             a virtual MIDI port, the same route any outboard hardware uses (for
             MidiMirror, through a real Remote Script it writes into Live). You get
             the immediacy of a plugin, picking it as a MIDI source and playing,
-            without living inside the DAW's process. That separation works in
-            your favour: if Live crashes, the app and
-            whatever you were building in it are untouched, and if the app crashes,
-            your project stays unbothered.
+            without living inside the DAW's process. That separation is deliberate:
+            if Live crashes, the app and whatever you were building in it are untouched,
+            and if the app crashes, your project stays unbothered. On top of that,
+            most DAWs that lack per-plugin process isolation (Ableton included) suffer
+            from poorer stability when many plugins are running at once in a project.
+            Running these tools as standalone apps is thereby not only a design
+            choice for ease of access, but also one motivated by the stability
+            gains that come from running fewer plugins inside your DAW.
           </p>
         </div>
       </div>
