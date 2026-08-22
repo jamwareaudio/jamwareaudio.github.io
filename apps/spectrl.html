@@ -91,12 +91,9 @@
       <div class="panel-body">
         <div class="prose story">
           <p>
-            <strong>The top of the window answers "what note is that?"</strong>
-            A ruler of note names sits over the frequency axis, so a peak has a
-            name before you have worked out what 104 Hz is. The PEAK readout
-            gives you the exact frequency, the nearest note and how many cents
-            sharp or flat it is, which is the number you actually need when a
-            bass is fighting a kick.
+            The frequency-note table at the top of the window answers
+            "what note is that?". Helpful for checking what frequency a
+            note sits at, or the inverse.
           </p>
         </div>
         <figure class="zoom">
@@ -113,20 +110,17 @@
         </figure>
         <div class="prose story">
           <p>
-            <strong>Tonal-balance targets</strong> draw a corridor over the
-            spectrum showing where mastered tracks of a style usually sit, with
-            a dashed line down its centre. Pink noise is there as the
-            mathematical reference the rest are judged against; the genre
-            targets (club master, hypnotic techno, acid house, dub house, dub
-            techno) are tilts measured from that school of record. The corridor
-            shows shape and not loudness: it aligns itself to your own level, so
-            a quiet mix and a loud one with the same tilt sit in the same place.
+            The Tonal-balance target feature draws a corridor over the
+            spectrum showing where mastered tracks of a genre usually sit,
+            with a dashed line down its centre. The corridor shows shape and
+            not loudness: it aligns itself to your own level, so a quiet mix
+            and a loud one with the same tilt sit in the same place.
           </p>
           <p>
-            <strong>Learn</strong> is the same idea pointed at your own music.
-            Play a reference track, press Learn, and its curve becomes the
-            target you are compared against: your own song, or somebody else's,
-            instead of a preset.
+            Learn is the same idea pointed at your own music. Play a
+            reference track, press Learn, and its curve becomes the target
+            you are compared against: your own song or a reference track.
+            Save it to the preset list for future reference.
           </p>
         </div>
         <figure class="zoom">
@@ -143,14 +137,18 @@
         </figure>
         <div class="prose story">
           <p>
-            <strong>The footer is the rest of the toolkit.</strong> Target and
-            Learn, My Song, the key/scale detector, the note-info readout, the
-            oscilloscope, the note ruler, resolution up to 4K bins, refresh rate,
-            record to WAV, and Freeze, which stops the spectrum, the meters and
-            the scope together so hovering for an exact value is worth doing.
-            Sample rate follows the audio device rather than resampling behind
-            your back, and holding the mouse on the spectrum stretches the
-            averaging 6× so a fleeting peak stays legible long enough to read.
+            The Key Detection button turns Spectrl into a key detection
+            tool. Spectrl listens for the next 10 seconds and then makes a
+            guess on the scale and key of your audio, with percentage of
+            confidence displayed.
+          </p>
+          <p>
+            The REC button lets you sample your system audio in one click.
+            Set the folder for your samples to your Max for Live User
+            Library, or any other folder accessible from your DAW, and you
+            have direct access to the file from within your DAW. After a
+            sample has been recorded, you are also prompted with the WAV
+            file directly from Spectrl for drag and drop into your DAW.
           </p>
         </div>
         <figure class="zoom">
@@ -180,10 +178,11 @@
             full-precision frequencies on hover.
           </li>
           <li>
-            <strong>Tells you the key.</strong> The Scale panel listens to
-            ten seconds of incoming audio at a press of a button, then
-            shows the predicted key and highlights it on the note ruler
-            until you dismiss it.
+            <strong>Key Detection.</strong> The key detection button listens
+            to ten seconds of incoming audio at a press of a button, then
+            shows the predicted scale and key and highlights it on the note
+            ruler until you dismiss it. Useful for figuring out the scale of
+            loops and samples that have not been marked.
           </li>
           <li>
             <strong>Tonal-balance targets.</strong> Compare what you are hearing
@@ -201,19 +200,17 @@
           </li>
           <li>
             <strong>Samples anything your Mac is playing, in one click.</strong>
-            There is nothing to route and no aggregate device to build. Press
-            record and Spectrl grabs whatever audio is already
-            coming out of your speakers straight to WAV, at your DAW's
-            sample rate, following the device rather than resampling
-            behind your back.
+            No routing, no aggregate device, no separate capture app. Press
+            record and Spectrl grabs whatever audio is already coming out of
+            your speakers straight to WAV.
           </li>
           <li>
             <strong>As light as you need it.</strong> FFT resolution up to 4K
             bins and a refresh rate of 30, 15, 8 or 4 fps, which govern the
             spectrum and the meters together. Peak detection runs off the full
             audio stream at every setting, so a low rate costs you smoothness
-            and nothing else. Leave the window open all session next to a
-            heavy set.
+            and nothing else, so it is a window you can leave open all session
+            next to a heavy set.
           </li>
           <li>And more. See manual for full feature list.</li>
         </ul>
