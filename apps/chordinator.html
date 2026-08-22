@@ -83,6 +83,51 @@
 
   <section class="section wrap">
     <div class="panel">
+      <h2 class="panel-head">Controlled randomness</h2>
+      <div class="panel-body">
+        <div class="prose story">
+          <p>
+            Generators are only useful if you can keep the parts that already
+            work. Chordinator uses the same lock system as MutationStation, the
+            one Elektron sequencers made famous.
+          </p>
+          <p>
+            Click a note or a chord to pin it and the generators step around it.
+            Rhythm Gen replaces only unlocked notes. Chord Gen keeps the
+            timeline's rhythm and re-rolls which chord each step gets. Fit Stabs
+            rewrites the roll against a bassline. Lock the four chords that make
+            the progression, then roll the rhythm underneath them as many times
+            as you like.
+          </p>
+          <p>
+            <strong>Auto-Lock</strong> marks the notes worth keeping for you,
+            scored the same eight ways: structural, recurring, phrase corners,
+            downbeats, offbeats, accents, long notes or low notes. Velocity
+            locks are separate, so a note can keep its dynamics while its pitch
+            stays free.
+          </p>
+          <p>
+            <strong>Or narrow it to a marked area.</strong> Draw a box selection
+            over a few notes and <strong>Re-Roll</strong> re-rolls only those
+            hits, holding every other one exactly as it is, and the status line
+            says how many it held. That is the one thing Chord Gen cannot do,
+            since it always rolls the whole timeline. Locks and the box work
+            together: the dice never touch a locked note, in any generator.
+          </p>
+          <p>
+            The generators overwrite the roll by design, so before any of them
+            runs, the outgoing state is parked in the History strip for you. The
+            take you wanted is routinely two rolls back, past the point undo is
+            comfortable, and it is still sitting there as a picture you can
+            click.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="panel">
       <h2 class="panel-head">128 chords under one keybed</h2>
       <div class="panel-body">
         <div class="prose story">
@@ -227,51 +272,6 @@
 
   <section class="section wrap">
     <div class="panel">
-      <h2 class="panel-head">Controlled randomness</h2>
-      <div class="panel-body">
-        <div class="prose story">
-          <p>
-            Generators are only useful if you can keep the parts that already
-            work. Chordinator uses the same lock system as MutationStation, the
-            one Elektron sequencers made famous.
-          </p>
-          <p>
-            Click a note or a chord to pin it and the generators step around it.
-            Rhythm Gen replaces only unlocked notes. Chord Gen keeps the
-            timeline's rhythm and re-rolls which chord each step gets. Fit Stabs
-            rewrites the roll against a bassline. Lock the four chords that make
-            the progression, then roll the rhythm underneath them as many times
-            as you like.
-          </p>
-          <p>
-            <strong>Auto-Lock</strong> marks the notes worth keeping for you,
-            scored the same eight ways: structural, recurring, phrase corners,
-            downbeats, offbeats, accents, long notes or low notes. Velocity
-            locks are separate, so a note can keep its dynamics while its pitch
-            stays free.
-          </p>
-          <p>
-            <strong>Or narrow it to a marked area.</strong> Draw a box selection
-            over a few notes and <strong>Re-Roll</strong> re-rolls only those
-            hits, holding every other one exactly as it is, and the status line
-            says how many it held. That is the one thing Chord Gen cannot do,
-            since it always rolls the whole timeline. Locks and the box work
-            together: the dice never touch a locked note, in any generator.
-          </p>
-          <p>
-            The generators overwrite the roll by design, so before any of them
-            runs, the outgoing state is parked in the History strip for you. The
-            take you wanted is routinely two rolls back, past the point undo is
-            comfortable, and it is still sitting there as a picture you can
-            click.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section wrap">
-    <div class="panel">
       <h2 class="panel-head">Take the rhythm off a clip &middot; including an audio clip</h2>
       <div class="panel-body">
         <div class="prose story">
@@ -389,54 +389,6 @@
   </section>
 
   <section class="section wrap">
-    <div class="panel">
-      <h2 class="panel-head">Setting it up in your DAW</h2>
-      <div class="panel-body">
-        <div class="prose">
-          <p>
-            1. Launch Chordinator. The banner confirms the virtual output
-            <strong>Chordinator</strong> is live.<br />
-            2. Pick your controller under <strong>Trigger keyboard</strong>.<br />
-            3. In your DAW, add a MIDI-track, set its input to
-            <strong>Chordinator</strong>, and arm it.
-          </p>
-          <p>
-            Play the trigger key on your controller and the whole chord fires
-            into Live. Layouts save and load as JSON, so you can keep a set
-            of chords per song, per set, or per gig.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section wrap">
-    <div class="panel">
-      <h2 class="panel-head">Particular integration with Live</h2>
-      <div class="panel-body">
-        <ul class="features cols">
-          <li>
-            <strong>Pull the clip you are looking at</strong> straight into the
-            roll, and send it back, either as a new clip or replacing the one that
-            is already there.
-          </li>
-          <li>
-            <strong>Eight modulation lanes.</strong> Draw a curve in step, slide
-            or bend, with shape templates and its own independent length, bind
-            it to any parameter on any device in the set, and it is written into
-            the clip as an <strong>envelope</strong>. Live's own knobs move,
-            with no CC stream and nothing left running.
-          </li>
-          <li>
-            <strong>A bundled Remote Script</strong> (one for MutationStation
-            and Chordinator combined) installs itself into Live's
-            User Library on first launch, with no Max for Live or AppleScript
-            involved.
-          </li>
-        </ul>
-      </div>
-    </div>
-
     <div class="panel-grid">
 
         <div class="panel">
@@ -473,6 +425,53 @@
               </p>
               <p class="legend">Version 1.0.0</p>
               <p><a href="../index.html#licence">Licence, updates and refunds</a></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2 class="panel-head">Setting it up in your DAW</h2>
+          <div class="panel-body">
+            <div class="prose">
+              <p>
+                1. Launch Chordinator. The banner confirms the virtual output
+                <strong>Chordinator</strong> is live.<br />
+                2. Pick your controller under <strong>Trigger keyboard</strong>.<br />
+                3. In your DAW, add a MIDI-track, set its input to
+                <strong>Chordinator</strong>, and arm it.
+              </p>
+              <p>
+                Play the trigger key on your controller and the whole chord fires
+                into Live. Layouts save and load as JSON, so you can keep a set
+                of chords per song, per set, or per gig.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2 class="panel-head">Particular integration with Live</h2>
+          <div class="panel-body">
+            <div class="prose">
+              <p>
+                <strong>Pull the clip you are looking at</strong> straight into
+                the roll, and send it back, either as a new clip or replacing
+                the one that is already there.
+              </p>
+              <p>
+                <strong>Eight modulation lanes.</strong> Draw a curve in step,
+                slide or bend, with shape templates and its own independent
+                length, bind it to any parameter on any device in the set, and
+                it is written into the clip as an <strong>envelope</strong>.
+                Live's own knobs move, with no CC stream and nothing left
+                running.
+              </p>
+              <p>
+                <strong>A bundled Remote Script</strong> (one for
+                MutationStation and Chordinator combined) installs itself into
+                Live's User Library on first launch, with no Max for Live or
+                AppleScript involved.
+              </p>
             </div>
           </div>
         </div>
