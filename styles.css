@@ -1254,6 +1254,19 @@ video.hero-inset.is-playing { opacity: 1; }
 .btn-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
   --btn-accent: var(--accent); }
 
+/* Gumroad's checkout overlay renders its whole product/account panel as a
+   cross-origin iframe (assets.gumroad.com's shadow-DOM host, see
+   site-header.js's overlay-fader comment). "Sign in with Google" inside that
+   iframe silently no-ops -- Google refuses to render its OAuth flow inside an
+   <iframe> at all (anti-clickjacking), so the click does nothing and there is
+   no error to show. Nothing in our JS can reach in and fix that; it is not
+   our iframe. This link is the escape hatch: a plain <a>, deliberately
+   without the .gumroad-button class gumroad.js binds to, so it is never
+   intercepted into the overlay and just opens Gumroad's real, non-iframed
+   library/login page in a new tab, where Google sign-in works normally. */
+.manage-note { margin: 6px 0 0; font-size: 12px; color: var(--muted, #8a8a8a); }
+.manage-note a { color: inherit; text-decoration: underline; }
+
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
   font: inherit; font-size: 13px; font-weight: 700;

@@ -254,8 +254,26 @@ new MutationObserver(function (recs) {
     return document.body.style.overflow === 'hidden' ? getOverlayScroller() : null;
   }
 
+  // Reported flicker while Gumroad's checkout iframe is open turned out to
+  // line up with this: the iframe reports its content height to the overlay
+  // via postMessage repeatedly as its own view changes (product -> login ->
+  // account, each a different height), and each report fired both the
+  // MutationObserver below (body style churns as Gumroad toggles its own
+  // scroll-lock) and this ResizeObserver, each running a synchronous
+  // updateFromScroll -> positionFader (a getBoundingClientRect + style write)
+  // back to back, same frame. Individually cheap; in a burst of several per
+  // second it reads as jank. Coalescing bursts into one rAF-scheduled update
+  // costs nothing when they're not bursting (a burst of 1 still updates next
+  // frame) and removes the redundant synchronous layout work when they are.
+  var updateScheduled = false;
+  function scheduleUpdate() {
+    if (updateScheduled) return;
+    updateScheduled = true;
+    requestAnimationFrame(function () { updateScheduled = false; updateFromScroll(); });
+  }
+
   var overlayScrollWired = null;
-  var overlayResizeObserver = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(function(){ updateFromScroll(); }) : null;
+  var overlayResizeObserver = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(function(){ scheduleUpdate(); }) : null;
   function ensureOverlayScrollListener() {
     var el = overlayEl();
     if (el && el !== overlayScrollWired) {
@@ -299,7 +317,7 @@ new MutationObserver(function (recs) {
   new MutationObserver(function(){
     pf.classList.toggle('on-overlay', document.body.style.overflow === 'hidden');
     ensureOverlayScrollListener();
-    updateFromScroll();
+    scheduleUpdate();
   }).observe(document.body, { attributes: true, attributeFilter: ['style'] });
 
   function updateFromScroll() {
