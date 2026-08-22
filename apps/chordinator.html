@@ -204,10 +204,6 @@
                 <img src="../assets/shots/chordinator-library.png" alt="The Chordinator chord library with its search box and family chips, the visualiser keyboard below it, and the chord edit controls for invert, octave, humanize, voicing and smoothing" />
               </picture>
             </div>
-            <figcaption>
-              Chord library, visualiser and chord edit, stacked down the left of
-              the window. Search, see it on a keyboard, re-voice it.
-            </figcaption>
           </figure>
           <figure class="zoom">
             <div class="screen">
@@ -291,18 +287,7 @@
             scripting cannot hand an app the audio, so Chordinator reads the
             sample off disk, decodes it, and finds the attacks itself, by
             spectral flux: how much the spectrum <em>grew</em> from one frame to
-            the next, which is what an attack actually is. That is why
-            it finds a kick sitting under a held pad, where plain loudness
-            barely moves but the spectrum does. Hit strength becomes velocity,
-            so the accents survive the trip.
-          </p>
-          <p>
-            A warped clip is read through its own warp map, so the hits land on
-            the grid you are looking at rather than where they fell in the raw
-            file, and only the region Live actually plays is analysed. Hits snap
-            to the roll's current grid. On a MIDI clip a chord counts as one
-            hit, at the velocity of its loudest note, and deactivated notes are
-            ignored.
+            the next, which is what an attack actually is.
           </p>
         </div>
       </div>
@@ -313,7 +298,7 @@
     <div class="two-col">
 
       <div class="panel">
-        <h2 class="panel-head">Playing</h2>
+        <h2 class="panel-head">Jamming on the chord keybed</h2>
         <div class="panel-body">
           <ul class="features">
             <li>
@@ -347,6 +332,10 @@
               <strong>Suggestions for where to go next.</strong> After a chord
               plays, it recommends two or three to follow it by lighting up
               those keybed chords, based on the chosen algorithm.
+            </li>
+            <li>
+              Transpose the whole keybed so that all chords are transposed to
+              whatever scale your song is in.
             </li>
           </ul>
         </div>
@@ -396,6 +385,28 @@
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="panel">
+      <h2 class="panel-head">Setting it up in your DAW</h2>
+      <div class="panel-body">
+        <div class="prose">
+          <p>
+            1. Launch Chordinator. The banner confirms the virtual output
+            <strong>Chordinator</strong> is live.<br />
+            2. Pick your controller under <strong>Trigger keyboard</strong>.<br />
+            3. In your DAW, add a MIDI-track, set its input to
+            <strong>Chordinator</strong>, and arm it.
+          </p>
+          <p>
+            Play the trigger key on your controller and the whole chord fires
+            into Live. Layouts save and load as JSON, so you can keep a set
+            of chords per song, per set, or per gig.
+          </p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -467,27 +478,7 @@
         </div>
 
         <div class="panel">
-          <h2 class="panel-head">Setting it up with Live</h2>
-          <div class="panel-body">
-            <div class="prose">
-              <p>
-                1. Launch Chordinator. The banner confirms the virtual output
-                <strong>Chordinator</strong> is live.<br />
-                2. Pick your controller under <strong>Trigger keyboard</strong>.<br />
-                3. In Live, add a MIDI track, set its input to
-                <strong>Chordinator</strong>, and arm it.
-              </p>
-              <p>
-                Play the trigger key on your controller and the whole chord fires
-                into Live. Layouts save and load as JSON, so you can keep a set
-                of chords per song, per set, or per gig.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="panel">
-          <h2 class="panel-head">Run it from a hardware panel</h2>
+          <h2 class="panel-head">Control it from MidiMirror</h2>
           <div class="panel-body">
             <div class="prose">
               <p>
@@ -495,11 +486,8 @@
                 switch a controller into <strong>JamWare mode</strong> and hand
                 it straight to Chordinator: every knob, fader and key fills
                 with this app's own parameters, named, with live values, so
-                the panel becomes Chordinator's front panel rather than a MIDI
-                map you built by hand. And because MidiMirror can run
-                <strong>two controllers at once</strong>, one can stay in
-                JamWare mode driving this app while the other stays free for
-                Live itself.
+                the MidiMirror panel becomes Chordinator's front panel rather
+                than a MIDI map you built by hand.
               </p>
             </div>
           </div>
