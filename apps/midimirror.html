@@ -162,6 +162,72 @@
 
   <section class="section wrap">
     <div class="panel">
+      <h2 class="panel-head">A guided setup that computes your Live preferences for you</h2>
+      <div class="panel-body">
+        <div class="prose story">
+          <p>
+            Configure opens on a tab strip — <strong>Setup, Controller,
+            Mapping, Install To Ableton</strong> — and the first tab is a
+            three-step card, not a page of instructions to follow by eye.
+            Step one: choose your controller. Step two:
+            <strong>who drives it</strong> — its own factory script
+            (<em>Passive</em>: nothing to map, labels read straight from Live,
+            read-only) or MidiMirror itself (<em>Active</em>: you choose what
+            every control does). Step three tells you the exact Live path
+            (Preferences → Link, Tempo & MIDI) and then works out what should
+            be sitting there: a <strong>Your Live Setup</strong> box that
+            counts how many Control Surface rows the choice needs, checks how
+            many are already correct, and spells out the row itself — name,
+            input, output — rather than leaving you to guess it. A "Set these
+            up for me" button writes the rows directly; <strong>Generate
+            Remote Script</strong> underneath is the one button that always
+            has to be pressed by hand.
+          </p>
+        </div>
+        <figure class="zoom">
+          <div class="screen">
+            <picture>
+              <source srcset="../assets/shots/midimirror-setup.webp" type="image/webp" />
+              <img src="../assets/shots/midimirror-setup.png" alt="The MidiMirror Set up your controller card: a tab strip with Setup lit, step 1 Choose your controller, step 2 Passive vs Active cards, and step 3 Generate and Restart with a Your Live Setup box reading One Control Surface row, 0 of 1 already in Live, the row spelled out as MidiMirror_Generic, Input None, Output None, and a Set these up for me button above Generate Remote Script" />
+            </picture>
+          </div>
+          <figcaption>
+            The box that matters: it tells you what your Live preferences
+            should say and how much of that is already true, instead of
+            handing you a manual step to eyeball.
+          </figcaption>
+        </figure>
+        <div class="prose story">
+          <p>
+            The <strong>Controller</strong> tab is where you come back once
+            things are wired — it shows Live's current state ("Now: Akai
+            MIDI Mix, factory, read-only"), lets you open a second controller
+            in its own window, jump straight to editing the deck, or make an
+            editable copy of a factory controller so you can start
+            customising without losing the original. Every controller you
+            have ever opened stays listed underneath, ready to reopen or
+            forget.
+          </p>
+        </div>
+        <figure class="zoom">
+          <div class="screen">
+            <picture>
+              <source srcset="../assets/shots/midimirror-configure.webp" type="image/webp" />
+              <img src="../assets/shots/midimirror-configure.png" alt="The MidiMirror Configure popup on its Controller tab: Now: Akai MIDIMIX, factory, read-only; rows for Open in a second window with an Akai APC mini picker, Edit this controller, New controller, Save as a copy, Change name greyed out, Panel layout, Make an editable copy of this controller, and an Open/Forget list showing M-Audio Oxygen Pro 61" />
+            </picture>
+          </div>
+          <figcaption>
+            Configure ▸ Controller: what Live currently has loaded, and every
+            door out of it — a second window, a copy you can edit, or a fresh
+            controller from scratch.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="panel">
       <h2 class="panel-head">A controller you design yourself</h2>
       <div class="panel-body">
         <div class="prose story">
@@ -471,12 +537,12 @@
           <div class="panel-body">
             <div class="prose">
               <p>
-                1. Install the app, and let it place its Remote Script in Live's
-                User Library on first launch.<br />
-                2. In Live: Preferences → Link/Tempo/MIDI, and pick
-                <strong>MidiMirror</strong> as a Control Surface with the MIDIMIX
-                as its input and output.<br />
-                3. Open the mirror on your second screen.
+                Open <strong>Configure ▸ Setup</strong> and follow the three
+                steps: pick your controller, pick Passive or Active, then let
+                <strong>Your Live Setup</strong> work out the Control Surface
+                rows Live needs and offer to write them for you. Press
+                <strong>Generate Remote Script</strong>, restart Live, and
+                open the mirror on your second screen.
               </p>
               <p>
                 Move a knob and its name appears. Select a different device and
