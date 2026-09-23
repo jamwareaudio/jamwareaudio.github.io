@@ -27,7 +27,6 @@
 </head>
 <body>
 
-<div class="promo-banner"><p>All tools are <strong>free</strong> through <strong>13 September 2026</strong></p></div>
 
 <header class="site-header">
   <div class="wrap">
@@ -69,7 +68,7 @@
       reach for tools that pull you out of structured patterns of composing. Happy accidents
       are among the most satisfying part of making electronic music, and this sequencer was
       built with exactly that in mind. MutationStation is an acid-style mutating step-sequencer,
-      able to create entirely new sequences and to mutate your existing MIDI ideas — such as
+      able to create entirely new sequences and to mutate your existing MIDI ideas, such as
       pulling variations from an existing bassline or melody.
     </p>
     <p class="lede">
@@ -80,8 +79,8 @@
       generative sequences.
     </p>
     <p class="lede">
-      MutationStation takes a line you already have — drawn in, dropped in as a MIDI clip,
-      or pulled live from Ableton — and rolls new versions of it. You set how far the pitch
+      MutationStation takes a line you already have, drawn in, dropped in as a MIDI clip,
+      or pulled live from Ableton, and rolls new versions of it. You set how far the pitch
       moves, how the rhythm shifts, and where accents and slides land. Audition takes until
       one is right, then drag it onto a track.
     </p>
@@ -177,7 +176,7 @@
             <div class="screen">
               <picture>
                 <source srcset="../assets/shots/mutationstation-pitch.webp" type="image/webp" />
-                <img src="../assets/shots/mutationstation-pitch.png" alt="The Pitch Mutation panel: an Amount knob, Scale and Root selectors, a Range setting and the Algorithm dropdown showing Factory Blend" />
+                <img src="../assets/shots/mutationstation-pitch.png" alt="The Pitch Mutation panel: an Amount knob, Scale and Root selectors, a Range setting and the Algo dropdown showing Proximity [Any]" />
               </picture>
             </div>
             <figcaption>
@@ -207,7 +206,7 @@
             Emphasis, and a "Which phrases" menu (every phrase, every 2nd, or
             every 4th) that decides how often the emphasis lands. Every device
             well also carries its own Length and Turn, following those macro
-            values until you set one directly — the LCD's Off entry is the
+            values until you set one directly: the LCD's Off entry is the
             switch back to following the macro. Lengths are even-only and
             reach 32 bars; an EXTEND switch grows a device's sequence to fit a
             longer length.
@@ -279,6 +278,11 @@
             the next, which is what an attack is. Hit strength becomes velocity,
             so velocity is baked into the sequence too.
           </p>
+          <p>
+            <strong>&asymp; Similar to Live</strong> leaves your sequence
+            alone and ranks the Pattern list by how close each pattern is to
+            the MIDI clip Live is showing. Click one to load it.
+          </p>
         </div>
       </div>
     </div>
@@ -329,10 +333,12 @@
           </li>
           <li>
             <strong>A real piano roll.</strong> Draw, drag, resize, set
-            velocity, with a History strip that keeps every take you generate so
+            velocity, with a Snapshots strip that keeps every take you generate so
             you can rewind to a direction you liked, plus
             <strong>+ Snapshot</strong> to bank one you want to come back to,
-            settings and all.
+            settings and all. <strong>A / B</strong> gives two takes of the
+            same settings, and nothing replaces your line until you press
+            <strong>Commit to Main</strong>.
           </li>
           <li>
             <strong>Presets and Find Similar Rhythm.</strong> Save sequences and
@@ -348,9 +354,8 @@
             per-step lanes, each driving one parameter on the selected
             device as smooth 14-bit automation. Stream them live, or
             <strong>Send to Live</strong> to build a new Session clip
-            carrying both the notes and the modulation as clip envelopes, or
-            <strong>Replace clip</strong> to overwrite the one you have
-            selected. One-click presets drop a shaped curve across three
+            carrying both the notes and the modulation as clip envelopes.
+            One-click presets drop a shaped curve across three
             parameters at once, and you can save your own alongside them.
             Modulation record works the other way: arm a lane, move a knob in
             Live, and it traces the lane from your move.
@@ -373,14 +378,15 @@
           </li>
           <li>
             <strong>An Info box, Ableton-style, and a manual in the window.</strong>
-            It describes whatever the mouse is over — LCD menus, pitch
-            algorithms, every control — and the full manual is available from
+            It describes whatever the mouse is over: LCD menus, pitch
+            algorithms, every control, and the full manual is available from
             the app.
           </li>
           <li>
             <strong>Randomize can deal a device's Length and Turn too,</strong>
-            on a 50% coin each, and only ever deals even lengths. Re-roll keys
-            on every device reshuffle just that one panel, and mutated notes
+            on a 50% coin each, and only ever deals even lengths. Each device
+            has its own <strong>&#9860;</strong> to pick new settings for that
+            device alone, and a re-roll key to reshuffle its dice. Mutated notes
             get a soft light outline in the roll rather than a recolour, so
             fill still reads as velocity.
           </li>
@@ -400,7 +406,7 @@
                 your DAW the way a hardware groovebox would: as a MIDI device
                 you record from or drag takes out of, the same route any
                 outboard sequencer uses. That separation is deliberate. If your
-                DAW crashes, MutationStation and every take in its History strip
+                DAW crashes, MutationStation and every take in its Snapshots strip
                 are untouched, and if MutationStation goes down, your
                 DAW stays alive.
               </p>
@@ -446,8 +452,8 @@
           <div class="panel-body">
             <div class="prose">
               <p>
-                A control script ships alongside the app, one for
-                MutationStation and Chordinator combined. Install it and you get
+                A control script ships alongside the app, one shared by
+                MutationStation, Chordinator and TouchXY. Install it and you get
                 <strong>↓ From Live</strong>, which pulls the clip you are
                 looking at straight into the sequencer, <strong>↓ Rhythm
                 Import</strong>, which takes just the rhythm of whatever clip
@@ -455,8 +461,8 @@
                 transport key starts and stops Live itself.
               </p>
               <p>
-                Going the other way, <strong>Send to Live</strong> and
-                <strong>Replace clip</strong> write a Session clip back out, with
+                Going the other way, <strong>Send to Live</strong> writes a
+                Session clip back out, with
                 notes and, if you have drawn any, modulation lanes as clip
                 automation. A plain MIDI drag remains the notes-only route for
                 any DAW.

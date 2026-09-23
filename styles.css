@@ -465,7 +465,11 @@ a:hover { color: var(--accent); }
 .wrap { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
 
 /* ============================================================ PROMO BANNER */
-/* 2026-08-19: time-boxed "free for two weeks" notice, added at the user's
+/* ⚠ UNUSED SINCE 2026-09-23: the banner was removed from every page when the
+   user moved all apps to donation-based / free. The rules are kept so a future
+   notice can reuse the styling; delete them if none comes.
+
+   2026-08-19: time-boxed "free for two weeks" notice, added at the user's
    instruction after the pricing-strategy discussion landed on disclosed
    urgency over a silent donation model (site/HANDOFF.md has the reasoning).
    Sits in normal flow ABOVE .site-header, which is itself position:sticky —
