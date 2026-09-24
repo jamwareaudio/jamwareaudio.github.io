@@ -1120,7 +1120,11 @@ video.hero-inset.is-playing { opacity: 1; }
 .section { padding-block: 40px; }
 .section > .legend { display: block; margin-bottom: 14px; }
 
-.products { display: grid; gap: 20px; }
+/* minmax(0, 1fr): the implicit track is `auto`, which never goes below
+   min-content, and the .tick-row's four fixed-width beats are ~340px of
+   min-content. On a 320px phone that widened every product card past the
+   screen (2026-09-24). The tick row clips instead; it is decoration. */
+.products { display: grid; gap: 20px; grid-template-columns: minmax(0, 1fr); }
 
 /* Beat-grouped tick divider between product panels -- replaces a plain
    border/gap with the site's own rectangular-LED vocabulary (see
@@ -1158,7 +1162,7 @@ video.hero-inset.is-playing { opacity: 1; }
    same red today and would silently follow along if that default is ever
    retuned for another reason. Naming it separately is what keeps the divider
    red pinned to the divider. */
-.tick-row { display: flex; justify-content: center; margin: 6px 0; --tick-lit: #D13A2C; }
+.tick-row { display: flex; justify-content: center; margin: 6px 0; --tick-lit: #D13A2C; overflow: hidden; }
 .tick-row .beat { display: flex; gap: 5px; margin-right: 18px; }
 .tick-row .beat:last-child { margin-right: 0; }
 .tick-row .tick {
@@ -1170,10 +1174,10 @@ video.hero-inset.is-playing { opacity: 1; }
   box-shadow: 0 0 5px color-mix(in srgb, var(--tick-lit) 55%, transparent);
 }
 
-.product { display: grid; }
+.product { display: grid; grid-template-columns: minmax(0, 1fr); }
 .product .panel-body {
   display: grid;
-  grid-template-columns: 96px 1fr;
+  grid-template-columns: 96px minmax(0, 1fr);
   gap: 22px;
   align-items: start;
 }
@@ -1666,9 +1670,16 @@ a.btn.gumroad-button:active {
 .zoom-pair figcaption, .media-split figcaption { max-width: none; }
 
 @media (max-width: 900px) {
-  .zoom-pair, .media-split { grid-template-columns: 1fr; }
+  /* ⚠ minmax(0, 1fr), NOT 1fr (2026-09-24). A bare 1fr track never shrinks
+     below its content's min-content width, so one picture wider than the
+     phone (TouchXY's 319px hub menu in a ~290px panel) widened the whole
+     track and pushed the prose past the panel's right edge with it. */
+  .zoom-pair, .media-split { grid-template-columns: minmax(0, 1fr); }
   .media-split > .zoom { max-width: 100%; }
 }
+/* Any crop placed straight in a figure, without the .screen wrapper that
+   carries the max-width rule above, still has to fit its track. */
+.zoom img { max-width: 100%; height: auto; }
 
 /* ---- No .render rule here, and that is on purpose --------------------------
 
@@ -1887,7 +1898,7 @@ a.btn.gumroad-button:active {
      - the bundle icon rows and the buy buttons are laid out for a mouse. Both
        get full-width targets rather than 13px type in a 9px-tall pill.       */
 @media (max-width: 720px) {
-  .product .panel-body { grid-template-columns: 64px 1fr; gap: 16px; }
+  .product .panel-body { grid-template-columns: 64px minmax(0, 1fr); gap: 16px; }
   .product .icon { width: 64px; height: 64px; border-radius: 13px; }
   .two-col { grid-template-columns: 1fr; }
   .hero { padding-block: 48px 36px; }
@@ -2518,3 +2529,11 @@ a.btn.gumroad-button:active {
    further up this file) is untouched — that is the images' normal appearance,
    not an interaction.
    --------------------------------------------------------------------------- */
+
+/* Narrow phones (2026-09-24): "MUTATIONSTATION" in 21px plate caps is ~217px,
+   wider than the text track left beside a 64px icon below ~400px, so the card
+   name ran past the panel edge (9px at 375, 64px at 320). Stack the icon above
+   the text there instead of shrinking the nameplate type. */
+@media (max-width: 400px) {
+  .product .panel-body { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+}
