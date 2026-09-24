@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JamWare Audio - Music tools built for Ableton Live</title>
+<meta name="description" content="Turn your trackpad into an XY pad controller for the device selected in Live. X and Y sweep its two most useful parameters, in 14-bit MIDI." />
+<link rel="icon" href="../assets/favicon.svg" />
+
+<!-- Social cards. Pasting a link to this site into a DM, a forum or a post
+     previewed as a blank box before 2026-08-13, which is most of how anything
+     gets shared. og:image must be an absolute URL: several scrapers do not
+     resolve relative ones, and the fallback when they fail is nothing at all.
+     If the site ever moves off https://jamwareaudio.com/ these five URLs move with it. -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="JamWare Audio" />
+<meta property="og:title" content="TouchXY · JamWare Audio" />
+<meta property="og:description" content="Turn your trackpad into an XY pad controller for the device selected in Live. X and Y sweep its two most useful parameters, in 14-bit MIDI." />
+<meta property="og:url" content="https://jamwareaudio.com/apps/touchxy.html" />
+<meta property="og:image" content="https://jamwareaudio.com/assets/shots/touchxy.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="TouchXY · JamWare Audio" />
+<meta name="twitter:description" content="Turn your trackpad into an XY pad controller for the device selected in Live. X and Y sweep its two most useful parameters, in 14-bit MIDI." />
+<meta name="twitter:image" content="https://jamwareaudio.com/assets/shots/touchxy.png" />
+<link rel="stylesheet" href="../styles.css?v=1786974636" />
+<style>:root { --accent: #A8322A; }</style>
+</head>
+<body>
+
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html">
+      <img src="../assets/logo.svg" alt="" width="40" height="22" />
+      <span class="wordmark">JamWare Audio</span>
+    </a>
+    <label class="hero-lcd" aria-hidden="false">
+        <select id="siteAppSelect" class="hero-lcd-select" aria-label="Select an app" onchange="if(this.value){ location.href=this.value; }">
+          <option value="" selected>-Select-</option>
+          <option value="/apps/mutationstation.html">MutationStation</option>
+          <option value="/apps/chordinator.html">Chordinator</option>
+          <option value="/apps/spectrl.html">Spectrl</option>
+          <option value="/apps/midimirror.html">MidiMirror</option>
+          <option value="/apps/touchxy.html">TouchXY</option>
+        </select>
+      </label>
+    <nav class="site-nav">
+      <!-- Bundles hidden 2026-09-23: every app is free / pay what you want, so a bundle saves nothing. Restore with the #bundles section. <a href="../index.html#bundles">Bundles</a> -->
+      <a href="../index.html#licence">Free</a>
+      <a href="../index.html#about">About</a>
+      <a href="mailto:jamwareaudio@gmail.com">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="product-hero wrap">
+    <a class="back" href="../index.html#products">← All products</a>
+    <div class="row">
+      <img class="icon" src="../assets/icons/touchxy-1024.png" alt="TouchXY icon" />
+      <div>
+        <h1 class="engraved">TouchXY <span class="lcd">Coming soon</span></h1>
+        <p class="tagline">Turn your trackpad into an XY pad controller for the device selected in Live.</p>
+      </div>
+    </div>
+    <p class="lede">
+      Turn your trackpad into an XY pad controller in device mode. Press
+      ⌃⌥T and the whole trackpad becomes the pad: X and Y sweep the two most
+      useful parameters of the device you have selected in Live. Select
+      another device and the pad follows it, with no mapping. Live keeps the
+      keyboard, so the space bar still runs the transport, and each axis
+      sends 14-bit MIDI, so a slow filter sweep stays smooth instead of
+      stepping.
+    </p>
+    <p class="lede"><strong>Coming soon.</strong> TouchXY is not available to
+      download yet.</p>
+  </section>
+
+  <!-- THE MAIN WORKFLOW FIRST (2026-09-24, the user): TouchXY is a trackpad
+       controller that normally has no window, not an on-screen XY pad. So the
+       hub menu comes before the pad screenshot. The menu is a real screen grab
+       of the JamWare Hub menu (native, so capturePage cannot see it), taken
+       with Snapback moved out of /Applications for the moment of the grab:
+       Snapback is not announced and must not appear in a public picture. -->
+  <section class="section wrap">
+    <div class="panel">
+      <h2 class="panel-head">No window needed</h2>
+      <div class="panel-body">
+        <div class="media-split">
+          <div class="prose story">
+            <p>
+              TouchXY lives in the <strong>JamWare Hub</strong> menu with your
+              other JamWare apps. It starts with no window and has no menu-bar
+              icon of its own, so it takes no space on your screen.
+            </p>
+            <p>
+              Press <strong>⌃⌥T</strong> anywhere, with Live in front, and your
+              trackpad becomes the controller for the selected device. Sweep,
+              then press <strong>⌃⌥T</strong> again to get your pointer back.
+              While it is on, the pointer stays still and taps and clicks do
+              nothing, so you cannot knock anything in Live by accident.
+            </p>
+            <p>
+              You only open the pad window when you want to drag with the
+              mouse or map two CCs by hand: choose TouchXY in the hub menu, or
+              press <strong>⌃⌥X</strong>.
+            </p>
+          </div>
+          <figure class="zoom">
+            <picture>
+              <source srcset="../assets/shots/touchxy-hub.webp" type="image/webp" />
+              <img src="../assets/shots/touchxy-hub.png" width="319" height="300" alt="The JamWare Hub menu: Launch all, then MutationStation, Chordinator, MidiMirror, Spectrl and TouchXY, then Ableton setup looks correct" />
+            </picture>
+            <figcaption>TouchXY in the JamWare Hub menu.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="screen">
+      <picture>
+        <source srcset="../assets/shots/touchxy.webp?v=2" type="image/webp" />
+        <img src="../assets/shots/touchxy.png?v=2" alt="The TouchXY window: a blank pad, with Device, Focus Lock, Lock Pad and the two port lights along the bottom" />
+      </picture>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="panel">
+      <h2 class="panel-head">Feature Summary</h2>
+      <div class="panel-body">
+        <ul class="features cols">
+          <li>
+            <strong>Your trackpad is the controller.</strong> Press ⌃⌥T and the whole
+            trackpad maps to the whole pad. The pointer stays still, taps and
+            clicks are swallowed, and Live keeps the keyboard, so the space bar
+            still runs the transport.
+          </li>
+          <li>
+            <strong>Follows the selected device.</strong> On an Auto Filter, X
+            is Frequency and Y is Resonance. Reverb, Echo, Operator, EQ Eight,
+            Compressor and many more have their own pairs. Anything else,
+            third-party plugins included, gets its first two continuous
+            parameters.
+          </li>
+          <li>
+            <strong>Live stays in front.</strong> With focus lock on, dragging
+            the pad does not take focus away from Live.
+          </li>
+          <li>
+            <strong>MIDI map mode.</strong> Turn device mode off and X and Y are
+            two plain CCs on channel 16. Map them to anything with Live&rsquo;s
+            MIDI Map Mode, or in any other DAW.
+          </li>
+          <li>
+            <strong>14-bit on both axes.</strong> 16384 steps instead of 128.
+            Live reads the fine and coarse pair as one control.
+          </li>
+          <li>
+            <strong>Stays out of the way.</strong> It usually runs with no
+            window. ⌃⌥X or the JamWare Hub menu brings the pad up, and when
+            shown it floats above full-screen Live.
+          </li>
+          <li>
+            <strong>No Control Surface slot of its own.</strong> It shares the
+            JamWare slot with MutationStation and Chordinator.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="panel-grid">
+
+        <div class="panel">
+          <h2 class="panel-head">Why the window is blank</h2>
+          <div class="panel-body">
+            <div class="prose">
+              <p>
+                TouchXY is a controller, not a display. Your finger on the
+                trackpad is the position, and Live shows the value as the
+                parameter moves, so the on-screen pad draws no puck, crosshair
+                or number. Most of the time it runs with no window at all.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2 class="panel-head">Requirements</h2>
+          <div class="panel-body">
+            <div class="prose">
+              <p>macOS 12 or later, and Ableton Live for device mode.</p>
+              <p>
+                Trackpad mode needs Accessibility permission, because it holds
+                the pointer still while you sweep. macOS asks for it the first
+                time.
+              </p>
+              <p>
+                Signed and notarised for macOS, so it opens with a normal
+                double-click.
+              </p>
+            </div>
+          </div>
+        </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 2026 JamWare Audio</span>
+    <a href="mailto:jamwareaudio@gmail.com">Support</a>
+    <a href="https://jamwareaudio.gumroad.com">Gumroad</a>
+    <span class="spacer legend">Built for Ableton Live · MIDI map mode works in any DAW</span>
+  </div>
+</footer>
+
+<!-- No Gumroad overlay here: TouchXY is not on sale yet, so this page has no
+     buy button for gumroad.js to attach to. Copy the block from spectrl.html
+     back in when the "Coming soon" line becomes a button. -->
+
+<script src="../assets/site-header.js?v=1786974636"></script>
+<script src="../assets/panel-grid.js?v=1"></script>
+</body>
+</html>

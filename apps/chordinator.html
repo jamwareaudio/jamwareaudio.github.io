@@ -41,6 +41,7 @@
           <option value="/apps/chordinator.html">Chordinator</option>
           <option value="/apps/spectrl.html">Spectrl</option>
           <option value="/apps/midimirror.html">MidiMirror</option>
+          <option value="/apps/touchxy.html">TouchXY</option>
         </select>
       </label>
     <nav class="site-nav">
@@ -58,20 +59,18 @@
     <div class="row">
       <img class="icon" src="../assets/icons/chordinator-1024.png" alt="Chordinator icon" />
       <div>
-        <h1 class="engraved">Chordinator <span class="lcd">Beta</span></h1>
+        <h1 class="engraved">Chordinator <span class="lcd">Coming soon</span></h1>
         <p class="tagline">128 chords under one keybed, and a chord generator to help you pick or follow the tonic of your bass line.</p>
       </div>
     </div>
     <p class="lede">
       Just like MutationStation, Chordinator was built on the creative concept of "controlled randomness." Chordinator brings that philosophy to chords, with a whole chord under one key. The keybed is laid out so the white keys are the seven degrees of your scale and the black keys are inversions of their neighbours. Combined with the possibility of algorithmically or live-shifting inversions (with a knob on your MIDI controller), it lets you jam across 128 chords without being an expert on harmony. That opens the door to happy accidents you wouldn't usually come by, instead of being limited to the chords and chord voicings you'd usually reach for. It's a workflow especially suited to dub house and dub techno, where inverted chord stabs often carry both the harmony and the melodic phrase, but it fits any genre.
     </p>
-    <p class="lede"><strong>Chordinator is in beta and not released yet.</strong>
-      You can download it and try it. It is still changing, so expect rough
-      edges, and tell me what you find.</p>
-    <div class="btn-row">
-      <a class="btn gumroad-button" href="https://jamwareaudio.gumroad.com/l/chordinator">Get it on</a>
-    </div>
-    <p class="manage-note">Already have it? <a href="https://gumroad.com/library" target="_blank" rel="noopener">Manage on Gumroad ↗</a></p>
+    <!-- COMING SOON (2026-09-24, the user): no downloadable beta. The buy
+         button and "Manage on Gumroad" line come back with the release; see
+         spectrl.html for both, and for the overlay script this page dropped. -->
+    <p class="lede"><strong>Coming soon.</strong> Chordinator is not available
+      to download yet.</p>
   </section>
 
   <section class="section wrap">
@@ -429,7 +428,6 @@
                 Signed and notarised for macOS, so it opens with a normal
                 double-click. No security warning, nothing to click past.
               </p>
-              <p class="legend">Version 1.0.0</p>
               <p><a href="../index.html#licence">Free, pay what you want: keys and updates</a></p>
             </div>
           </div>
@@ -519,45 +517,8 @@
   </div>
 </footer>
 
-<!-- Gumroad overlay checkout — the buy button above carries .gumroad-button, and
-     this script turns it into a modal over this page instead of a navigation.
-     The full reasoning, and the launch-day check it still needs, are in the
-     matching comment at the foot of ../index.html. Falls back to a plain link
-     if the script does not load. -->
-<!-- Buttons start `visibility: hidden` in styles.css (see the GUMROAD OVERLAY
-     GUARD comment there) so the "GET IT ON" text can't paint before
-     gumroad-bundle.js appends its .logo-full wordmark span a beat later. This
-     watches for that append and reveals the button in one paint once it's
-     there -- or after a fixed timeout if gumroad.js is blocked/slow, so an
-     ad-blocked visitor still gets a working (if logo-less) button rather than
-     a permanently invisible one. Must run before the gumroad.js tag below so
-     the observer is attached before gumroad-bundle.js has a chance to mutate
-     anything. Ported from ../index.html 2026-08-17 after this page's own buy
-     button was found stuck invisible forever -- this script only ever lived
-     on the homepage, so app pages had no path to .gr-ready at all. -->
-<noscript><style>a.btn.gumroad-button { visibility: visible !important; }</style></noscript>
-<script>
-(function () {
-  var btns = Array.prototype.slice.call(document.querySelectorAll('a.btn.gumroad-button'));
-  if (!btns.length) return;
-  var revealed = false;
-  function reveal() {
-    if (revealed) return;
-    revealed = true;
-    observers.forEach(function (o) { o.disconnect(); });
-    btns.forEach(function (b) { b.classList.add('gr-ready'); });
-  }
-  var observers = btns.map(function (b) {
-    var o = new MutationObserver(function () {
-      if (b.querySelector('.logo-full')) reveal();
-    });
-    o.observe(b, { childList: true });
-    return o;
-  });
-  setTimeout(reveal, 1500);
-})();
-</script>
-<script src="https://gumroad.com/js/gumroad.js"></script>
+<!-- No Gumroad overlay while Chordinator is "coming soon": there is no buy
+     button for it to attach to. Copy the block back from spectrl.html. -->
 
 <script src="../assets/site-header.js?v=1786974636"></script>
 <script src="../assets/panel-grid.js?v=1"></script>
