@@ -24,7 +24,7 @@
 <meta name="twitter:title" content="JamWare Audio - Mac apps for music production" />
 <meta name="twitter:description" content="Apps built for Ableton Live, with the flexibility of plugins and the depth of hardware: MutationStation, Chordinator, Spectrl and MidiMirror. Compatible with any DAW." />
 <meta name="twitter:image" content="https://jamwareaudio.com/assets/shots/hero-stack.png" />
-<link rel="stylesheet" href="styles.css?v=1790266830" />
+<link rel="stylesheet" href="styles.css?v=1790273663" />
 
 <!-- ==========================================================================
      STORE LINKS — every "Get it" button on this site points at Gumroad, and
@@ -178,16 +178,15 @@
           <img src="assets/shots/hero-stack.png"
                alt="The four apps open at once, cascaded: MutationStation in front, then Chordinator, Spectrl and MidiMirror behind it" />
         </picture>
-        <!-- ⚠ RE-ROLL INSET SWITCHED OFF 2026-09-24. The loop and poster were
-             shot on 2026-08-16 together with THAT day's mutationstation.png;
-             the still was re-shot on 2026-09-16 and 2026-09-23 at a different
-             window size, so the inset no longer covered the roll: the video's
-             own right-edge scrollbar and a white strip landed in the middle of
-             the piano roll (user report, phone). Restoring it needs a still
-             and a loop captured in ONE session again, then the .hero-inset
-             percentages recomputed from .pianoroll-wrap (styles.css). The
-             markup is kept below, with "--" written "- -" so it can sit
-             inside this comment; undo that when restoring.
+        <!-- THE RE-ROLL INSET, BACK ON 2026-09-24. It was switched off earlier
+             the same day because the loop (shot 2026-08-16) and the still
+             (re-shot twice since, at another window size) no longer lined up:
+             the video's scrollbar and a white strip landed mid-roll. The still,
+             poster and loop are now ONE capture session again: the poster is
+             pixel-identical to the still's roll, and the .hero-inset box in
+             styles.css was checked against the rebuilt hero-stack.png (mean
+             error 2/255, worse at any 3px shift). Re-shoot all three together
+             or none of them; see styles.css for the recipe. -->
         <picture>
           <source srcset="assets/shots/mutationstation-reroll-poster.webp" type="image/webp" />
           <img class="hero-inset hero-inset-poster"
@@ -201,7 +200,7 @@
                aria-label="MutationStation re-rolling a pattern: locked notes in red hold their pitch while unlocked notes in orange mutate on each roll"></video>
         <script>
         /* Some mobile browsers only honour "muted" as a JS property set
-           before play(), not the HTML attribute alone - - if autoplay is
+           before play(), not the HTML attribute alone -- if autoplay is
            rejected because the browser doesn't yet consider the video muted,
            it falls back to showing its native paused-state play button over
            the video, which is the "play button over the hero animation on
@@ -211,7 +210,7 @@
 
            The video itself starts at opacity:0 (see .hero-inset in
            styles.css) with this poster <img> sitting in the exact same spot
-           underneath - - hiding the ::-webkit-media-controls-start-playback-
+           underneath -- hiding the ::-webkit-media-controls-start-playback-
            button pseudo-element only covers Safari's specific paused-video
            icon, but every engine draws SOME kind of native loading/play
            affordance for the brief window between navigation and the first
@@ -230,7 +229,7 @@
           var p = v.play();
           if (p && p.catch) p.catch(function () {
             /* Low Power Mode / Data Saver reject autoplay outright, and no
-               amount of retrying without a user gesture changes that - - the
+               amount of retrying without a user gesture changes that -- the
                overlay is hidden via CSS so it doesn't look broken, but retry
                once on the first touch/click on the page in case that gesture
                is enough to unblock it (iOS treats a touch anywhere on the
@@ -241,7 +240,6 @@
           });
         })();
         </script>
-        -->
       </div>
     </div>
     <!-- The "Lock the notes that work · re-roll the rest" caption that used to

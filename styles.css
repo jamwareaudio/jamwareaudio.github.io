@@ -1071,27 +1071,32 @@ a:hover { color: var(--accent); }
    pixel-for-pixel rather than being e.g. width:100%.
 
    The percentages themselves are not eyeballed. mutationstation.png (the still
-   in the cascade) and mutationstation-reroll.mp4 (this loop) were captured
-   from the same live app window in one CDP session on 2026-08-16 so they would
-   actually line up -- a screenshot and video shot on different days at
-   different window sizes do not overlay cleanly, which is what broke the first
-   attempt at this (site/HANDOFF.md, MutationStation/HANDOFF.md have the
-   postmortem and the revert commit). The window's own
-   .pianoroll-wrap.getBoundingClientRect() at capture time was
-   {x:8, y:174, w:850, h:576} against a 1728x1009 window. Run through
-   make-hero.py's placement math for the frontmost (mutationstation, last in
-   ORDER) layer -- scale to WIN_W=1500, offset by PAD + STEP_X*3 / PAD +
-   STEP_Y*3, against the uncropped (BLEED=0) 1970x1262 canvas -- that rect
-   lands at left 21.88%, top 38.91%, width 37.46%, height 39.62%. Recompute
-   this whole block from scratch (do not nudge these numbers by eye) if either
-   asset is ever re-shot without the other. */
+   in the cascade), mutationstation-reroll-poster.png and the loop were taken in
+   ONE probe run on 2026-09-24: an off-screen 1900x964 window at
+   --force-device-scale-factor=4 grabbed whole, then grabbed whole again after
+   each of ten Re-Roll presses, every frame cropped afterwards with the same box.
+   (Cropping with capturePage's own rect does not work: the page runs at zoom
+   0.9526, so the rect framed a larger area than the still's roll.) Frame 0 is
+   pixel-identical to the still. The first attempt at this broke because a
+   still and a clip shot on different days at different window sizes do not
+   overlay; it broke again when the still was re-shot alone (site/HANDOFF.md).
+
+   The roll's rect was {x:8.00, y:172.68, w:1116.61, h:640.00} CSS px, so
+   (30, 658)-(4285, 3097) in the 7600x3856 still. Through make-hero.py's
+   placement for the front (last in ORDER) window - scale 5700/7600, offset
+   PAD + 3*STEP_X / PAD + 3*STEP_Y - on the 7487x4706 canvas, that is left
+   21.83%, top 37.92%, width 42.62%, height 38.87%. Checked on the pixels: the
+   hero cropped at that box matches the poster (mean error 2/255) and every 3px
+   shift is worse. The recorder is docs-tools/rerollshot.cjs and the cropper
+   and encoder docs-tools/make-reroll.py; re-shoot the still, poster and loop
+   together or not at all. */
 .hero-stack-frame { position: relative; display: inline-block; line-height: 0; }
 .hero-inset {
   position: absolute;
-  left: 21.88%;
-  top: 38.91%;
-  width: 37.46%;
-  height: 39.62%;
+  left: 21.83%;
+  top: 37.92%;
+  width: 42.62%;
+  height: 38.87%;
   object-fit: cover;
   pointer-events: none;
 }
