@@ -179,6 +179,16 @@
           <img src="assets/shots/hero-stack.png"
                alt="The four apps open at once, cascaded: MutationStation in front, then Chordinator, Spectrl and MidiMirror behind it" />
         </picture>
+        <!-- ⚠ RE-ROLL INSET SWITCHED OFF 2026-09-24. The loop and poster were
+             shot on 2026-08-16 together with THAT day's mutationstation.png;
+             the still was re-shot on 2026-09-16 and 2026-09-23 at a different
+             window size, so the inset no longer covered the roll: the video's
+             own right-edge scrollbar and a white strip landed in the middle of
+             the piano roll (user report, phone). Restoring it needs a still
+             and a loop captured in ONE session again, then the .hero-inset
+             percentages recomputed from .pianoroll-wrap (styles.css). The
+             markup is kept below, with "--" written "- -" so it can sit
+             inside this comment; undo that when restoring.
         <picture>
           <source srcset="assets/shots/mutationstation-reroll-poster.webp" type="image/webp" />
           <img class="hero-inset hero-inset-poster"
@@ -192,7 +202,7 @@
                aria-label="MutationStation re-rolling a pattern: locked notes in red hold their pitch while unlocked notes in orange mutate on each roll"></video>
         <script>
         /* Some mobile browsers only honour "muted" as a JS property set
-           before play(), not the HTML attribute alone -- if autoplay is
+           before play(), not the HTML attribute alone - - if autoplay is
            rejected because the browser doesn't yet consider the video muted,
            it falls back to showing its native paused-state play button over
            the video, which is the "play button over the hero animation on
@@ -202,7 +212,7 @@
 
            The video itself starts at opacity:0 (see .hero-inset in
            styles.css) with this poster <img> sitting in the exact same spot
-           underneath -- hiding the ::-webkit-media-controls-start-playback-
+           underneath - - hiding the ::-webkit-media-controls-start-playback-
            button pseudo-element only covers Safari's specific paused-video
            icon, but every engine draws SOME kind of native loading/play
            affordance for the brief window between navigation and the first
@@ -221,7 +231,7 @@
           var p = v.play();
           if (p && p.catch) p.catch(function () {
             /* Low Power Mode / Data Saver reject autoplay outright, and no
-               amount of retrying without a user gesture changes that -- the
+               amount of retrying without a user gesture changes that - - the
                overlay is hidden via CSS so it doesn't look broken, but retry
                once on the first touch/click on the page in case that gesture
                is enough to unblock it (iOS treats a touch anywhere on the
@@ -232,6 +242,7 @@
           });
         })();
         </script>
+        -->
       </div>
     </div>
     <!-- The "Lock the notes that work · re-roll the rest" caption that used to
@@ -547,18 +558,20 @@
        user made every app free / pay what you want. Licence keys stay: Gumroad
        issues one with every download, EUR 0 included, and the apps still ask
        for it (see each app's licence.js). Suggested amounts are set on Gumroad:
-       MutationStation EUR 20, the others EUR 10. Keep them in step. -->
+       MutationStation EUR 20, the others EUR 10. Keep them in step.
+       The refund paragraph was removed on 2026-09-24 at the user's request,
+       while the apps are donation-based; it comes back when they are sold. -->
   <section class="section wrap" id="licence">
     <span class="legend">What you get</span>
     <div class="panel" style="--accent:#5B9E63">
-      <h2 class="panel-head">Free &middot; pay what you want &middot; updates</h2>
+      <h2 class="panel-head">Licence and updates</h2>
       <div class="panel-body">
         <div class="prose">
           <p>
-            <strong>Every app is free.</strong> Enter 0 on Gumroad, or pay
-            what it is worth to you. The suggested amount is &euro;20 for
-            MutationStation and &euro;10 for the others, and it all goes into
-            building them.
+            <strong>The apps are currently donation-based.</strong> Enter 0 on
+            Gumroad, or pay what they are worth to you. The suggested amount is
+            &euro;20 for MutationStation and &euro;10 for the others, and it
+            all goes into building them.
           </p>
           <p>
             <strong>A key comes with every download.</strong> Gumroad emails
@@ -569,11 +582,6 @@
             <strong>Updates, your way.</strong> Every app can check for updates on
             its own and tell you when one is ready, or stay quiet and leave it to
             you to check by hand. Set it whichever way you prefer in the app.
-          </p>
-          <p>
-            <strong>Changed your mind about a payment?</strong> Ask within 14
-            days and you get your money back, per EU consumer law. No form, no
-            reason needed.
           </p>
         </div>
       </div>
