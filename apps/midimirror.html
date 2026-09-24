@@ -22,7 +22,7 @@
 <meta name="twitter:title" content="MidiMirror · JamWare Audio" />
 <meta name="twitter:description" content="Build what every knob on your MIDI controller does in Ableton Live, without writing Python. Custom modes, combos and holds, generated into a real Remote Script, with an on-screen mirror that labels every control. Run two controllers at once for a window each, or switch to JamWare mode and drive Chordinator and MutationStation from the same hardware." />
 <meta name="twitter:image" content="https://jamwareaudio.com/assets/shots/midimirror.png" />
-<link rel="stylesheet" href="../styles.css?v=1786974636" />
+<link rel="stylesheet" href="../styles.css?v=1790266830" />
 <style>:root { --accent: #E05A2C; }</style>
 </head>
 <body>
@@ -138,6 +138,23 @@
             <strong>Remember this order for Wavetable</strong>. The button names
             the device in focus, and from then on its parameters land in those
             places every time.
+          </figcaption>
+        </figure>
+        <!-- The footer button on its own (2026-09-24), shown armed. Swap order
+             is reachable straight from the bottom row as well as Configure, and
+             a bare word in a busy footer is easy to miss, so the page shows
+             where it sits. Adding this figure shifted every later midimirror
+             card by one: keep gumroad/make-gumroad-art.sh's list in step. -->
+        <figure class="zoom zoom-strip">
+          <div class="screen">
+            <picture>
+              <source srcset="../assets/shots/midimirror-swap.webp" type="image/webp" />
+              <img src="../assets/shots/midimirror-swap.png" width="744" height="71" alt="The right end of the MidiMirror bottom row: DARK DECK, Remember order, undo and redo, and Swap order lit orange because it is on" />
+            </picture>
+          </div>
+          <figcaption>
+            <strong>Swap order</strong> is on the bottom row. It lights up while
+            it is on; click it again to stop.
           </figcaption>
         </figure>
       </div>

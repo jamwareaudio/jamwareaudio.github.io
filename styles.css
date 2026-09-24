@@ -1594,6 +1594,11 @@ a.btn.gumroad-button:active {
    the app does not have). The drop-shadow inherited from .screen img is what
    separates them from the plate now that the recess is gone. */
 .zoom .screen img { width: auto; max-width: 100%; max-height: 620px; margin: 0 auto; display: block; }
+/* A thin strip of UI (one footer button, say) rather than a panel. At width:auto
+   it takes its 4x capture's intrinsic width and fills the column, blowing one
+   word up to headline size; capped, it reads at about the size it is on screen.
+   Left-aligned so it sits over its caption rather than floating mid-column. */
+.zoom-strip .screen img { width: 100%; max-width: 520px; margin: 0; }
 /* Deliberately NOT .legend. The engraved-label style above is for two or three
    words silkscreened onto hardware; a caption here is a sentence explaining what
    the crop is showing, and a sentence set in 10px uppercase with 0.14em tracking
