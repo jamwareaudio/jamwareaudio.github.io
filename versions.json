@@ -3,12 +3,12 @@
     "version": "1.0.0"
   },
   "mutation-station": {
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "spectrl": {
-    "version": "1.0.1"
+    "version": "1.1.0"
   },
   "midimirror": {
-    "version": "1.5.5"
+    "version": "1.6.0"
   }
 }
