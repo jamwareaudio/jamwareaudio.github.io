@@ -60,11 +60,11 @@
       <img class="icon" src="../assets/icons/chordinator-1024.png" alt="Chordinator icon" />
       <div>
         <h1 class="engraved">Chordinator <span class="lcd">Coming soon</span></h1>
-        <p class="tagline">128 chords under one keybed, and a chord generator to help you pick or follow the tonic of your bass line.</p>
+        <p class="tagline">128 chords under one keybed, and a chord generator that can follow the root of your bassline.</p>
       </div>
     </div>
     <p class="lede">
-      Just like MutationStation, Chordinator was built on the creative concept of "controlled randomness." Chordinator brings that philosophy to chords, with a whole chord under one key. The keybed is laid out so the white keys are the seven degrees of your scale and the black keys are inversions of their neighbours. Combined with the possibility of algorithmically or live-shifting inversions (with a knob on your MIDI controller), it lets you jam across 128 chords without being an expert on harmony. That opens the door to happy accidents you wouldn't usually come by, instead of being limited to the chords and chord voicings you'd usually reach for. It's a workflow especially suited to dub house and dub techno, where inverted chord stabs often carry both the harmony and the melodic phrase, but it fits any genre.
+      Like MutationStation, Chordinator is built on "controlled randomness", here applied to chords, with a whole chord under each key. The white keys are the seven degrees of your scale and the black keys are inversions of their neighbours. Inversions can also shift on their own or live from a knob on your MIDI controller. So you can jam across 128 chords without being an expert in harmony, and find happy accidents outside the chords and voicings you usually reach for. It suits dub house and dub techno especially, where inverted chord stabs often carry both the harmony and the melody, but it fits any genre.
     </p>
     <!-- COMING SOON (2026-09-24, the user): no downloadable beta. The buy
          button and "Manage on Gumroad" line come back with the release; see
@@ -93,34 +93,33 @@
             one Elektron sequencers made famous.
           </p>
           <p>
-            Click a note or a chord to pin it and the generators step around it.
-            Rhythm Gen replaces only unlocked notes. Chord Gen keeps the
-            timeline's rhythm and re-rolls which chord each step gets. Fit Stabs
-            rewrites the roll against a bassline. Lock the four chords that make
-            the progression, then roll the rhythm underneath them as many times
-            as you like.
+            Click a note or a chord to lock it and the generators work around
+            it. Rhythm Gen replaces only unlocked notes. Chord Gen keeps the
+            rhythm and re-rolls which chord each step gets. Fit Stabs rewrites
+            the roll against a bassline. Lock the four chords of the
+            progression, then roll the rhythm under them as often as you
+            like.
           </p>
           <p>
             <strong>Auto-Lock</strong> marks the notes worth keeping for you,
-            scored the same eight ways: structural, recurring, phrase corners,
+            scored eight ways: structural, recurring, phrase corners,
             downbeats, offbeats, accents, long notes or low notes. Velocity
             locks are separate, so a note can keep its dynamics while its pitch
             stays free.
           </p>
           <p>
-            <strong>Or narrow it to a marked area.</strong> Draw a box selection
-            over a few notes and <strong>Re-Roll</strong> re-rolls only those
-            hits, holding every other one exactly as it is, and the status line
-            says how many it held. That is the one thing Chord Gen cannot do,
-            since it always rolls the whole timeline. Locks and the box work
-            together: the dice never touch a locked note, in any generator.
+            <strong>Or limit it to a marked area.</strong> Draw a box around a
+            few notes and <strong>Re-Roll</strong> changes only those hits,
+            keeping every other one as it is. The status line says how many it
+            kept. Chord Gen cannot do this, since it always rolls the whole
+            timeline. Locks and the box work together: the dice never touch a
+            locked note, in any generator.
           </p>
           <p>
-            The generators overwrite the roll by design, so before any of them
-            runs, the outgoing state is parked in the History strip for you. The
-            take you wanted is routinely two rolls back, past the point undo is
-            comfortable, and it is still sitting there as a picture you can
-            click.
+            The generators overwrite the roll on purpose, so before any of them
+            runs, the current state is saved in the History strip. The take you
+            wanted is often two rolls back, further than undo is comfortable,
+            and it is still there as a picture you can click.
           </p>
         </div>
       </div>
@@ -133,21 +132,19 @@
       <div class="panel-body">
         <div class="prose story">
           <p>
-            The trigger keyboard covers the whole MIDI
-            range, divided into octave blocks, each block a family: triads, 7ths,
-            9ths, 11ths, sus chords, add chords, 6/9 and triad-4, power 5ths,
-            quartal and quintal. Within a block the white keys are the seven
-            degrees of your scale and the black keys are inversions of their
-            neighbours, so moving one finger changes the voicing and not the
-            harmony.
+            The trigger keyboard covers the whole MIDI range in octave blocks,
+            one chord family per block: triads, 7ths, 9ths, 11ths, sus chords,
+            add chords, 6/9 and triad-4, power 5ths, quartal and quintal. In a
+            block the white keys are the seven degrees of your scale and the
+            black keys are inversions of their neighbours, so moving one finger
+            changes the voicing, not the harmony.
           </p>
           <p>
-            That is why there is no wrong note on it. Play up an octave and you
-            are playing the same progression in a richer flavour; play the black
-            key beside a chord and you get the same chord sitting differently.
-            Keys you have not mapped pass through as ordinary single notes, and
-            right-clicking a key takes it out of the pool the generators may
-            draw from.
+            That is why no note on it is wrong. Play an octave up and you play
+            the same progression in a richer flavour. Play the black key beside
+            a chord and you get the same chord voiced differently. Keys you have
+            not mapped play as ordinary single notes, and right-clicking a key
+            takes it out of the pool the generators use.
           </p>
         </div>
         <figure class="zoom">
@@ -159,7 +156,7 @@
           </div>
           <figcaption>
             The full keybed. Each octave block is a chord family, labelled where
-            it starts, so the register you play in is the flavour you get.
+            it starts, so the register you play in sets the flavour.
           </figcaption>
         </figure>
       </div>
@@ -172,33 +169,29 @@
       <div class="panel-body">
         <div class="prose story">
           <p>
-            <strong>The algorithms are not stored progressions.</strong> Each one
-            is a table of legal moves: one row per scale degree, listing the two
-            or three degrees that degree is allowed to go to, best first. Chord
-            Gen takes the rhythm already on the piano roll and generates chords
-            to fit it. So two rolls of the same algorithm are two different
-            sentences in the same language rather than the same loop twice.
+            <strong>The algorithms are not stored progressions.</strong> Each
+            one is a table of allowed moves: for each scale degree, the two or
+            three degrees it may go to next, best first. Chord Gen takes the
+            rhythm already in the piano roll and writes chords to fit it, so two
+            rolls of one algorithm give two different progressions in the same
+            style, not the same loop twice.
           </p>
           <p>
-            There are 84, grouped by what they are for: functional (strong
-            steps, cadence pull, circle of 5ths), colour (suspension chains,
-            upper structures, neo-soul 9ths, quartal drift, Dorian), dub and
-            minimal, house, trance, plus a top-line group of nine that hand their
-            chords to a voicing pass so the bottom notes hold still and the
-            highest note carries a melody. 20 of them were measured from
-            analysis of reference tracks rather than written from
-            memory.
+            There are 84, grouped by use: functional (strong steps, cadence
+            pull, circle of 5ths), colour (suspension chains, upper structures,
+            neo-soul 9ths, quartal drift, Dorian), dub and minimal, house,
+            trance, and a top-line group of nine that keep the bottom notes
+            still while the highest note carries a melody. 20 of them were
+            measured from reference tracks rather than written from memory.
           </p>
           <p>
-            <strong>Hold</strong> decides where a chord change is allowed to
-            land and <strong>Loop</strong> decides when the progression comes
-            back round. <strong>Follow Bass</strong> makes the
-            algorithm only choose a chord of that root. The tonic comes
-            from your bass line, the harmony from the engine. And
-            <strong>Suggest</strong> reads the same algorithm with no dice at all:
-            it lights recommended chords (based on the chosen algorithm) on
-            the keybed as a suggestion, to help you explore different chord
-            progressions by hand.
+            <strong>Hold</strong> sets where a chord change may land and
+            <strong>Loop</strong> sets when the progression repeats.
+            <strong>Follow Bass</strong> makes the algorithm pick only chords
+            on that root: your bassline sets the root, the engine sets the
+            harmony. <strong>Suggest</strong> uses the same algorithm with no
+            dice at all. It lights recommended chords on the keybed, to help
+            you explore progressions by hand.
           </p>
         </div>
         <figure class="zoom">
@@ -209,9 +202,9 @@
             </picture>
           </div>
           <figcaption>
-            The generator row: pick the engine, how long a chord holds, how long
-            the loop is, and Follow Bass to keep the root motion you already
-            have.
+            The generator row: pick the engine, how long a chord holds, how
+            long the loop is, and Follow Bass to keep the root movement you
+            already have.
           </figcaption>
         </figure>
         <figure class="zoom">
@@ -222,24 +215,23 @@
             </picture>
           </div>
           <figcaption>
-            All 84 engines, open. They are grouped by what they are for rather
-            than alphabetically. Functional and colour at one end, then the
-            genre groups, then the top-line engines that put the melody in the
-            top voice. Random at the corner rolls the dice on the lot.
+            All 84 engines, grouped by use rather than alphabetically:
+            functional and colour first, then the genre groups, then the
+            top-line engines that put the melody in the top voice. Random, in
+            the corner, picks from all of them.
           </figcaption>
         </figure>
         <div class="prose story">
           <p>
-            <strong>The library, the visualiser and the chord editor</strong> are
-            the way in when the keybed does not already have what you want.
-            Search every chord type by name, and drag it either to the keybed
-            or directly into the piano roll. The visualiser names and shows
-            whatever chord or note you just played, and its Edit mode lets you
-            play in a chord the library does not have and put it on a key.
-            Beside them sit Invert, Octave and Humanize, the voicing mode and
-            the smoothing switch, which apply to one key or to the whole block
-            at once. <strong>The smoothing switch</strong> tells the keybed to
-            voice all the chords as close as possible to the tonic chord.
+            <strong>The library, the visualiser and the chord editor</strong>
+            are for when the keybed does not have what you want. Search every
+            chord type by name and drag it onto the keybed or into the piano
+            roll. The visualiser names and shows the chord or note you just
+            played, and its Edit mode lets you play in a chord the library
+            lacks and put it on a key. Next to them are Invert, Octave,
+            Humanise, the voicing mode and the smoothing switch, which work on
+            one key or a whole block. <strong>The smoothing switch</strong>
+            voices every chord as close as possible to the tonic chord.
           </p>
         </div>
         <div class="zoom-pair">
@@ -259,11 +251,10 @@
               </picture>
             </div>
             <figcaption>
-              Above it sits History &amp; Snapshots, and it is the reason
-              generating is cheap. Every take is kept as a thumbnail you can read
-              at a glance, so going back to the progression from four re-rolls
-              ago is one click rather than an exercise in remembering. The
-              <strong>+</strong> pins one you want to keep by name.
+              Above it is History &amp; Snapshots, which makes generating
+              cheap. Every take is kept as a thumbnail you can read at a glance,
+              so the progression from four re-rolls ago is one click away. The
+              <strong>+</strong> saves one you want to keep, by name.
             </figcaption>
           </figure>
         </div>
@@ -273,22 +264,21 @@
 
   <section class="section wrap">
     <div class="panel">
-      <h2 class="panel-head">Take the rhythm off a clip &middot; including an audio clip</h2>
+      <h2 class="panel-head">Take the rhythm from a clip &middot; audio clips too</h2>
       <div class="panel-body">
         <div class="prose story">
           <p>
-            <strong>↓ Rhythm Import</strong> takes the timing of whatever clip
-            Ableton is showing and lands it in the roll as a mono line on the
-            scale root: exactly the shape a Rhythm Gen pattern lands in, so
-            Chord Gen can roll chords straight onto it. Point it at your drum
-            loop and the progression lands on that groove instead of a grid.
+            <strong>↓ Rhythm Import</strong> takes the timing of the clip Live
+            is showing and puts it in the roll as a single line on the scale
+            root, the same shape a Rhythm Gen pattern makes, so Chord Gen can
+            roll chords straight onto it. Point it at your drum loop and the
+            progression follows that groove instead of a grid.
           </p>
           <p>
-            <strong>It works on audio clips, not only MIDI ones.</strong> Live's
-            scripting cannot hand an app the audio, so Chordinator reads the
-            sample off disk, decodes it, and finds the attacks itself, by
-            spectral flux: how much the spectrum <em>grew</em> from one frame to
-            the next, which is what an attack actually is.
+            <strong>It works on audio clips as well as MIDI.</strong> Live
+            cannot pass audio to an app, so Chordinator reads the sample from
+            disk and finds the hits itself, by looking for sudden jumps in the
+            spectrum from one moment to the next.
           </p>
         </div>
       </div>
@@ -303,40 +293,38 @@
         <div class="panel-body">
           <ul class="features">
             <li>
-              <strong>One key per chord, across all 128 notes.</strong> If you
-              don't have that big of a keyboard, you can connect several MIDI
-              sources to Chordinator, letting you set different MIDI
-              keyboards at different octaves so that all 128 chords are
-              reachable without switching octaves.
+              <strong>One key per chord, across all 128 notes.</strong> If
+              your keyboard is smaller, connect several MIDI sources and set
+              each keyboard to a different octave, so all 128 chords are in
+              reach without switching octaves.
             </li>
             <li>
-              <strong>Unmapped keys pass through.</strong> Where you have not
-              defined a chord, the key plays as its own single note. The keyboard
-              keeps working as a keyboard.
+              <strong>Unmapped keys pass through.</strong> A key with no chord
+              plays its own single note, so the keyboard still works as a
+              keyboard.
             </li>
             <li>
-              <strong>Correct note-off, always.</strong> Releasing a trigger
-              releases that chord, and notes shared between overlapping chords are
-              reference-counted, so holding two chords that share a tone never
-              leaves a note stuck on.
+              <strong>Clean note-offs, always.</strong> Releasing a key releases
+              its chord, and notes shared between overlapping chords are
+              tracked, so holding two chords with a common note never leaves a
+              note stuck on.
             </li>
             <li>
-              <strong>Humanize.</strong> Humanize a chord's timing and/or
-              velocity so a stab does not land in perfect machine-gun unison.
+              <strong>Humanise.</strong> Loosen a chord's timing, velocity or
+              both, so a stab does not land in perfect machine unison.
             </li>
             <li>
-              <strong>Velocity that follows your hand.</strong> Pass-through by
-              default, with per-voice scaling and a Fixed mode when you want every
-              stab to land identically.
+              <strong>Velocity that follows your hand.</strong> Passed through by
+              default, with per-voice scaling and a Fixed mode when you want
+              every stab to land the same.
             </li>
             <li>
               <strong>Suggestions for where to go next.</strong> After a chord
-              plays, it recommends two or three to follow it by lighting up
-              those keybed chords, based on the chosen algorithm.
+              plays, two or three keybed chords light up as good next steps,
+              based on the chosen algorithm.
             </li>
             <li>
-              Transpose the whole keybed so that all chords are transposed to
-              whatever scale your song is in.
+              Transpose the whole keybed to the key your song is in.
             </li>
           </ul>
         </div>
@@ -347,40 +335,38 @@
         <div class="panel-body">
           <ul class="features">
             <li>
-              <strong>A poly piano roll.</strong> Full editable piano roll.
-              <strong>Draw, marquee-select, halve, duplicate, invert, zoom.</strong>
-              The roll is a real editor, not a preview. Each chord also has
-              its name visible both in the visualiser and right above it in
-              the piano roll.
+              <strong>A poly piano roll</strong> you can fully edit:
+              <strong>draw, marquee-select, halve, duplicate, invert,
+              zoom.</strong> Each chord's name shows in the visualiser and right
+              above it in the roll.
             </li>
             <li>
-              <strong>A rhythm generator.</strong> Three
-              families: <em>dub house</em> (offbeat and bouncy, measured from
-              five reference tracks), <em>dub techno</em>
-              (Basic Channel school, where the space is the point) and
-              <em>piano house</em> (offbeat 8ths, dotted 8ths, Charleston and
-              tresillo figures).
+              <strong>A rhythm generator</strong> with three families:
+              <em>dub house</em> (offbeat and bouncy, measured from five
+              reference tracks), <em>dub techno</em> (Basic Channel style, where
+              the space matters) and <em>piano house</em> (offbeat 8ths, dotted
+              8ths, Charleston and tresillo figures).
             </li>
             <li>
-              <strong>Groove, which is not humanize.</strong> 16 groove
-              algorithms that determine timing and velocity per step.
+              <strong>Groove, separate from humanise.</strong> 16 groove
+              algorithms that set timing and velocity per step.
             </li>
             <li>
-              <strong>Fit stabs to a bassline.</strong> Point it at a bass pattern,
-              either a Live clip or an audio file you drop on it, and it places stabs
-              either <em>on</em> the strongest hits to reinforce them, or
+              <strong>Fit stabs to a bassline.</strong> Point it at a bass
+              pattern, a Live clip or an audio file you drop on it, and it places
+              stabs <em>on</em> the strongest hits to back them up, or
               <em>around</em> them so the stab answers the bass.
             </li>
             <li>
-              <strong>A library of saved takes.</strong> Save whatever is in the
-              sequencer under a name, star the ones you keep coming back to,
-              file them into folders, and step through the list with ◀ ▶ to
-              audition them in order. It lives in its own file with a rolling
-              backup, separate from your settings.
+              <strong>A library of saved takes.</strong> Save what is in the
+              sequencer under a name, star favourites, sort them into folders,
+              and step through the list with ◀ ▶ to audition them in order. It
+              is kept in its own file with a rolling backup, apart from your
+              settings.
             </li>
             <li>
-              <strong>Layouts save as JSON.</strong> A whole keybed, every
-              trigger and every voicing setting, saved.
+              <strong>Layouts save as JSON:</strong> the whole keybed, every
+              trigger and every voicing setting.
             </li>
           </ul>
         </div>
@@ -397,14 +383,11 @@
           <div class="panel-body">
             <div class="prose">
               <p>
-                Chordinator runs as its own app, not a plugin, and reaches
-                your DAW the way a hardware box would: over a virtual
-                MIDI port, the same route any outboard MIDI gear uses. That
-                separation is deliberate. If your DAW crashes, Chordinator and the
-                sequence you were building are untouched, and if Chordinator
-                dies, your session keeps playing. Two programs talking
-                over MIDI is a lot harder to kill than one process holding
-                both jobs.
+                Chordinator runs as its own app, not a plugin, and reaches your
+                DAW like a hardware box: over a virtual MIDI port, the way any
+                outboard MIDI gear does. If your DAW crashes, Chordinator and
+                the sequence you were building are safe. If Chordinator crashes,
+                your session keeps playing.
               </p>
             </div>
           </div>
@@ -415,25 +398,25 @@
           <div class="panel-body">
             <div class="prose">
               <p>
-                macOS 12 or later on Apple Silicon, and any MIDI controller you want to trigger
-                from.
+                macOS 12 or later on Apple Silicon, and any MIDI controller to
+                play it from.
               </p>
               <p>
-                Chords go out over a virtual MIDI port any DAW can listen to, and
-                sequences import and export as standard MIDI files. The clip bridge
-                and the modulation lanes are Ableton Live features. Everything
+                Chords go out over a virtual MIDI port any DAW can listen to,
+                and sequences import and export as standard MIDI files. The clip
+                bridge and the modulation lanes need Ableton Live. Everything
                 else works anywhere.
               </p>
               <p>
                 <strong>Intel Macs: beta.</strong> The app is built for Intel
-                too and should work, but it has not been confirmed on an Intel
-                Mac yet.
+                too and should work, but it has not been tested on an Intel Mac
+                yet.
               </p>
               <p>
                 Signed and notarised for macOS, so it opens with a normal
-                double-click. No security warning, nothing to click past.
+                double-click, with no security warning.
               </p>
-              <p><a href="../index.html#licence">Free, pay what you want: keys and updates</a></p>
+              <p><a href="../index.html#licence">Donation-based: licence and updates</a></p>
             </div>
           </div>
         </div>
@@ -443,51 +426,48 @@
           <div class="panel-body">
             <div class="prose">
               <p>
-                1. Launch Chordinator. The banner confirms the virtual output
-                <strong>Chordinator</strong> is live.<br />
+                1. Open Chordinator. The banner confirms the virtual output
+                <strong>Chordinator</strong> is running.<br />
                 2. Pick your controller under <strong>Trigger keyboard</strong>.<br />
-                3. In your DAW, add a MIDI-track, set its input to
+                3. In your DAW, add a MIDI track, set its input to
                 <strong>Chordinator</strong>, and arm it.
               </p>
               <p>
-                Play the trigger key on your controller and the whole chord fires
-                into Live. Layouts save and load as JSON, so you can keep a set
-                of chords per song, per set, or per gig.
+                Play a trigger key on your controller and the whole chord plays
+                in Live. Layouts save and load as JSON, so you can keep a set of
+                chords per song, per set or per gig.
               </p>
             </div>
           </div>
         </div>
 
         <div class="panel">
-          <h2 class="panel-head">Particular integration with Live</h2>
+          <h2 class="panel-head">Extra integration with Live</h2>
           <div class="panel-body">
             <div class="prose">
               <p>
-                <strong>Pull the clip you are looking at</strong> straight into
-                the roll, and send it back, either as a new clip or replacing
-                the one that is already there.
+                <strong>Pull the clip you are looking at</strong> into the roll,
+                and send it back, as a new clip or replacing the one that is
+                there.
               </p>
               <p>
-                <strong>Eight modulation lanes.</strong> Draw a curve in step,
-                slide or bend, with shape templates and its own independent
-                length, bind it to any parameter on any device in the set, and
-                it is written into the clip as an <strong>envelope</strong>.
-                Live's own knobs move, with no CC stream and nothing left
-                running.
+                <strong>Eight modulation lanes.</strong> Draw a curve as steps,
+                slides or bends, with shape templates and its own length, link it
+                to any parameter on any device in the set, and it is written
+                into the clip as an <strong>envelope</strong>. Live's own knobs
+                move, with no CC stream and nothing left running.
               </p>
               <p>
-                <strong>Presets and record.</strong> One click drops a
+                <strong>Presets and record.</strong> One click draws a
                 ready-made curve across three parameters at once, including a
-                set shaped for dub chord stabs that ride the echo's input so
-                the tail keeps ringing. Save your own recipes to that list. Or
-                arm a lane, move a knob in Live, and the lane traces itself
-                from the move you made.
+                set made for dub chord stabs that ride the echo's input so the
+                tail keeps ringing. Save your own to the list. Or arm a lane,
+                move a knob in Live, and the lane draws your move.
               </p>
               <p>
-                <strong>A bundled Remote Script</strong> (one for
-                MutationStation and Chordinator combined) installs itself into
-                Live's User Library on first launch, with no Max for Live or
-                AppleScript involved.
+                <strong>A bundled Remote Script</strong> (shared with
+                MutationStation and TouchXY) installs itself into Live's User Library on
+                first launch, with no Max for Live or AppleScript needed.
               </p>
             </div>
           </div>
@@ -500,10 +480,10 @@
               <p>
                 <a href="midimirror.html"><strong>MidiMirror</strong></a> can
                 switch a controller into <strong>JamWare mode</strong> and hand
-                it straight to Chordinator: every knob, fader and key fills
-                with this app's own parameters, named, with live values, so
-                the MidiMirror panel becomes Chordinator's front panel rather
-                than a MIDI map you built by hand.
+                it to Chordinator. Every knob, fader and key gets this app's own
+                parameters, named and with live values, so the MidiMirror panel
+                becomes Chordinator's front panel, with nothing to map by
+                hand.
               </p>
             </div>
           </div>

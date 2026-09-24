@@ -60,24 +60,20 @@
       <img class="icon" src="../assets/icons/midimirror-1024.png" alt="MidiMirror icon" />
       <div>
         <h1 class="engraved">MidiMirror</h1>
-        <p class="tagline">A mirror for your hardware MIDI controller: see the exact values of your knobs, and customise what each one does.</p>
+        <p class="tagline">A mirror for your MIDI controller: see what every knob is set to, and choose what each one does.</p>
       </div>
     </div>
     <p class="lede">
-      Have you ever found yourself forgetting, what each knob on your midi
-      controller does again? Or being confused at what is currently mapped to
-      knob 8 in device mode? Or even when your controller has a display
-      showing the value/name of the parameter you are currently moving (like
-      Novation XL Mk3/Push) you have no idea what each does until you
-      actually move its knob?
+      Ever forgotten what each knob on your MIDI controller does? Or
+      wondered what knob 8 is mapped to in device mode? Even on a controller
+      with a display (like the Launch Control XL MK3 or Push), you often only
+      find out what a knob does once you move it.
     </p>
     <p class="lede">
-      MidiMirror was created from this frustration. It features an exhaustive
-      list of layout templates that mirrors the exact look of your midi
-      controller, every knob/fader/button placed visually in the
-      corresponding spot. Place the midimirror in on a display above your
-      controller, and suddenly you know what each knob does at any point in
-      your Ableton project/set.
+      MidiMirror was made to fix that. It has layout templates that copy the
+      look of your MIDI controller, with every knob, fader and button in the
+      same place. Put MidiMirror on a screen above your controller and you
+      always know what each knob does, anywhere in your Live set.
     </p>
     <div class="btn-row">
       <a class="btn gumroad-button" href="https://jamwareaudio.gumroad.com/l/midimirror">Get it on</a>
@@ -100,9 +96,9 @@
         </picture>
       </div>
       <figcaption>
-        Every knob carries the name of the parameter it is holding and the
-        value it is standing at, read back from Live. The device in front of it
-        is named across the top. No more guessing what knob 3 is holding.
+        Every knob shows the name of the parameter it controls and its
+        current value, read back from Live. The device in focus is named
+        across the top. No more guessing what knob 3 does.
       </figcaption>
     </figure>
   </section>
@@ -113,24 +109,22 @@
       <div class="panel-body">
         <div class="prose story">
           <p>
-            <strong>Save device mode configurations for each specific
-            device.</strong> Happy with your specific set-up for a device, say
-            Ableton's Analog, or a VST like Diva, Serum or a TB-303? Maybe you
-            want the filter cut off to always be on knob1, and the ADSR on the
-            faders? Hit the save device configuration button and MidiMirror
-            will remember the exact order you set up for that device, so each
-            parameter will always land in the same spot on that device in
-            future.
+            <strong>Save a knob layout for each device.</strong> Found the
+            right setup for a device, like Live's Analog or a plugin like Diva,
+            Serum or a TB-303? Maybe you want the filter cutoff always on knob
+            1 and the ADSR on the faders. Save it, and MidiMirror remembers that
+            order for the device, so each parameter lands in the same place
+            every time.
           </p>
           <p>
-            It is a fact about the <em>device</em>, not about the set: the order
-            you settled on for Diva comes back on every Diva in every project,
-            on any track, without you saving a template or re-mapping a thing.
-            Drag two knobs onto each other with <strong>Swap order</strong>
-            until the row reads the way you think, then press the button and it
-            is that device's layout from then on. A <strong>Forget</strong>
-            button appears beside it on any device you have already taught, to
-            hand it back to Live's own parameter order.
+            The layout belongs to the <em>device</em>, not the set. The order
+            you chose for Diva comes back on every Diva, in every project, on
+            any track, with no template to save and nothing to re-map. Use
+            <strong>Swap order</strong> to drag knobs onto each other until the
+            row is how you want it, then press the button and it is that
+            device's layout from then on. A <strong>Forget</strong> button
+            appears on any device you have saved, to go back to Live's own
+            parameter order.
           </p>
         </div>
         <figure class="zoom">
@@ -141,10 +135,10 @@
             </picture>
           </div>
           <figcaption>
-            Swap the row into the order you want, then
-            <strong>Remember this order for Wavetable</strong>. The button
-            names the device in front of you, and from then on that device's
-            parameters land in those places every time it comes up.
+            Swap the row into the order you want, then press
+            <strong>Remember this order for Wavetable</strong>. The button names
+            the device in focus, and from then on its parameters land in those
+            places every time.
           </figcaption>
         </figure>
       </div>
@@ -162,26 +156,22 @@
 
   <section class="section wrap">
     <div class="panel">
-      <h2 class="panel-head">A guided setup that computes your Live preferences for you</h2>
+      <h2 class="panel-head">A guided setup that fills in Live's settings for you</h2>
       <div class="panel-body">
         <div class="prose story">
           <p>
-            Configure opens on a tab strip (<strong>Setup, Controller,
-            Mapping, Install To Ableton</strong>), and the first tab is a
-            three-step card, not a page of instructions to follow by eye.
-            Step one: choose your controller. Step two,
-            <strong>who drives it</strong>: its own factory script
-            (<em>Passive</em>: nothing to map, labels read straight from Live,
-            read-only) or MidiMirror itself (<em>Active</em>: you choose what
-            every control does). Step three tells you the exact Live path
-            (Preferences → Link, Tempo & MIDI) and then works out what should
-            be sitting there: a <strong>Your Live Setup</strong> box that
-            counts how many Control Surface rows the choice needs, checks how
-            many are already correct, and spells out the row itself (name,
-            input, output) rather than leaving you to guess it. A "Set these
-            up for me" button writes the rows directly; <strong>Generate
-            Remote Script</strong> underneath is the one button that always
-            has to be pressed by hand.
+            Configure has four tabs (<strong>Setup, Controller, Mapping,
+            Install To Ableton</strong>), and the first is a three-step card.
+            Step one: choose your controller. Step two, <strong>who drives
+            it</strong>: its own factory script (<em>Passive</em>: nothing to
+            map, labels read from Live, read-only) or MidiMirror
+            (<em>Active</em>: you choose what every control does). Step three
+            gives you the exact place in Live (Settings ▸ Link, Tempo & MIDI)
+            and what should be there. A <strong>Your Live Setup</strong> box
+            counts the Control Surface rows you need, checks how many are
+            already right, and spells out each row (name, input, output). "Set
+            these up for me" writes the rows for you. <strong>Generate Remote
+            Script</strong> is the one button you always press yourself.
           </p>
         </div>
         <figure class="zoom">
@@ -192,20 +182,18 @@
             </picture>
           </div>
           <figcaption>
-            The box that matters: it tells you what your Live preferences
-            should say and how much of that is already true, instead of
-            handing you a manual step to eyeball.
+            The important box: what your Live settings should say, and how
+            much of that is already done.
           </figcaption>
         </figure>
         <div class="prose story">
           <p>
-            The <strong>Controller</strong> tab is where you come back once
-            things are wired: it shows Live's current state ("Now: Akai
-            MIDI Mix, factory, read-only"), lets you open a second controller
-            in its own window, jump straight to editing the deck, or make an
-            editable copy of a factory controller so you can start
-            customising without losing the original. Every controller you
-            have ever opened stays listed underneath, ready to reopen or
+            Come back to the <strong>Controller</strong> tab once you are set
+            up. It shows the controller in use ("Now: Akai MIDIMIX, factory,
+            read-only"), and lets you open a second controller in its own
+            window, go straight to editing the deck, or make an editable copy of
+            a factory controller so the original stays as it is. Every
+            controller you have opened is listed underneath, to reopen or
             forget.
           </p>
         </div>
@@ -217,8 +205,8 @@
             </picture>
           </div>
           <figcaption>
-            Configure ▸ Controller: what Live currently has loaded, and every
-            door out of it: a second window, a copy you can edit, or a fresh
+            Configure ▸ Controller: the controller in use, and everything you
+            can do from there: a second window, a copy you can edit, or a new
             controller from scratch.
           </figcaption>
         </figure>
@@ -235,9 +223,8 @@
             <strong>Double-click any control</strong> and choose its job: a
             mixer function on this strip or a named track, a parameter of the
             selected device by position or by name, an envelope stage found by
-            name on whatever instrument is in front of it, or one exact
-            parameter on one exact device on one exact track, written out in
-            full.
+            name on the instrument in focus, or one exact parameter on one
+            exact device on one exact track.
           </p>
         </div>
         <figure class="zoom">
@@ -248,42 +235,42 @@
             </picture>
           </div>
           <figcaption>
-            The picker for one knob. <strong>Learn from Live</strong> takes
-            whatever parameter you touch in Live; the scope switch at the top is
-            how one mapping can hold in this mode only or in every mode you ever
-            add.
+            The picker for one knob. <strong>Pick a parameter in Live</strong>
+            takes whatever parameter you click in Live. The switch at the top
+            sets whether the mapping applies in this mode only or in every
+            mode.
           </figcaption>
         </figure>
         <div class="media-split">
         <div class="prose story">
           <p>
             <strong>Your own modes.</strong> The modes that ship (Device,
-            Mixer/Sends, Free and JamWare) are a starting point, not a limit. Add modes,
-            rename them, delete them. A new one starts empty and every control
-            in it is yours to assign. Assignments belong to the mode you made
-            them in, so a knob can do one thing while you are mixing and
-            something unrelated while you are sound designing.
+            Mixer/Sends, Free and JamWare) are only a start. Add, rename and
+            delete modes. A new mode starts empty and every control in it is
+            yours to assign. Assignments belong to their mode, so a knob can do
+            one thing while you mix and something else while you design
+            sounds.
           </p>
           <p>
-            <strong>Holds and combos.</strong> A key can do one thing on the tap
-            and another when held, edited separately. Two keys pressed together
-            can do a third thing. You can also give a control a key on your
-            typing keyboard.
+            <strong>Holds and combos.</strong> A key can do one thing when
+            tapped and another when held. Two keys pressed together can do a
+            third. You can also give a control a key on your computer
+            keyboard.
           </p>
           <p>
             <strong>Then generate the script.</strong> Name your controller and
-            MidiMirror writes a real Remote Script package into Live's User
-            Library under that name, so "Launch Control XL" turns up in Live's
-            Control Surface list as its own entry. Everything you built comes
-            across: assignments, labels, holds, modes, combos, the layout and
-            the learned MIDI addresses.
+            MidiMirror writes a real Remote Script into Live's User Library
+            under that name, so "Launch Control XL" appears in Live's Control
+            Surface list as its own entry. Everything you built goes with it:
+            assignments, labels, holds, modes, combos, the layout and the
+            learned MIDI addresses.
           </p>
           <p>
-            The Akai MIDI Mix, the Novation Launch Control XL and the
-            Novation Launch Control MK3 ship with a ready-made script, and a
-            generic profile covers anything else. Any controller can be
-            taught: press <strong>Learn</strong> on a control, move the real
-            knob, and its true address is recorded.
+            The Akai MIDI Mix, the Novation Launch Control XL and the Novation
+            Launch Control MK3 come with a ready-made script, and a generic
+            profile covers anything else. Any controller can be taught: press
+            <strong>Learn</strong> on a control, move the real knob, and its
+            address is recorded.
           </p>
           <p>
             <strong>Arrange the deck your way.</strong> Edit Layout lets you
@@ -310,20 +297,20 @@
 
   <section class="section wrap">
     <div class="panel">
-      <h2 class="panel-head">The drop</h2>
+      <h2 class="panel-head">The Drop</h2>
       <div class="panel-body">
         <div class="prose story">
           <p>
-            Press one key and the panel remembers where every knob and fader is
-            standing. Build the track up however you like, sweep the filters,
-            ride the sends, push it all into the red, then press the same key
-            again and the whole thing snaps back at once.
+            Press one key and the panel remembers where every knob and fader
+            is. Build the track up, sweep the filters, ride the sends, push it
+            all into the red, then press the same key again and everything
+            snaps back at once.
           </p>
           <p>
-            While something is stored, every control that took part carries an
-            orange mark at the value it will return to, a pip on a knob's ring
-            or a line across a fader's well. That answers the only question
-            worth asking mid-take: if I hit it now, what happens?
+            While a drop is stored, every control in it shows an orange mark at
+            the value it will return to: a pip on a knob's ring, or a line
+            across a fader. So mid-take you can always see what one press will
+            do.
           </p>
         </div>
         <figure class="zoom">
@@ -334,18 +321,17 @@
             </picture>
           </div>
           <figcaption>
-            A drop is held: the orange pip on each ring is where that control
-            snaps back to. Move whatever you like; the mark stays put, so you
-            can always see what one press will undo.
+            A drop is held. The orange pip on each ring is where that control
+            snaps back to, and it stays put while you move things.
           </figcaption>
         </figure>
         <div class="prose story">
           <p>
-            <strong>Hold the drop key to re-aim it.</strong> Keep it down, move
-            whatever you want the return to land on, let go, and that is the new
-            snap-back point. Nothing moves on the way in or out, so you can
-            change where a drop returns to in the middle of a take without ever
-            passing through the sound of the old one.
+            <strong>Hold the drop key to re-aim it.</strong> Keep it held,
+            move whatever you want the drop to return to, and let go: that is
+            the new snap-back point. Nothing moves when you press or release,
+            so you can change the return point mid-take without hearing the old
+            one.
           </p>
         </div>
       </div>
@@ -367,23 +353,21 @@
       <div class="panel-body">
         <div class="prose story">
           <p>
-            Run two controllers at once: two Control Surface slots in Live,
-            each with its own generated script, and you get
-            <strong>two windows, one per controller</strong>, both on screen
-            together. Neither is a copy of the other: each draws its own
-            hardware, keeps its own saved setups, layout and modes, and answers
-            only to its own MIDI.
+            Run two controllers at once, each in its own Control Surface slot
+            in Live with its own generated script, and you get <strong>two
+            windows, one per controller</strong>, side by side. Each draws its
+            own hardware, keeps its own saved setups, layout and modes, and
+            listens only to its own MIDI.
           </p>
           <p>
-            There is nothing to switch between, which is the point. A mirror is
-            glanced at while your hands are busy, and a glance cannot click.
-            The first time two are open they are placed side by side for you;
-            move either one by hand and it is yours from then on, remembered
-            per controller and per monitor, even if you unplug that screen in
-            between. A window appears when its controller does and goes when it
-            goes, so changing Live's Control Surface slots rearranges the
-            windows to match with no restart, and it will not steal focus from
-            Live to do it.
+            There is nothing to switch between. You glance at a mirror while
+            your hands are busy, and a glance cannot click. The first time, the
+            two windows are placed side by side for you. Move either one and
+            its place is remembered, per controller and per screen, even if you
+            unplug that screen in between. A window appears when its controller
+            does and closes when it goes, so changing Live's Control Surface
+            slots rearranges the windows with no restart, and without taking
+            focus from Live.
           </p>
         </div>
       </div>
@@ -392,32 +376,30 @@
 
   <section class="section wrap">
     <div class="panel">
-      <h2 class="panel-head">JamWare mode: your controller runs the other apps</h2>
+      <h2 class="panel-head">JamWare mode: your controller plays the other apps</h2>
       <div class="panel-body">
         <div class="prose story">
           <p>
             Switch to <strong>JamWare mode</strong> and the panel becomes the
-            front panel of another JamWare app. Every knob, fader and key fills
-            with the parameters of whichever of <strong>Chordinator</strong> or
-            <strong>MutationStation</strong> you last touched, named, with live
+            front panel of another JamWare app. Every knob, fader and key gets
+            the parameters of whichever of <strong>Chordinator</strong> or
+            <strong>MutationStation</strong> you last used, named, with live
             values, in the app's own order. Turn a knob here and the app moves.
           </p>
           <p>
             It follows focus the way device mode follows the blue hand: click
             into MutationStation and the panel is MutationStation's, click into
-            Chordinator and it is Chordinator's. There is nothing to select
-            or map, and no port to choose: the parameters arrive already
-            labelled. The app's own groups claim whole columns of the panel, so
-            a switch sits directly beneath the knobs it changes, and a key bound
-            to a switch lights to show whether it is on, both ways: flick it in
-            the app's window and the key follows.
+            Chordinator and it is Chordinator's. There is nothing to select or
+            map and no port to choose. The app's groups take whole columns of
+            the panel, so a switch sits right under the knobs it changes. A key
+            linked to a switch lights up to show if it is on, both ways: flip
+            it in the app and the key follows.
           </p>
           <p>
-            Nothing runs until you ask for it. MidiMirror announces itself only
-            while this mode is showing and the apps publish only while it is, so
-            leaving the mode closes the port on both sides. Free mode is
-            untouched and still there beside it: that one hands your controls
-            to Live's own MIDI map, while this one hands them to the app.
+            Nothing runs until you use it. The connection is only open while
+            this mode is showing, and leaving the mode closes it on both sides.
+            Free mode is still there beside it: Free hands your controls to
+            Live's own MIDI map, and JamWare mode hands them to the app.
           </p>
         </div>
       </div>
@@ -430,8 +412,8 @@
       <div class="panel-body">
         <ul class="features cols">
           <li>
-            <strong>Device lock.</strong> Pin the blue hand to one device and
-            go on selecting other tracks without your knobs following.
+            <strong>Device lock.</strong> Lock the blue hand to one device and
+            keep selecting other tracks without your knobs following.
           </li>
           <li>
             <strong>Instrument mode.</strong> Device mode follows the selected
@@ -440,41 +422,39 @@
           </li>
           <li>
             <strong>Layers over modes.</strong> Tap a bank key and one knob row
-            becomes the selected track's sends, or the four utility devices
-            every track carries. Everything else stays where it was.
+            becomes the selected track's sends, or the four utility devices on
+            every track. Everything else stays as it was.
           </li>
           <li>
             <strong>Ordered device control.</strong> The same knob does the
-            same job on every instrument: cutoff, resonance and filter
-            envelope first, then the device's own parameters, with the amp
-            and filter envelopes on the faders.
+            same job on every instrument: cutoff, resonance and filter envelope
+            first, then the device's own parameters, with the amp and filter
+            envelopes on the faders.
           </li>
           <li>
-            <strong>The master fader always holds track volume.</strong> It follows the
-            selected track's volume in every mode, free mode included, so
-            there is one level always under your hand whatever the panel is
-            showing. Reassign it like anything else if you would rather it did
-            something else.
+            <strong>The master fader always holds track volume.</strong> It
+            follows the selected track's volume in every mode, Free included,
+            so one level is always under your hand. You can reassign it like
+            any other control.
           </li>
           <li>
             <strong>Free mode</strong> hands every control to Live's own MIDI
-            map on its own virtual port, so you can MIDI-learn anything
-            without the script in the way.
+            map on its own virtual port, so you can MIDI-learn anything without
+            the script in the way.
           </li>
           <li>
             <strong>Pickup.</strong> A knob does nothing until it passes the
-            value it is taking over, which is what stops a jump when you
-            switch modes or recall a drop.
+            value it is taking over, so nothing jumps when you switch modes or
+            recall a drop.
           </li>
           <li>
-            <strong>Transport on screen,</strong> for hardware that has no
-            transport keys at all.
+            <strong>Transport on screen,</strong> for hardware with no
+            transport keys.
           </li>
           <li>
-            <strong>Undo, saved setups, and a "This setup" page</strong>
-            listing every control in every mode with what it does and the
-            note or CC it sends, built by the script rather than written
-            down.
+            <strong>Undo, saved setups, and a "This setup" page</strong> that
+            lists every control in every mode, what it does and the note or CC
+            it sends, read from the script itself.
           </li>
         </ul>
       </div>
@@ -488,12 +468,10 @@
             <div class="prose">
               <p>
                 MidiMirror runs as its own app, not a plugin, and reaches Live
-                only through the Remote Script it generates, the same route any
-                hardware controller's own script uses. That separation is
-                deliberate. If Live crashes, MidiMirror and your panel layout
-                are untouched, and if MidiMirror hits a snag, Live keeps
-                running the set. Keeping the two apart means a crash in one is
-                not a crash in the other.
+                only through the Remote Script it generates, the same way a
+                hardware controller's own script does. If Live crashes,
+                MidiMirror and your panel layout are safe. If MidiMirror hits a
+                problem, Live keeps playing the set.
               </p>
             </div>
           </div>
@@ -504,30 +482,30 @@
           <div class="panel-body">
             <div class="prose">
               <p>
-                <strong>Ableton Live is required.</strong> This is the one tool
-                in the range that does not work with any other DAW. Parameter
-                names, the modes, the addressed device and the lock all come
-                from a Remote Script, and only Live loads Remote Scripts.
+                <strong>Ableton Live is required.</strong> This is the one app
+                in the range that does not work with other DAWs. Parameter
+                names, the modes, the device in focus and the lock all come from
+                a Remote Script, and only Live loads Remote Scripts.
               </p>
               <p>
-                macOS 12 or later on Apple Silicon for the mirror app. The <strong>Akai MIDI Mix</strong>,
-                the <strong>Novation Launch Control XL</strong> and the
-                <strong>Novation Launch Control MK3</strong> ship with
-                ready-made scripts; any other controller works once you have
-                learned its addresses and generated a script for it, which
-                the app does for you.
+                macOS 12 or later on Apple Silicon. The <strong>Akai MIDI
+                Mix</strong>, the <strong>Novation Launch Control XL</strong>
+                and the <strong>Novation Launch Control MK3</strong> come with
+                ready-made scripts. Any other controller works once you have
+                learned its addresses and generated a script for it, which the
+                app does for you.
               </p>
               <p>
                 <strong>Intel Macs: beta.</strong> The app is built for Intel
-                too and should work, but it has not been confirmed on an Intel
-                Mac yet.
+                too and should work, but it has not been tested on an Intel Mac
+                yet.
               </p>
               <p>
                 Signed and notarised for macOS, so it opens with a normal
-                double-click. No security warning, nothing to click past.
+                double-click, with no security warning.
               </p>
               <p class="legend">Version 1.6.0</p>
-              <p><a href="../index.html#licence">Free, pay what you want: keys and updates</a></p>
+              <p><a href="../index.html#licence">Donation-based: licence and updates</a></p>
             </div>
           </div>
         </div>
@@ -538,14 +516,14 @@
             <div class="prose">
               <p>
                 Open <strong>Configure ▸ Setup</strong> and follow the three
-                steps: pick your controller, pick Passive or Active, then let
+                steps: pick your controller, pick Passive or Active, and let
                 <strong>Your Live Setup</strong> work out the Control Surface
-                rows Live needs and offer to write them for you. Press
-                <strong>Generate Remote Script</strong>, restart Live, and
-                open the mirror on your second screen.
+                rows Live needs and offer to write them. Press
+                <strong>Generate Remote Script</strong>, restart Live, and open
+                the mirror on your second screen.
               </p>
               <p>
-                Move a knob and its name appears. Select a different device and
+                Move a knob and its name appears. Select another device and
                 every label follows.
               </p>
             </div>
