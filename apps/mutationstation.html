@@ -63,9 +63,8 @@
       </div>
     </div>
     <p class="lede">
-      MutationStation and Chordinator share one idea: controlled randomness.
-      When writing note by note runs dry, a tool that pulls you out of your
-      usual patterns helps. Happy accidents are one of the best parts of
+      MutationStation is built around the idea of “controlled randomness”.
+      Happy accidents are one of the best parts of
       making electronic music, and this sequencer is built for them. It is an
       acid-style mutating step sequencer. It can write new sequences from
       nothing, or mutate ideas you already have, like a bassline or a melody.
@@ -78,8 +77,8 @@
       evolving.
     </p>
     <p class="lede">
-      Start from a line you drew in, dropped in as a MIDI clip, or pulled
-      from Live, and MutationStation rolls new versions of it. You set how far
+      Start from a line you drew in MutationStation, dropped in as a MIDI
+      clip, or pulled from Live, and MutationStation rolls new versions of it. You set how far
       the pitch moves, how the rhythm shifts, and where accents and slides
       land. Audition takes until one is right, then drag it onto a track.
     </p>
@@ -110,11 +109,10 @@
           </p>
           <p>
             MutationStation uses the lock system Elektron sequencers made
-            famous. Click a note to lock it and every generator leaves it
+            famous. Click a note to lock it and every mutation device leaves it
             alone. Pitch, rhythm, octave, length, accent and slide all move
-            around it. Lock the root and the turnaround, re-roll the rest as
-            often as you like, and the phrase keeps its shape while the detail
-            changes.
+            around it. The devices also work separately, so you can mutate
+            pitch, octave jumps, accents and slides one at a time.
           </p>
           <p>
             <strong>Auto-Lock</strong> picks those notes for you.
@@ -159,13 +157,26 @@
       <div class="panel-body">
         <div class="prose story">
           <p>
-            <strong>34 pitch strategies,</strong> from simple ones (Random,
-            Proximity, Root/Fifth) to acid and techno voices like Acid Trip,
-            Hypno Root, Seventh Anchor, Lead Line and Offbeat Anchor. Many are
-            measured from real bass and synth loops, so they move the way
-            basslines really move, not like a random note generator. Amount
-            sets how much of the line they may rewrite. Scale, root and range
-            set where the new notes may land.
+            <strong>Pitch Mutation picks the new notes, in one of two
+            modes.</strong> Scale, root and range set where they may land.
+          </p>
+          <p>
+            <strong>To write a new line,</strong> leave Adaptive off. The
+            algorithms come in two groups. <strong>Whole line</strong> ones
+            write a complete phrase in one go: a hook that turns at the end, a
+            call and its answer, a line that climbs and falls. Every bar gets a
+            shape instead of a scatter of notes. <strong>Note by note</strong>
+            ones re-pick single notes, from plain Random and Walk to acid
+            voices like Acid Trip, Bass (303-style) and Offbeat Anchor. Amount
+            sets how many notes they change.
+          </p>
+          <p>
+            <strong>To vary a line you already have,</strong> switch
+            <strong>Adaptive</strong> on, right under the Algo menu. Its
+            algorithms read your notes first and change only a few, the same
+            way every bar: passing notes, neighbour notes, octave jumps, an
+            answer to your call. About four in five notes stay as you played
+            them, so it still sounds like your line.
           </p>
         </div>
         <div class="zoom-pair">
@@ -189,21 +200,36 @@
               </picture>
             </div>
             <figcaption>
-              The Algorithm menu from that panel, grouped by what each strategy
-              does to a line: acid and bass shapes, lead shapes, phrase forms,
-              melodic movement, and the plain ones.
+              The Algorithm menu from that panel. Whole line algorithms write a
+              phrase at a time; Note by note ones change single notes.
             </figcaption>
           </figure>
         </div>
         <div class="prose story">
           <p>
-            <strong>A Phrasing strip sits on the Scale panel,</strong> with
-            Phrase Length, End Bias, and a "Which phrases" menu (every phrase,
-            every 2nd, or every 4th) that sets how often the bias applies. Each
-            device also has its own Length and Bias. They follow the strip
-            until you set one yourself, and the LCD's Off entry makes them
-            follow it again. Lengths are even numbers up to 32 bars, and an
-            EXTEND switch grows a device's sequence to fit a longer length.
+            <strong>Phrase Length and End Bias: change at the end, like a real
+            track.</strong> In house and techno a line usually plays the same
+            for a few bars and then does something different right before it
+            comes round again. These two controls, under Scale, make
+            MutationStation write lines that way.
+          </p>
+          <p>
+            <strong>Phrase Length</strong> cuts your loop into phrases of 1, 2,
+            4 or 8 bars and sets which part of each phrase may change: all of
+            it, the last bar, or just the last beat. The rest plays as you wrote
+            it. Two bars with Last beat gives you two bars that repeat with a
+            new ending every time.
+          </p>
+          <p>
+            <strong>End Bias</strong> doesn't hold anything still. It moves the
+            odds instead: the last notes of every few bars become more likely
+            to change, and everything before them less likely. Turn it up and
+            most of the line stays put while the end keeps moving.
+          </p>
+          <p>
+            You can also vary only every 2nd or every 4th phrase, for call and
+            response, and give a single device its own length, say a melody
+            that turns every 2 bars over accents that turn every bar.
           </p>
         </div>
         <div class="prose story">
@@ -252,7 +278,7 @@
 
   <section class="section wrap">
     <div class="panel">
-      <h2 class="panel-head">Take the rhythm from a clip &middot; audio clips too</h2>
+      <h2 class="panel-head">Take the rhythm from a clip, audio clips too</h2>
       <div class="panel-body">
         <div class="prose story">
           <p>
@@ -306,12 +332,10 @@
             octave, duration, accent and slide.
           </li>
           <li>
-            <strong>End Bias,</strong> on the Phrasing strip with Phrase
-            Length. Every one, two or four bars, the last notes of the group
-            are more likely to mutate. In house and techno, variation usually
-            comes at the end of a phrase, so this helps lines sound written.
-            Each device can override the strip's Length and Bias, and grow to
-            fit a longer length with EXTEND.
+            <strong>Phrase Length and End Bias.</strong> Split the loop into
+            phrases and let the changes land at the end of each one, the way
+            house and techno lines usually vary. Each device can have its own
+            length too.
           </li>
           <li>
             <strong>Keep Original.</strong> Last in the chain: after every other

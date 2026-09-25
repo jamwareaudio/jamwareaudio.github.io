@@ -263,7 +263,7 @@
 
   <section class="section wrap">
     <div class="panel">
-      <h2 class="panel-head">Take the rhythm from a clip &middot; audio clips too</h2>
+      <h2 class="panel-head">Take the rhythm from a clip, audio clips too</h2>
       <div class="panel-body">
         <div class="prose story">
           <p>
@@ -278,6 +278,13 @@
             cannot pass audio to an app, so Chordinator reads the sample from
             disk and finds the hits itself, by looking for sudden jumps in the
             spectrum from one moment to the next.
+          </p>
+          <p>
+            A warped clip is read through its own warp map, so the hits land on
+            the grid you see, not where they fall in the raw file, and only the
+            part Live plays is analysed. Hits snap to the roll's grid. On a MIDI
+            clip a chord counts as one hit, at the velocity of its loudest note,
+            and deactivated notes are ignored.
           </p>
         </div>
       </div>
