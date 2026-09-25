@@ -22,7 +22,7 @@
 <meta name="twitter:title" content="MidiMirror · JamWare Audio" />
 <meta name="twitter:description" content="Build what every knob on your MIDI controller does in Ableton Live, without writing Python. Custom modes, combos and holds, generated into a real Remote Script, with an on-screen mirror that labels every control. Run two controllers at once for a window each, or switch to JamWare mode and drive Chordinator and MutationStation from the same hardware." />
 <meta name="twitter:image" content="https://jamwareaudio.com/assets/shots/midimirror.png" />
-<link rel="stylesheet" href="../styles.css?v=1790331488" />
+<link rel="stylesheet" href="../styles.css?v=1790334256" />
 <style>:root { --accent: #E05A2C; }</style>
 </head>
 <body>
@@ -102,9 +102,190 @@
     </figure>
   </section>
 
+
+  <!-- PASSIVE vs ACTIVE comes first (rewrite 2026-09-25). The page used to open
+       on per-device layouts and custom modes, and only named the two modes in
+       passing inside the setup paragraph, so a reader could not tell which
+       features needed which mode, or which controllers were covered at all.
+       The user also flagged that the JamWare mapping's design choices (master
+       fader on track volume, cutoff on knob 1) read as app features. So: the
+       two modes and their controller lists first, then the two shipped
+       mappings as mappings, then what you can build. Figure ORDER is unchanged
+       on purpose: gumroad/make-gumroad-art.sh renders one card per figure.zoom
+       by index. Controller lists come from MidiMirror/docs/MANUAL.md §1.3 and
+       remote-script/factory-profiles.json; "tested on the hardware" is the
+       three with the wired flag in visualizer/wizard.js. -->
   <section class="section wrap">
     <div class="panel">
-      <h2 class="panel-head">Every device keeps its own layout</h2>
+      <h2 class="panel-head">Two ways to run it: Passive or Active</h2>
+      <div class="panel-body">
+        <div class="prose story">
+          <p>
+            Every controller runs in one of two modes. You choose in the setup
+            card, and can change it later on Configure ▸ Mapping.
+          </p>
+        </div>
+        <div class="panel-grid">
+          <div class="panel">
+            <h3 class="panel-head">Passive: your controller's own script</h3>
+            <div class="panel-body">
+              <div class="prose">
+                <p>
+                  The controller keeps the Live script it came with and behaves
+                  exactly as it does without MidiMirror. MidiMirror runs beside
+                  it and shows what every control is doing, with names and values
+                  read from Live.
+                </p>
+              </div>
+              <ul class="features">
+                <li>Nothing to map or learn.</li>
+                <li>Follows the controller's mode button (Device, Volume, Pan,
+                  Sends) and its Session and Drum pad modes. A custom or user
+                  mode on the hardware greys out, because MidiMirror cannot read
+                  it.</li>
+                <li>The Drop works, from the footer or <strong>⌃⌥D</strong>.</li>
+                <li>You cannot change what a control does. The factory script
+                  decides that.</li>
+              </ul>
+              <div class="prose" style="margin-top:18px">
+                <p>
+                  <strong>Controllers:</strong> Novation Launchkey MK3 (37, 49,
+                  61, 88), Launchkey Mini MK3, Launchkey MK4 (49, 61), Launchkey
+                  Mini MK4, Launch Control XL MK1 and MK2, Launch Control 3,
+                  Launch Control; Akai MIDI Mix, APC mini, APC mini mk2, APC40,
+                  APC40 mkII, LPD8; Korg nanoKONTROL2, nanoKONTROL Studio;
+                  Behringer X-Touch Compact; Arturia BeatStep. On the APC40 and
+                  APC40 mkII you can also click the mirror to stop clips and tap
+                  tempo.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <h3 class="panel-head">Active: MidiMirror drives it</h3>
+            <div class="panel-body">
+              <div class="prose">
+                <p>
+                  MidiMirror's own Remote Script drives the controller. You pick
+                  a mapping, or build your own, and the panel shows what every
+                  control does.
+                </p>
+              </div>
+              <ul class="features">
+                <li>Choose what every knob, fader and key does, in as many
+                  modes as you want.</li>
+                <li>A saved knob order for each device.</li>
+                <li>The Drop, from the footer or a key on the controller.</li>
+                <li>Device Lock, Instrument mode, and JamWare mode for
+                  Chordinator and MutationStation.</li>
+              </ul>
+              <div class="prose" style="margin-top:18px">
+                <p>
+                  <strong>Controllers:</strong> Novation Launch Control XL MK3,
+                  Launchkey MK3 37 and Akai MIDI Mix, all three tested on the
+                  hardware. Also Launch Control XL MK1 and MK2, APC mini, APC
+                  mini mk2, Korg nanoKONTROL2, nanoKONTROL Studio, Behringer
+                  X-Touch Compact and Arturia BeatStep: their layouts are drawn,
+                  but I have not had them on the bench, so confirm their controls
+                  with <strong>Learn</strong>. Any other controller starts from
+                  the <strong>Generic</strong> setup, which you teach one
+                  control at a time.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="prose" style="margin-top:22px">
+          <p>
+            Moving a Passive controller to Active takes three steps, which the
+            app lists for you: pick its MidiMirror row in Live's settings,
+            restart Live, then restart MidiMirror.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="panel">
+      <h2 class="panel-head">The mappings it comes with (Active)</h2>
+      <div class="panel-body">
+        <div class="prose">
+          <p>
+            In Active mode you pick a mapping on Configure ▸ Mapping. Two come
+            with the app. Both are read-only: change anything and MidiMirror
+            offers you an editable copy first, so the original is always there
+            to go back to.
+          </p>
+        </div>
+        <div class="panel-grid">
+          <div class="panel">
+            <h3 class="panel-head">JamWare: every Active controller</h3>
+            <div class="panel-body">
+              <div class="prose">
+                <p>
+                  Listed as "MidiMix (JamWare)", "nanoKONTROL2 (JamWare)" and so
+                  on. It is one mapping that fits itself to each controller, so
+                  a controller with no faders gets a smaller mixer. Four modes:
+                </p>
+              </div>
+              <ul class="features" style="margin-top:14px">
+                <li><strong>Device.</strong> The knobs follow the device Live's
+                  blue hand points at, in the same order on every instrument:
+                  knob 1 filter cutoff, 2 resonance, 3 filter envelope amount,
+                  then the device's own parameters. The faders hold the amp and
+                  filter envelopes.</li>
+                <li><strong>Mixer/Sends.</strong> Send A and Send B on two knob
+                  rows, each track's Utility output on the third, the faders on
+                  volume. The bank keys move the eight-track window.</li>
+                <li><strong>Free.</strong> Nothing is assigned, and every control
+                  goes to Live's own MIDI map, so you can MIDI-learn
+                  anything.</li>
+                <li><strong>JamWare.</strong> The panel becomes the front panel
+                  of Chordinator or MutationStation (below).</li>
+              </ul>
+              <div class="prose" style="margin-top:18px">
+                <p>
+                  Two layer keys put one knob row on the selected track's sends,
+                  or on the Utility, Pitch, EQ and Auto Filter every track
+                  carries, without leaving the mode. The master fader stays on
+                  the selected track's volume in every mode.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <h3 class="panel-head">Launch Control XL MK3 (Factory)</h3>
+            <div class="panel-body">
+              <div class="prose">
+                <p>
+                  On the XL MK3 only. Novation's own layout for the controller,
+                  driven by MidiMirror so every control is named with its
+                  value.
+                </p>
+              </div>
+              <ul class="features" style="margin-top:14px">
+                <li>Knob rows 1 and 2 on Send A and Send B, row 3 on pan.</li>
+                <li>The faders on volume.</li>
+                <li>The upper buttons solo and the lower buttons mute.</li>
+                <li>The NOVATION key is the Drop.</li>
+              </ul>
+              <div class="prose" style="margin-top:18px">
+                <p>
+                  It has no other modes. Switch to the JamWare mapping for
+                  those.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="panel">
+      <h2 class="panel-head">Every device keeps its own layout (Active)</h2>
       <div class="panel-body">
         <div class="prose story">
           <p>
@@ -176,18 +357,13 @@
       <div class="panel-body">
         <div class="prose story">
           <p>
-            Configure has four tabs (<strong>Setup, Controller, Mapping,
-            Install To Ableton</strong>), and the first is a three-step card.
-            Step one: choose your controller. Step two, <strong>who drives
-            it</strong>: its own factory script (<em>Passive</em>: nothing to
-            map, labels read from Live, read-only) or MidiMirror
-            (<em>Active</em>: you choose what every control does). Step three
-            gives you the exact place in Live (Settings ▸ Link, Tempo & MIDI)
-            and what should be there. A <strong>Your Live Setup</strong> box
-            counts the Control Surface rows you need, checks how many are
-            already right, and spells out each row (name, input, output). "Set
-            these up for me" writes the rows for you. <strong>Generate Remote
-            Script</strong> is the one button you always press yourself.
+            Configure opens on a three-step card. Choose your controller,
+            choose Passive or Active, and the third step shows what Live's
+            Control Surface settings (Settings ▸ Link, Tempo & MIDI) should
+            say. The <strong>Your Live Setup</strong> box counts the rows you
+            need, checks how many are already right, and spells out each one:
+            name, input and output. <strong>Set these up for me</strong> writes
+            them for you.
           </p>
         </div>
         <figure class="zoom">
@@ -204,13 +380,11 @@
         </figure>
         <div class="prose story">
           <p>
-            Come back to the <strong>Controller</strong> tab once you are set
-            up. It shows the controller in use ("Now: Akai MIDIMIX, factory,
-            read-only"), and lets you open a second controller in its own
-            window, go straight to editing the deck, or make an editable copy of
-            a factory controller so the original stays as it is. Every
-            controller you have opened is listed underneath, to reopen or
-            forget.
+            The <strong>Controller</strong> tab shows the controller in use,
+            and from there you can open a second controller in its own window,
+            edit the deck, or make an editable copy of a factory controller so
+            the original stays as it is. Every controller you have opened is
+            listed underneath, to reopen or forget.
           </p>
         </div>
         <figure class="zoom">
@@ -232,9 +406,9 @@
 
   <section class="section wrap">
     <div class="panel">
-      <h2 class="panel-head">A controller you design yourself</h2>
+      <h2 class="panel-head">Make your own mapping (Active)</h2>
       <div class="panel-body">
-        <div class="prose story">
+        <div class="prose">
           <p>
             <strong>Double-click any control</strong> and choose its job: a
             mixer function on this strip or a named track, a parameter of the
@@ -260,12 +434,10 @@
         <div class="media-split">
         <div class="prose story">
           <p>
-            <strong>Your own modes.</strong> The modes that ship (Device,
-            Mixer/Sends, Free and JamWare) are only a start. Add, rename and
-            delete modes. A new mode starts empty and every control in it is
-            yours to assign. Assignments belong to their mode, so a knob can do
-            one thing while you mix and something else while you design
-            sounds.
+            <strong>Your own modes.</strong> Add, rename, hide and delete modes.
+            A new mode starts empty, and what a control does belongs to its
+            mode, so a knob can do one thing while you mix and another while
+            you design sounds.
           </p>
           <p>
             <strong>Holds and combos.</strong> A key can do one thing when
@@ -274,36 +446,29 @@
             keyboard.
           </p>
           <p>
-            <strong>Or let an AI build the mapping for you.</strong> Say in a
-            sentence what you want, like "transport on the bottom row, sends
-            on the top knobs". Press <strong>Build with AI</strong> on
-            Configure's Mapping page and MidiMirror copies a full description
-            of your controller and everything it can control. Paste that into
-            the AI assistant you already use (ChatGPT, Claude, Gemini), then
-            paste its answer back. MidiMirror checks it, refuses anything that
-            does not exist, and saves it as a new mapping you can edit like any
-            other. MidiMirror itself sends nothing anywhere, and there is no
-            account or key to set up.
+            <strong>Or let an AI build it.</strong> Say in a sentence what you
+            want, like "transport on the bottom row, sends on the top knobs".
+            Press <strong>Build with AI</strong> on Configure ▸ Mapping and
+            MidiMirror copies a full description of your controller and
+            everything it can control. Paste that into the AI assistant you
+            already use (ChatGPT, Claude, Gemini), then paste its answer back.
+            MidiMirror checks it, refuses anything that does not exist, and
+            saves it as a new mapping you can edit like any other. MidiMirror
+            itself sends nothing anywhere, and there is no account or key to
+            set up.
           </p>
           <p>
-            <strong>Then generate the script.</strong> Name your controller and
-            MidiMirror writes a real Remote Script into Live's User Library
-            under that name, so "Launch Control XL" appears in Live's Control
-            Surface list as its own entry. Everything you built goes with it:
-            assignments, labels, holds, modes, combos, the layout and the
-            learned MIDI addresses.
+            <strong>Teach it any controller.</strong> Press
+            <strong>Learn</strong> on a control and move the real knob, and its
+            address is recorded. <strong>Edit Layout</strong> moves, hides and
+            adds controls, so the panel matches your hardware.
           </p>
           <p>
-            The Akai MIDI Mix, the Novation Launch Control XL and the Novation
-            Launch Control MK3 come with a ready-made script, and a generic
-            profile covers anything else. Any controller can be taught: press
-            <strong>Learn</strong> on a control, move the real knob, and its
-            address is recorded.
-          </p>
-          <p>
-            <strong>Arrange the deck your way.</strong> Edit Layout lets you
-            move, hide and add controls freely, so the panel matches your
-            hardware.
+            <strong>Generate a Remote Script</strong> for a controller you built
+            or changed. Give it a name and MidiMirror writes a real Remote
+            Script into Live's User Library, so it appears in Live's Control
+            Surface list as its own entry, with everything you built in it. The
+            controllers above already have theirs and skip this step.
           </p>
         </div>
         <figure class="zoom">
@@ -332,7 +497,7 @@
             Press one key and the panel remembers where every knob and fader
             is. Build the track up, sweep the filters, ride the sends, push it
             all into the red, then press the same key again and everything
-            snaps back at once.
+            snaps back at once. It works in Passive and Active.
           </p>
           <p>
             While a drop is stored, every control in it shows an orange mark at
@@ -408,7 +573,8 @@
       <div class="panel-body">
         <div class="prose story">
           <p>
-            Switch to <strong>JamWare mode</strong> and the panel becomes the
+            <strong>JamWare mode</strong> is the fourth mode of the JamWare
+            mapping, so it needs Active. Switch to it and the panel becomes the
             front panel of another JamWare app. Every knob, fader and key gets
             the parameters of whichever of <strong>Chordinator</strong> or
             <strong>MutationStation</strong> you last used, named, with live
@@ -440,40 +606,22 @@
       <div class="panel-body">
         <ul class="features cols">
           <li>
-            <strong>Device lock.</strong> Lock the blue hand to one device and
-            keep selecting other tracks without your knobs following.
+            <strong>Names and values from Live.</strong> Every control on the
+            panel shows the parameter it holds and its current value, in both
+            modes.
+          </li>
+          <li>
+            <strong>Device Lock.</strong> Lock the blue hand to one device and
+            keep selecting other tracks without your knobs following. Active.
           </li>
           <li>
             <strong>Instrument mode.</strong> Device mode follows the selected
             track's instrument instead of the blue hand, so the knobs land on
-            the synth every time you change track.
+            the synth every time you change track. Active.
           </li>
           <li>
-            <strong>Layers over modes.</strong> Tap a bank key and one knob row
-            becomes the selected track's sends, or the four utility devices on
-            every track. Everything else stays as it was.
-          </li>
-          <li>
-            <strong>Ordered device control.</strong> The same knob does the
-            same job on every instrument: cutoff, resonance and filter envelope
-            first, then the device's own parameters, with the amp and filter
-            envelopes on the faders.
-          </li>
-          <li>
-            <strong>The master fader always holds track volume.</strong> It
-            follows the selected track's volume in every mode, Free included,
-            so one level is always under your hand. You can reassign it like
-            any other control.
-          </li>
-          <li>
-            <strong>Free mode</strong> hands every control to Live's own MIDI
-            map on its own virtual port, so you can MIDI-learn anything without
-            the script in the way.
-          </li>
-          <li>
-            <strong>Pickup.</strong> A knob does nothing until it passes the
-            value it is taking over, so nothing jumps when you switch modes or
-            recall a drop.
+            <strong>A knob order for each device,</strong> saved once and
+            used in every set. Active.
           </li>
           <li>
             <strong>Build a mapping with AI.</strong> Describe the layout you
@@ -482,8 +630,13 @@
             invents is refused.
           </li>
           <li>
-            <strong>Transport on screen,</strong> for hardware with no
-            transport keys.
+            <strong>Mappings move between controllers.</strong> Any saved
+            mapping loads onto any controller, and lands only the controls that
+            controller has.
+          </li>
+          <li>
+            <strong>Two controllers, two windows,</strong> each drawing its
+            own hardware.
           </li>
           <li>
             <strong>Undo, saved setups, and a "This setup" page</strong> that
@@ -493,6 +646,7 @@
         </ul>
       </div>
     </div>
+
 
     <div class="panel-grid">
 
@@ -522,12 +676,9 @@
                 a Remote Script, and only Live loads Remote Scripts.
               </p>
               <p>
-                macOS 12 or later on Apple Silicon. The <strong>Akai MIDI
-                Mix</strong>, the <strong>Novation Launch Control XL</strong>
-                and the <strong>Novation Launch Control MK3</strong> come with
-                ready-made scripts. Any other controller works once you have
-                learned its addresses and generated a script for it, which the
-                app does for you.
+                macOS 12 or later on Apple Silicon. A supported controller, or
+                any MIDI controller you are willing to teach with Learn. The
+                lists are under Passive and Active above.
               </p>
               <p>
                 <strong>Intel Macs: beta.</strong> The app is built for Intel
@@ -549,11 +700,10 @@
           <div class="panel-body">
             <div class="prose">
               <p>
-                Open <strong>Configure ▸ Setup</strong> and follow the three
-                steps: pick your controller, pick Passive or Active, and let
+                Open MidiMirror and click <strong>Set up my controller</strong>.
+                Pick your controller, pick Passive or Active, and let
                 <strong>Your Live Setup</strong> work out the Control Surface
-                rows Live needs and offer to write them. Press
-                <strong>Generate Remote Script</strong>, restart Live, and open
+                rows Live needs and offer to write them. Restart Live, and open
                 the mirror on your second screen.
               </p>
               <p>
