@@ -22,7 +22,7 @@
 <meta name="twitter:title" content="MidiMirror · JamWare Audio" />
 <meta name="twitter:description" content="Build what every knob on your MIDI controller does in Ableton Live, without writing Python. Custom modes, combos and holds, generated into a real Remote Script, with an on-screen mirror that labels every control. Run two controllers at once for a window each, or switch to JamWare mode and drive Chordinator and MutationStation from the same hardware." />
 <meta name="twitter:image" content="https://jamwareaudio.com/assets/shots/midimirror.png" />
-<link rel="stylesheet" href="../styles.css?v=1790334256" />
+<link rel="stylesheet" href="../styles.css?v=1790337124" />
 <style>:root { --accent: #E05A2C; }</style>
 </head>
 <body>
@@ -297,15 +297,8 @@
             every time.
           </p>
           <p>
-            The layout belongs to the <em>device</em>, not the set. The order
-            you chose for Diva comes back on every Diva, in every project, on
-            any track, with no template to save and nothing to re-map. Use
-            <strong>Swap order</strong> to drag knobs onto each other until the
-            row is how you want it, then press the button and it is that
-            device's layout from then on. A <strong>Forget</strong> button
-            appears on any device you have saved, to go back to Live's own
-            parameter order.
-          </p>
+The layout belongs to the <em>device</em>, so the order you chose for Diva comes back on every Diva, in every project. Use <strong>Swap order</strong> to drag knobs onto each other until the row is how you want it, then press the button to save it. A <strong>Forget</strong> button on a saved device goes back to Live's own order.
+</p>
         </div>
         <figure class="zoom">
           <div class="screen">
@@ -500,11 +493,8 @@
             snaps back at once. It works in Passive and Active.
           </p>
           <p>
-            While a drop is stored, every control in it shows an orange mark at
-            the value it will return to: a pip on a knob's ring, or a line
-            across a fader. So mid-take you can always see what one press will
-            do.
-          </p>
+While a drop is stored, each control shows an orange mark where it will return to.
+</p>
         </div>
         <figure class="zoom">
           <div class="screen">
@@ -520,12 +510,8 @@
         </figure>
         <div class="prose story">
           <p>
-            <strong>Hold the drop key to re-aim it.</strong> Keep it held,
-            move whatever you want the drop to return to, and let go: that is
-            the new snap-back point. Nothing moves when you press or release,
-            so you can change the return point mid-take without hearing the old
-            one.
-          </p>
+<strong>Hold the drop key to re-aim it.</strong> Keep it held, move things to where you want them to snap back to, and let go. Nothing jumps when you do.
+</p>
         </div>
       </div>
     </div>
@@ -553,15 +539,8 @@
             listens only to its own MIDI.
           </p>
           <p>
-            There is nothing to switch between. You glance at a mirror while
-            your hands are busy, and a glance cannot click. The first time, the
-            two windows are placed side by side for you. Move either one and
-            its place is remembered, per controller and per screen, even if you
-            unplug that screen in between. A window appears when its controller
-            does and closes when it goes, so changing Live's Control Surface
-            slots rearranges the windows with no restart, and without taking
-            focus from Live.
-          </p>
+Move either window and its place is remembered, per controller and per screen. A window opens when its controller shows up in Live and closes when it goes, without a restart.
+</p>
         </div>
       </div>
     </div>
@@ -573,28 +552,14 @@
       <div class="panel-body">
         <div class="prose story">
           <p>
-            <strong>JamWare mode</strong> is the fourth mode of the JamWare
-            mapping, so it needs Active. Switch to it and the panel becomes the
-            front panel of another JamWare app. Every knob, fader and key gets
-            the parameters of whichever of <strong>Chordinator</strong> or
-            <strong>MutationStation</strong> you last used, named, with live
-            values, in the app's own order. Turn a knob here and the app moves.
-          </p>
+<strong>JamWare mode</strong> is the fourth mode of the JamWare mapping, so it needs Active. Switch to it and every knob, fader and key controls <strong>Chordinator</strong> or <strong>MutationStation</strong> instead, labelled with live values.
+</p>
           <p>
-            It follows focus the way device mode follows the blue hand: click
-            into MutationStation and the panel is MutationStation's, click into
-            Chordinator and it is Chordinator's. There is nothing to select or
-            map and no port to choose. The app's groups take whole columns of
-            the panel, so a switch sits right under the knobs it changes. A key
-            linked to a switch lights up to show if it is on, both ways: flip
-            it in the app and the key follows.
-          </p>
+It follows whichever app you clicked into last. The app's groups take whole columns of the panel, and a key linked to a switch lights up when it's on, whichever side you flip it from.
+</p>
           <p>
-            Nothing runs until you use it. The connection is only open while
-            this mode is showing, and leaving the mode closes it on both sides.
-            Free mode is still there beside it: Free hands your controls to
-            Live's own MIDI map, and JamWare mode hands them to the app.
-          </p>
+The connection to the app is only open while this mode is showing.
+</p>
         </div>
       </div>
     </div>
@@ -651,21 +616,6 @@
     <div class="panel-grid">
 
         <div class="panel">
-          <h2 class="panel-head">Why standalone</h2>
-          <div class="panel-body">
-            <div class="prose">
-              <p>
-                MidiMirror runs as its own app, not a plugin, and reaches Live
-                only through the Remote Script it generates, the same way a
-                hardware controller's own script does. If Live crashes,
-                MidiMirror and your panel layout are safe. If MidiMirror hits a
-                problem, Live keeps playing the set.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="panel">
           <h2 class="panel-head">Requirements</h2>
           <div class="panel-body">
             <div class="prose">
@@ -681,14 +631,11 @@
                 lists are under Passive and Active above.
               </p>
               <p>
-                <strong>Intel Macs: beta.</strong> The app is built for Intel
-                too and should work, but it has not been tested on an Intel Mac
-                yet.
-              </p>
+<strong>Intel Macs:</strong> untested, should work.
+</p>
               <p>
-                Signed and notarised for macOS, so it opens with a normal
-                double-click, with no security warning.
-              </p>
+Signed and notarised for macOS.
+</p>
               <p class="legend">Version 1.6.0</p>
               <p><a href="../index.html#licence">Donation-based: licence and updates</a></p>
             </div>

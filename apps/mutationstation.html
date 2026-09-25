@@ -22,7 +22,7 @@
 <meta name="twitter:title" content="MutationStation · JamWare Audio" />
 <meta name="twitter:description" content="An acid/303 MIDI mutation sequencer for macOS. Feed it a line, get a hundred back, then drag any take straight into your DAW." />
 <meta name="twitter:image" content="https://jamwareaudio.com/assets/shots/mutationstation.png" />
-<link rel="stylesheet" href="../styles.css?v=1790334256" />
+<link rel="stylesheet" href="../styles.css?v=1790337124" />
 <style>:root { --accent: #D13A2C; }</style>
 </head>
 <body>
@@ -59,7 +59,7 @@
       <img class="icon" src="../assets/icons/mutationstation-1024.png" alt="MutationStation icon" />
       <div>
         <h1 class="engraved">MutationStation</h1>
-    <p class="tagline">Lock the notes that work, mutate the rest, and find acid lines you would not have written yourself.</p>
+    <p class="tagline">Lock the notes that work, mutate the rest, and find acid lines you wouldn't have written yourself.</p>
       </div>
     </div>
     <p class="lede">
@@ -105,35 +105,20 @@
       <div class="panel-body">
         <div class="prose story">
           <p>
-            A randomiser that changes everything is a toy. It becomes a writing
-            tool when you can say which parts are already right.
-          </p>
+I built MutationStation because I wasn't happy with the mutation tools in Live's piano roll, and because most sequencers won't let you lock some notes and mutate only the rest.
+</p>
           <p>
-            MutationStation uses the lock system Elektron sequencers made
-            famous. Click a note to lock it and every mutation device leaves it
-            alone. Pitch, rhythm, octave, length, accent and slide all move
-            around it. The devices also work separately, so you can mutate
-            pitch, octave jumps, accents and slides one at a time.
-          </p>
+The lock works the way it does on an Elektron. Click a note to lock it and nothing touches it, while everything around it can still move. Each mutation device also works on its own, so you can re-roll only the accents, or only the octave jumps.
+</p>
           <p>
-            <strong>Auto-Lock</strong> picks those notes for you.
-            <em>Structural</em> weighs seven things together: recurrence,
-            metric weight, accent, bar openers, note length, low register and
-            isolation. To let one thing decide instead, rank by downbeats,
-            offbeats, accents, long notes, low notes, recurrence, or the phrase
-            corners that hold a bar together.
-          </p>
+<strong>Auto-Lock</strong> picks the notes to lock for you. By default it looks at how often a note repeats, where it falls in the bar, its accent and its length. You can also have it rank by one thing only, like downbeats or long notes.
+</p>
           <p>
-            <strong>Or mutate one part and leave the rest alone.</strong>
-            Drag in the piano roll to mark a range. From then on every mutation
-            device only changes what is inside it, and notes outside it stay as
-            they are, whatever slider you move. Press Esc to unmark.
-          </p>
+<strong>Or mark a range.</strong> Drag across part of the piano roll and only the notes inside it can change. Esc clears it.
+</p>
           <p>
-            Every roll uses seeded dice, so a take you liked comes back
-            exactly, and you can re-roll one panel at a time while the rest
-            stays put.
-          </p>
+Rolls are seeded, so a take you liked comes back exactly. You can also re-roll one panel at a time.
+</p>
         </div>
         <figure class="zoom">
           <div class="screen">
@@ -158,27 +143,14 @@
       <div class="panel-body">
         <div class="prose story">
           <p>
-            <strong>Pitch Mutation picks the new notes, in one of two
-            modes.</strong> Scale, root and range set where they may land.
-          </p>
+<strong>Pitch Mutation</strong> picks the new notes. Scale, root and range limit where they can land, and there are two ways to use it.
+</p>
           <p>
-            <strong>To write a new line,</strong> leave Adaptive off. The
-            algorithms come in two groups. <strong>Whole line</strong> ones
-            write a complete phrase in one go: a hook that turns at the end, a
-            call and its answer, a line that climbs and falls. Every bar gets a
-            shape instead of a scatter of notes. <strong>Note by note</strong>
-            ones re-pick single notes, from plain Random and Walk to acid
-            voices like Acid Trip, Bass (303-style) and Offbeat Anchor. Amount
-            sets how many notes they change.
-          </p>
+<strong>To write a new line,</strong> leave Adaptive off and pick an algorithm. <strong>Whole line</strong> ones write a full phrase at once, like a hook that turns at the end or a call and answer. <strong>Note by note</strong> ones re-pick single notes, from plain Random and Walk to Acid Trip and Offbeat Anchor. Amount sets how many notes change.
+</p>
           <p>
-            <strong>To vary a line you already have,</strong> switch
-            <strong>Adaptive</strong> on, right under the Algo menu. Its
-            algorithms read your notes first and change only a few, the same
-            way every bar: passing notes, neighbour notes, octave jumps, an
-            answer to your call. About four in five notes stay as you played
-            them, so it still sounds like your line.
-          </p>
+<strong>To vary a line you already have,</strong> switch <strong>Adaptive</strong> on, right under the Algo menu. Its algorithms read your notes first and change only a few, the same way in every bar, with things like passing notes and octave jumps. About four in five notes stay as you played them.
+</p>
         </div>
         <div class="zoom-pair pair-wide-right">
           <figure class="zoom">
@@ -189,9 +161,8 @@
               </picture>
             </div>
             <figcaption>
-              Pitch Mutation: how much may change, which notes it may use, and
-              the strategy that picks the next note.
-            </figcaption>
+Pitch Mutation sets how much can change and which notes it can use.
+</figcaption>
           </figure>
           <figure class="zoom">
             <div class="screen">
@@ -201,48 +172,28 @@
               </picture>
             </div>
             <figcaption>
-              Every algorithm in the Algo menu. Whole line ones write a phrase
-              at a time and Note by note ones change single notes. Adaptive
-              ones, listed when Adaptive mode is on, vary the line you already
-              have.
-            </figcaption>
+The Algo menu. The Adaptive ones only show up when Adaptive is on.
+</figcaption>
           </figure>
         </div>
         <div class="prose story">
           <p>
-            <strong>Phrase Length and End Bias: change at the end, like a real
-            track.</strong> In house and techno a line usually plays the same
-            for a few bars and then does something different right before it
-            comes round again. These two controls, under Scale, make
-            MutationStation write lines that way.
-          </p>
+<strong>Phrase Length and End Bias.</strong> In house and techno a line often plays the same for a few bars, then does something different just before it comes round again. These two controls, under Scale, let MutationStation write lines like that.
+</p>
           <p>
-            <strong>Phrase Length</strong> cuts your loop into phrases of 1, 2,
-            4 or 8 bars and sets which part of each phrase may change: all of
-            it, the last bar, or just the last beat. The rest plays as you wrote
-            it. Two bars with Last beat gives you two bars that repeat with a
-            new ending every time.
-          </p>
+<strong>Phrase Length</strong> cuts the loop into phrases of 1, 2, 4 or 8 bars and sets which part of each one can change: all of it, the last bar or the last beat. Two bars with Last beat gives you a two-bar line with a new ending each time.
+</p>
           <p>
-            <strong>End Bias</strong> doesn't hold anything still. It moves the
-            odds instead: the last notes of every few bars become more likely
-            to change, and everything before them less likely. Turn it up and
-            most of the line stays put while the end keeps moving.
-          </p>
+<strong>End Bias</strong> works on the odds instead. The last notes of each phrase get more likely to change and the rest less likely. Turn it up and the start of the line mostly stays put while the end keeps moving.
+</p>
           <p>
-            You can also vary only every 2nd or every 4th phrase, for call and
-            response, and give a single device its own length, say a melody
-            that turns every 2 bars over accents that turn every bar.
-          </p>
+You can also vary only every 2nd or 4th phrase, or give one device its own length, like a melody that changes every 2 bars over accents that change every bar.
+</p>
         </div>
         <div class="prose story">
           <p>
-            <strong>Slides and accents the way a 303 does them.</strong> Octave,
-            Accent and Slide each have their own amount, step pattern and lock.
-            Keep the accents you have and re-roll only the glides, or lock the
-            octave jumps and let everything else move. Connect Notes fills the
-            gaps with passing tones, in scale or chromatic.
-          </p>
+<strong>Acid Character.</strong> Octave, Accent and Slide each get their own amount, step pattern and lock, so you can keep your accents and re-roll just the slides. Connect Notes fills gaps with passing notes, in scale or chromatic.
+</p>
         </div>
         <figure class="zoom">
             <div class="screen">
@@ -252,9 +203,8 @@
               </picture>
             </div>
             <figcaption>
-              Acid Character: three controls, three patterns, three locks. This
-              is what keeps a mutated line sounding like a 303 line.
-            </figcaption>
+Octave, accent and slide, each with its own lock.
+</figcaption>
           </figure>
           <figure class="zoom zoom-mid">
             <div class="screen">
@@ -283,24 +233,14 @@
       <div class="panel-body">
         <div class="prose story">
           <p>
-            <strong>↓ Rhythm Import</strong> takes the timing of the clip
-            selected in Live and puts it in the roll as a single line on the
-            root note. It is the quickest way to mutate a pattern you already
-            have. Click a clip in Live, press the button, and its rhythm is now
-            your sequence's rhythm.
-          </p>
+<strong>↓ Rhythm Import</strong> takes the timing of the clip selected in Live and puts it in the roll as one line on the root note. Then mutate the pitches over it.
+</p>
           <p>
-            <strong>It works on audio clips as well as MIDI.</strong> Live
-            cannot pass audio to an app, so MutationStation reads the sample
-            from disk and finds the hits itself, by looking for sudden jumps in
-            the spectrum from one moment to the next. How hard each hit is
-            becomes its velocity.
-          </p>
+<strong>It works on audio clips too.</strong> MutationStation reads the sample from disk and finds the hits itself, and how hard each hit is becomes its velocity.
+</p>
           <p>
-            <strong>&asymp; Similar to Live</strong> leaves your sequence alone
-            and sorts the Pattern list by how close each pattern is to the MIDI
-            clip Live is showing. Click one to load it.
-          </p>
+<strong>&asymp; Similar to Live</strong> sorts the Pattern list by how close each pattern is to the clip Live is showing.
+</p>
         </div>
       </div>
     </div>
@@ -312,114 +252,46 @@
       <div class="panel-body">
         <ul class="features cols">
           <li>
-            <strong>Mutate a line</strong> across pitch, rhythm, octave, note
-            length, accent and slide. Each has its own amount and works on its
-            own.
-          </li>
+Mutate pitch, rhythm, octave, length, accent and slide, each with its own amount.
+</li>
           <li>
-            <strong>A note pool you can weight.</strong> Twelve keys set which
-            notes mutation may use, and a % panel behind them sets how often
-            each one comes up.
-          </li>
+<strong>A weighted note pool.</strong> Twelve keys set which notes can come up, and how often.
+</li>
           <li>
-            <strong>40+ rhythm patterns.</strong> Four-on-the-floor, rolling
-            303, tresillo, dub, house basslines, hypnotic rolls and two-bar
-            call-and-response cells, with a density knob to thin or thicken any
-            of them.
-          </li>
+40+ rhythm patterns, from four-on-the-floor and rolling 303 to tresillo and dub.
+</li>
           <li>
-            <strong>Extend Loop.</strong> Double or quadruple the loop and let
-            each extra bar drift from the first, with its own amount for pitch,
-            octave, duration, accent and slide.
-          </li>
+<strong>Extend Loop</strong> doubles or quadruples the loop and lets the extra bars drift.
+</li>
           <li>
-            <strong>Phrase Length and End Bias.</strong> Split the loop into
-            phrases and let the changes land at the end of each one, the way
-            house and techno lines usually vary. Each device can have its own
-            length too.
-          </li>
+<strong>Keep Original</strong> gives each unlocked note a chance to go back to how it was, after everything else has run.
+</li>
           <li>
-            <strong>Keep Original.</strong> Last in the chain: after every other
-            panel has had its turn, each unlocked note has a chance to go back
-            to how it started. Some of the take survives heavy mutation without
-            locking anything.
-          </li>
+<strong>Snapshots and A / B.</strong> Every take is kept in a strip, and your line only changes when you press Commit to Main.
+</li>
           <li>
-            <strong>A real piano roll.</strong> Draw, drag, resize and set
-            velocity. A Snapshots strip keeps every take you generate so you can
-            go back to one you liked, and <strong>+ Snapshot</strong> saves one
-            with its settings. <strong>A / B</strong> gives two takes of the
-            same settings, and your line is only replaced when you press
-            <strong>Commit to Main</strong>.
-          </li>
+50 factory 303-style sequences, plus your own presets. Find Similar Rhythm searches them by groove.
+</li>
           <li>
-            <strong>Presets and Find Similar Rhythm.</strong> Save sequences and
-            knob settings, and search your saved sequences for ones with a
-            similar groove to the one on screen.
-          </li>
+<strong>Modulation lanes.</strong> Up to eight, each moving one parameter on the selected device. Play them live, or send them to Live as clip envelopes along with the notes. You can also record a knob move into a lane.
+</li>
           <li>
-            <strong>50 factory 303-style sequences</strong> come with the app,
-            kept apart from your own library.
-          </li>
+Record from a MIDI keyboard or a DAW track, with overdub. Chord In and Root In transpose the sequence as you play.
+</li>
           <li>
-            <strong>Modulation lanes for Live.</strong> Draw up to eight
-            per-step lanes, each moving one parameter on the selected device as
-            smooth 14-bit automation. Play them live, or press
-            <strong>Send to Live</strong> to make a new Session clip with the
-            notes and the modulation as clip envelopes. One-click presets draw a
-            curve across three parameters at once, and you can save your own.
-            Modulation record works the other way: arm a lane, move a knob in
-            Live, and the lane draws your move.
-          </li>
+Follows your DAW's MIDI clock, or runs on its own.
+</li>
           <li>
-            <strong>Play and record straight in</strong> from a MIDI keyboard
-            or a DAW track. Arm <strong>Record</strong> and notes land on the
-            grid as you play. <strong>Overdub</strong> sets whether a new note
-            replaces or adds to the last sequence, and
-            <strong>Recapture</strong> saves the loop you just played even if
-            nothing was armed. <strong>Chord In</strong> and
-            <strong>Root In</strong> read the same port, so a played chord or
-            note transposes the sequence live.
-          </li>
+An Info box like Live's, and the manual built in.
+</li>
           <li>
-            <strong>Follow your DAW's clock, or run on your own.</strong> Pick
-            the port your DAW sends MIDI clock on and the app follows its tempo
-            and position. Pick Internal and it plays by itself.
-          </li>
-          <li>
-            <strong>An Info box like Live's, and the manual in the app.</strong>
-            The Info box describes whatever the mouse is over: LCD menus, pitch
-            algorithms and every control.
-          </li>
-          <li>
-            <strong>Randomise can set a device's Length and Bias too,</strong>
-            each on a 50% chance, and always to an even length. Each device has
-            its own <strong>&#9860;</strong> to pick new settings for that
-            device only, and a re-roll key to reshuffle its dice. Mutated notes
-            get a soft outline in the roll instead of a new colour, so the fill
-            still shows velocity.
-          </li>
-          <li>And more. See the manual for the full list.</li>
+And more in the manual.
+</li>
         </ul>
       </div>
     </div>
 
     <div class="panel-grid">
-
-        <div class="panel">
-          <h2 class="panel-head">Why standalone</h2>
-          <div class="panel-body">
-            <div class="prose">
-              <p>
-                MutationStation runs as its own app, not a plugin, and reaches
-                your DAW like a hardware groovebox: as a MIDI device you record
-                from or drag takes out of. If your DAW crashes, MutationStation
-                and every take in its Snapshots strip are safe. If
-                MutationStation crashes, your DAW keeps running.
-              </p>
-            </div>
-          </div>
-        </div>
 
         <div class="panel">
           <h2 class="panel-head">Requirements</h2>
@@ -429,14 +301,11 @@
                 macOS 12 or later on Apple Silicon (M1 or later), and any DAW that takes MIDI.
               </p>
               <p>
-                <strong>Intel Macs: beta.</strong> The app is built for Intel
-                too and should work, but it has not been tested on an Intel Mac
-                yet.
-              </p>
+<strong>Intel Macs:</strong> untested, should work.
+</p>
               <p>
-                Signed and notarised for macOS, so it opens with a normal
-                double-click, with no security warning.
-              </p>
+Signed and notarised for macOS.
+</p>
               <p class="legend">Version 1.1.0</p>
               <p><a href="../index.html#licence">Donation-based: licence and updates</a></p>
             </div>
@@ -448,12 +317,8 @@
           <div class="panel-body">
             <div class="prose">
               <p>
-                The app shows up on your Mac as a MIDI device called
-                <strong>MutationStation</strong>. Set a track to listen to it,
-                turn on input monitoring, and play. Or just
-                <strong>drag a take</strong> onto a track as a <code>.mid</code>
-                clip, which needs no setup at all.
-              </p>
+The app shows up on your Mac as a MIDI device called <strong>MutationStation</strong>. Set a track to listen to it, turn on input monitoring, and play. Or drag a take onto a track as a <code>.mid</code> clip, no setup needed.
+</p>
             </div>
           </div>
         </div>
@@ -463,20 +328,11 @@
           <div class="panel-body">
             <div class="prose">
               <p>
-                A control script comes with the app, shared by MutationStation,
-                Chordinator and TouchXY. Install it and you get
-                <strong>↓ From Live</strong>, which pulls the clip you are
-                looking at into the sequencer, <strong>↓ Rhythm
-                Import</strong>, which takes just the rhythm of the clip Live is
-                showing, and spacebar transport, so the app's transport key
-                starts and stops Live.
-              </p>
+A control script comes with the app, shared with Chordinator and TouchXY. Install it and you get <strong>↓ From Live</strong>, which pulls in the clip you're looking at, <strong>↓ Rhythm Import</strong>, and the app's play key starting and stopping Live.
+</p>
               <p>
-                The other way, <strong>Send to Live</strong> writes a Session
-                clip with the notes and any modulation lanes you drew as clip
-                automation. Dragging out a MIDI file still works in any DAW, for
-                notes only.
-              </p>
+<strong>Send to Live</strong> goes the other way and writes a Session clip with the notes and your modulation lanes. Dragging out a MIDI file works in any DAW, notes only.
+</p>
             </div>
           </div>
         </div>
@@ -486,13 +342,8 @@
           <div class="panel-body">
             <div class="prose">
               <p>
-                <a href="midimirror.html"><strong>MidiMirror</strong></a> can
-                switch a controller into <strong>JamWare mode</strong> and hand
-                it to MutationStation. Every knob, fader and key gets this app's
-                own parameters, named and with live values, so the MidiMirror
-                panel becomes MutationStation's front panel, with nothing to map
-                by hand.
-              </p>
+In <a href="midimirror.html"><strong>MidiMirror</strong></a>'s JamWare mode, your controller becomes MutationStation's front panel. Every knob, fader and key is mapped and labelled, with nothing to set up.
+</p>
             </div>
           </div>
         </div>
