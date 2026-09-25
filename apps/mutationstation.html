@@ -252,46 +252,114 @@ Octave, accent and slide, each with its own lock.
       <div class="panel-body">
         <ul class="features cols">
           <li>
-Mutate pitch, rhythm, octave, length, accent and slide, each with its own amount.
-</li>
+            <strong>Mutate a line</strong> across pitch, rhythm, octave, note
+            length, accent and slide. Each has its own amount and works on its
+            own.
+          </li>
           <li>
-<strong>A weighted note pool.</strong> Twelve keys set which notes can come up, and how often.
-</li>
+            <strong>A note pool you can weight.</strong> Twelve keys set which
+            notes mutation may use, and a % panel behind them sets how often
+            each one comes up.
+          </li>
           <li>
-40+ rhythm patterns, from four-on-the-floor and rolling 303 to tresillo and dub.
-</li>
+            <strong>40+ rhythm patterns.</strong> Four-on-the-floor, rolling
+            303, tresillo, dub, house basslines, hypnotic rolls and two-bar
+            call-and-response cells, with a density knob to thin or thicken any
+            of them.
+          </li>
           <li>
-<strong>Extend Loop</strong> doubles or quadruples the loop and lets the extra bars drift.
-</li>
+            <strong>Extend Loop.</strong> Double or quadruple the loop and let
+            each extra bar drift from the first, with its own amount for pitch,
+            octave, duration, accent and slide.
+          </li>
           <li>
-<strong>Keep Original</strong> gives each unlocked note a chance to go back to how it was, after everything else has run.
-</li>
+            <strong>Phrase Length and End Bias.</strong> Split the loop into
+            phrases and let the changes land at the end of each one, the way
+            house and techno lines usually vary. Each device can have its own
+            length too.
+          </li>
           <li>
-<strong>Snapshots and A / B.</strong> Every take is kept in a strip, and your line only changes when you press Commit to Main.
-</li>
+            <strong>Keep Original.</strong> Last in the chain: after every other
+            panel has had its turn, each unlocked note has a chance to go back
+            to how it started. Some of the take survives heavy mutation without
+            locking anything.
+          </li>
           <li>
-50 factory 303-style sequences, plus your own presets. Find Similar Rhythm searches them by groove.
-</li>
+            <strong>A real piano roll.</strong> Draw, drag, resize and set
+            velocity. A Snapshots strip keeps every take you generate so you can
+            go back to one you liked, and <strong>+ Snapshot</strong> saves one
+            with its settings. <strong>A / B</strong> gives two takes of the
+            same settings, and your line is only replaced when you press
+            <strong>Commit to Main</strong>.
+          </li>
           <li>
-<strong>Modulation lanes.</strong> Up to eight, each moving one parameter on the selected device. Play them live, or send them to Live as clip envelopes along with the notes. You can also record a knob move into a lane.
-</li>
+            <strong>Presets and Find Similar Rhythm.</strong> Save sequences and
+            knob settings, and search your saved sequences for ones with a
+            similar groove to the one on screen.
+          </li>
           <li>
-Record from a MIDI keyboard or a DAW track, with overdub. Chord In and Root In transpose the sequence as you play.
-</li>
+            <strong>50 factory 303-style sequences</strong> come with the app,
+            kept apart from your own library.
+          </li>
           <li>
-Follows your DAW's MIDI clock, or runs on its own.
-</li>
+            <strong>Modulation lanes for Live.</strong> Draw up to eight
+            per-step lanes, each moving one parameter on the selected device as
+            smooth 14-bit automation. Play them live, or press
+            <strong>Send to Live</strong> to make a new Session clip with the
+            notes and the modulation as clip envelopes. One-click presets draw a
+            curve across three parameters at once, and you can save your own.
+            Modulation record works the other way: arm a lane, move a knob in
+            Live, and the lane draws your move.
+          </li>
           <li>
-An Info box like Live's, and the manual built in.
-</li>
+            <strong>Play and record straight in</strong> from a MIDI keyboard
+            or a DAW track. Arm <strong>Record</strong> and notes land on the
+            grid as you play. <strong>Overdub</strong> sets whether a new note
+            replaces or adds to the last sequence, and
+            <strong>Recapture</strong> saves the loop you just played even if
+            nothing was armed. <strong>Chord In</strong> and
+            <strong>Root In</strong> read the same port, so a played chord or
+            note transposes the sequence live.
+          </li>
           <li>
-And more in the manual.
-</li>
+            <strong>Follow your DAW's clock, or run on your own.</strong> Pick
+            the port your DAW sends MIDI clock on and the app follows its tempo
+            and position. Pick Internal and it plays by itself.
+          </li>
+          <li>
+            <strong>An Info box like Live's, and the manual in the app.</strong>
+            The Info box describes whatever the mouse is over: LCD menus, pitch
+            algorithms and every control.
+          </li>
+          <li>
+            <strong>Randomise can set a device's Length and Bias too,</strong>
+            each on a 50% chance, and always to an even length. Each device has
+            its own <strong>&#9860;</strong> to pick new settings for that
+            device only, and a re-roll key to reshuffle its dice. Mutated notes
+            get a soft outline in the roll instead of a new colour, so the fill
+            still shows velocity.
+          </li>
+          <li>And more. See the manual for the full list.</li>
         </ul>
       </div>
     </div>
 
     <div class="panel-grid">
+
+        <div class="panel">
+          <h2 class="panel-head">Why standalone</h2>
+          <div class="panel-body">
+            <div class="prose">
+              <p>
+                MutationStation runs as its own app, not a plugin, and reaches
+                your DAW like a hardware groovebox: as a MIDI device you record
+                from or drag takes out of. If your DAW crashes, MutationStation
+                and every take in its Snapshots strip are safe. If
+                MutationStation crashes, your DAW keeps running.
+              </p>
+            </div>
+          </div>
+        </div>
 
         <div class="panel">
           <h2 class="panel-head">Requirements</h2>

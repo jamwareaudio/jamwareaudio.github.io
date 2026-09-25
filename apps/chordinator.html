@@ -236,20 +236,36 @@ Warped clips are read through their warp map, so the hits land where you see the
         <div class="panel-body">
           <ul class="features">
             <li>
-<strong>One key per chord, across all 128 notes.</strong> With a small keyboard, connect a few and set each to a different octave.
-</li>
+              <strong>One key per chord, across all 128 notes.</strong> If
+              your keyboard is smaller, connect several MIDI sources and set
+              each keyboard to a different octave, so all 128 chords are in
+              reach without switching octaves.
+            </li>
             <li>
-<strong>Unmapped keys pass through</strong> as single notes.
-</li>
+              <strong>Unmapped keys pass through.</strong> A key with no chord
+              plays its own single note, so the keyboard still works as a
+              keyboard.
+            </li>
             <li>
-<strong>No stuck notes</strong> when two held chords share a note.
-</li>
+              <strong>Clean note-offs, always.</strong> Releasing a key releases
+              its chord, and notes shared between overlapping chords are
+              tracked, so holding two chords with a common note never leaves a
+              note stuck on.
+            </li>
             <li>
-<strong>Humanise</strong> loosens a chord's timing and velocity.
-</li>
+              <strong>Humanise.</strong> Loosen a chord's timing, velocity or
+              both, so a stab does not land in perfect machine unison.
+            </li>
             <li>
-Velocity passes through, with per-voice scaling or a fixed value if you want every stab the same.
-</li>
+              <strong>Velocity that follows your hand.</strong> Passed through by
+              default, with per-voice scaling and a Fixed mode when you want
+              every stab to land the same.
+            </li>
+            <li>
+              <strong>Suggestions for where to go next.</strong> After a chord
+              plays, two or three keybed chords light up as good next steps,
+              based on the chosen algorithm.
+            </li>
             <li>
               Transpose the whole keybed to the key your song is in.
             </li>
@@ -262,20 +278,39 @@ Velocity passes through, with per-voice scaling or a fixed value if you want eve
         <div class="panel-body">
           <ul class="features">
             <li>
-<strong>A poly piano roll</strong> that shows each chord's name above it.
-</li>
+              <strong>A poly piano roll</strong> you can fully edit:
+              <strong>draw, marquee-select, halve, duplicate, invert,
+              zoom.</strong> Each chord's name shows in the visualiser and right
+              above it in the roll.
+            </li>
             <li>
-<strong>A rhythm generator</strong> with dub house, dub techno and piano house patterns, the dub house ones measured from real records.
-</li>
+              <strong>A rhythm generator</strong> with three families:
+              <em>dub house</em> (offbeat and bouncy, measured from five
+              reference tracks), <em>dub techno</em> (Basic Channel style, where
+              the space matters) and <em>piano house</em> (offbeat 8ths, dotted
+              8ths, Charleston and tresillo figures).
+            </li>
             <li>
-16 groove templates for timing and velocity.
-</li>
+              <strong>Groove, separate from humanise.</strong> 16 groove
+              algorithms that set timing and velocity per step.
+            </li>
             <li>
-<strong>Fit Stabs</strong> places chords on the strongest hits of a bassline, or between them so the chords answer the bass. It takes a Live clip or an audio file.
-</li>
+              <strong>Fit stabs to a bassline.</strong> Point it at a bass
+              pattern, a Live clip or an audio file you drop on it, and it places
+              stabs <em>on</em> the strongest hits to back them up, or
+              <em>around</em> them so the stab answers the bass.
+            </li>
             <li>
-<strong>A library of saved takes</strong>, with favourites, folders and ◀ ▶ to audition them in order.
-</li>
+              <strong>A library of saved takes.</strong> Save what is in the
+              sequencer under a name, star favourites, sort them into folders,
+              and step through the list with ◀ ▶ to audition them in order. It
+              is kept in its own file with a rolling backup, apart from your
+              settings.
+            </li>
+            <li>
+              <strong>Layouts save as JSON:</strong> the whole keybed, every
+              trigger and every voicing setting.
+            </li>
           </ul>
         </div>
       </div>
@@ -285,6 +320,21 @@ Velocity passes through, with per-voice scaling or a fixed value if you want eve
 
   <section class="section wrap">
     <div class="panel-grid">
+
+        <div class="panel">
+          <h2 class="panel-head">Why standalone</h2>
+          <div class="panel-body">
+            <div class="prose">
+              <p>
+                Chordinator runs as its own app, not a plugin, and reaches your
+                DAW like a hardware box: over a virtual MIDI port, the way any
+                outboard MIDI gear does. If your DAW crashes, Chordinator and
+                the sequence you were building are safe. If Chordinator crashes,
+                your session keeps playing.
+              </p>
+            </div>
+          </div>
+        </div>
 
         <div class="panel">
           <h2 class="panel-head">Requirements</h2>
