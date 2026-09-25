@@ -22,7 +22,7 @@
 <meta name="twitter:title" content="MidiMirror · JamWare Audio" />
 <meta name="twitter:description" content="Build what every knob on your MIDI controller does in Ableton Live, without writing Python. Custom modes, combos and holds, generated into a real Remote Script, with an on-screen mirror that labels every control. Run two controllers at once for a window each, or switch to JamWare mode and drive Chordinator and MutationStation from the same hardware." />
 <meta name="twitter:image" content="https://jamwareaudio.com/assets/shots/midimirror.png" />
-<link rel="stylesheet" href="../styles.css?v=1790273663" />
+<link rel="stylesheet" href="../styles.css?v=1790331488" />
 <style>:root { --accent: #E05A2C; }</style>
 </head>
 <body>
@@ -274,6 +274,18 @@
             keyboard.
           </p>
           <p>
+            <strong>Or let an AI build the mapping for you.</strong> Say in a
+            sentence what you want, like "transport on the bottom row, sends
+            on the top knobs". Press <strong>Build with AI</strong> on
+            Configure's Mapping page and MidiMirror copies a full description
+            of your controller and everything it can control. Paste that into
+            the AI assistant you already use (ChatGPT, Claude, Gemini), then
+            paste its answer back. MidiMirror checks it, refuses anything that
+            does not exist, and saves it as a new mapping you can edit like any
+            other. MidiMirror itself sends nothing anywhere, and there is no
+            account or key to set up.
+          </p>
+          <p>
             <strong>Then generate the script.</strong> Name your controller and
             MidiMirror writes a real Remote Script into Live's User Library
             under that name, so "Launch Control XL" appears in Live's Control
@@ -462,6 +474,12 @@
             <strong>Pickup.</strong> A knob does nothing until it passes the
             value it is taking over, so nothing jumps when you switch modes or
             recall a drop.
+          </li>
+          <li>
+            <strong>Build a mapping with AI.</strong> Describe the layout you
+            want, paste MidiMirror's brief into any AI assistant and paste the
+            reply back. It becomes a saved mapping, and anything the reply
+            invents is refused.
           </li>
           <li>
             <strong>Transport on screen,</strong> for hardware with no

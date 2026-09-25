@@ -22,7 +22,7 @@
 <meta name="twitter:title" content="MutationStation · JamWare Audio" />
 <meta name="twitter:description" content="An acid/303 MIDI mutation sequencer for macOS. Feed it a line, get a hundred back, then drag any take straight into your DAW." />
 <meta name="twitter:image" content="https://jamwareaudio.com/assets/shots/mutationstation.png" />
-<link rel="stylesheet" href="../styles.css?v=1790273663" />
+<link rel="stylesheet" href="../styles.css?v=1790331488" />
 <style>:root { --accent: #D13A2C; }</style>
 </head>
 <body>
@@ -63,7 +63,7 @@
       </div>
     </div>
     <p class="lede">
-      MutationStation is built around the idea of “controlled randomness”.
+      MutationStation is built based upon the concept of “controlled randomness”.
       Happy accidents are one of the best parts of
       making electronic music, and this sequencer is built for them. It is an
       acid-style mutating step sequencer. It can write new sequences from
@@ -77,7 +77,8 @@
       evolving.
     </p>
     <p class="lede">
-      Start from a line you drew in MutationStation, dropped in as a MIDI
+      Start from a line you created directly in
+        MutationStation, dropped in as a MIDI
       clip, or pulled from Live, and MutationStation rolls new versions of it. You set how far
       the pitch moves, how the rhythm shifts, and where accents and slides
       land. Audition takes until one is right, then drag it onto a track.
@@ -137,7 +138,7 @@
         <figure class="zoom">
           <div class="screen">
             <picture>
-              <source srcset="../assets/shots/sized/mutationstation-lock-2400.webp 2400w, ../assets/shots/sized/mutationstation-lock-3600.webp 3600w" sizes="(max-width: 918px) 100vw, 918px" type="image/webp" />
+              <source srcset="../assets/shots/sized/mutationstation-lock-2400.webp 2400w, ../assets/shots/sized/mutationstation-lock-3600.webp 3600w" sizes="(max-width: 916px) 100vw, 916px" type="image/webp" />
               <img src="../assets/shots/mutationstation-lock.png" alt="The MutationStation piano roll: locked notes drawn in red, unlocked notes in orange, slide lines between them, and the Auto-Lock row set to Structural" />
             </picture>
           </div>
@@ -179,7 +180,7 @@
             them, so it still sounds like your line.
           </p>
         </div>
-        <div class="zoom-pair">
+        <div class="zoom-pair pair-wide-right">
           <figure class="zoom">
             <div class="screen">
               <picture>
@@ -195,13 +196,15 @@
           <figure class="zoom">
             <div class="screen">
               <picture>
-                <source srcset="../assets/shots/mutationstation-algorithms.webp" type="image/webp" />
-                <img src="../assets/shots/mutationstation-algorithms.png" alt="The Algorithm dropdown open, showing pitch strategies grouped under headings including Whole line, Whole line · Adaptive, Acid / bass shapes, Lead, Phrase forms, Melodic movement and Plain" />
+                <source srcset="../assets/shots/sized/mutationstation-algorithms-2400.webp 2400w, ../assets/shots/mutationstation-algorithms.webp 3512w" sizes="(max-width: 1076px) 100vw, 1076px" type="image/webp" />
+                <img src="../assets/shots/mutationstation-algorithms.png" alt="Every pitch algorithm, in three lists: Whole line, Adaptive and Note by note" />
               </picture>
             </div>
             <figcaption>
-              The Algorithm menu from that panel. Whole line algorithms write a
-              phrase at a time; Note by note ones change single notes.
+              Every algorithm in the Algo menu. Whole line ones write a phrase
+              at a time and Note by note ones change single notes. Adaptive
+              ones, listed when Adaptive mode is on, vary the line you already
+              have.
             </figcaption>
           </figure>
         </div>
@@ -241,12 +244,11 @@
             gaps with passing tones, in scale or chromatic.
           </p>
         </div>
-        <div class="zoom-pair">
-          <figure class="zoom">
+        <figure class="zoom">
             <div class="screen">
               <picture>
-                <source srcset="../assets/shots/mutationstation-acid.webp" type="image/webp" />
-                <img src="../assets/shots/mutationstation-acid.png" alt="The Acid Character column: Octave, Accent and Slide, each around a full-size knob with a vertical SYNC fader, an Incl. Locked caption, a pattern dropdown and a lock" />
+                <source srcset="../assets/shots/sized/mutationstation-acid-2400.webp 2400w, ../assets/shots/mutationstation-acid.webp 3352w" sizes="(max-width: 1176px) 100vw, 1176px" type="image/webp" />
+                <img src="../assets/shots/mutationstation-acid.png" alt="The Acid Character panel: Octave, Accent and Slide side by side, each around a full-size knob with a vertical SYNC fader, an Incl. Locked caption, a pattern dropdown and a lock" />
               </picture>
             </div>
             <figcaption>
@@ -254,15 +256,15 @@
               is what keeps a mutated line sounding like a 303 line.
             </figcaption>
           </figure>
-          <figure class="zoom">
+          <figure class="zoom zoom-mid">
             <div class="screen">
               <picture>
                 <source srcset="../assets/shots/mutationstation-shape.webp" type="image/webp" />
-                <img src="../assets/shots/mutationstation-shape.png" alt="The third column of MutationStation: Connect Notes, Extend Loop with Repeats, a Bar Variation dropdown and five drift sliders for Pitch, Octave, Duration, Accent and Slide, the Density section, Keep Original, and a re-roll key" />
+                <img src="../assets/shots/mutationstation-shape.png" alt="The panels that shape the line: Connect Notes, Extend Loop with Repeats, a Bar Variation dropdown and five drift sliders, Density, and Keep Original" />
               </picture>
             </div>
             <figcaption>
-              The next column shapes the line once the notes are chosen.
+              These panels shape the line once the notes are chosen.
               <strong>Extend Loop</strong> doubles or quadruples the loop and
               lets the extra bars drift. <strong>Density</strong> thins or
               thickens the pattern. <strong>Keep Original</strong>, last in the
@@ -271,7 +273,6 @@
               just that panel.
             </figcaption>
           </figure>
-        </div>
       </div>
     </div>
   </section>

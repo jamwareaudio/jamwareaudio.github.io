@@ -22,7 +22,7 @@
 <meta name="twitter:title" content="Spectrl · JamWare Audio" />
 <meta name="twitter:description" content="A spectrum analyser, key detector, note visualiser, tonal-balance target and loudness/oscilloscope meter in one lightweight window, listening to everything your Mac is playing." />
 <meta name="twitter:image" content="https://jamwareaudio.com/assets/shots/spectrl.png" />
-<link rel="stylesheet" href="../styles.css?v=1790273663" />
+<link rel="stylesheet" href="../styles.css?v=1790331488" />
 <style>:root { --accent: #4A86C5; }</style>
 </head>
 <body>
@@ -88,38 +88,29 @@
     <div class="panel">
       <h2 class="panel-head">Six tools, one signal</h2>
       <div class="panel-body">
-        <div class="prose story">
-          <p>
+          <div class="prose story">
+            <p>
             <strong>The note ruler</strong> at the top of the window answers
             "what note is that?". Use it to see which frequency a note sits at,
             or which note a frequency is.
           </p>
         </div>
-        <figure class="zoom">
-          <div class="screen">
-            <picture>
-              <source srcset="../assets/shots/sized/spectrl-notes-2400.webp 2400w, ../assets/shots/sized/spectrl-notes-3600.webp 3600w" sizes="(max-width: 1176px) 100vw, 1176px" type="image/webp" />
-              <img src="../assets/shots/spectrl-notes.png" alt="The top of the Spectrl window: the SYSTEM AUDIO title, clip, hold and record buttons, a peak readout of 104.2 Hz G#2 +06 cents, and the note ruler over the frequency axis" />
-            </picture>
-          </div>
-          <figcaption>
-            The note ruler and the peak readout: 104.2 Hz is G#2, six cents
-            sharp.
-          </figcaption>
-        </figure>
+          <figure class="zoom zoom-mid">
+            <div class="screen">
+              <picture>
+                <source srcset="../assets/shots/spectrl-ruler.webp" type="image/webp" />
+                <img src="../assets/shots/spectrl-ruler.png" alt="The top of the Spectrl window: the SYSTEM AUDIO title, a peak readout of 240.6 Hz B3 -45 cents, and the note ruler with note names and frequencies" />
+              </picture>
+            </div>
+            <figcaption>The peak readout: 240.6 Hz is B3, 45 cents flat.</figcaption>
+          </figure>
         <div class="prose story">
-          <p>
+            <p>
             <strong>Tonal balance</strong> draws a corridor over the spectrum
             showing where mastered tracks in a genre usually sit, with a dashed
             line down the middle. The corridor shows shape, not loudness. It
             lines up with your own level, so a quiet mix and a loud one with
             the same tilt sit in the same place.
-          </p>
-          <p>
-            <strong>Learn</strong> does the same with your own music. Play a
-            reference track or your own song, press Learn, and its curve
-            becomes the target you are compared against. Save it to the preset
-            list to use again.
           </p>
         </div>
         <figure class="zoom">
@@ -134,33 +125,63 @@
             much, below it is too little, and the dashed line is the centre.
           </figcaption>
         </figure>
-        <div class="prose story">
-          <p>
+        <div class="media-split">
+          <div class="prose story">
+            <p>
+            <strong>Learn</strong> does the same with your own music. Play a
+            reference track or your own song, press Learn, and its curve
+            becomes the target you are compared against. Save it to the preset
+            list to use again.
+          </p>
+          </div>
+          <figure class="zoom zoom-well">
+            <div class="screen">
+              <picture>
+                <source srcset="../assets/shots/spectrl-target.webp" type="image/webp" />
+                <img src="../assets/shots/spectrl-target.png" style="width:400px" alt="The Tonal-Balance Target controls: a target picker set to Acid House, and the Learn and Import buttons" />
+              </picture>
+            </div>
+            <figcaption>Pick a target, or Learn one from a track.</figcaption>
+          </figure>
+        </div>
+        <div class="media-split">
+          <div class="prose story">
+            <p>
             <strong>Key detection.</strong> Press the button and Spectrl
             listens for 10 seconds, then guesses the key and scale of your
             audio and shows how confident it is.
           </p>
-          <p>
+          </div>
+          <figure class="zoom zoom-well">
+            <div class="screen">
+              <picture>
+                <source srcset="../assets/shots/spectrl-key.webp" type="image/webp" />
+                <img src="../assets/shots/spectrl-key.png" style="width:260px" alt="The Key Detection controls: the Detect button and the Drum switch" />
+              </picture>
+            </div>
+            <figcaption>One press, ten seconds of listening.</figcaption>
+          </figure>
+        </div>
+        <div class="media-split">
+          <div class="prose story">
+            <p>
             <strong>The REC button</strong> samples your system audio in one
             click. Set the sample folder to your Live User Library, or any
             folder your DAW can see, and the file is right there in your DAW.
             After recording, Spectrl also offers the WAV file for you to drag
             straight into your DAW.
           </p>
-        </div>
-        <figure class="zoom">
-          <div class="screen">
-            <picture>
-              <source srcset="../assets/shots/sized/spectrl-bottom-2400.webp 2400w, ../assets/shots/sized/spectrl-bottom-3600.webp 3600w" sizes="(max-width: 1176px) 100vw, 1176px" type="image/webp" />
-              <img src="../assets/shots/spectrl-bottom.png" alt="The Spectrl footer strip: target selector set to Acid House, Learn, My Song, key scale, display note info, scope, keys, resolution 4K, FPS 30, record and freeze" />
-            </picture>
           </div>
-          <figcaption>
-            The footer: target, Learn, key detection, scope, resolution,
-            refresh rate, record and Freeze. The controls for all six tools in
-            one strip.
-          </figcaption>
-        </figure>
+          <figure class="zoom zoom-well">
+            <div class="screen">
+              <picture>
+                <source srcset="../assets/shots/spectrl-rec.webp" type="image/webp" />
+                <img src="../assets/shots/spectrl-rec.png" style="width:154px" alt="The Folder and REC buttons from the Spectrl footer" />
+              </picture>
+            </div>
+            <figcaption>Folder picks where the WAV goes.</figcaption>
+          </figure>
+        </div>
       </div>
     </div>
   </section>
@@ -208,7 +229,6 @@
             session next to a heavy set.
           </li>
           <li>And more. See the manual for the full list.</li>
-          <li>And more. See manual for full feature list.</li>
         </ul>
       </div>
     </div>

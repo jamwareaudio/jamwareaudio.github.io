@@ -2547,3 +2547,32 @@ a.btn.gumroad-button:active {
 @media (max-width: 400px) {
   .product .panel-body { grid-template-columns: minmax(0, 1fr); gap: 12px; }
 }
+
+/* ---- MutationStation's landscape crops (2026-09-25) -------------------------
+   The Algorithm list and the Acid Character and shaping panels used to be tall
+   single columns. Under the 540/620px height caps those drew as strips 86-250px
+   wide, names cut off and unreadable, and on Gumroad (which forces every image
+   to column width) the same crops became cards 3000-8500px tall. They are now
+   shot laid out sideways (docs-tools/shotset.cjs PRE steps; see the root
+   handoff), so the page has to give them width instead of height:
+   .pair-wide-right gives the wide algorithm list two thirds of the pair, and
+   .zoom-mid keeps a mid-size crop that has a figure to itself from being
+   blown up to the full 1176px (600 keeps the shaping panels near natural).  */
+.zoom-pair.pair-wide-right { grid-template-columns: 1fr 2fr; }
+.zoom-mid .screen img { max-width: min(100%, 600px); }
+@media (max-width: 900px) {
+  .zoom-pair.pair-wide-right { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ---- Spectrl's feature wells (2026-09-25) -----------------------------------
+   The user, on the old full-width footer strip: "This doesnt make sense.
+   Instead just have a small screenshot cropped of each feature next to them
+   being mentioned in the text." So each paragraph gets the one control it
+   talks about, beside it. The crops are 4x, so an intrinsic-size <img> would
+   draw at its pixel width; each carries an inline width at one shared scale (a width= attribute loses to
+   .zoom .screen img { width: auto }) (pixels /
+   2.8) so the wells keep their true sizes relative to each other, and the
+   split centres them on their paragraph rather than hanging them off its top. */
+.media-split:has(> .zoom-well) { align-items: center; }
+.zoom-well .screen img { height: auto; max-width: 100%; }
+.zoom-well figcaption { text-align: left; }
