@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>JamWare Audio - Music tools built for Ableton Live</title>
-<meta name="description" content="Play chords you don't know how to voice. A whole chord under one key, laid out so there is no wrong note on the keybed, then build the sequence out with rhythm patterns, groove, chord suggestions and modulation lanes." />
+<meta name="description" content="A whole chord under every key, and progressions dealt a whole loop at a time from styles measured from real tracks. Then shape the part with rhythm patterns, voicing, Swing and Accent, and modulation lanes." />
 <link rel="icon" href="../assets/favicon.svg" />
 
 <!-- Social cards. Pasting a link to this site into a DM, a forum or a post
@@ -15,12 +15,12 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="JamWare Audio" />
 <meta property="og:title" content="Chordinator · JamWare Audio" />
-<meta property="og:description" content="Play chords you don't know how to voice. A whole chord under one key, laid out so there is no wrong note on the keybed, then build the sequence out with rhythm patterns, groove, chord suggestions and modulation lanes." />
+<meta property="og:description" content="A whole chord under every key, and progressions dealt a whole loop at a time from styles measured from real tracks. Then shape the part with rhythm patterns, voicing, Swing and Accent, and modulation lanes." />
 <meta property="og:url" content="https://jamwareaudio.com/apps/chordinator.html" />
 <meta property="og:image" content="https://jamwareaudio.com/assets/shots/chordinator.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Chordinator · JamWare Audio" />
-<meta name="twitter:description" content="Play chords you don't know how to voice. A whole chord under one key, laid out so there is no wrong note on the keybed, then build the sequence out with rhythm patterns, groove, chord suggestions and modulation lanes." />
+<meta name="twitter:description" content="A whole chord under every key, and progressions dealt a whole loop at a time from styles measured from real tracks. Then shape the part with rhythm patterns, voicing, Swing and Accent, and modulation lanes." />
 <meta name="twitter:image" content="https://jamwareaudio.com/assets/shots/chordinator.png" />
 <link rel="stylesheet" href="../styles.css?v=1790337124" />
 <style>:root { --accent: #E0862C; }</style>
@@ -38,6 +38,7 @@
         <select id="siteAppSelect" class="hero-lcd-select" aria-label="Select an app" onchange="if(this.value){ location.href=this.value; }">
           <option value="" selected>-Select-</option>
           <option value="/apps/mutationstation.html">MutationStation</option>
+          <option value="/apps/phrasemaker.html">PhraseMaker</option>
           <option value="/apps/chordinator.html">Chordinator</option>
           <option value="/apps/spectrl.html">Spectrl</option>
           <option value="/apps/midimirror.html">MidiMirror</option>
@@ -59,7 +60,7 @@
       <img class="icon" src="../assets/icons/chordinator-1024.png" alt="Chordinator icon" />
       <div>
         <h1 class="engraved">Chordinator <span class="lcd">Coming soon</span></h1>
-        <p class="tagline">128 chords under one keybed, and a chord generator that can follow the root of your bassline.</p>
+        <p class="tagline">128 chords under one keybed, and whole progressions dealt from styles measured from real tracks.</p>
       </div>
     </div>
     <p class="lede">
@@ -75,8 +76,8 @@
   <section class="section wrap">
     <div class="screen">
       <picture>
-        <source srcset="../assets/shots/sized/chordinator-2400.webp 2400w, ../assets/shots/sized/chordinator-3600.webp 3600w" sizes="(max-width: 1176px) 100vw, 1176px" type="image/webp" />
-        <img src="../assets/shots/chordinator.png" alt="The Chordinator window: a generated progression stamped across the poly piano roll with chord-name labels, the chord library and history strip down the left, and the trigger keyboard along the bottom" />
+        <source srcset="../assets/shots/sized/chordinator-2400.webp 2400w, ../assets/shots/sized/chordinator-3600.webp 3600w" sizes="(max-width: 1161px) 100vw, 1161px" type="image/webp" />
+        <img src="../assets/shots/chordinator.png" alt="The Chordinator window: a Euro trance progression on the piano roll with chord names over each chord, the four dealt progressions and the Chords strip above it, the chord library and Snapshots down the left, and the trigger keybed along the bottom" />
       </picture>
     </div>
   </section>
@@ -90,16 +91,16 @@
 Chordinator has the same Elektron-style lock as MutationStation.
 </p>
           <p>
-Click a note or a chord to lock it and the generators work around it. Lock the four chords of a progression, for example, and roll new rhythms under them as often as you like.
+Click a note or a chord to lock it and Generate and Rhythm Gen work around it. Lock the four chords of a progression, for example, and roll new rhythms under them as often as you like. Lock some notes of a chord and Generate fills in the rest.
 </p>
           <p>
 <strong>Auto-Lock</strong> picks the notes worth keeping for you, by downbeats, accents, long notes and a few other ways. Velocity locks are separate, so a note can keep its dynamics while its pitch is free.
 </p>
           <p>
-<strong>Or mark an area.</strong> Draw a box around a few notes and Re-Roll changes only those. Chord Gen always rolls the whole timeline, though.
+<strong>Or mark an area.</strong> Draw a box around a few notes and the knobs and the tools under the roll act on those alone.
 </p>
           <p>
-Before any generator runs, the current roll is saved in the History strip, so you can click back to a take from a few rolls ago.
+Before Generate, Rhythm Gen, Clear or ↓ From Live overwrite the roll, the old state goes into Snapshots, so you can click back to a take from a few deals ago.
 </p>
         </div>
       </div>
@@ -115,14 +116,14 @@ Before any generator runs, the current roll is saved in the History strip, so yo
 The trigger keyboard covers the whole MIDI range in octave blocks, one chord family per block, from triads and 7ths up to sus, add, quartal and quintal chords. The white keys in a block are the seven degrees of your scale and the black keys are inversions of their neighbours.
 </p>
           <p>
-So every key fits your scale. Play an octave up and you get the same progression with richer chords. Play the black key beside a chord for a different voicing of it. Keys you haven't mapped play single notes, and right-clicking a key takes it out of the generators' pool.
+So every key fits your scale. Play an octave up and you get the same progression with richer chords. Play the black key beside a chord for a different voicing of it. Drag a block's name onto another to swap them, or drag a key onto the roll to stamp its chord there. Right-click a key to edit its chord or leave it out of Generate.
 </p>
         </div>
         <figure class="zoom">
           <div class="screen">
             <picture>
               <source srcset="../assets/shots/sized/chordinator-keybed-2400.webp 2400w, ../assets/shots/sized/chordinator-keybed-3600.webp 3600w" sizes="(max-width: 1176px) 100vw, 1176px" type="image/webp" />
-              <img src="../assets/shots/chordinator-keybed.png" alt="The Chordinator trigger keybed, labelled by octave block: triads, 7th chords, 9th chords, 11th chords, sus chords, add chords, 6/9 and triad-4, power 5ths, and quartal (4ths)" />
+              <img src="../assets/shots/chordinator-keybed.png" alt="The Chordinator trigger keybed, labelled by octave block: triads, 7th chords, 9th chords, 11th chords, sus chords, add chords, 6/9 and triad-4, power 5ths, quartal (4ths) and quintal (5ths)" />
             </picture>
           </div>
           <figcaption>
@@ -136,49 +137,52 @@ So every key fits your scale. Play an octave up and you get the same progression
 
   <section class="section wrap">
     <div class="panel">
-      <h2 class="panel-head">The chord generator</h2>
+      <h2 class="panel-head">Whole progressions from real tracks</h2>
       <div class="panel-body">
         <div class="prose story">
           <p>
-Each algorithm is a set of rules for which chord can follow which, rather than a stored progression. <strong>Chord Gen</strong> takes the rhythm already in the piano roll and writes chords to fit it, and two rolls of one algorithm give two different progressions in the same style.
+Chordinator writes chords a whole loop at a time. Each style is a set of real progressions measured from tracks and grouped in families. Every progression you get is one of those loops, or one with a chord swapped for another its family uses. Nothing is picked one chord after another.
 </p>
           <p>
-There are 84, grouped into functional, colour, dub and minimal, house, trance, and a top-line group where the highest note carries a melody. 20 of them are measured from reference tracks.
+<strong>Generate</strong> deals four progressions and puts the first on the roll, over whatever rhythm is there. Press a card's number, or step with ‹ ›, to hear the others. With Family on Any, the four are different kinds of loop.
 </p>
           <p>
-<strong>Follow Bass</strong> only picks chords on the root your bassline is playing. <strong>Suggest</strong> uses the same algorithm without rolling, and lights up good next chords on the keybed while you play by hand.
+There are 14 styles: Euro trance, Euro trance lift, Deep UKG, Deep UKG rush, Prog acid house, Prog acid euphoria, 90s trance, 90s dream trance, Piano house, Piano house groove, Dub house, Ambient, Ambient drift and Ambient feel, plus Surprise me. Hover one and the Info box tells you what it sounds like and which tracks it comes from.
+</p>
+          <p>
+A style also sets the voicing. <strong>Colours</strong> adds extra notes, <strong>Top</strong> holds a note over every chord (5th held is the trance sound), <strong>Wide</strong> drops the root, and <strong>Pads</strong> or <strong>Stabs</strong> decides whether chords hold or play on the hits. Change any of them and it stays yours when you pick another style. Length runs from 2 to 16 bars, and Repeats sets what changes on every second pass.
 </p>
         </div>
         <figure class="zoom">
           <div class="screen">
             <picture>
               <source srcset="../assets/shots/sized/chordinator-chordgen-2400.webp 2400w, ../assets/shots/sized/chordinator-chordgen-3600.webp 3600w" sizes="(max-width: 1176px) 100vw, 1176px" type="image/webp" />
-              <img src="../assets/shots/chordinator-chordgen.png" alt="The Chordinator generator row: the algorithm dropdown showing Sus top line, the Chord Gen and Sparse Dub buttons, Hold and Loop settings, a melody selector, Weak beats and Follow Bass" />
+              <img src="../assets/shots/chordinator-chordgen.png" alt="The Chordinator Progression band: Style set to Euro trance with Family, Chords, Length, Changes, Repeats and Turn menus, Colours, Top and Wide on the right, four dealt progressions numbered 1 to 4, Pads and Stabs, Follow bass, To bass and Generate, and the Chords strip below naming each chord" />
             </picture>
           </div>
           <figcaption>
-            The generator row: pick the engine, how long a chord holds, how
-            long the loop is, and Follow Bass to keep the root movement you
-            already have.
+            The Progression band. Four dealt loops, each named by its family,
+            and the Chords strip under them. Click a chord in the strip to
+            swap it for one the loop allows, or lock it so Generate keeps it.
           </figcaption>
         </figure>
         <figure class="zoom">
           <div class="screen">
             <picture>
-              <source srcset="../assets/shots/sized/chordinator-algorithms-2400.webp 2400w, ../assets/shots/chordinator-algorithms.webp 3456w" sizes="(max-width: 1176px) 100vw, 1176px" type="image/webp" />
-              <img src="../assets/shots/chordinator-algorithms.png" alt="The Chordinator engine dropdown open across the window, showing all 84 harmony engines in labelled groups: functional, colour, dub and minimal, house, trance, minimal house, acid house, garage, rave, call and response, top-line and happy hardcore" />
+              <source srcset="../assets/shots/sized/chordinator-algorithms-2400.webp 2400w, ../assets/shots/chordinator-algorithms.webp 696w" sizes="(max-width: 263px) 100vw, 263px" type="image/webp" />
+              <img src="../assets/shots/chordinator-algorithms.png" alt="The Chordinator Style menu open, listing Euro trance, Euro trance lift, Deep UKG, Deep UKG rush, Prog acid house, Prog acid euphoria, 90s trance, 90s dream trance, Piano house, Piano house groove, Dub house, Ambient, Ambient drift, Ambient feel and Surprise me" />
             </picture>
           </div>
           <figcaption>
-            All 84 engines, grouped by use rather than alphabetically:
-            functional and colour first, then the genre groups, then the
-            top-line engines that put the melody in the top voice. Random, in
-            the corner, picks from all of them.
+            Every style in the menu. Surprise me picks one for you.
           </figcaption>
         </figure>
         <div class="prose story">
           <p>
-<strong>The library, the visualiser and the chord editor</strong> are for when the keybed doesn't have what you want. Search chord types by name and drag one onto a key or into the piano roll. The visualiser names what you just played, and its Edit mode lets you play in any chord and put it on a key. The smoothing switch voices every chord as close to the tonic chord as it can.
+<strong>Follow bass</strong> reads a bass line on the roll and deals the loops that fit it best. <strong>To bass</strong> works the other way and writes a root under every chord hit. The root pool under the keybed steers Generate too: a root switched off is never used, and <strong>%</strong> sets how often each one comes.
+</p>
+          <p>
+<strong>The library, the visualiser and the chord editor</strong> are for when the keybed doesn't have what you want. Click a chord type to put it on the selected key, or drag it onto the roll. The visualiser names what you just played, and Edit chord on a key's right-click menu lets you play in any chord and keep it there. Smooth voices each key as close to the home chord as it can.
 </p>
         </div>
         <div class="zoom-pair">
@@ -186,7 +190,7 @@ There are 84, grouped into functional, colour, dub and minimal, house, trance, a
             <div class="screen">
               <picture>
                 <source srcset="../assets/shots/chordinator-library.webp" type="image/webp" />
-                <img src="../assets/shots/chordinator-library.png" alt="The Chordinator chord library with its search box and family chips, the visualiser keyboard below it, and the chord edit controls for invert, octave, humanize, voicing and smoothing" />
+                <img src="../assets/shots/chordinator-library.png" alt="The Chordinator chord library: chord types in rows by family, triads, 6ths and 7ths" />
               </picture>
             </div>
           </figure>
@@ -194,14 +198,14 @@ There are 84, grouped into functional, colour, dub and minimal, house, trance, a
             <div class="screen">
               <picture>
                 <source srcset="../assets/shots/chordinator-history.webp" type="image/webp" />
-                <img src="../assets/shots/chordinator-history.png" alt="The Chordinator history and snapshots strip: a grid of small piano-roll thumbnails, the first labelled Start and the rest saved Snapshots, with a plus button to take a snapshot" />
+                <img src="../assets/shots/chordinator-history.png" alt="The Chordinator Snapshots strip: a grid of small piano-roll thumbnails labelled Start, Rhythm, Generate and Progression" />
               </picture>
             </div>
             <figcaption>
-              Above it is History &amp; Snapshots, which makes generating
-              cheap. Every take is kept as a thumbnail you can read at a glance,
-              so the progression from four re-rolls ago is one click away. The
-              <strong>+</strong> saves one you want to keep, by name.
+              Snapshots make generating cheap. Every take is kept as a
+              thumbnail you can read at a glance, so the progression from four
+              deals ago is one click away. <strong>＋ Snapshot</strong> keeps
+              one for good.
             </figcaption>
           </figure>
         </div>
@@ -215,13 +219,13 @@ There are 84, grouped into functional, colour, dub and minimal, house, trance, a
       <div class="panel-body">
         <div class="prose story">
           <p>
-<strong>↓ Rhythm Import</strong> takes the timing of the clip Live is showing and puts it in the roll as one line on the scale root, ready for Chord Gen. Point it at your drum loop and the chords follow its groove.
+<strong>↓ Rhythm</strong> takes the timing of the clip Live is showing and puts it in the roll as one line on the scale root, ready for Generate. Point it at your drum loop and the chords follow its groove.
 </p>
           <p>
 <strong>It works on audio clips too.</strong> Chordinator reads the sample from disk and finds the hits itself.
 </p>
           <p>
-Warped clips are read through their warp map, so the hits land where you see them in Live. On a MIDI clip a chord counts as one hit.
+Warped clips are read through their warp map, so the hits land where you see them in Live. On a MIDI clip a chord counts as one hit. <strong>≈ Similar to Live</strong> sorts the rhythm patterns by how close each one is to the clip.
 </p>
         </div>
       </div>
@@ -242,24 +246,17 @@ Warped clips are read through their warp map, so the hits land where you see the
               reach without switching octaves.
             </li>
             <li>
-<strong>Unmapped keys pass through.</strong> A key with no chord plays its own single note, like a normal keyboard.
+<strong>Plain notes when you want them.</strong> A key with no chord plays its own single note, like a normal keyboard, and ✕ under the keybed clears every chord at once.
 </li>
             <li>
 <strong>No stuck notes.</strong> Releasing a key releases its chord, and notes shared between overlapping chords are tracked, so two held chords with a common note never leave one hanging.
 </li>
             <li>
-<strong>Humanise.</strong> Loosen a chord's timing, velocity or both, so a stab doesn't land in perfect unison.
+<strong>Humanize.</strong> Loosen a chord's timing, velocity or both, so a stab doesn't land in perfect unison.
 </li>
             <li>
-              <strong>Velocity that follows your hand.</strong> Passed through by
-              default, with per-voice scaling and a Fixed mode when you want
-              every stab to land the same.
-            </li>
-            <li>
-              <strong>Suggestions for where to go next.</strong> After a chord
-              plays, two or three keybed chords light up as good next steps,
-              based on the chosen algorithm.
-            </li>
+<strong>Invert, Octave and Voicing</strong> on every key, and Top and Bass to hang a note over the chords or drop the root below them.
+</li>
             <li>
               Transpose the whole keybed to the key your song is in.
             </li>
@@ -275,23 +272,16 @@ Warped clips are read through their warp map, so the hits land where you see the
 <strong>A poly piano roll</strong> with draw, marquee-select, halve, duplicate, invert and zoom. Each chord's name shows in the visualiser and right above it in the roll.
 </li>
             <li>
-<strong>A rhythm generator</strong> with three families: <em>dub house</em> (offbeat and bouncy, measured from five reference tracks), <em>dub techno</em> (sparse, Basic Channel style) and <em>piano house</em> (offbeat 8ths, dotted 8ths, Charleston and tresillo figures).
+<strong>A rhythm generator</strong> with patterns from dub house, dub techno, piano house, happy hardcore and trance, a Pads group that holds chords over the bar, and a length of 1 to 16 bars with its own ending.
 </li>
             <li>
-              <strong>Groove, separate from humanise.</strong> 16 groove
-              algorithms that set timing and velocity per step.
-            </li>
+<strong>Swing, Accent and Duration</strong> play live over the part and never write into the roll, so setting them back to 0 restores it. Accent has groove-box patterns (909, 303, MPC) and polyrhythmic ones.
+</li>
             <li>
-              <strong>Fit stabs to a bassline.</strong> Point it at a bass
-              pattern, a Live clip or an audio file you drop on it, and it places
-              stabs <em>on</em> the strongest hits to back them up, or
-              <em>around</em> them so the stab answers the bass.
-            </li>
+<strong>Copy and paste between the apps.</strong> Copy a progression here and paste it into PhraseMaker's Harmony view to write a melody over it, or into MutationStation.
+</li>
             <li>
 <strong>A library of saved takes.</strong> Save what's in the sequencer under a name, star favourites, sort them into folders, and step through the list with ◀ ▶ to audition them in order. It's kept in its own file with a rolling backup, apart from your settings.
-</li>
-            <li>
-<strong>Layouts save as JSON files</strong>, with the whole keybed, every trigger and every voicing setting.
 </li>
           </ul>
         </div>
@@ -345,14 +335,14 @@ Signed and notarised for macOS.
           <div class="panel-body">
             <div class="prose">
               <p>
-                1. Open Chordinator. The banner confirms the virtual output
-                <strong>Chordinator</strong> is running.<br />
-                2. Pick your controller under <strong>Trigger keyboard</strong>.<br />
+                1. Open Chordinator. The line at the top confirms the virtual
+                output <strong>Chordinator</strong> is live.<br />
+                2. Tick your controller under <strong>Routing ▾ › In</strong>.<br />
                 3. In your DAW, add a MIDI track, set its input to
                 <strong>Chordinator</strong>, and arm it.
               </p>
               <p>
-Play a trigger key and the whole chord plays in Live. Layouts save to a file, so you can keep one per song.
+Play a trigger key and the whole chord plays in Live. Save each take under a name, so you can keep one per song.
 </p>
             </div>
           </div>
@@ -363,7 +353,7 @@ Play a trigger key and the whole chord plays in Live. Layouts save to a file, so
           <div class="panel-body">
             <div class="prose">
               <p>
-Pull the clip you're looking at into the roll, and send it back as a new clip or over the old one.
+Pull the clip you're looking at into the roll, and send the result back as a new clip.
 </p>
               <p>
 <strong>Eight modulation lanes.</strong> Draw a curve, link it to any parameter in the set, and it's written into the clip as an envelope.

@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JamWare Audio - Music tools built for Ableton Live</title>
+<meta name="description" content="Chords in, melody out. A macOS app that writes a melody over your chord progression, then a chain of devices shapes it." />
+<link rel="icon" href="../assets/favicon.svg" />
+
+<!-- Social cards: see chordinator.html for why these are absolute URLs. -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="JamWare Audio" />
+<meta property="og:title" content="PhraseMaker · JamWare Audio" />
+<meta property="og:description" content="Chords in, melody out. A macOS app that writes a melody over your chord progression, then a chain of devices shapes it." />
+<meta property="og:url" content="https://jamwareaudio.com/apps/phrasemaker.html" />
+<meta property="og:image" content="https://jamwareaudio.com/assets/shots/phrasemaker.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="PhraseMaker · JamWare Audio" />
+<meta name="twitter:description" content="Chords in, melody out. A macOS app that writes a melody over your chord progression, then a chain of devices shapes it." />
+<meta name="twitter:image" content="https://jamwareaudio.com/assets/shots/phrasemaker.png" />
+<link rel="stylesheet" href="../styles.css?v=1790337124" />
+<style>:root { --accent: #C4344F; }
+/* The chord-to-melody workflow as three steps under the hero (2026-10-02,
+   the user: "sell the workflow of phrasemaker properly to be chord - melody
+   workflow ... Thats the core idea behind it"). Its own grid rather than
+   .panel-grid, because panel-grid.js reparents every .panel-grid it finds
+   into masonry columns, and three equal steps must stay one row in order. */
+.flow-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 28px 0; }
+.flow-steps > .panel { margin: 0; }
+.flow-steps .step-no { color: var(--accent); margin-right: 8px; }
+@media (max-width: 760px) { .flow-steps { grid-template-columns: 1fr; gap: 16px; } }
+</style>
+</head>
+<body>
+
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html">
+      <img src="../assets/logo.svg" alt="" width="40" height="22" />
+      <span class="wordmark">JamWare Audio</span>
+    </a>
+    <label class="hero-lcd" aria-hidden="false">
+        <select id="siteAppSelect" class="hero-lcd-select" aria-label="Select an app" onchange="if(this.value){ location.href=this.value; }">
+          <option value="" selected>-Select-</option>
+          <option value="/apps/mutationstation.html">MutationStation</option>
+          <option value="/apps/phrasemaker.html">PhraseMaker</option>
+          <option value="/apps/chordinator.html">Chordinator</option>
+          <option value="/apps/spectrl.html">Spectrl</option>
+          <option value="/apps/midimirror.html">MidiMirror</option>
+          <option value="/apps/touchxy.html">TouchXY</option>
+        </select>
+      </label>
+    <nav class="site-nav">
+      <!-- Bundles hidden 2026-09-23: every app is free / pay what you want, so a bundle saves nothing. Restore with the #bundles section. <a href="../index.html#bundles">Bundles</a> -->
+      <a href="../index.html#about">About</a>
+      <a href="mailto:jamwareaudio@gmail.com">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="product-hero wrap">
+    <a class="back" href="../index.html#products">← All products</a>
+    <div class="row">
+      <img class="icon" src="../assets/icons/phrasemaker-1024.png" alt="PhraseMaker icon" />
+      <div>
+        <h1 class="engraved">PhraseMaker</h1>
+        <p class="tagline">Chords in, melody out. Give it a progression and a rhythm, and it writes the melody over them.</p>
+      </div>
+    </div>
+    <p class="lede">
+      PhraseMaker writes melodies from your chord progression, beyond a normal
+      arpeggiator. Pull the chords from a clip in Live, drop a MIDI file on it
+      or play them on your keyboard, give it a rhythm, and it writes a phrase
+      that follows the harmony. Every note that lands on a chord change is a note of that
+      chord, and the notes in between can step through the scale.
+    </p>
+    <p class="lede">
+      It's built on the same “controlled randomness” as MutationStation. Lock
+      the notes you like and re-roll the rest. A chain of devices then shapes
+      the line with octave jumps, accents, slides, passing notes, density and
+      where in the bar it plays.
+    </p>
+    <div class="flow-steps">
+      <div class="panel">
+        <h2 class="panel-head"><span class="step-no">1</span>Chords</h2>
+        <div class="panel-body"><div class="prose"><p>Pull the progression from a clip in Live, drop a MIDI file on it, paste it from Chordinator, or hold chords on your keyboard.</p></div></div>
+      </div>
+      <div class="panel">
+        <h2 class="panel-head"><span class="step-no">2</span>Rhythm</h2>
+        <div class="panel-body"><div class="prose"><p>Pick a pattern, import one from a clip, or draw your own hits.</p></div></div>
+      </div>
+      <div class="panel">
+        <h2 class="panel-head"><span class="step-no">3</span>Melody</h2>
+        <div class="panel-body"><div class="prose"><p>The phrase is written over the chords at once. Re-roll until it sings, then drag it into your DAW.</p></div></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <a class="btn gumroad-button" href="https://jamwareaudio.gumroad.com/l/phrasemaker">Get it on</a>
+    </div>
+    <p class="manage-note">Already have it? <a href="https://gumroad.com/library" target="_blank" rel="noopener">Manage on Gumroad ↗</a></p>
+  </section>
+
+  <section class="section wrap">
+    <div class="screen">
+      <picture>
+        <source srcset="../assets/shots/sized/phrasemaker-2400.webp 2400w, ../assets/shots/sized/phrasemaker-3600.webp 3600w" sizes="(max-width: 1161px) 100vw, 1161px" type="image/webp" />
+        <img class="win-round" src="../assets/shots/phrasemaker.png" alt="The PhraseMaker window: the Harmony, Rhythm and Phrase keys above a piano roll with a four-bar melody over faint chords, the Notes and Placement panels, and the device chain down the right" />
+      </picture>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="panel">
+      <h2 class="panel-head">Chords in, melody out</h2>
+      <div class="panel-body">
+        <div class="prose story">
+          <p>
+The piano roll has three views. <strong>Harmony</strong> holds the chords, <strong>Rhythm</strong> holds when notes play, and <strong>Phrase</strong> is the melody the two make together. Change the chords or the rhythm and the phrase is written again straight away.
+</p>
+          <p>
+Pick an algorithm to decide how the line moves. <strong>Hook over Chords</strong> and <strong>Euro Hook</strong> carry one motif across the progression. <strong>Approach</strong>, <strong>Run-up</strong> and <strong>Suspend &amp; Resolve</strong> make the chord change itself the thing you hear. <strong>Arp</strong> walks each chord, with its own order, grid and options.
+</p>
+          <p>
+<strong>Play Chords</strong> skips the editing: hold a chord on your keyboard and the phrase is rewritten over it as you play.
+</p>
+        </div>
+        <figure class="zoom">
+          <div class="screen">
+            <picture>
+              <source srcset="../assets/shots/sized/phrasemaker-notes-2400.webp 2400w, ../assets/shots/phrasemaker-notes.webp 3392w" sizes="(max-width: 1176px) 100vw, 1176px" type="image/webp" />
+              <img src="../assets/shots/phrasemaker-notes.png" alt="The PhraseMaker Notes panel, with the Scale and Common Tones key rows, Chord octave and Lead settings, and the Placement panel below it set to Everywhere, every chord" />
+            </picture>
+          </div>
+          <figcaption>
+            Notes and Placement. The top row of keys is the scale the in-between
+            notes step on. Light a key on the bottom row and that note joins
+            every chord.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="panel">
+      <h2 class="panel-head">Calls and answers</h2>
+      <div class="panel-body">
+        <div class="prose story">
+          <p>
+<strong>Placement</strong> decides where the phrase plays around each chord change. Put it before the change, after the stab, or in call-and-response pairs, and the zones show in a strip under the roll where you can drag them around.
+</p>
+          <p>
+The first zone becomes the motif and the others are written from it. An answer plays the zone before it upside down and comes to rest on the chord's root. For a call-and-response line, pressing <strong>Randomize</strong> is usually enough.
+</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="panel">
+      <h2 class="panel-head">The device chain</h2>
+      <div class="panel-body">
+        <div class="prose story">
+          <p>
+Each device has its own amount and its own dice. Move Accent and only the accents change. ⟲ gives one device fresh dice, ⚄ gives it new settings, and switching off its <strong>R</strong> keeps its roll while you re-roll everything else.
+</p>
+          <p>
+The rhythm devices (Rhythm Generator, Rhythm Shift, Density, and the Add half of Passing Notes) decide when notes play. Octaves, Accents, Slides, Passing Notes and Shape then work on the pitches. Shape gives the phrase a pitch arc and dynamics, rising, falling or arching over a bar, a chord or the whole loop.
+</p>
+        </div>
+        <figure class="zoom zoom-mid">
+          <div class="screen">
+            <picture>
+              <source srcset="../assets/shots/sized/phrasemaker-chain-2400.webp 2400w, ../assets/shots/phrasemaker-chain.webp 3448w" sizes="(max-width: 696px) 100vw, 696px" type="image/webp" />
+              <img src="../assets/shots/phrasemaker-chain.png" alt="The PhraseMaker device chain in three columns: Rhythm Gen, Rhythm Shift and Phrase; Octaves, Accents and Slides; Passing Notes, Shape, Extend Loop and Density" />
+            </picture>
+          </div>
+          <figcaption>
+            The chain, rhythm on the left and the melody devices to the right.
+            Each panel has its own ? with the details.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="two-col">
+
+      <div class="panel">
+        <h2 class="panel-head">Writing the melody</h2>
+        <div class="panel-body">
+          <ul class="features">
+            <li>
+<strong>Chords from anywhere.</strong> Pull them from the clip Live is showing, drop a .mid on the Harmony view, paste a progression copied in Chordinator, or play them in with Play Chords.
+</li>
+            <li>
+<strong>Chord tones on the changes, the scale in between.</strong> The scale is read from each pair of chords, or you click your own.
+</li>
+            <li>
+<strong>Common tones.</strong> Light a note and it's added to every chord, so it can run through the line like a pedal.
+</li>
+            <li>
+<strong>A rhythm generator</strong> with groups for trance and lead lines alongside acid, house and dub patterns. Or take the rhythm from a MIDI or audio clip in Live.
+</li>
+            <li>
+<strong>Chord octave and Lead.</strong> Keep the melody in the chords' octave, or put it one or two octaves above.
+</li>
+            <li>
+<strong>Locks.</strong> Click a note to lock it and every device works around it.
+</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2 class="panel-head">Shaping and keeping it</h2>
+        <div class="panel-body">
+          <ul class="features">
+            <li>
+<strong>Octave jumps, accents and slides</strong>, each as a chance per note or as a fixed pattern that lands in the same place every bar.
+</li>
+            <li>
+<strong>Passing notes</strong> that step off the chord onto the scale and back, and extra short notes in the gaps.
+</li>
+            <li>
+<strong>Density and Thin</strong> to add notes or take them away by a rule, such as keeping only the downbeats.
+</li>
+            <li>
+<strong>Extend Loop</strong> doubles or quadruples the phrase, each repeat a variation of the first bar.
+</li>
+            <li>
+<strong>Snapshots</strong> keep every take you drag out or save, so a re-roll never loses one you liked.
+</li>
+            <li>
+<strong>Sequence and parameter presets</strong>, with folders, favourites and drag-and-drop .mid import.
+</li>
+            <li>
+<strong>Eight modulation lanes</strong> that write envelopes for any parameter in your Live set.
+</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="panel-grid">
+
+        <div class="panel">
+          <h2 class="panel-head">Why standalone</h2>
+          <div class="panel-body">
+            <div class="prose">
+              <p>
+                PhraseMaker runs as its own app, not a plugin, and reaches your
+                DAW the way outboard MIDI gear does. If your DAW crashes,
+                PhraseMaker and every take in its Snapshots strip are safe. If
+                PhraseMaker crashes, your DAW keeps running.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2 class="panel-head">Requirements</h2>
+          <div class="panel-body">
+            <div class="prose">
+              <p>
+                macOS 12 or later on Apple Silicon, and any DAW that takes MIDI.
+              </p>
+              <p>
+<strong>Intel Macs:</strong> untested, should work.
+</p>
+              <p>
+Signed and notarised for macOS.
+</p>
+              <p><a href="../index.html#licence">Donation-based: licence and updates</a></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2 class="panel-head">Getting it into your DAW</h2>
+          <div class="panel-body">
+            <div class="prose">
+              <p>
+The app shows up on your Mac as a MIDI device called <strong>PhraseMaker</strong>. Set a track to listen to it, arm it, and play. Or drag the phrase onto a track as a <code>.mid</code> clip, no setup needed.
+</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2 class="panel-head">Extra integration with Live</h2>
+          <div class="panel-body">
+            <div class="prose">
+              <p>
+A control script comes with the app, shared with the other JamWare apps. Install it and you get <strong>↓ From Live</strong> for chords, <strong>↓ Rhythm Import</strong>, and the app's play key starting and stopping Live.
+</p>
+              <p>
+<strong>Send to Live</strong> writes a Session clip with the notes and your modulation lanes. Dragging out a MIDI file works in any DAW, notes only.
+</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2 class="panel-head">Control it from MidiMirror</h2>
+          <div class="panel-body">
+            <div class="prose">
+              <p>
+In <a href="midimirror.html"><strong>MidiMirror</strong></a>'s JamWare mode, your controller becomes PhraseMaker's front panel. Every knob, fader and key is mapped and labelled, with nothing to set up.
+</p>
+            </div>
+          </div>
+        </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 2026 JamWare Audio</span>
+    <a href="mailto:jamwareaudio@gmail.com">Support</a>
+    <a href="https://jamwareaudio.gumroad.com">Gumroad</a>
+    <span class="spacer legend">Built for Ableton Live · compatible with any DAW</span>
+  </div>
+</footer>
+
+<!-- Gumroad overlay checkout and the reveal guard for its button: copied from
+     mutationstation.html, where the comments explain both. -->
+<noscript><style>a.btn.gumroad-button { visibility: visible !important; }</style></noscript>
+<script>
+(function () {
+  var btns = Array.prototype.slice.call(document.querySelectorAll('a.btn.gumroad-button'));
+  if (!btns.length) return;
+  var revealed = false;
+  function reveal() {
+    if (revealed) return;
+    revealed = true;
+    observers.forEach(function (o) { o.disconnect(); });
+    btns.forEach(function (b) { b.classList.add('gr-ready'); });
+  }
+  var observers = btns.map(function (b) {
+    var o = new MutationObserver(function () {
+      if (b.querySelector('.logo-full')) reveal();
+    });
+    o.observe(b, { childList: true });
+    return o;
+  });
+  setTimeout(reveal, 1500);
+})();
+</script>
+<script src="https://gumroad.com/js/gumroad.js"></script>
+<script src="../assets/site-header.js?v=1786974636"></script>
+<script src="../assets/panel-grid.js?v=1"></script>
+
+</body>
+</html>
