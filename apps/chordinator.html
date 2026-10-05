@@ -59,18 +59,17 @@
     <div class="row">
       <img class="icon" src="../assets/icons/chordinator-1024.png" alt="Chordinator icon" />
       <div>
-        <h1 class="engraved">Chordinator <span class="lcd">Coming soon</span></h1>
+        <h1 class="engraved">Chordinator</h1>
         <p class="tagline">128 chords under one keybed, and whole progressions dealt from styles measured from real tracks.</p>
       </div>
     </div>
     <p class="lede">
       Like MutationStation, Chordinator is built on "controlled randomness", here applied to chords, with a whole chord under each key. The white keys are the seven degrees of your scale and the black keys are inversions of their neighbours. Inversions can also shift on their own or live from a knob on your MIDI controller. So you can jam across 128 chords without being an expert in harmony, and find happy accidents outside the chords and voicings you usually reach for. It suits dub house and dub techno especially, where inverted chord stabs often carry both the harmony and the melody, but it fits any genre.
     </p>
-    <!-- COMING SOON (2026-09-24, the user): no downloadable beta. The buy
-         button and "Manage on Gumroad" line come back with the release; see
-         spectrl.html for both, and for the overlay script this page dropped. -->
-    <p class="lede"><strong>Coming soon.</strong> Chordinator is not available
-      to download yet.</p>
+    <div class="btn-row">
+      <a class="btn gumroad-button" href="https://jamwareaudio.gumroad.com/l/chordinator">Get it on</a>
+    </div>
+    <p class="manage-note">Already have it? <a href="https://gumroad.com/library" target="_blank" rel="noopener">Manage on Gumroad ↗</a></p>
   </section>
 
   <section class="section wrap">
@@ -448,8 +447,45 @@ In <a href="midimirror.html"><strong>MidiMirror</strong></a>'s JamWare mode, you
   </div>
 </footer>
 
-<!-- No Gumroad overlay while Chordinator is "coming soon": there is no buy
-     button for it to attach to. Copy the block back from spectrl.html. -->
+<!-- Gumroad overlay checkout — the buy button above carries .gumroad-button, and
+     this script turns it into a modal over this page instead of a navigation.
+     The full reasoning, and the launch-day check it still needs, are in the
+     matching comment at the foot of ../index.html. Falls back to a plain link
+     if the script does not load. -->
+<!-- Buttons start `visibility: hidden` in styles.css (see the GUMROAD OVERLAY
+     GUARD comment there) so the "GET IT ON" text can't paint before
+     gumroad-bundle.js appends its .logo-full wordmark span a beat later. This
+     watches for that append and reveals the button in one paint once it's
+     there -- or after a fixed timeout if gumroad.js is blocked/slow, so an
+     ad-blocked visitor still gets a working (if logo-less) button rather than
+     a permanently invisible one. Must run before the gumroad.js tag below so
+     the observer is attached before gumroad-bundle.js has a chance to mutate
+     anything. Ported from ../index.html 2026-08-17 after this page's own buy
+     button was found stuck invisible forever -- this script only ever lived
+     on the homepage, so app pages had no path to .gr-ready at all. -->
+<noscript><style>a.btn.gumroad-button { visibility: visible !important; }</style></noscript>
+<script>
+(function () {
+  var btns = Array.prototype.slice.call(document.querySelectorAll('a.btn.gumroad-button'));
+  if (!btns.length) return;
+  var revealed = false;
+  function reveal() {
+    if (revealed) return;
+    revealed = true;
+    observers.forEach(function (o) { o.disconnect(); });
+    btns.forEach(function (b) { b.classList.add('gr-ready'); });
+  }
+  var observers = btns.map(function (b) {
+    var o = new MutationObserver(function () {
+      if (b.querySelector('.logo-full')) reveal();
+    });
+    o.observe(b, { childList: true });
+    return o;
+  });
+  setTimeout(reveal, 1500);
+})();
+</script>
+<script src="https://gumroad.com/js/gumroad.js"></script>
 
 <script src="../assets/site-header.js?v=1786974636"></script>
 <script src="../assets/panel-grid.js?v=1"></script>

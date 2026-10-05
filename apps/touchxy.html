@@ -59,15 +59,17 @@
     <div class="row">
       <img class="icon" src="../assets/icons/touchxy-1024.png" alt="TouchXY icon" />
       <div>
-        <h1 class="engraved">TouchXY <span class="lcd">Coming soon</span></h1>
+        <h1 class="engraved">TouchXY</h1>
         <p class="tagline">Your trackpad as an XY controller for the selected device in Live.</p>
       </div>
     </div>
     <p class="lede">
 Press a shortcut keyboard button and your trackpad becomes an XY pad for the device selected in Live. X and Y land on the two parameters you'd most likely reach for, like Frequency and Resonance on an Auto Filter.
 </p>
-    <p class="lede"><strong>Coming soon.</strong> TouchXY is not available to
-      download yet.</p>
+    <div class="btn-row">
+      <a class="btn gumroad-button" href="https://jamwareaudio.gumroad.com/l/touchxy">Get it on</a>
+    </div>
+    <p class="manage-note">Already have it? <a href="https://gumroad.com/library" target="_blank" rel="noopener">Manage on Gumroad ↗</a></p>
   </section>
 
   <!-- THE MAIN WORKFLOW FIRST (2026-09-24, the user): TouchXY is a trackpad
@@ -189,9 +191,45 @@ Signed and notarised for macOS.
   </div>
 </footer>
 
-<!-- No Gumroad overlay here: TouchXY is not on sale yet, so this page has no
-     buy button for gumroad.js to attach to. Copy the block from spectrl.html
-     back in when the "Coming soon" line becomes a button. -->
+<!-- Gumroad overlay checkout — the buy button above carries .gumroad-button, and
+     this script turns it into a modal over this page instead of a navigation.
+     The full reasoning, and the launch-day check it still needs, are in the
+     matching comment at the foot of ../index.html. Falls back to a plain link
+     if the script does not load. -->
+<!-- Buttons start `visibility: hidden` in styles.css (see the GUMROAD OVERLAY
+     GUARD comment there) so the "GET IT ON" text can't paint before
+     gumroad-bundle.js appends its .logo-full wordmark span a beat later. This
+     watches for that append and reveals the button in one paint once it's
+     there -- or after a fixed timeout if gumroad.js is blocked/slow, so an
+     ad-blocked visitor still gets a working (if logo-less) button rather than
+     a permanently invisible one. Must run before the gumroad.js tag below so
+     the observer is attached before gumroad-bundle.js has a chance to mutate
+     anything. Ported from ../index.html 2026-08-17 after this page's own buy
+     button was found stuck invisible forever -- this script only ever lived
+     on the homepage, so app pages had no path to .gr-ready at all. -->
+<noscript><style>a.btn.gumroad-button { visibility: visible !important; }</style></noscript>
+<script>
+(function () {
+  var btns = Array.prototype.slice.call(document.querySelectorAll('a.btn.gumroad-button'));
+  if (!btns.length) return;
+  var revealed = false;
+  function reveal() {
+    if (revealed) return;
+    revealed = true;
+    observers.forEach(function (o) { o.disconnect(); });
+    btns.forEach(function (b) { b.classList.add('gr-ready'); });
+  }
+  var observers = btns.map(function (b) {
+    var o = new MutationObserver(function () {
+      if (b.querySelector('.logo-full')) reveal();
+    });
+    o.observe(b, { childList: true });
+    return o;
+  });
+  setTimeout(reveal, 1500);
+})();
+</script>
+<script src="https://gumroad.com/js/gumroad.js"></script>
 
 <script src="../assets/site-header.js?v=1786974636"></script>
 <script src="../assets/panel-grid.js?v=1"></script>
