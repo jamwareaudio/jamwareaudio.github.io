@@ -76,7 +76,7 @@
   <section class="section wrap">
     <div class="screen">
       <picture>
-        <source srcset="../assets/shots/sized/chordinator-2400.webp 2400w, ../assets/shots/sized/chordinator-3600.webp 3600w" sizes="(max-width: 1161px) 100vw, 1161px" type="image/webp" />
+        <source srcset="../assets/shots/sized/chordinator-2400.webp 2400w, ../assets/shots/sized/chordinator-3600.webp 3600w" sizes="(max-width: 1091px) 100vw, 1091px" type="image/webp" />
         <img src="../assets/shots/chordinator.png" alt="The Chordinator window: a Euro trance progression on the piano roll with chord names over each chord, the four dealt progressions and the Chords strip above it, the chord library and Snapshots down the left, and the trigger keybed along the bottom" />
       </picture>
     </div>
@@ -116,7 +116,10 @@ Before Generate, Rhythm Gen, Clear or ↓ From Live overwrite the roll, the old 
 The trigger keyboard covers the whole MIDI range in octave blocks, one chord family per block, from triads and 7ths up to sus, add, quartal and quintal chords. The white keys in a block are the seven degrees of your scale and the black keys are inversions of their neighbours.
 </p>
           <p>
-So every key fits your scale. Play an octave up and you get the same progression with richer chords. Play the black key beside a chord for a different voicing of it. Drag a block's name onto another to swap them, or drag a key onto the roll to stamp its chord there. Right-click a key to edit its chord or leave it out of Generate.
+So every key fits your scale. Play an octave up and you get the same progression with richer chords. Play the black key beside a chord for a different voicing of it. Drag a key onto the roll to stamp its chord there, and right-click a key to edit its chord or leave it out of Generate.
+</p>
+<p>
+<strong>Change the blocks.</strong> The &#9662; beside a block's name swaps it for another kind, inserts one, or removes it, and two-note blocks or one style's own chords can take a place too. Drag a block's name onto another to swap the two. Or pick one of five whole-keybed layouts: By chord type, Common tones (neighbouring blocks share the most notes), By style, The band's style and Tension ladder (the same chord fuller with every block up). The white keys stay the degrees of your scale in every layout.
 </p>
         </div>
         <figure class="zoom">
@@ -144,10 +147,10 @@ So every key fits your scale. Play an octave up and you get the same progression
 Chordinator writes chords a whole loop at a time. Each style is a set of real progressions measured from tracks and grouped in families. Every progression you get is one of those loops, or one with a chord swapped for another its family uses. Nothing is picked one chord after another.
 </p>
           <p>
-<strong>Generate</strong> deals four progressions and puts the first on the roll, over whatever rhythm is there. Press a card's number, or step with ‹ ›, to hear the others. With Family on Any, the four are different kinds of loop.
+<strong>Generate</strong> deals four progressions and puts the first on the roll. It changes the chords, never the rhythm: every note on the roll keeps its place and length and plays the new chord at its start. Press a card's number, or step with ‹ ›, to hear the others. With Family on Any, the four are different kinds of loop.
 </p>
           <p>
-There are 14 styles: Euro trance, Euro trance lift, Deep UKG, Deep UKG rush, Prog acid house, Prog acid euphoria, 90s trance, 90s dream trance, Piano house, Piano house groove, Dub house, Ambient, Ambient drift and Ambient feel, plus Surprise me. Hover one and the Info box tells you what it sounds like and which tracks it comes from.
+There are 16 styles: Euro trance, Euro trance lift, Deep UKG, Deep UKG rush, Prog acid house, Prog acid euphoria, 90s trance, 90s dream trance, Piano house, Piano house groove, Dub house, Ambient, Ambient drift, Ambient feel, Two-note fifths and Two-note drone, plus Surprise me. The two-note styles play every chord as two notes with no 3rd, so nothing sounds major or minor. Hover one and the Info box tells you what it sounds like and which tracks it comes from.
 </p>
           <p>
 A style also sets the voicing. <strong>Colours</strong> adds extra notes, <strong>Top</strong> holds a note over every chord (5th held is the trance sound), <strong>Wide</strong> drops the root, and <strong>Pads</strong> or <strong>Stabs</strong> decides whether chords hold or play on the hits. Change any of them and it stays yours when you pick another style. Length runs from 2 to 16 bars, and Repeats sets what changes on every second pass.
@@ -169,8 +172,8 @@ A style also sets the voicing. <strong>Colours</strong> adds extra notes, <stron
         <figure class="zoom">
           <div class="screen">
             <picture>
-              <source srcset="../assets/shots/sized/chordinator-algorithms-2400.webp 2400w, ../assets/shots/chordinator-algorithms.webp 696w" sizes="(max-width: 263px) 100vw, 263px" type="image/webp" />
-              <img src="../assets/shots/chordinator-algorithms.png" alt="The Chordinator Style menu open, listing Euro trance, Euro trance lift, Deep UKG, Deep UKG rush, Prog acid house, Prog acid euphoria, 90s trance, 90s dream trance, Piano house, Piano house groove, Dub house, Ambient, Ambient drift, Ambient feel and Surprise me" />
+              <source srcset="../assets/shots/sized/chordinator-algorithms-2400.webp 2400w, ../assets/shots/chordinator-algorithms.webp 696w" sizes="(max-width: 231px) 100vw, 231px" type="image/webp" />
+              <img src="../assets/shots/chordinator-algorithms.png" alt="The Chordinator Style menu open, listing Euro trance, Euro trance lift, Deep UKG, Deep UKG rush, Prog acid house, Prog acid euphoria, 90s trance, 90s dream trance, Piano house, Piano house groove, Dub house, Ambient, Ambient drift, Ambient feel, Two-note fifths, Two-note drone and Surprise me" />
             </picture>
           </div>
           <figcaption>
@@ -179,7 +182,7 @@ A style also sets the voicing. <strong>Colours</strong> adds extra notes, <stron
         </figure>
         <div class="prose story">
           <p>
-<strong>Follow bass</strong> reads a bass line on the roll and deals the loops that fit it best. <strong>To bass</strong> works the other way and writes a root under every chord hit. The root pool under the keybed steers Generate too: a root switched off is never used, and <strong>%</strong> sets how often each one comes.
+<strong>Follow bass</strong> reads a bass line on the roll and deals the loops that fit it best, and each press deals the next best. The chords change where the bass moves to a new root, off the beat too, and with Stabs they play the bass's rhythm. <strong>To bass</strong> works the other way and writes a root under every chord hit. The root pool under the keybed steers Generate too: a root switched off is never used, and <strong>%</strong> sets how often each one comes.
 </p>
           <p>
 <strong>The library, the visualiser and the chord editor</strong> are for when the keybed doesn't have what you want. Click a chord type to put it on the selected key, or drag it onto the roll. The visualiser names what you just played, and Edit chord on a key's right-click menu lets you play in any chord and keep it there. Smooth voices each key as close to the home chord as it can.
@@ -225,9 +228,46 @@ A style also sets the voicing. <strong>Colours</strong> adds extra notes, <stron
 <strong>It works on audio clips too.</strong> Chordinator reads the sample from disk and finds the hits itself.
 </p>
           <p>
-Warped clips are read through their warp map, so the hits land where you see them in Live. On a MIDI clip a chord counts as one hit. <strong>≈ Similar to Live</strong> sorts the rhythm patterns by how close each one is to the clip.
+Warped clips are read through their warp map, so the hits land where you see them in Live. On a MIDI clip a chord counts as one hit, and each hit keeps its note length. <strong>≈ Similar to Live</strong> sorts the rhythm patterns by how close each one is to the clip.
 </p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="panel">
+      <h2 class="panel-head">Edit the rhythm on its own</h2>
+      <div class="panel-body">
+        <div class="prose story">
+          <p>
+The <strong>Chords | Rhythm</strong> keys under the roll switch what it shows. In <strong>Rhythm</strong> each hit is one note on the root row. Draw, move, stretch or delete hits and the chords are laid again on them: a hit you leave alone keeps its chord, and a moved or new one plays the chord sounding at its start.
+</p>
+        </div>
+        <figure class="zoom">
+          <div class="screen">
+            <picture>
+              <source srcset="../assets/shots/chordinator-rhythm.webp" type="image/webp" />
+              <img src="../assets/shots/chordinator-rhythm.png" alt="The Chordinator roll in its Rhythm view: one row of hits on the root note with the chord names above them, the velocity lane, and the Chords and Rhythm keys at the bottom left" />
+            </picture>
+          </div>
+          <figcaption>
+The Rhythm view. One note per hit, with the chord each one plays named above it.
+</figcaption>
+        </figure>
+        <div class="prose story">
+          <p>
+<strong>My rhythms.</strong> Press <strong>+</strong> beside the Rhythm menu to save the roll's rhythm with a name and a family. It lists under that family in the menu, and in MutationStation and PhraseMaker too, so one groove can drive your chords, your bass line and your melody. <strong>&minus;</strong> removes it.
+</p>
+        </div>
+        <figure class="zoom">
+          <div class="screen">
+            <picture>
+              <source srcset="../assets/shots/chordinator-rhythm-save.webp" type="image/webp" />
+              <img src="../assets/shots/chordinator-rhythm-save.png" alt="The Save this rhythm form open under the Rhythm menu, with a name field reading Offbeat skip, a family menu set to My rhythms, and Save and Cancel" />
+            </picture>
+          </div>
+        </figure>
       </div>
     </div>
   </section>
